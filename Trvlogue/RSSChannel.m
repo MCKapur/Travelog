@@ -7,7 +7,7 @@
 //
 
 #import "RSSChannel.h"
-#import "RSSItem.h"
+#import "TVRSSItem.h"
 
 @implementation RSSChannel
 @synthesize items, title, shortDescription, parentParserDelegate;
@@ -28,7 +28,7 @@
     } else if ([elementName isEqual:@"item"]) {
         
         // When we find an item, create an instance of RSSItem
-        RSSItem *entry = [[RSSItem alloc] init];
+        TVRSSItem *entry = [[TVRSSItem alloc] init];
         
         // Set up its parent as ourselves so we regain control of the parser
         [entry setParentParserDelegate:self];

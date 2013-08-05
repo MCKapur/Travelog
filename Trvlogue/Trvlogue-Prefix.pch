@@ -11,12 +11,12 @@
 #ifdef __OBJC__
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-#import "TrvlogueAppStoreLink.h"
-#import "Database.h"
-#import "ErrorHandler.h"
-#import "DateString.h"
-#import "LoadingSignifier.h"
-#import "NotificationSignifier.h"
+#import "TVAppStoreLink.h"
+#import "TVDatabase.h"
+#import "TVErrorHandler.h"
+#import "TVConversions.h"
+#import "TVLoadingSignifier.h"
+#import "TVNotificationSignifier.h"
 #endif
 
 #define LINKEDIN_API_KEY @"6zuvtkqp11r4"

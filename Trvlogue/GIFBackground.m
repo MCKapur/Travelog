@@ -10,7 +10,7 @@
 
 #import "UIImage+animatedGIF.h"
 
-#import "TrvlogueAppDelegate.h"
+#import "TVAppDelegate.h"
 
 @implementation GIFBackground
 
@@ -26,7 +26,7 @@
 
 - (void)animateGIF {
         
-    NSURL *url = [[NSBundle mainBundle] URLForResource:[NSString stringWithFormat:@"%i", [((TrvlogueAppDelegate *)[UIApplication sharedApplication].delegate) randomNumber]] withExtension:@"gif"];
+    NSURL *url = [[NSBundle mainBundle] URLForResource:[NSString stringWithFormat:@"%i", [((TVAppDelegate *)[UIApplication sharedApplication].delegate) randomNumber]] withExtension:@"gif"];
     
     self.image = [UIImage animatedImageWithAnimatedGIFData:[NSData dataWithContentsOfURL:url]];
 }
