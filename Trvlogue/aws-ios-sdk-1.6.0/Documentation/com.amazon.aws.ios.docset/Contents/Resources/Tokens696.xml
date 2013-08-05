@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/S3TransferManager.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/S3TransferManager</TokenIdentifier>
+			<Abstract type="html">S3TransferManager is an easy-to-use, high level component that is designed to efficiently upload many large files to Amazon S3.</Abstract>
+			<DeclaredIn>S3TransferManager.h</DeclaredIn>
+			
+			<NodeRef refid="696"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/S3TransferManager/setMinimumUploadPartSize:</TokenIdentifier>
+			<Abstract type="html">The minimum part size for upload parts.</Abstract>
+			<DeclaredIn>S3TransferManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger minimumUploadPartSize</Declaration>
+			
+			
+			<Anchor>//api/name/minimumUploadPartSize</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/S3TransferManager/minimumUploadPartSize</TokenIdentifier>
+			<Abstract type="html">The minimum part size for upload parts.</Abstract>
+			<DeclaredIn>S3TransferManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger minimumUploadPartSize</Declaration>
+			
+			
+			<Anchor>//api/name/minimumUploadPartSize</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/S3TransferManager/setMultipartUploadThreshold:</TokenIdentifier>
+			<Abstract type="html">The size threshold in bytes for when to use multipart uploads.</Abstract>
+			<DeclaredIn>S3TransferManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger multipartUploadThreshold</Declaration>
+			
+			
+			<Anchor>//api/name/multipartUploadThreshold</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/S3TransferManager/multipartUploadThreshold</TokenIdentifier>
+			<Abstract type="html">The size threshold in bytes for when to use multipart uploads.</Abstract>
+			<DeclaredIn>S3TransferManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger multipartUploadThreshold</Declaration>
+			
+			
+			<Anchor>//api/name/multipartUploadThreshold</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/S3TransferManager/setNoSyncMethodsOnMainThread:</TokenIdentifier>
+			<Abstract type="html">Controls if the synchronous upload methods can be invoked on the main thread.</Abstract>
+			<DeclaredIn>S3TransferManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, assign) BOOL noSyncMethodsOnMainThread</Declaration>
+			
+			
+			<Anchor>//api/name/noSyncMethodsOnMainThread</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/S3TransferManager/noSyncMethodsOnMainThread</TokenIdentifier>
+			<Abstract type="html">Controls if the synchronous upload methods can be invoked on the main thread.</Abstract>
+			<DeclaredIn>S3TransferManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, assign) BOOL noSyncMethodsOnMainThread</Declaration>
+			
+			
+			<Anchor>//api/name/noSyncMethodsOnMainThread</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/S3TransferManager/setOperationQueue:</TokenIdentifier>
+			<Abstract type="html">The static NSOperationQueue used internally.</Abstract>
+			<DeclaredIn>S3TransferManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly, assign) NSOperationQueue *operationQueue</Declaration>
+			
+			
+			<Anchor>//api/name/operationQueue</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/S3TransferManager/operationQueue</TokenIdentifier>
+			<Abstract type="html">The static NSOperationQueue used internally.</Abstract>
+			<DeclaredIn>S3TransferManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly, assign) NSOperationQueue *operationQueue</Declaration>
+			
+			
+			<Anchor>//api/name/operationQueue</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/S3TransferManager/synchronouslyUpload:</TokenIdentifier>
+			<Abstract type="html">Synchronously uploads data to Amazon S3 using either put object request or multipart uploads.</Abstract>
+			<DeclaredIn>S3TransferManager.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/S3PutObjectRequest</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/cl/AmazonServiceResponse</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (AmazonServiceResponse *)synchronouslyUpload:(S3PutObjectRequest *)putObjectRequest</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>putObjectRequest</Name>
+					<Abstract type="html">A S3PutObjectRequest object that defines the parameters of the request.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">An AmazonServiceResponse from S3.</Abstract></ReturnValue>
+			<Anchor>//api/name/synchronouslyUpload:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/S3TransferManager/synchronouslyUploadData:bucket:key:</TokenIdentifier>
+			<Abstract type="html">Synchronously uploads data to Amazon S3 using either put object request or multipart uploads.</Abstract>
+			<DeclaredIn>S3TransferManager.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/AmazonServiceResponse</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (AmazonServiceResponse *)synchronouslyUploadData:(NSData *)data bucket:(NSString *)bucket key:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">A NSData object to upload.</Abstract>
+				</Parameter><Parameter>
+					<Name>bucket</Name>
+					<Abstract type="html">A bucket name.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">A key name.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">An AmazonServiceResponse from S3.</Abstract></ReturnValue>
+			<Anchor>//api/name/synchronouslyUploadData:bucket:key:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/S3TransferManager/synchronouslyUploadFile:bucket:key:</TokenIdentifier>
+			<Abstract type="html">Synchronously uploads data to Amazon S3 using either put object request or multipart uploads.</Abstract>
+			<DeclaredIn>S3TransferManager.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/AmazonServiceResponse</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (AmazonServiceResponse *)synchronouslyUploadFile:(NSString *)filename bucket:(NSString *)bucket key:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>filename</Name>
+					<Abstract type="html">A filepath to a file to upload.</Abstract>
+				</Parameter><Parameter>
+					<Name>bucket</Name>
+					<Abstract type="html">A bucket name.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">A key name.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">An AmazonServiceResponse from S3.</Abstract></ReturnValue>
+			<Anchor>//api/name/synchronouslyUploadFile:bucket:key:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/S3TransferManager/synchronouslyUploadStream:contentLength:bucket:key:</TokenIdentifier>
+			<Abstract type="html">Synchronously uploads data to Amazon S3 using either put object request or multipart uploads.</Abstract>
+			<DeclaredIn>S3TransferManager.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/AmazonServiceResponse</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (AmazonServiceResponse *)synchronouslyUploadStream:(NSInputStream *)stream contentLength:(int64_t)contentLength bucket:(NSString *)bucket key:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>stream</Name>
+					<Abstract type="html">An NSInputStream object.</Abstract>
+				</Parameter><Parameter>
+					<Name>bucket</Name>
+					<Abstract type="html">A bucket name.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">A key name.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">An AmazonServiceResponse from S3.</Abstract></ReturnValue>
+			<Anchor>//api/name/synchronouslyUploadStream:contentLength:bucket:key:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/S3TransferManager/upload:</TokenIdentifier>
+			<Abstract type="html">Asynchronously uploads data to Amazon S3 using either put object request or multipart uploads. Set the delegate property of S3PutObjectRequest in order to overwrite the delegate for callbacks.</Abstract>
+			<DeclaredIn>S3TransferManager.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/S3PutObjectRequest</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/intf/AmazonServiceRequestDelegate</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)upload:(S3PutObjectRequest *)putObjectRequest</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>putObjectRequest</Name>
+					<Abstract type="html">A S3PutObjectRequest object that defines the parameters of the request.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/upload:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/S3TransferManager/uploadData:bucket:key:</TokenIdentifier>
+			<Abstract type="html">Asynchronously uploads data to Amazon S3 using either put object request or multipart uploads.</Abstract>
+			<DeclaredIn>S3TransferManager.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intf/AmazonServiceRequestDelegate</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)uploadData:(NSData *)data bucket:(NSString *)bucket key:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">A NSData object to upload.</Abstract>
+				</Parameter><Parameter>
+					<Name>bucket</Name>
+					<Abstract type="html">A bucket name.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">A key name.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/uploadData:bucket:key:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/S3TransferManager/uploadFile:bucket:key:</TokenIdentifier>
+			<Abstract type="html">Asynchronously uploads data to Amazon S3 using either put object request or multipart uploads.</Abstract>
+			<DeclaredIn>S3TransferManager.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intf/AmazonServiceRequestDelegate</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)uploadFile:(NSString *)filename bucket:(NSString *)bucket key:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>filename</Name>
+					<Abstract type="html">A filepath to a file to upload.</Abstract>
+				</Parameter><Parameter>
+					<Name>bucket</Name>
+					<Abstract type="html">A bucket name.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">A key name.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/uploadFile:bucket:key:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/S3TransferManager/uploadStream:contentLength:bucket:key:</TokenIdentifier>
+			<Abstract type="html">Asynchronously uploads data to Amazon S3 using either put object request or multipart uploads.</Abstract>
+			<DeclaredIn>S3TransferManager.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intf/AmazonServiceRequestDelegate</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)uploadStream:(NSInputStream *)stream contentLength:(long)contentLength bucket:(NSString *)bucket key:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>stream</Name>
+					<Abstract type="html">An NSInputStream object.</Abstract>
+				</Parameter><Parameter>
+					<Name>bucket</Name>
+					<Abstract type="html">A bucket name.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">A key name.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/uploadStream:contentLength:bucket:key:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/S3TransferManager/abortMultipartUploads:initiatedBefore:</TokenIdentifier>
+			<Abstract type="html">Asynchronously aborts pending multipart uploads initiated a specified date for a specified bucket.</Abstract>
+			<DeclaredIn>S3TransferManager.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intf/AmazonServiceRequestDelegate</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)abortMultipartUploads:(NSString *)bucket initiatedBefore:(NSDate *)date</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>bucket</Name>
+					<Abstract type="html">A bucket name.</Abstract>
+				</Parameter><Parameter>
+					<Name>date</Name>
+					<Abstract type="html">Pending mutipart uploads initiated before this date will be aborted.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/abortMultipartUploads:initiatedBefore:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/S3TransferManager/abortMultipartUploads:forKey:</TokenIdentifier>
+			<Abstract type="html">Asynchronously aborts pending multipart uploads for a specified bucket and key.</Abstract>
+			<DeclaredIn>S3TransferManager.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intf/AmazonServiceRequestDelegate</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)abortMultipartUploads:(NSString *)bucket forKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>bucket</Name>
+					<Abstract type="html">A bucket name.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">A key name.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/abortMultipartUploads:forKey:</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<string>A.jpg</string>
+	<string>B--IEC+60906-2.jpg</string>
+	<string>C--CEE+7:16.jpg</string>
+	<string>C--CEE+7:17.jpg</string>
+	<string>D.jpg</string>
+	<string>E+F.jpg</string>
+	<string>E.jpg</string>
+	<string>F.jpg</string>
+	<string>G--United+Kingdom.jpg</string>
+	<string>H--Israel.jpg</string>
+	<string>I--Argentina&amp;Australia&amp;New+Zealand.jpg</string>
+	<string>I--China.jpg</string>
+	<string>J--Switzerland.jpg</string>
+	<string>K--Denmark.jpg</string>
+	<string>L--Albania&amp;Canary+Islands&amp;Chile&amp;Ethiopia&amp;Italy&amp;Libya&amp;Maldives&amp;Syria.jpg</string>
+	<string>M.jpg</string>
+</array>
+</plist>

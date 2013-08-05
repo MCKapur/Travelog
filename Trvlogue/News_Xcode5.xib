@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4457.9" systemVersion="13A497d" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment defaultVersion="1792" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3682.9"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TrvlogueFlightDetailViewController">
+            <connections>
+                <outlet property="newsTableView" destination="8" id="15"/>
+                <outlet property="view" destination="8" id="yML-aj-0HO"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="8">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="height" constant="462" id="21"/>
+            </constraints>
+            <connections>
+                <outlet property="dataSource" destination="-1" id="16"/>
+                <outlet property="delegate" destination="-1" id="17"/>
+            </connections>
+        </tableView>
+    </objects>
+    <classes>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="TrvlogueFlightDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TrvlogueFlightDetailViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="changedSegmentedControl:" candidateClass="UISegmentedControl"/>
+                <relationship kind="action" name="deleteFlight"/>
+                <relationship kind="action" name="shareFlight"/>
+                <relationship kind="outlet" name="dateLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="infoScrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="infoSegControl" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="infoView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="milesLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="newsTableView" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="peopleTableView" candidateClass="UIGridView"/>
+                <relationship kind="outlet" name="travelMap" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="weatherTableView" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="weatherTimestamp" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="UIGridView" superclassName="UITableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UIGridView.h"/>
+            <relationships>
+                <relationship kind="action" name="cellPressed:"/>
+                <relationship kind="outlet" name="uiGridViewDelegate"/>
+            </relationships>
+        </class>
+    </classes>
+</document>

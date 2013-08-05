@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Conversation</key>
+	<array>
+		<string>Hello </string>
+		<string>Where can I charge my phone?</string>
+		<string>My name is _____</string>
+		<string>What is your name?</string>
+		<string>Please</string>
+		<string>Thank you</string>
+		<string>Goodbye</string>
+		<string>Excuse me</string>
+		<string>Sorry</string>
+	</array>
+	<key>Places</key>
+	<array>
+		<string>Restaurant</string>
+		<string>Taxi</string>
+		<string>Airport</string>
+		<string>Bus Station</string>
+		<string>Train Station</string>
+		<string>Hospital</string>
+		<string>Bathroom</string>
+		<string>Hotel</string>
+		<string>Police</string>
+		<string>ATM</string>
+	</array>
+	<key>Purchase</key>
+	<array>
+		<string>Do you have _____?</string>
+		<string>How much does this cost?</string>
+		<string>Too expensive</string>
+	</array>
+	<key>Direction</key>
+	<array>
+		<string>How do I get there?</string>
+		<string>Can you take me to _____</string>
+		<string>Where can I find a _____</string>
+		<string>Where is _____</string>
+		<string>I need to go to the airport</string>
+	</array>
+</dict>
+</plist>

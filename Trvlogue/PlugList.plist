@@ -1,0 +1,2752 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>Country</key>
+		<string>Afghanistan</string>
+		<key>Plugs</key>
+		<string>C, D, F	</string>
+		<key>Voltage</key>
+		<string>240 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz	</string>
+		<key>Comments</key>
+		<string>Voltage may vary from 160 to 280.
+</string>
+		<key>New item</key>
+		<dict>
+			<key>Country</key>
+			<string>Brunei</string>
+			<key>Plugs</key>
+			<string>G</string>
+			<key>Voltage</key>
+			<string>240 V	</string>
+			<key>Frequency</key>
+			<string>50 Hz</string>
+			<key>Comments</key>
+			<string></string>
+		</dict>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Brunei</string>
+		<key>Plugs</key>
+		<string>G</string>
+		<key>Voltage</key>
+		<string>240 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Cook Islands</string>
+		<key>Plugs</key>
+		<string>I</string>
+		<key>Voltage</key>
+		<string>240 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Falkland Islands</string>
+		<key>Plugs</key>
+		<string>G</string>
+		<key>Voltage</key>
+		<string>240 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Fiji</string>
+		<key>Plugs</key>
+		<string>I</string>
+		<key>Voltage</key>
+		<string>240 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Gibraltar</string>
+		<key>Plugs</key>
+		<string>G, K</string>
+		<key>Voltage</key>
+		<string>240 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Type K was used in the Europort development by the Danish builders. Otherwise the United Kingdom fittings are used.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Guyana</string>
+		<key>Plugs</key>
+		<string>A, V, D, G</string>
+		<key>Voltage</key>
+		<string>240 V	</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string>Type K was used in the Europort development by the Danish builders. Otherwise the United Kingdom fittings are used.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Isle of Man</string>
+		<key>Plugs</key>
+		<string>G</string>
+		<key>Voltage</key>
+		<string>240 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Kenya</string>
+		<key>Plugs</key>
+		<string>G</string>
+		<key>Voltage</key>
+		<string>240 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Kiribati</string>
+		<key>Plugs</key>
+		<string>I</string>
+		<key>Voltage</key>
+		<string>240 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Kuwait</string>
+		<key>Plugs</key>
+		<string>C, G</string>
+		<key>Voltage</key>
+		<string>240 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Malaysia</string>
+		<key>Plugs</key>
+		<string>C, G</string>
+		<key>Voltage</key>
+		<string>240 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>The official mains power voltage is AC 230 V with the tolerance of +10%,-6%.[21] However, the supplied voltage remains at 240 V, as the supplied voltage is within the allowed tolerance. Areas that rely on private power companies, like some parts of Penang and Kedah, receive a true 230 V supply. Remote villages which rely on off-grid localized diesel generators (i.e. small villages and/or isolated holiday resorts on islands too far away from the mainland to have viable underwater cabling) may receive unstable power with higher voltages, with some areas recorded to be as high as 260 V. Type C plugs are very common with audio/video equipment. Plugged into Type G outlets using widely available adapters or forced in by pushing down the shutter. The latter is widely practised, although hazardous. Since the late 90s, dedicated Type C sockets can also be found on some power strips sold in the country for convenience given the wide proliferation of devices with Type C plugs. Type C sockets can also be found on dedicated shaver sockets in bathrooms of many hotels. Said sockets also include a Type A connector that delivers 110v of power for the convenience of tourists. Type M sockets are normally used for air conditioning (especially if the air conditioner requires a magnetic starter), heavy industrial equipment, spotlights, and less commonly, washers and clothes driers. This is because most modern washers sold in the country are also fitted with Type G plugs and are two-in-one compact units which uses the same tub for washing and drying. In the countryside, type A is also used, but rare and considered non-standard.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Naura</string>
+		<key>Plugs</key>
+		<string>I</string>
+		<key>Voltage</key>
+		<string>240 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Nigeria</string>
+		<key>Plugs</key>
+		<string>D, G</string>
+		<key>Voltage</key>
+		<string>240 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Oman</string>
+		<key>Plugs</key>
+		<string>C, G</string>
+		<key>Voltage</key>
+		<string>240 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Voltage variations common.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Papua New Guinea</string>
+		<key>Plugs</key>
+		<string>I</string>
+		<key>Voltage</key>
+		<string>240 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Qatar</string>
+		<key>Plugs</key>
+		<string>D, G</string>
+		<key>Voltage</key>
+		<string>240 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>St. Lucia</string>
+		<key>Plugs</key>
+		<string>G</string>
+		<key>Voltage</key>
+		<string>240 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Seychelles</string>
+		<key>Plugs</key>
+		<string>G</string>
+		<key>Voltage</key>
+		<string>240 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Tonga</string>
+		<key>Plugs</key>
+		<string>I</string>
+		<key>Voltage</key>
+		<string>240 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Uganda</string>
+		<key>Plugs</key>
+		<string>G</string>
+		<key>Voltage</key>
+		<string>240 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Albania</string>
+		<key>Plugs</key>
+		<string>C, F, L</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Socket types F and L are the norm. The type L sockets typically accept both large (16A) and small (10A) plugs. Both F and L sockets accept type C plugs (Europlug). Voltage has been harmonized to the EU standard of 400/230V[3] but is typically delivered at 380/220V.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Algeria</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Andorra</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Antigua</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string>Airport power is reportedly 110 V.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Armenia</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Australia</string>
+		<key>Plugs</key>
+		<string>I</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>As of 2000, the mains supply voltage specified in AS 60038 is 230 V with a tolerance of +10% -6%.[4] This was done for voltage harmonisation – however 240 V (and less commonly 250 V[5]) is within tolerance and is commonly supplied.[6] Mains voltage is still popularly referred to as being &quot;two-forty volts&quot;. Bathrooms in hotels will often have a type I, C and A socket marked &quot;for shavers only&quot; as pictured on the right. Three phase (415 V) is also used. onessupplied.[7]
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Austria</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Azerbaijan</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Bahrain</string>
+		<key>Plugs</key>
+		<string>C, G</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Type C plugs are very common with audio/video equipment. Plugged into Type G outlets using widely available adapters or forced in by pushing down the shutter. The latter is widely practised, although hazardous.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Belgium	</string>
+		<key>Plugs</key>
+		<string>C, E</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Bhutan</string>
+		<key>Plugs</key>
+		<string>D, F, G, M</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Bosnia</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Harmonized to EU standard of 400/230V[8]
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Botswana</string>
+		<key>Plugs</key>
+		<string>D, G, M</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Bulgaria</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Burma (Myanmar)</string>
+		<key>Plugs</key>
+		<string>C, D, F, G</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Type G found primarily in better hotels. Also, many major hotels chains are said to have outlets that will take Type I plugs and perhaps other types. In 2012, the authority planned to add type A, as many machines are type A imported from Thailand.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Cambodia</string>
+		<key>Plugs</key>
+		<string>A, C, G</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Channel Islands</string>
+		<key>Plugs</key>
+		<string>C, G</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Republic of the Congo</string>
+		<key>Plugs</key>
+		<string>C, E</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Côte d&apos;Ivoire (Ivory Coast)	</string>
+		<key>Plugs</key>
+		<string>C, E</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Croatia</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Type F wall sockets countrywide standard. Type C wall sockets are very uncommon, and exist only in very old installations.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Cyprus</string>
+		<key>Plugs</key>
+		<string>G</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Czech Republic</string>
+		<key>Plugs</key>
+		<string>C, E</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Type E sockets are standard, earthed appliances ship with an E+F plug. Type C Plugs are common, especially for low-power devices. Type C wall sockets (actually E without the grounded pin and with narrower holes) are very uncommon, and exist only in very old installations.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Denmark</string>
+		<key>Plugs</key>
+		<string>C, E, F, K</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Type E was added from July 2008.[10] Type F was added from November 2011.[11] Type C wall sockets are prohibited in houses built after April 1975.[12] All new sockets must be childproof.[13] Formerly 220 V. 400V three-phase power is very common; The plugs/sockets used are either IEC 60309-2, or the Danish IP20 – mostly known as &quot;komfurstik&quot; or &quot;380V-stik&quot;.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Dominica</string>
+		<key>Plugs</key>
+		<string>D, G</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Eritrea</string>
+		<key>Plugs</key>
+		<string>C</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Estonia</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Finland</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Formerly 220 V</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>France</string>
+		<key>Plugs</key>
+		<string>C, E</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Type C (round) replaced with Type E; flat Type C remain in use, but wall sockets are not produced; all devices since early 1990&apos;s sold with E+F plug (fits both French E and German F types)
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Gaza Strip</string>
+		<key>Plugs</key>
+		<string>C, H</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Gambia</string>
+		<key>Plugs</key>
+		<string>G</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Germany</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Type F (&quot;Schuko&quot;, short for &quot;Schutzkontakt&quot;) is standard. Type C Plugs are common, especially for low-power devices. Type C wall sockets are very uncommon, and exist only in very old installations.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Ghana</string>
+		<key>Plugs</key>
+		<string>D, G</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Greece</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Type F (&quot;Schuko&quot;, Greek: Σούκο) is the de facto standard for new installations&apos; sockets. Type C and &quot;Tripoliko&quot; (similar to type J and post-1989 type H) sockets exist only in old installations. Light appliances use type C plug while more electricity-consuming ones use type E&amp;F or F plugs. Corfu still only uses C 220 V at 50 Hz. Formerly 220 V.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Grenada</string>
+		<key>Plugs</key>
+		<string>G</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Gaudeloupe</string>
+		<key>Plugs</key>
+		<string>C, D, E</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Hungary</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Iceland</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Iraq</string>
+		<key>Plugs</key>
+		<string>C, D, G</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Ireland</string>
+		<key>Plugs</key>
+		<string>G, D, M, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>G Sockets and plugs standard as defined by NSAI I.S. 401 (Plug) I.S. 411 (Socket outlet). Obsolete or specialist installations may be D and M (as in the UK). Type F (&quot;Side Earth&quot;) plugs occasionally seen in old installations probably because much of the early Irish electrical network was heavily influenced by Siemens. Formerly 220 V. &apos; A &apos;shaver&apos; socket (similar to Type C) is sometimes found in bathrooms that will provide low current to some other plug types. These almost always have a 110 V socket and a 230 V socket in the same unit, or a switch to select voltage, which are sometimes labelled as 115 V and 230 V. The G type socket often has an on-off switch on the socket. 110 V centre point earthed transformers are often used for industrial portable tools. Type M plugs are permitted for applications where the power draw does not exceed 5 Amps; this power limitation allows type M sockets to be powered from domestic 10 Amp circuits and to be controlled by domestic lighting switches.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Israel</string>
+		<key>Plugs</key>
+		<string>C, H, M</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>The standard for H plugs and sockets was recently modified to use round pins, so most modern sockets accept both type C and type H plugs. Type M sockets are used for air conditioners. Identical plugs and sockets also used in the Palestinian National Authority areas.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Italy</string>
+		<key>Plugs</key>
+		<string>C, F, L</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Common sockets have 8-shaped holes to accept both 16A and 10A version of the L plug, but in hotel rooms 10A sockets are still common. Schuko sockets are unusual, but adaptors rated up to 1500 Watt are widespread. C unearthed sockets are not used in modern installations and are very difficult to find for replacement, so there are some old installations with earthed sockets unconnected to an earthing system. Italian wall-boxes are similar to American ones, but are usually horizontally mounted, in old installation round pattrress are common. Formerly 220 V.[17]
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Jordan</string>
+		<key>Plugs</key>
+		<string>B, C, D, F, G, J</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Laos</string>
+		<key>Plugs</key>
+		<string>A, B, C, E, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Latvia</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Harmonized to the EU standard of 400/230V[18]
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Liechtenstein</string>
+		<key>Plugs</key>
+		<string>C, J</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Swiss Norm, C only in the form CEE 7/16.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Luxembourg</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Formerly 220 V</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Macedonia	</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Harmonized to EU standard 400/230V[20]
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Madeira</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Although its &quot;Officially&quot; 230v now, in a few parts of the island it is usually either close to 240 or at 240~ V
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Malawi</string>
+		<key>Plugs</key>
+		<string>G</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Maldives</string>
+		<key>Plugs</key>
+		<string>A, D, G, J, K, L</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Malta</string>
+		<key>Plugs</key>
+		<string>G</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Mauritius</string>
+		<key>Plugs</key>
+		<string>C, G</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Monaco</string>
+		<key>Plugs</key>
+		<string>C, D, E, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Supplied from France</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Montenegro</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Voltage has been harmonized to the EU standard of 400/230V[22]
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Montserrat</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Nepal</string>
+		<key>Plugs</key>
+		<string>C, D, M</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Netherlands</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Formerly 220 V.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>New Zealand</string>
+		<key>Plugs</key>
+		<string>I</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Electricity (Safety) Regulations 2010 state supply voltage is 230 V ±6%
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Norway</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>IT earthing system (most widespread)
+TN earthing system (new installations)
+TT earthing system (used in some installations in Bergen)
+Sockets lacking earth are prohibited in new installations.
+Pakistan	</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Pakistan</string>
+		<key>Plugs</key>
+		<string>C, D, G, M</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Official standard is 230 V / 50 Hz. Voltage tolerance is 230 V ±5% (218 V to 242 V). Frequency tolerance 50 Hz ±2% (49 Hz to 51 Hz) But Karachi Electric Supply Corporation (KESC) is 240 V / 50 Hz.
+Type C and D Plug / Socket are common for low-power devices. Type M Plug / Socket is common for air conditioners and high-power devices. Type G Plug / Socket is less common.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Poland</string>
+		<key>Plugs</key>
+		<string>C, E</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Type C Plugs are common, especially for low-power devices. Type E sockets are the most popular standard for new installations. Type C unearthed sockets could exist in older installations. Formerly 220 V.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Portugal</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Harmonized with EU standard 400/230V[26]
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Romania</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Most household sockets still compatible with East European standards (4.0 mm pins). Formerly 220 V.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Rwanda</string>
+		<key>Plugs</key>
+		<string>C, J</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Saint Pierre and Miquelon</string>
+		<key>Plugs</key>
+		<string>E</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>St. Vincent and the Grenadines	</string>
+		<key>Plugs</key>
+		<string>A, C, E, G, I, K</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Samoa</string>
+		<key>Plugs</key>
+		<string>I</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Senegal</string>
+		<key>Plugs</key>
+		<string>C, D, E, K</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Serbia</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Formerly 220 V.</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Sierra Leone</string>
+		<key>Plugs</key>
+		<string>D, G</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Singapore</string>
+		<key>Plugs</key>
+		<string>C, G, M</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Type C is used for audio/video equipment and plug adapters are widely available. Type M sockets may be found occasionally for high-power applications.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Slovakia</string>
+		<key>Plugs</key>
+		<string>C, E</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Slovenia</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>South Africa</string>
+		<key>Plugs</key>
+		<string>C, M, IEC+60906-1</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Type C used for some appliances. Adapters are widely available.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Spain</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Formerly 220 V.</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Sri Lanka</string>
+		<key>Plugs</key>
+		<string>C, D, E, F, G, M</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Increased use of type G in new houses/establishments.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Sudan</string>
+		<key>Plugs</key>
+		<string>C, D</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Swaziland</string>
+		<key>Plugs</key>
+		<string>M</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Sweden</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Non-grounded sockets are prohibited in new installations. 400 V for some washing machines and other fixed installations. In bathroom etc. 110–115 socket can be found and used for shavers and other &quot;bathroom tools&quot;. Formerly 220 V.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Switzerland</string>
+		<key>Plugs</key>
+		<string>C, J</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>C only in the form CEE 7/16. In some very old installations, type E sockets or sockets that are compatible with type J and type E plugs are found.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Tanzania</string>
+		<key>Plugs</key>
+		<string>D, G</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Tunisia</string>
+		<key>Plugs</key>
+		<string>C, E</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>United Kingdom</string>
+		<key>Plugs</key>
+		<string>G, D, M</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Voltage tolerance of 230 V +10%/−6% (216.2 V to 253 V), widened to 230 V ±10% (207 V to 253 V) in 2008. The system supply voltage remains centred on 240 V.[33] Formerly 240 V in mainland Britain and 220 V in Northern Ireland. Generally Type G everywhere. A &quot;shaver socket&quot; (similar to Type C) is sometimes found in bathrooms that will provide low current to some other plug types. These sometimes have a ~110 V socket and a ~240 V socket in the same unit, or a switch to select voltage for a single socket. The G type socket usually has an on-off switch. IEC 60309 plugs and connectors are used in industrial and construction locations as well as for outdoor use in domestic and other business premises. Plug types D and M were used until the early 1960s but were phased out due to lack of internal fuse. They are still found specialist applications such as theatre and TV stage lighting.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Uruguay</string>
+		<key>Plugs</key>
+		<string>C, F, L, I</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Type L is the most common in modern homes and type F is the second as a result of computer use. Neutral and live wires are reversed, as in Argentina. Type I is only found in very old installs Formerly 220 V.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Vanuatu</string>
+		<key>Plugs</key>
+		<string>I</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Yemen</string>
+		<key>Plugs</key>
+		<string>A, D, G</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Zambia</string>
+		<key>Plugs</key>
+		<string>C, D, G</string>
+		<key>Voltage</key>
+		<string>230 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Mongolia</string>
+		<key>Plugs</key>
+		<string>C, E</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Morocco</string>
+		<key>Plugs</key>
+		<string>C, E</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Originally built using 127v and converted to 220v in the 1980s.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Philippines</string>
+		<key>Plugs</key>
+		<string>A, B, C</string>
+		<key>Voltage</key>
+		<string>220 V, 230 V	</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string>Most plugs and outlets are Type A, but some are C. Type B are commonly found in high powered appliances and computers. Some buildings have sockets that accepts Types A, B and C.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Angola</string>
+		<key>Plugs</key>
+		<string>C</string>
+		<key>Voltage</key>
+		<string>220 V</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Argentina</string>
+		<key>Plugs</key>
+		<string>C, I</string>
+		<key>Voltage</key>
+		<string>220 V</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Live and neutral are reversed for socket outlet type I in comparison to most other countries.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Azores</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Balearic Islands</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Bangladesh</string>
+		<key>Plugs</key>
+		<string>A, C, D, G, K</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Belarus</string>
+		<key>Plugs</key>
+		<string>C</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Benin</string>
+		<key>Plugs</key>
+		<string>C, E</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Bolivia</string>
+		<key>Plugs</key>
+		<string>A, C</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Burkina Faso</string>
+		<key>Plugs</key>
+		<string>C, E</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Burundi</string>
+		<key>Plugs</key>
+		<string>C, E</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Cameroon</string>
+		<key>Plugs</key>
+		<string>C, E</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Canary Islands</string>
+		<key>Plugs</key>
+		<string>C, E, F, L</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Cape Verde</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Central African Republic</string>
+		<key>Plugs</key>
+		<string>C, E</string>
+		<key>Voltage</key>
+		<string>220 V</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Chad</string>
+		<key>Plugs</key>
+		<string>D, E, F</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Chile</string>
+		<key>Plugs</key>
+		<string>C, L</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>China</string>
+		<key>Plugs</key>
+		<string>A, C, I</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Most wall outlets simultaneously support Types A and I. Some outlets support Type C as well (the holes in the outlets are flat in the middle and round on the sides) so that either a Type A, a Type C or a Type I (Unearthed) plug can be used. A second outlet only type I (Earthed) is next to the unearthed multi Type A\C\I outlet. Type A outlets only fit plugs with pins of the same width—a polarized Type A plug requires an adapter. NOTE: No matter the type of plug the socket will accept, voltage in China is always 220 volts. See photo at right.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Comoros</string>
+		<key>Plugs</key>
+		<string>C, E</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Democratic Republic of the Congo</string>
+		<key>Plugs</key>
+		<string>C, D</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Dijbouti</string>
+		<key>Plugs</key>
+		<string>C, E</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Egypt</string>
+		<key>Plugs</key>
+		<string>C</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Equatorial Guinea</string>
+		<key>Plugs</key>
+		<string>C, E</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Ethiopia</string>
+		<key>Plugs</key>
+		<string>C, E, F, L</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Faroe Islands</string>
+		<key>Plugs</key>
+		<string>C, E, F, K</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>French Guiana</string>
+		<key>Plugs</key>
+		<string>C, D, E</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Gabon</string>
+		<key>Plugs</key>
+		<string>C</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Georgia</string>
+		<key>Plugs</key>
+		<string>C</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Greenland</string>
+		<key>Plugs</key>
+		<string>C, E, F, K</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Guinea</string>
+		<key>Plugs</key>
+		<string>C, F, K</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Guinea-Bissau</string>
+		<key>Plugs</key>
+		<string>C</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Hong Kong</string>
+		<key>Plugs</key>
+		<string>G, M, D</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Largely based on UK system. G is used in almost all products, while M is (rarely) used when required current rating is between 13~15A. Occasionally, a &apos;shaver&apos; socket (similar to Type C) is found in some bathrooms that provides low current to some other plug types. These almost always have a 110 V socket and a 220 V socket in the same unit, or a switch to select voltage, which are sometimes labelled as 110 V and 220 V. This duo installation is not as common in HK as in the UK. There was a smaller 2 A version of type D, now obsolete.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>India</string>
+		<key>Plugs</key>
+		<string>C, D, M</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Residential power supplied in India is two wire 220 volts, permitted variation 6%, and maximum load 40 amperes. Frequency 50 Hz. Many power outlets are universal and accept many plugs without adapter. A combination receptacle for types C, D and M is usually present.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Indonesia</string>
+		<key>Plugs</key>
+		<string>C, F, G</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Type G socket/plug is not common.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Iran</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Type C wall sockets are less common, and exist only in older installations. Type F is used for new installations. Type C Plugs are common for low-power devices.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Kazakhstan</string>
+		<key>Plugs</key>
+		<string>C, E, F</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>No official standard. Voltage tolerance is 220 V ±10%. Actual voltage may vary (usually 150–200 V) because of unstable electrical system.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Kyrgyzstan</string>
+		<key>Plugs</key>
+		<string>C</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Lebanon</string>
+		<key>Plugs</key>
+		<string>A, C</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Just about all plugs use type C. Before 1999 the voltage used to be 100 instead of 200.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Lesotho</string>
+		<key>Plugs</key>
+		<string>M</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Lithuana</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Macau</string>
+		<key>Plugs</key>
+		<string>D, F, G, M</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>No official standards there. However, in the Macao-HK Ferry Pier built by Portuguese Government before handover the standard was E &amp; F. After handover, Macau adopted G in both government and private buildings. F is uncommon. Before 1980s, 110 V was found in Macau but now obsolete.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Mali</string>
+		<key>Plugs</key>
+		<string>C, E</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Martinique</string>
+		<key>Plugs</key>
+		<string>C, D, E</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Mauritania</string>
+		<key>Plugs</key>
+		<string>C</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Moldova</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Compatible with European and former Soviet Union (GOST) standards.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Mozambique</string>
+		<key>Plugs</key>
+		<string>C, F, M</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Type M found especially near the border with South Africa, including in the capital, Maputo.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Namibia</string>
+		<key>Plugs</key>
+		<string>D, M</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>New Caledonia</string>
+		<key>Plugs</key>
+		<string>E</string>
+		<key>Voltage</key>
+		<string>220 V</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Niger</string>
+		<key>Plugs</key>
+		<string>A, B, C, D, E, F</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>North Korea</string>
+		<key>Plugs</key>
+		<string>C</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Various references report 50 Hz or 60 Hz but 50 Hz was confirmed by measurement in Pyongyang on July 23, 2012.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Paraguay</string>
+		<key>Plugs</key>
+		<string>C</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Peru</string>
+		<key>Plugs</key>
+		<string>A, B, C</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string>Talara 110/220 V; some areas 50 Hz[24]
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Reunion</string>
+		<key>Plugs</key>
+		<string>E</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Russia</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>USSR (along with much of Eastern Europe) used type GOST sockets with 4.0 mm pins similar to West European C type plugs and the 4.8mm standard used by West European type E/F Plugs.[27] The former Soviet sockets could be seen mainly in old houses and in countryside. Obsolete standard 127 V/50 Hz AC is used in some remote villages. Elsewhere it was replaced in 1970s by the 220 V standard.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Sao Tome and Principe</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>South Korea</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Type F is normally found in offices, airports, hotels and homes. Type C (type CEE 7/17) sockets are obsolete and manufacture was discontinued as of 2008, but examples are still found in a lot of places. In cases where a Type C socket was replaced with a Type F, the ground contact is often not connected to anything. 220 volt power is distributed by using one live pole of a three-phase 380 volt system. 110 V/60 Hz power with plugs A &amp; B were previously used but has already been phased out. Some residents install their own step-down transformers and dedicated circuits, so that they can use 110 V appliances imported from Japan or North America. Most hotels only have 220 V outlets, but some hotels offer both 110 V (Type A or B) and 220 V (Type C or F) outlets. Switches and outlets fit American-sized boxes.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Syria</string>
+		<key>Plugs</key>
+		<string>C, E, L</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Tajikstan</string>
+		<key>Plugs</key>
+		<string>C, I</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Thailand</string>
+		<key>Plugs</key>
+		<string>A, B, C</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Although Thailand uses 220 V, type A- and type B-compatible plugs and sockets were originally adopted in Thai Industrial Standards (TIS) 166-2519 and 166-2535 in 1976 and 1992. However, type C plugs are also widely used, and a hybrid socket is almost universally found. Usually the socket is a combination of types B and C, although ungrounded type A/C hybrids are still commonly found in rural areas and older installations. Appliances with type F Schuko plugs are also common, although corresponding grounded outlets are not usually found. In 2004, TIS 166-2547 (and later, its subsequent version 166-2549) was adopted, stipulating a type C-compatible standard plug based on IEC 60906-1 but with the position of the ground pin following that of NEMA 5–15 (type B). the hybrid socket is accepted as standard, with plans to phase out support for type A and type B flat pins in the future.[31][32]
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Timor-Leste</string>
+		<key>Plugs</key>
+		<string>C, E, F, I</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Togo</string>
+		<key>Plugs</key>
+		<string>C</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Lomé 127 V.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Turkey</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Turkmenistan</string>
+		<key>Plugs</key>
+		<string>B, F</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Ukraine</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>United Arab Emirates</string>
+		<key>Plugs</key>
+		<string>C, D, G</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>99% type G (same as UK) Others for Cookers
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Uzbekistan</string>
+		<key>Plugs</key>
+		<string>C, I</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Vietnam</string>
+		<key>Plugs</key>
+		<string>A, C, G</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Type A is the norm in Southern Vietnam and Type C is the norm in Northern Vietnam (according to the pre-unification border at 17 degrees North). Type G is found only in some new luxury hotels, primarily those built by Singaporean and Hong Kong developers. But Type G is never found in homes, shops, or offices.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Zimbabwe</string>
+		<key>Plugs</key>
+		<string>D, G</string>
+		<key>Voltage</key>
+		<string>220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Brazil</string>
+		<key>Plugs</key>
+		<string>A, B, C, I, IEC+60906-1</string>
+		<key>Voltage</key>
+		<string>127 V, 220 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string>Type I is becoming common for 220 V outlets and appliances in 127 V areas. Dual-voltage wiring is rather common for high-powered appliances, such as clothes dryers and electric showers which tend to be 220 V even in 127 V areas. Depending on the area, the exact voltage might be 115 V, 127 V, or 220 V. The A, B and C types are sometimes together (flat with rounder ends and ground pin) so that an A, B or C types can be used. Also note that by Jan 1st 2010, Brazil converted to the IEC 60906-1 international plug which looks similar to type J but is not compatible. Since then, all devices and new buildings must comply with the new standard.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Caribbean Netherlands</string>
+		<key>Plugs</key>
+		<string>A, B, C</string>
+		<key>Voltage</key>
+		<string>127 V, 220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz, 60 Hz</string>
+		<key>Comments</key>
+		<string>Bonaire 127 V, 50 Hz, Receptacle is combination of A and C; Saba and St. Eustatius 110 V, 60 Hz, A, maybe B
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Madagascar</string>
+		<key>Plugs</key>
+		<string>C, D, E, J, K</string>
+		<key>Voltage</key>
+		<string>127 V, 220 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Saudi Arabia</string>
+		<key>Plugs</key>
+		<string>A, B, F, G</string>
+		<key>Voltage</key>
+		<string>127 V, 220 V	</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string>Saudi Arabia is one of the few countries in the world that still uses a dual-voltage system in different parts of the country. In an attempt to unify the low voltage system in the Kingdom, a decision was made by the Council of Ministers of Saudi Arabia in August 2010 to standardize the low voltage system as 230/400V. The decision took immediate effect for new subscribers and will be implemented in existing facilities in two phases over 25 years (10-year preparatory phase and 15-year executive phase).[28][29]
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Aruba</string>
+		<key>Plugs</key>
+		<string>A, B, F</string>
+		<key>Voltage</key>
+		<string>127 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string>Lago Colony 115 V</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Curacao</string>
+		<key>Plugs</key>
+		<string>A, B, C</string>
+		<key>Voltage</key>
+		<string>127 V</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Libya</string>
+		<key>Plugs</key>
+		<string>D, L</string>
+		<key>Voltage</key>
+		<string>127 V	</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Barca, Benghazi, Derna, Sabha &amp; Tobruk 230 V.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Mexico</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>127 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string>Type B is becoming more common. Voltage can legally vary by +/- 10% (giving a range of 114 to 140 volts). Split phase is commonly available and local electricians are apt to wire both to a type A/B socket to give 240 V for air conditioning or washing machine/dryers.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Suriname</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>127 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>United States of America</string>
+		<key>Plugs</key>
+		<string>A, B (IEC+60906-2)</string>
+		<key>Voltage</key>
+		<string>120 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string>Standardized at 120 V. Electricity suppliers aim to keep most customers supplied between 114 and 126 V most of the time. 240 V/60 Hz used for large appliances. Large residential buildings frequently have 120/208V 3-phase power, with large appliances being connected between two of the phases, giving a voltage of 208 volts. Since 1962, Type B outlets are required by code in new construction and renovation. A T-slot Type B is rated for 20 amperes for use in kitchens or other areas using large 120 V appliances.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Liberia</string>
+		<key>Plugs</key>
+		<string>A, B, C, E, F</string>
+		<key>Voltage</key>
+		<string>120 V, 240 V</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string>Previously 60 Hz, now officially 50 Hz. Many private power plants are still 60 Hz. A &amp; B are used for 110 V; C &amp; F are used for 230/240 V. Much of the centralized power system was destroyed during the civil wars starting in 1990, and public power supplies are still limited. Local supplies may vary and may not match the usual voltage for a particular wall socket.[19]
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>St. Martin</string>
+		<key>Plugs</key>
+		<string>C, F</string>
+		<key>Voltage</key>
+		<string>120 V, 230 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string>Dutch Sint Maarten 120 V, 60 Hz; French Saint-Martin 230 V, 60 Hz;
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>American Samoa</string>
+		<key>Plugs</key>
+		<string>A, B, F, I</string>
+		<key>Voltage</key>
+		<string>120 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Bahamas</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>120 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string>Along with 50 Hz in some outlying areas.</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Bermuda</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>120 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Canada</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>120 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string>Smaller buildings (like houses) are supplied with 240/120V split-phase with 240V being used for large loads and 120V for all else. Type A outlets are for repairs only (houses from the 1950s and prior that have no ground conductor), type B are required for new construction and renovation. A 20-Amp type B but with a T-slot can be used in kitchens in new construction.[9] Low-voltage three phase is 208/120V and also 600/347V in larger buildings.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Cayman Islands</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>120 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Colombia</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>120 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string>High-power air conditioners, restaurant equipment, cookstoves and ovens use 240 volt supplies. Wiring conventions, practices and standards follow the Colombian Electrical Code (Código Eléctrico Colombiano), which is similar to the USA National Electric Code.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Costa Rica</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>120 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Ecuador</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>120 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Guatemala</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>120 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Micronesia</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>120 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Nicaragua</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>120 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Puerto Rico</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>120 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Venezuela</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>120 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string>Nema 10-50 found in household 240 V/208 V service only for air conditioning and some high power appliances.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Barbados</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>115 V</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>El Salvador</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>115 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Belize</string>
+		<key>Plugs</key>
+		<string>A, B, G</string>
+		<key>Voltage</key>
+		<string>110 V, 220 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>French Polynesia</string>
+		<key>Plugs</key>
+		<string>A, B, E</string>
+		<key>Voltage</key>
+		<string>110 V, 220 V</string>
+		<key>Frequency</key>
+		<string>60 Hz, 50 Hz</string>
+		<key>Comments</key>
+		<string>Marquesas Islands 50 Hz[14]
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Jamaica</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>110 V, 220 V</string>
+		<key>Frequency</key>
+		<string>50 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>St. Kitts and Nevis</string>
+		<key>Plugs</key>
+		<string>A, B, D, G</string>
+		<key>Voltage</key>
+		<string>110 V and 230 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string>Region plug is same as United States (2 pin) 110–120 V
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Anguilla</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>110 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Cuba</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>110 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string>Resorts that were built to cater to a European clientele may have 220 V Type C plugs.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Dominican Republic</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>110 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Guam</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>110 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Haiti</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>110 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Honduras</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>110 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Panama</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>110 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string>Panama City 120 V.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Taiwan</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>110 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string>All outlets are Type A or Type B. When an outlet is Type B, the ground (earth) holes of the outlets are usually not connected to anything. Most appliances have Type A plugs, but computers and high-power appliances have Type B plugs. The ground prongs on Type B plugs are often cut off to make the plugs fit into Type A sockets. Different outlets (which can not accept Type A or Type B plugs) provide 220 V for air conditioners.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Virgin Islands</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>110 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Japan</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>100 V</string>
+		<key>Frequency</key>
+		<string>50 Hz, 60 Hz</string>
+		<key>Comments</key>
+		<string>East Japan 50 Hz (Tokyo, Kawasaki, Sapporo, Yokohama, and Sendai); West Japan 60 Hz (Okinawa, Osaka, Kyoto, Kobe, Nagoya, Hiroshima). Older buildings have nonpolarized sockets, in which case American polarized plugs (one prong wider than the other) would not fit. Many buildings do not have the ground pin. Sockets and switches fit in American-sized standard boxes.
+</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Okinawa</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>100 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string>Military facilities 120 V.</string>
+	</dict>
+	<dict>
+		<key>Country</key>
+		<string>Trinidad and Tobago</string>
+		<key>Plugs</key>
+		<string>A, B</string>
+		<key>Voltage</key>
+		<string>115 V</string>
+		<key>Frequency</key>
+		<string>60 Hz</string>
+		<key>Comments</key>
+		<string></string>
+	</dict>
+</array>
+</plist>

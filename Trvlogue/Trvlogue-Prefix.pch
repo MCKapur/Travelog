@@ -1,0 +1,39 @@
+//
+// Prefix header for all source files of the 'Trvlogue' target in the 'Trvlogue' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_4_0
+#warning "This project uses features only available in iOS SDK 4.0 and later."
+#endif
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "TrvlogueAppStoreLink.h"
+#import "Database.h"
+#import "ErrorHandler.h"
+#import "DateString.h"
+#import "LoadingSignifier.h"
+#import "NotificationSignifier.h"
+#endif
+
+#define LINKEDIN_API_KEY @"6zuvtkqp11r4"
+#define LINKEDIN_SECRET_KEY @"z7ZX0QF67mzF2x1j"
+#define LINKEDIN_UNIQUE_STATE @"smkfSDIOeoOOkoi43u4iusnjNSJNS"
+
+#define _AFNETWORKING_PIN_SSL_CERTIFICATES_
+
+#define NUMBER_OF_GIFS 17
+
+#define SYSTEM_VERSION_EQUAL_TO(v)         ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
+#define SYSTEM_VERSION_GREATER_THAN(v)       ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN(v)         ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)   ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
+
+#define IS_IPHONE_5 ( fabs ( (double)[[UIScreen mainScreen] bounds].size.height - ( double)568 ) < DBL_EPSILON )
+#define RGBCOLOR(r,g,b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1]
+#define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
+
