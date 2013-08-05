@@ -87,7 +87,7 @@ static int expectedOperations;
     
     if (!cell) {
                 
-        NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"TrvlogueFindPeopleCell" owner:self options:nil];
+        NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"TVFindPeopleCell" owner:self options:nil];
         
         for (UIView *view in views) {
             

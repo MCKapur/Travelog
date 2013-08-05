@@ -24,6 +24,18 @@
 
 - (void)textFieldDidBeginEditing:(HTAutocompleteTextField *)textField {
 
+    if (autocompletionSuggestion) {
+        
+        if (textField == self.originTextField) {
+            
+            self.destinationTextField.text = autocompletionSuggestion[@"short_city_name"];
+        }
+        else {
+            
+            self.originTextField.text = autocompletionSuggestion[@"short_city_name"];
+        }
+    }
+    
     autocompletionSuggestion = nil;
     
     if (textField == self.originTextField) {
@@ -40,7 +52,17 @@
     
     [textField resignFirstResponder];
     
+    if (autocompletionSuggestion) {
+        
+        textField.text = autocompletionSuggestion[@"short_city_name"];
+    }
+    
     autocompletionSuggestion = nil;
+    
+    if (textField == self.originTextField) {
+        
+        [self.destinationTextField becomeFirstResponder];
+    }
     
     return YES;
 }
@@ -81,7 +103,7 @@
     
     if (autocompletionSuggestion) {
         
-        retVal = [autocompletionSuggestion[@"short_city_name"] substringFromIndex:[((NSString *)autocompletionSuggestion[@"short_city_name"]) rangeOfString:textField.text].length];
+        retVal = [autocompletionSuggestion[@"short_city_name"] substringFromIndex:[((NSString *)autocompletionSuggestion[@"short_city_name"]) rangeOfString:textField.text options:NSCaseInsensitiveSearch].length];
     }
             
     return retVal;
@@ -255,7 +277,7 @@
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     
     NSMutableArray *locations = [[NSMutableArray alloc] init];
-    
+        
     [geocoder geocodeAddressString:[self originTextField].text completionHandler:^(NSArray *placemarks, NSError *error) {
         
         if (!error) {
@@ -286,6 +308,8 @@
         
         retrievedLocations = locations;
         
+        NSLog(@"%@", retrievedLocations);
+        
         if ([retrievedLocations count] == 2) {
             
             CLPlacemark *originLocation = retrievedLocations[0];
@@ -306,8 +330,8 @@
             
             flightParameters[@"date"] = [self datePicker].date;
 
-            flightParameters[@"originCity"] = originLocation.locality;
-            flightParameters[@"destinationCity"] = destinationLocation.locality;
+            flightParameters[@"originCity"] = !originLocation.locality ? originLocation.administrativeArea : originLocation.locality;
+            flightParameters[@"destinationCity"] = !destinationLocation.locality ? destinationLocation.administrativeArea : destinationLocation.locality;
             
             flightParameters[@"originCountry"] = originCountry;
             flightParameters[@"destinationCountry"] = destinationCountry;

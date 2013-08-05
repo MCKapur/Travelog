@@ -220,11 +220,11 @@
     
     [self geocode:[originCityTextField text] withCompletionHandler:^(CLPlacemark *placemark, NSError *error) {
 
-        NSString *location = [placemark locality];
+        NSString *location = !placemark.locality ? placemark.administrativeArea : placemark.locality;
         
         if ([location length] && !error) {
                         
-            self.accountDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:nameTextField.text, @"name", email, @"email", /*needs to be fixed*/password, @"password", followingArray, @"connections", milesNumber, @"miles", flightsArray, @"flights", [[NSMutableDictionary alloc] init], @"knownDestinationPreferences", [placemark locality], @"originCity", [[NSMutableArray alloc] init], @"notifications", jobTextField.text, @"position", @(isUsingLinkedIn), @"isUsingLinkedIn", accessToken, @"linkedInAccessKey", linkedInId, @"linkedInId", nil];
+            self.accountDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:nameTextField.text, @"name", email, @"email", /*needs to be fixed*/password, @"password", followingArray, @"connections", milesNumber, @"miles", flightsArray, @"flights", [[NSMutableDictionary alloc] init], @"knownDestinationPreferences", location, @"originCity", [[NSMutableArray alloc] init], @"notifications", jobTextField.text, @"position", @(isUsingLinkedIn), @"isUsingLinkedIn", accessToken, @"linkedInAccessKey", linkedInId, @"linkedInId", nil];
             
             account = [[TVAccount alloc] initWithProfile:self.accountDict];
             
@@ -500,7 +500,7 @@
     [gifImage animateGIF];
     
     [self.navigationController setNavigationBarHidden:NO];
-    [self.navigationController.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Register" style:UIBarButtonItemStyleDone target:self action:@selector(registerAction)]];
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(registerAction)]];
     
     [TVDatabase isCreatingAnAccount:YES];
     

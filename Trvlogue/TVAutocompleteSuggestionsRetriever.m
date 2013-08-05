@@ -30,7 +30,7 @@
             if ([self handleData:responseData].count) {
                 
                 location = [[self handleData:responseData] mutableCopy];
-                
+
                 success = YES;
             }
             else {
@@ -70,7 +70,7 @@
 
 + (NSString *)APIRequest:(NSString *)input {
     
-    return [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%@&types=geocode&sensor=false&key=%@", [input stringByReplacingOccurrencesOfString:@" " withString:@"%20"], GOOGLE_API_KEY];
+    return [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%@&types=(cities)&sensor=false&key=%@", [input stringByReplacingOccurrencesOfString:@" " withString:@"%20"], GOOGLE_API_KEY];
 }
 
 - (NSURLRequest *)getURLRequest:(NSString *)request {

@@ -343,8 +343,8 @@
 }
 
 - (void)updateMilesLabel {
-    
-    [self.mileTidbitsSwipeView setTidbits:[NSArray arrayWithObject:[NSNumber numberWithDouble:[[[TVDatabase currentAccount] person] miles]]] andMode:kTVSwipeBannerModeMileTidbits];
+
+    [self.mileTidbitsSwipeView setTidbits:[NSMutableArray arrayWithObject:[NSNumber numberWithDouble:[[[TVDatabase currentAccount] person] miles]]] andMode:kTVSwipeBannerModeMileTidbits];
 }
 
 #pragma mark Flight Recording + Delegate
@@ -352,7 +352,6 @@
 - (void)recordAFlight {
     
     TVFlightRecorderViewController *flightRecorder = [[TVFlightRecorderViewController alloc] init];
-    
     [self.navigationController pushViewController:flightRecorder animated:YES];
 }
 

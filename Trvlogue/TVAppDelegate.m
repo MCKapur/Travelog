@@ -37,9 +37,9 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     
-    self.loginViewController = [[TVLoginViewController alloc] initWithNibName:@"TrvlogueLoginViewController" bundle:nil];
+    self.loginViewController = [[TVLoginViewController alloc] initWithNibName:@"TVLoginViewController" bundle:nil];
     
-    self.trvlogueViewController = [[TVViewController alloc] initWithNibName:@"TrvlogueViewController" bundle:nil];
+    self.trvlogueViewController = [[TVViewController alloc] initWithNibName:@"TVViewController" bundle:nil];
     
     UINavigationController *controller;
     

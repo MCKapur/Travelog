@@ -40,24 +40,12 @@
 						<reference key="NSNextResponder" ref="774585933"/>
 						<int key="NSvFlags">274</int>
 						<array class="NSMutableArray" key="NSSubviews">
-							<object class="IBUIImageView" id="499946988">
-								<reference key="NSNextResponder" ref="335049653"/>
-								<int key="NSvFlags">292</int>
-								<string key="NSFrameSize">{320, 548}</string>
-								<reference key="NSSuperview" ref="335049653"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="499407371"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<bool key="IBUIUserInteractionEnabled">NO</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-							</object>
 							<object class="IBUIImageView" id="354641081">
 								<reference key="NSNextResponder" ref="335049653"/>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{85, 174}, {150, 161}}</string>
 								<reference key="NSSuperview" ref="335049653"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<float key="IBUIAlpha">0.60000002384185791</float>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -112,7 +100,7 @@
 						<string key="NSFrameSize">{320, 548}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="499946988"/>
+						<reference key="NSNextKeyView"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC45NjU4NjAxNzIyIDAuOTY1ODYwMTcyMiAwLjk2NTg2MDE3MjIAA</bytes>
@@ -228,7 +216,6 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="354641081"/>
 							<reference ref="499407371"/>
-							<reference ref="499946988"/>
 						</array>
 						<reference key="parent" ref="774585933"/>
 					</object>
@@ -250,11 +237,6 @@
 						<reference key="object" ref="607139334"/>
 						<reference key="parent" ref="499407371"/>
 					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">329</int>
-						<reference key="object" ref="499946988"/>
-						<reference key="parent" ref="335049653"/>
-					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -264,7 +246,6 @@
 				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="316.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="325.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="329.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="40.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>

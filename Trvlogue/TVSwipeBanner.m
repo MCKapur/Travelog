@@ -15,9 +15,9 @@
 
     self.mode = _mode;
     
-    if (self.mode == kTVSwipeBannerModeMileTidbits && [_tidbits isEqualToArray:self.tidbits]) {
+    if (self.mode == kTVSwipeBannerModeMileTidbits && ![_tidbits isEqualToArray:self.tidbits]) {
         
-        self.tidbits = [TVMileTidbits getTidbitsFrom:[self.tidbits[0] doubleValue]];
+        self.tidbits = [TVMileTidbits getTidbitsFrom:[_tidbits[0] doubleValue]];
         
         for (UIView *subview in self.scrollView.subviews) {
             

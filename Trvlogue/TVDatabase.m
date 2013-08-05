@@ -772,15 +772,21 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     PFObject *object = [PFObject objectWithClassName:@"ProfilePictures"];
     object[@"photoId"] = [[PFUser currentUser] objectId];
     
-    PFFile *profilePictureFile = [PFFile fileWithData:UIImageJPEGRepresentation(profilePicture, 1.0)];
+    CGSize newSize = CGSizeMake(profilePicture.size.width * 0.25, profilePicture.size.height * 0.25);
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [profilePicture drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *small = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    PFFile *profilePictureFile = [PFFile fileWithData:UIImageJPEGRepresentation(small, 1.0)];
     object[@"profilePicture"] = profilePictureFile;
-    
+        
     PFACL *photoACL = [PFACL ACLWithUser:[PFUser currentUser]];
     [photoACL setPublicReadAccess:YES];
     [photoACL setPublicWriteAccess:NO];
     object.ACL = photoACL;
     
-    [object saveEventually];
+    [object saveInBackground];
 }
 
 + (void)updateProfilePicture:(UIImage *)profilePicture withObjectId:(NSString *)objectId withCompletionHandler:(void (^)(BOOL succeeded, NSError *error, NSString *callCode))callback {
@@ -798,10 +804,16 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         
         if (!error) {
             
-            PFFile *updatedProfilePictureFile = [PFFile fileWithData:UIImageJPEGRepresentation(profilePicture, 1.0)];
-            objects[0][@"profilePicture"] = updatedProfilePictureFile;
+            CGSize newSize = CGSizeMake(profilePicture.size.width * 0.25, profilePicture.size.height * 0.25);
+            UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+            [profilePicture drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+            UIImage *small = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+
+            PFFile *profilePictureFile = [PFFile fileWithData:UIImageJPEGRepresentation(small, 1.0)];
+            objects[0][@"profilePicture"] = profilePictureFile;
             
-            [objects[0] saveEventually:^(BOOL succeeded, NSError *error) {
+            [objects[0] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 
                 callbackError = error;
                 success = succeeded;
@@ -847,7 +859,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     [flightACL setPublicWriteAccess:NO];
     flightsObject.ACL = flightACL;
 
-    [flightsObject saveEventually];
+    [flightsObject saveInBackground];
 }
 
 + (void)updateFlights:(NSArray *)flights withObjectId:(NSString *)objectId {
@@ -899,7 +911,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     operationCount++;
         
     callback(account, operationCount == totalOperations ? YES : NO, profilePictureWritten);
-        
+    
     [TVDatabase downloadFlightsWithObjectIds:[NSArray arrayWithObject:[object objectId]] withCompletionHandler:^(NSError *error, NSMutableArray *flights) {
         
         if (!error && flights) {
@@ -1167,7 +1179,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
             [ACL setPublicReadAccess:YES];
             [ACL setPublicWriteAccess:NO];
             [PFUser currentUser].ACL = ACL;
-            [[PFUser currentUser] save];
+            [[PFUser currentUser] saveInBackground];
                         
             [TVDatabase uploadFlights:trvlogueAccount.flights withObjectId:[[PFUser currentUser] objectId]];
             [TVDatabase uploadProfilePicture:profilePicture withObjectId:[[PFUser currentUser] objectId]];
