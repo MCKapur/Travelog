@@ -84,7 +84,7 @@ NSString *const EMAIL_TAKEN = @"202";
     
     [currentInstallation setDeviceTokenFromData:deviceToken];
     currentInstallation[@"objectId"] = [[PFUser currentUser] objectId];
-    [currentInstallation saveInBackground];
+    [currentInstallation saveEventually];
 }
 
 + (void)recievedLocalNotification:(NSDictionary *)userInfo {
@@ -96,13 +96,13 @@ NSString *const EMAIL_TAKEN = @"202";
     
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     currentInstallation[@"objectId"] = [[PFUser currentUser] objectId];
-    [currentInstallation saveInBackground];
+    [currentInstallation saveEventually];
 }
 
 + (void)removePushNotificationsSetup {
     
     [PFInstallation currentInstallation][@"objectId"] = @"";
-    [[PFInstallation currentInstallation] saveInBackground];
+    [[PFInstallation currentInstallation] saveEventually];
 }
 
 #pragma mark Randomizers
@@ -531,7 +531,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     [connectACL setPublicWriteAccess:YES];
     connection.ACL = connectACL;
     
-    [connection saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    [connection saveEventually:^(BOOL succeeded, NSError *error) {
         
         if (!error && succeeded) {
             
@@ -662,7 +662,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                 
                 activity[@"status"] = @(kConnectRequestAccepted);
                 
-                [activity saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                [activity saveEventually:^(BOOL succeeded, NSError *error) {
                     
                     if (succeeded && !error) {
                         
@@ -780,7 +780,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     [photoACL setPublicWriteAccess:NO];
     object.ACL = photoACL;
     
-    [object saveInBackground];
+    [object saveEventually];
 }
 
 + (void)updateProfilePicture:(UIImage *)profilePicture withObjectId:(NSString *)objectId withCompletionHandler:(void (^)(BOOL succeeded, NSError *error, NSString *callCode))callback {
@@ -801,7 +801,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
             PFFile *updatedProfilePictureFile = [PFFile fileWithData:UIImageJPEGRepresentation(profilePicture, 1.0)];
             objects[0][@"profilePicture"] = updatedProfilePictureFile;
             
-            [objects[0] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            [objects[0] saveEventually:^(BOOL succeeded, NSError *error) {
                 
                 callbackError = error;
                 success = succeeded;
@@ -847,8 +847,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     [flightACL setPublicWriteAccess:NO];
     flightsObject.ACL = flightACL;
 
-    [flightsObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-    }];
+    [flightsObject saveEventually];
 }
 
 + (void)updateFlights:(NSArray *)flights withObjectId:(NSString *)objectId {
@@ -860,7 +859,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
        
         objects[0][@"flights"] = [NSKeyedArchiver archivedDataWithRootObject:flights];
         
-        [objects[0] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        [objects[0] saveEventually:^(BOOL succeeded, NSError *error) {
         }];
     }];
 }
@@ -1133,7 +1132,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         [[PFUser currentUser] setObject:attribute[@"value"] forKey:attribute[@"key"]];
     }
     
-    [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    [[PFUser currentUser] saveEventually:^(BOOL succeeded, NSError *error) {
         
         if (!error && succeeded) {
             
@@ -1168,7 +1167,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
             [ACL setPublicReadAccess:YES];
             [ACL setPublicWriteAccess:NO];
             [PFUser currentUser].ACL = ACL;
-            [[PFUser currentUser] saveInBackground];
+            [[PFUser currentUser] save];
                         
             [Database uploadFlights:trvlogueAccount.flights withObjectId:[[PFUser currentUser] objectId]];
             [Database uploadProfilePicture:profilePicture withObjectId:[[PFUser currentUser] objectId]];
