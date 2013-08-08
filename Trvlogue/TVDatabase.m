@@ -175,9 +175,6 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 
 + (NSMutableDictionary *)travelDataPacketWithID:(NSString *)_FlightID {
     
-    if (![NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"TravelDataPacket_%@", _FlightID]]])
-        NSLog(@"travel data");
-
     return [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"TravelDataPacket_%@", _FlightID]]];
 }
 
@@ -196,9 +193,6 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 }
 
 + (TVAccount *)nativeAccount {
-
-    if (![TVDatabase unarchiveAccount:[[NSUserDefaults standardUserDefaults] objectForKey:@"nativeAccount"]])
-        NSLog(@"native");
     
     return [TVDatabase unarchiveAccount:[[NSUserDefaults standardUserDefaults] objectForKey:@"nativeAccount"]];
 }
@@ -243,9 +237,6 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 
 + (TVAccount *)currentAccount {
     
-    if (![TVDatabase unarchiveAccount:[[NSUserDefaults standardUserDefaults] objectForKey:@"currentAccount"]])
-        NSLog(@"current");
-    
     return [TVDatabase unarchiveAccount:[[NSUserDefaults standardUserDefaults] objectForKey:@"currentAccount"]];
 }
 
@@ -256,7 +247,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+ (void)refreshAccount {
++ (void)refreshAccountWithCompletionHandler:(void (^)(BOOL completed))callback {
         
     [[PFUser currentUser] refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         
@@ -268,10 +259,12 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 
             if (allOperationsComplete) {
                 
+                callback(YES);
+                
                 dispatch_queue_t downloadQueue = dispatch_queue_create("Downloading travel data", NULL);
                 
                 dispatch_async(downloadQueue, ^{
-                    
+                                        
                     for (int i = [TVDatabase currentAccount].flights.count - 1; i >= 0; i--) {
                         
                         TVFlight *flight = [[TVDatabase currentAccount] flights][i];
@@ -362,7 +355,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                 }
                 else {
                     
-                    TVFlight *flight = [[[TVDatabase currentAccount] flights] objectAtIndex:indexOfOurFlight - 1];
+                    TVFlight *flight = [[TVDatabase currentAccount] flights][indexOfOurFlight - 1];
                     
                     self_dayLeaves = [[flight date] timeIntervalSinceReferenceDate];
                 }
@@ -420,7 +413,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                             
                             if (hasWrittenProfilePicture) {
                                 
-                                callback([[NSArray arrayWithObject:account.person] mutableCopy], nil, nil);
+                                callback([@[account.person] mutableCopy], nil, nil);
                             }
                         }];
                     }
@@ -432,7 +425,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                                 
                                 if (hasWrittenProfilePicture) {
                                     
-                                    callback([[NSArray arrayWithObject:account.person] mutableCopy], nil, nil);
+                                    callback([@[account.person] mutableCopy], nil, nil);
                                 }
                             }];
                         }
@@ -451,7 +444,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     PFQuery *connectQuery2 = [PFQuery queryWithClassName:@"Connections"];
     [connectQuery2 whereKey:@"to" equalTo:[[PFUser currentUser] objectId]];
 
-    PFQuery *connectQuery = [PFQuery orQueryWithSubqueries:[NSArray arrayWithObjects:connectQuery1, connectQuery2, nil]];
+    PFQuery *connectQuery = [PFQuery orQueryWithSubqueries:@[connectQuery1, connectQuery2]];
     
     [connectQuery setCachePolicy:kPFCachePolicyNetworkElseCache];
 
@@ -564,7 +557,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     [query2 whereKey:@"to" equalTo:[[PFUser currentUser] objectId]];
     [query2 whereKey:@"from" equalTo:userId];
     
-    PFQuery *masterQuery = [PFQuery orQueryWithSubqueries:[NSArray arrayWithObjects:query, query2, nil]];
+    PFQuery *masterQuery = [PFQuery orQueryWithSubqueries:@[query, query2]];
     
     [masterQuery setCachePolicy:kPFCachePolicyNetworkOnly];
     
@@ -624,7 +617,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         
     [connection setStatus:(ConnectRequestStatus *)kConnectRequestAccepted];
         
-    [[[account person] connections] replaceObjectAtIndex:index withObject:connection];
+    [[account person] connections][index] = connection;
     
     BOOL oneNotificationDeleted = NO;
     int notificationIndex;
@@ -851,8 +844,8 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 + (void)uploadFlights:(NSArray *)flights withObjectId:(NSString *)objectId {
     
     PFObject *flightsObject = [PFObject objectWithClassName:@"Flights"];
-    [flightsObject setObject:[NSKeyedArchiver archivedDataWithRootObject:flights] forKey:@"flights"];
-    [flightsObject setObject:objectId forKey:@"flightId"];
+    flightsObject[@"flights"] = [NSKeyedArchiver archivedDataWithRootObject:flights];
+    flightsObject[@"flightId"] = objectId;
     
     PFACL *flightACL = [PFACL ACLWithUser:[PFUser currentUser]];
     [flightACL setPublicReadAccess:YES];
@@ -912,7 +905,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         
     callback(account, operationCount == totalOperations ? YES : NO, profilePictureWritten);
     
-    [TVDatabase downloadFlightsWithObjectIds:[NSArray arrayWithObject:[object objectId]] withCompletionHandler:^(NSError *error, NSMutableArray *flights) {
+    [TVDatabase downloadFlightsWithObjectIds:@[[object objectId]] withCompletionHandler:^(NSError *error, NSMutableArray *flights) {
         
         if (!error && flights) {
             
@@ -947,7 +940,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         callback(account, operationCount == totalOperations ? YES : NO, profilePictureWritten);
     }];
     
-    [TVDatabase downloadProfilePicturesWithObjectIds:[NSArray arrayWithObject:[object objectId]] withCompletionHandler:^(NSError *error, UIImage *profilePic) {
+    [TVDatabase downloadProfilePicturesWithObjectIds:@[[object objectId]] withCompletionHandler:^(NSError *error, UIImage *profilePic) {
                 
         if (!error && profilePic) {
         }
@@ -1141,7 +1134,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     
     for (NSDictionary *attribute in [self attributesWithAccount:accountObj]) {
         
-        [[PFUser currentUser] setObject:attribute[@"value"] forKey:attribute[@"key"]];
+        [PFUser currentUser][attribute[@"key"]] = attribute[@"value"];
     }
     
     [[PFUser currentUser] saveEventually:^(BOOL succeeded, NSError *error) {
@@ -1168,7 +1161,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     
     for (NSDictionary *attribute in [self attributesWithAccount:trvlogueAccount]) {
         
-        [user setObject:attribute[@"value"] forKey:attribute[@"key"]];
+        user[attribute[@"key"]] = attribute[@"value"];
     }
     
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {

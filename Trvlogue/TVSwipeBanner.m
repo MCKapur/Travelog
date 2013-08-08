@@ -15,31 +15,36 @@
 
     self.mode = _mode;
     
-    if (self.mode == kTVSwipeBannerModeMileTidbits && ![_tidbits isEqualToArray:self.tidbits]) {
+    if (self.mode == kTVSwipeBannerModeMileTidbits) {
         
-        self.tidbits = [TVMileTidbits getTidbitsFrom:[_tidbits[0] doubleValue]];
-        
-        for (UIView *subview in self.scrollView.subviews) {
+        if (![_tidbits isEqualToArray:self.tidbits]) {
             
-            [subview removeFromSuperview];
-        }
-        
-        self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * self.tidbits.count, self.scrollView.frame.size.height);
-        
-        for (int i = 0; i <= self.tidbits.count - 1; i++) {
+            self.tidbits = [TVMileTidbits getTidbitsFrom:[_tidbits[0] doubleValue]];
             
-            UILabel *tidbitLabel = [[UILabel alloc] initWithFrame:CGRectMake(320 * i, 0, 320, 21)];
-            tidbitLabel.backgroundColor = [UIColor clearColor];
-            tidbitLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15.0];
-            tidbitLabel.textColor = [UIColor whiteColor];
-            tidbitLabel.textAlignment = NSTextAlignmentCenter;
-            [tidbitLabel setText:[NSString stringWithFormat:@"%@ %@", [TVMileTidbits formatTidbit:[self.tidbits[i][@"value"] doubleValue]], self.tidbits[i][@"name"]]];
+            for (UIView *subview in self.scrollView.subviews) {
+                
+                [subview removeFromSuperview];
+            }
             
-            [self.scrollView addSubview:tidbitLabel];
+            self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * self.tidbits.count, self.scrollView.frame.size.height);
+            
+            for (int i = 0; i <= self.tidbits.count - 1; i++) {
+                
+                UILabel *tidbitLabel = [[UILabel alloc] initWithFrame:CGRectMake(320 * i, 0, 320, 21)];
+                tidbitLabel.backgroundColor = [UIColor clearColor];
+                tidbitLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15.0];
+                tidbitLabel.textColor = [UIColor whiteColor];
+                tidbitLabel.textAlignment = NSTextAlignmentCenter;
+                [tidbitLabel setText:[NSString stringWithFormat:@"%@ %@", [TVMileTidbits formatTidbit:[self.tidbits[i][@"value"] doubleValue]], self.tidbits[i][@"name"]]];
+                
+                [self.scrollView addSubview:tidbitLabel];
+            }
         }
     }
     else {
-             
+     
+        self.tidbits = [[NSMutableArray alloc] init];
+        
         for (UIView *subview in self.scrollView.subviews) {
             
             [subview removeGestureRecognizer:[subview gestureRecognizers][0]];
@@ -48,36 +53,66 @@
 
         self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * _tidbits.count, self.scrollView.frame.size.height);
         
-        for (int i = 0; i <= _tidbits.count - 1; i++) {
+        if (_tidbits.count) {
             
-            [self addTravelInfoTidbit:self.tidbits[i]];
+            for (int i = 0; i <= _tidbits.count - 1; i++) {
+                
+                [self addTravelInfoTidbit:_tidbits[i]];
+            }
         }
     }
 }
 
-- (void)addTravelInfoTidbit:(NSDictionary *)tidbit {
+- (void)addTravelInfoTidbit:(NSDictionary *)_tidbit {
     
-    [self.tidbits addObject:tidbit];
+    BOOL isDrawn = NO;
     
-    UILabel *tidbitLabel = [[UILabel alloc] initWithFrame:CGRectMake(320 * self.tidbits.count - 1, 0, 320, 21)];
-    tidbitLabel.backgroundColor = [UIColor clearColor];
-    tidbitLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15.0];
-    tidbitLabel.textColor = [UIColor whiteColor];
-    tidbitLabel.textAlignment = NSTextAlignmentCenter;
-    [tidbitLabel setText:tidbit[@"body"]];
-    [tidbitLabel setAccessibilityIdentifier:tidbit[@"ID"]];
-    
-    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickedTravelTidbit:)];
-    [recognizer setNumberOfTapsRequired:1];
+    for (NSMutableDictionary *tidbit in self.tidbits) {
         
-    [tidbitLabel addGestureRecognizer:recognizer];
+        if ([tidbit[@"ID"] isEqualToString:_tidbit[@"ID"]]) {
+            
+            isDrawn = YES;
+        }
+    }
     
-    [self.scrollView addSubview:tidbitLabel];
+    if (isDrawn) {
+        
+        for (UILabel *tidbitLabel in self.subviews) {
+            
+            if ([tidbitLabel.accessibilityIdentifier isEqualToString:_tidbit[@"ID"]]) {
+                
+                [tidbitLabel setText:_tidbit[@"body"]];
+            }
+        }
+    }
+    else {
+        
+        [self.tidbits addObject:_tidbit];
+        
+        self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * self.tidbits.count, self.scrollView.frame.size.height);
+        
+        UILabel *tidbitLabel = [[UILabel alloc] initWithFrame:CGRectMake((320 * (self.tidbits.count - 1)) + 8, 0, 320, 50)];
+        tidbitLabel.backgroundColor = [UIColor clearColor];
+        tidbitLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15.0];
+        tidbitLabel.textColor = [UIColor whiteColor];
+        tidbitLabel.textAlignment = NSTextAlignmentLeft;
+        tidbitLabel.userInteractionEnabled = YES;
+        tidbitLabel.numberOfLines = 2;
+        [tidbitLabel setText:_tidbit[@"body"]];
+        [tidbitLabel setAccessibilityIdentifier:_tidbit[@"ID"]];
+
+        UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickedTravelTidbit:)];
+        [recognizer setNumberOfTapsRequired:1];
+        
+        [tidbitLabel addGestureRecognizer:recognizer];
+
+        [self.scrollView addSubview:tidbitLabel];
+    }
 }
 
 - (void)clickedTravelTidbit:(UITapGestureRecognizer *)gr {
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:[NSString stringWithFormat:@"TidbitClicked_%@", [[gr view] accessibilityIdentifier]] object:nil userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"TidbitClicked" object:nil userInfo:@{@"ID": [[gr view] accessibilityIdentifier]}];
 }
 
 - (void)scroll {
@@ -90,9 +125,12 @@
     }
     else {
         
-        [self.scrollView scrollRectToVisible:CGRectMake(0, 0, 320, 21) animated:YES];
-        
-        self.page = 0;
+        if (mode == kTVSwipeBannerModeMileTidbits) {
+            
+            [self.scrollView scrollRectToVisible:CGRectMake(0, 0, 320, 21) animated:YES];
+            
+            self.page = 0;
+        }
     }
 }
 
@@ -124,7 +162,7 @@
         
         self.backgroundColor = ((TVAppDelegate *)[[UIApplication sharedApplication] delegate]).backgroundColor;
         
-        self.scrollView = [[UIScrollView alloc] initWithFrame:frame];
+        self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         self.scrollView.backgroundColor = [UIColor clearColor];
         self.scrollView.pagingEnabled = YES;
         self.scrollView.showsHorizontalScrollIndicator = NO;

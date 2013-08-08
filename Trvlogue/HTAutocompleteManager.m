@@ -216,7 +216,7 @@ static HTAutocompleteManager *sharedManager;
             // If no domain is entered, use the first domain in the list
             if ([(NSString *)textComponents[1] length] == 0)
             {
-                return [autocompleteArray objectAtIndex:0];
+                return autocompleteArray[0];
             }
             
             NSString *textAfterAtSign = textComponents[1];

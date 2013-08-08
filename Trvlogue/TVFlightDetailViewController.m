@@ -15,7 +15,7 @@
 
 @implementation TVFlightDetailViewController
 
-@synthesize FlightID, travelMap, lastUpdatedLabel, newsTableView, weatherTableView, peopleTableView, weatherTimestamp;
+@synthesize FlightID, travelMap, travelInfoBanner, newsTableView, weatherTableView, peopleTableView, weatherTimestamp;
 
 - (void)handleError:(NSError *)error andType:(NSString *)type {
     
@@ -32,11 +32,19 @@
 - (IBAction)changedSegmentedControl:(UISegmentedControl *)sender {
 }
 
+- (void)tidbitClicked:(NSNotification *)notification {
+    
+}
+
 #pragma mark TrvlogueFlight-TravelData Delegate
 
 - (void)travelDataUpdated:(NSNotification *)notification {
+    
+    NSLog(@"%@", [self travelData]);
 
     TravelDataTypes *dataType = (TravelDataTypes *)[notification.userInfo[@"dataType"] intValue];
+
+    [self initializeInfoWithType:(int)dataType];
     
     if ((int)dataType == kTravelDataPeople) {
         
@@ -53,8 +61,8 @@
         [self.weatherTableView reloadData];
         [self.weatherTableView setNeedsDisplay];
     }
-
-    [self initializeInfoWithType:(int)dataType];
+    
+    [self pollForTravelInfoBanner];
 }
 
 #pragma mark Table View Methods
@@ -104,7 +112,7 @@
             cell.profilePicture.image = [person getProfilePic];
             cell.name.text = person.name;
             
-            gridConvert[[NSString stringWithFormat:@"(%i,%i)",rowIndex,columnIndex]] = @(gridNumber);
+            gridConvert[[NSString stringWithFormat:@"(%i,%i)", rowIndex, columnIndex]] = @(gridNumber);
             gridNumber++;
         }
     }
@@ -171,7 +179,7 @@
                                     
         if (cell == nil) {
                 
-            NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"NewsCell" owner:self options:nil];
+            NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"TVNewsCell" owner:self options:nil];
                 
             for (UIView *view in views) {
                     
@@ -307,272 +315,380 @@
 #pragma mark Info Updates
 
 - (void)initializeInfoWithType:(int)dataType {
-    
-    if (dataType != 200) {
+
+    if ([[self travelData][@"currency"] count] || dataType == kTravelDataCurrency) {
         
-        if ([[self travelData][@"currency"] count] && dataType == kTravelDataCurrency) {
+        NSMutableDictionary *currency = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"currency"], @"data", @"Currency", @"name", nil];
+        
+        currency[@"accessoryType"] = @(UITableViewCellAccessoryNone);
+        
+        if ([self travelData][@"currency"][@"o->d"]) {
             
-            NSMutableDictionary *currency = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"currency"], @"data", @"Currency", @"name", nil];
+            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+            [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+            [formatter setMaximumFractionDigits:2];
             
-            currency[@"accessoryType"] = @(UITableViewCellAccessoryNone);
+            NSString *formattedNumber = [formatter stringFromNumber:[self travelData][@"currency"][@"o->d"]];
             
-            if ([self travelData][@"currency"][@"o->d"]) {
-                
-                NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-                [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-                [formatter setMaximumFractionDigits:2];
-                
-                NSString *formattedNumber = [formatter stringFromNumber:[self travelData][@"currency"][@"o->d"]];
-                
-                currency[@"detail"] = [NSString stringWithFormat:@"One %@ is %@ %@", [self travelData][@"currency"][@"originCurrency"], formattedNumber, [self travelData][@"currency"][@"destinationCurrency"]];
-            }
-            
-            [info addObject:currency];
+            currency[@"detail"] = [NSString stringWithFormat:@"One %@ is %@ %@", [self travelData][@"currency"][@"originCurrency"], formattedNumber, [self travelData][@"currency"][@"destinationCurrency"]];
         }
         
-        if ([[self travelData][@"languages"] count] && dataType == kTravelDataLanguagesSpoken) {
-            
-            NSMutableDictionary *languages_ = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"languages"], @"data", @"Languages", @"name", nil];
-            
-            NSMutableString *detail = [[NSMutableString alloc] init];
-            
-            for (int i = 0; i <= [[self travelData][@"languages"] count] - 1; i++) {
-                
-                [detail appendFormat:@"%@", [self travelData][@"languages"][i][@"name"]];
-                
-                if (i != [[self travelData][@"languages"] count] - 1) {
-                    
-                    [detail appendString:@", "];
-                }
-            }
-            
-            languages_[@"detail"] = detail;
-            
-            BOOL hasTranslations = NO;
-            
-            languages_[@"accessoryType"] = @(UITableViewCellAccessoryNone);
-            
-            for (NSMutableDictionary *dictionary in [self travelData][@"languages"]) {
-                
-                if (dictionary[@"translations"]) {
-                    
-                    hasTranslations = YES;
-                    
-                    break;
-                }
-            }
-            
-            if (hasTranslations) {
-                
-                languages_[@"accessoryType"] = @(UITableViewCellAccessoryDisclosureIndicator);
-            }
-            
-            [info addObject:languages_];
-        }
-        
-        if ([[self travelData][@"timezone"] count] && dataType == kTravelDataTimezone) {
-            
-            NSMutableDictionary *timezone = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"timezone"], @"data", @"Timezone", @"name", @(UITableViewCellAccessoryNone), @"accessoryType", nil];
-            
-            NSString *currentOffset = [self travelData][@"timezone"][@"currentOffsetString"];
-            
-            NSString *sub = nil;
-            
-            if ([currentOffset floatValue] > 0) {
-                
-                sub = @"ahead of";
-            }
-            else {
-                
-                sub = @"behind";
-            }
-            
-            NSString *detail = [NSString stringWithFormat:@"%@ is %@ hours %@ you", [TVDatabase flightFromID:self.FlightID] .destinationCity, currentOffset, sub];
-            
-            detail = [detail stringByReplacingOccurrencesOfString:@".0" withString:@""];
-            detail = [detail stringByReplacingOccurrencesOfString:@"-" withString:@""];
-            detail = [detail stringByReplacingOccurrencesOfString:@"+" withString:@""];
-            
-            timezone[@"detail"] = detail;
-            
-            [info addObject:timezone];
-        }
-        
-        if ([[self travelData][@"plugs"] count] && dataType == kTravelDataPlug) {
-            
-            NSMutableDictionary *plugs = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"plugs"], @"data", @"Plugs", @"name", @(UITableViewCellAccessoryDisclosureIndicator), @"accessoryType", nil];
-            
-            plugs[@"detail"] = [self travelData][@"plugs"][@"plugs"];
-            [info addObject:plugs];
-        }
-        
-        if ([[self travelData][@"facts"] count] && dataType == kTravelDataFacts) {
-            
-            NSMutableDictionary *facts = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"facts"], @"data", @"Fun Facts", @"name", @(UITableViewCellAccessoryDisclosureIndicator), @"accessoryType", nil];
-            
-            facts[@"detail"] = [self travelData][@"facts"][0];
-            
-            [info addObject:facts];
-        }
+        info[@"currency"] = currency;
     }
-    else {
+    
+    if ([[self travelData][@"languages"] count] || dataType == kTravelDataLanguagesSpoken) {
         
-        if ([[self travelData][@"currency"] count]) {
+        NSMutableDictionary *languages_ = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"languages"], @"data", @"Languages", @"name", nil];
+        
+        NSMutableString *detail = [[NSMutableString alloc] init];
+        
+        for (int i = 0; i <= [[self travelData][@"languages"] count] - 1; i++) {
             
-            NSMutableDictionary *currency = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"currency"], @"data", @"Currency", @"name", nil];
+            [detail appendFormat:@"%@", [self travelData][@"languages"][i][@"name"]];
             
-            currency[@"accessoryType"] = @(UITableViewCellAccessoryNone);
-            
-            if ([self travelData][@"currency"][@"o->d"]) {
+            if (i != [[self travelData][@"languages"] count] - 1) {
                 
-                NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-                [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-                [formatter setMaximumFractionDigits:2];
-                
-                NSString *formattedNumber = [formatter stringFromNumber:[self travelData][@"currency"][@"o->d"]];
-                
-                currency[@"detail"] = [NSString stringWithFormat:@"One %@ is %@ %@", [self travelData][@"currency"][@"originCurrency"], formattedNumber, [self travelData][@"currency"][@"destinationCurrency"]];
+                [detail appendString:@", "];
             }
-            
-            [info addObject:currency];
         }
         
-        if ([[self travelData][@"languages"] count]) {
+        languages_[@"detail"] = detail;
+        
+        BOOL hasTranslations = NO;
+        
+        languages_[@"accessoryType"] = @(UITableViewCellAccessoryNone);
+        
+        for (NSMutableDictionary *dictionary in [self travelData][@"languages"]) {
             
-            NSMutableDictionary *languages = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"languages"], @"data", @"Languages", @"name", nil];
-            
-            NSMutableString *detail = [[NSMutableString alloc] init];
-            
-            for (int i = 0; i <= [[self travelData][@"languages"] count] - 1; i++) {
+            if (dictionary[@"translations"]) {
                 
-                [detail appendFormat:@"%@", [self travelData][@"languages"][i][@"name"]];
+                hasTranslations = YES;
                 
-                if (i != [[self travelData][@"languages"] count] - 1) {
-                    
-                    [detail appendString:@", "];
-                }
+                break;
             }
-            
-            languages[@"detail"] = detail;
-            
-            BOOL hasTranslations = NO;
-            
-            languages[@"accessoryType"] = @(UITableViewCellAccessoryNone);
-            
-            for (NSMutableDictionary *dictionary in [self travelData][@"languages"]) {
-                
-                if (dictionary[@"translations"]) {
-                    
-                    hasTranslations = YES;
-                    
-                    break;
-                }
-            }
-            
-            if (hasTranslations) {
-                
-                languages[@"accessoryType"] = @(UITableViewCellAccessoryDisclosureIndicator);
-            }
-            
-            [info addObject:languages];
         }
         
-        if ([[self travelData][@"timezone"] count]) {
+        if (hasTranslations) {
             
-            NSMutableDictionary *timezone = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"timezone"], @"data", @"Timezone", @"name", @(UITableViewCellAccessoryNone), @"accessoryType", nil];
+            languages_[@"accessoryType"] = @(UITableViewCellAccessoryDisclosureIndicator);
+        }
+        
+        info[@"languages_"] = languages_;
+    }
+    
+    if ([[self travelData][@"timezone"] count] || dataType == kTravelDataTimezone) {
+        
+        NSMutableDictionary *timezone = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"timezone"], @"data", @"Timezone", @"name", @(UITableViewCellAccessoryNone), @"accessoryType", nil];
+        
+        NSString *currentOffset = [self travelData][@"timezone"][@"currentOffsetString"];
+        
+        NSString *sub = nil;
+        
+        if ([currentOffset floatValue] > 0) {
             
-            NSString *currentOffset = [self travelData][@"timezone"][@"currentOffsetString"];
-            
-            NSString *sub = nil;
-            
-            if ([currentOffset floatValue] > 0) {
-                
-                sub = @"ahead of";
-            }
-            else {
-                
-                sub = @"behind";
-            }
-            
-            NSString *detail = [NSString stringWithFormat:@"%@ is %@ hours %@ you", [TVDatabase flightFromID:self.FlightID] .destinationCity, currentOffset, sub];
-            
-            detail = [detail stringByReplacingOccurrencesOfString:@".0" withString:@""];
-            detail = [detail stringByReplacingOccurrencesOfString:@"-" withString:@""];
-            detail = [detail stringByReplacingOccurrencesOfString:@"+" withString:@""];
-            
-            timezone[@"detail"] = detail;
-            
-            [info addObject:timezone];
+            sub = @"ahead of";
         }
         else {
             
+            sub = @"behind";
         }
         
-        if ([[self travelData][@"plugs"] count]) {
+        NSString *detail = [NSString stringWithFormat:@"%@ is %@ hours %@ you", [TVDatabase flightFromID:self.FlightID].destinationCity, currentOffset, sub];
+        
+        detail = [detail stringByReplacingOccurrencesOfString:@".0" withString:@""];
+        detail = [detail stringByReplacingOccurrencesOfString:@"-" withString:@""];
+        detail = [detail stringByReplacingOccurrencesOfString:@"+" withString:@""];
+        
+        if ([currentOffset intValue] == 0) {
             
-            NSMutableDictionary *plugs = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"plugs"], @"data", @"Plugs", @"name", @(UITableViewCellAccessoryDisclosureIndicator), @"accessoryType", nil];
-            
-            plugs[@"detail"] = [self travelData][@"plugs"][@"plugs"];
-            [info addObject:plugs];
+            detail = [NSString stringWithFormat:@"%@ has the same timezone as you", [TVDatabase flightFromID:self.FlightID].destinationCity];
         }
         
-        if ([[self travelData][@"facts"] count] && dataType == kTravelDataFacts) {
-            
-            NSMutableDictionary *facts = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"facts"], @"data", @"Fun Facts", @"name", @(UITableViewCellAccessoryDisclosureIndicator), @"accessoryType", nil];
-            
-            facts[@"detail"] = [self travelData][@"facts"][0];
-            
-            [info addObject:facts];
-        }
+        timezone[@"detail"] = detail;
+        
+        info[@"timezone"] = timezone;
+    }
+    
+    if ([[self travelData][@"plugs"] count] || dataType == kTravelDataPlug) {
+        
+        NSMutableDictionary *plugs = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"plugs"], @"data", @"Plugs", @"name", @(UITableViewCellAccessoryDisclosureIndicator), @"accessoryType", nil];
+
+        plugs[@"detail"] = [NSString stringWithFormat:@"The plug socket sizes are: %@ - voltage is %@ and frequency is %@. Click to see images.", [self travelData][@"plugs"][@"plugs"], [self travelData][@"plugs"][@"voltage"], [self travelData][@"plugs"][@"frequency"]];
+        info[@"plugs"] = plugs;
+    }
+    
+    if ([[self travelData][@"facts"] count] || dataType == kTravelDataFacts) {
+        
+        NSMutableDictionary *facts = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"facts"], @"data", @"Fun Facts", @"name", @(UITableViewCellAccessoryDisclosureIndicator), @"accessoryType", nil];
+        
+        facts[@"detail"] = [self travelData][@"facts"][0];
+        
+        info[@"facts"] = facts;
     }
 }
+
+/*    if (dataType != 200) {
+ 
+ if ([[self travelData][@"currency"] count] && dataType == kTravelDataCurrency) {
+ 
+ NSMutableDictionary *currency = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"currency"], @"data", @"Currency", @"name", nil];
+ 
+ currency[@"accessoryType"] = @(UITableViewCellAccessoryNone);
+ 
+ if ([self travelData][@"currency"][@"o->d"]) {
+ 
+ NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+ [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+ [formatter setMaximumFractionDigits:2];
+ 
+ NSString *formattedNumber = [formatter stringFromNumber:[self travelData][@"currency"][@"o->d"]];
+ 
+ currency[@"detail"] = [NSString stringWithFormat:@"One %@ is %@ %@", [self travelData][@"currency"][@"originCurrency"], formattedNumber, [self travelData][@"currency"][@"destinationCurrency"]];
+ }
+ 
+ info[@"currency"] = currency;
+ }
+ 
+ if ([[self travelData][@"languages"] count] && dataType == kTravelDataLanguagesSpoken) {
+ 
+ NSMutableDictionary *languages_ = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"languages"], @"data", @"Languages", @"name", nil];
+ 
+ NSMutableString *detail = [[NSMutableString alloc] init];
+ 
+ for (int i = 0; i <= [[self travelData][@"languages"] count] - 1; i++) {
+ 
+ [detail appendFormat:@"%@", [self travelData][@"languages"][i][@"name"]];
+ 
+ if (i != [[self travelData][@"languages"] count] - 1) {
+ 
+ [detail appendString:@", "];
+ }
+ }
+ 
+ languages_[@"detail"] = detail;
+ 
+ BOOL hasTranslations = NO;
+ 
+ languages_[@"accessoryType"] = @(UITableViewCellAccessoryNone);
+ 
+ for (NSMutableDictionary *dictionary in [self travelData][@"languages"]) {
+ 
+ if (dictionary[@"translations"]) {
+ 
+ hasTranslations = YES;
+ 
+ break;
+ }
+ }
+ 
+ if (hasTranslations) {
+ 
+ languages_[@"accessoryType"] = @(UITableViewCellAccessoryDisclosureIndicator);
+ }
+ 
+ info[@"languages_"] = languages_;
+ }
+ 
+ if ([[self travelData][@"timezone"] count] && dataType == kTravelDataTimezone) {
+ 
+ NSMutableDictionary *timezone = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"timezone"], @"data", @"Timezone", @"name", @(UITableViewCellAccessoryNone), @"accessoryType", nil];
+ 
+ NSString *currentOffset = [self travelData][@"timezone"][@"currentOffsetString"];
+ 
+ NSString *sub = nil;
+ 
+ if ([currentOffset floatValue] > 0) {
+ 
+ sub = @"ahead of";
+ }
+ else {
+ 
+ sub = @"behind";
+ }
+ 
+ NSString *detail = [NSString stringWithFormat:@"%@ is %@ hours %@ you", [TVDatabase flightFromID:self.FlightID] .destinationCity, currentOffset, sub];
+ 
+ detail = [detail stringByReplacingOccurrencesOfString:@".0" withString:@""];
+ detail = [detail stringByReplacingOccurrencesOfString:@"-" withString:@""];
+ detail = [detail stringByReplacingOccurrencesOfString:@"+" withString:@""];
+ 
+ timezone[@"detail"] = detail;
+ 
+ info[@"timezone"] = timezone;
+ }
+ 
+ if ([[self travelData][@"plugs"] count] && dataType == kTravelDataPlug) {
+ 
+ NSMutableDictionary *plugs = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"plugs"], @"data", @"Plugs", @"name", @(UITableViewCellAccessoryDisclosureIndicator), @"accessoryType", nil];
+ 
+ plugs[@"detail"] = [self travelData][@"plugs"][@"plugs"];
+ info[@"plugs"] = plugs;
+ }
+ 
+ if ([[self travelData][@"facts"] count] && dataType == kTravelDataFacts) {
+ 
+ NSMutableDictionary *facts = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"facts"], @"data", @"Fun Facts", @"name", @(UITableViewCellAccessoryDisclosureIndicator), @"accessoryType", nil];
+ 
+ facts[@"detail"] = [self travelData][@"facts"][0];
+ 
+ info[@"facts"] = facts;
+ }
+ }
+ else {
+ 
+ if ([[self travelData][@"currency"] count]) {
+ 
+ NSMutableDictionary *currency = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"currency"], @"data", @"Currency", @"name", nil];
+ 
+ currency[@"accessoryType"] = @(UITableViewCellAccessoryNone);
+ 
+ if ([self travelData][@"currency"][@"o->d"]) {
+ 
+ NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+ [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+ [formatter setMaximumFractionDigits:2];
+ 
+ NSString *formattedNumber = [formatter stringFromNumber:[self travelData][@"currency"][@"o->d"]];
+ 
+ currency[@"detail"] = [NSString stringWithFormat:@"One %@ is %@ %@", [self travelData][@"currency"][@"originCurrency"], formattedNumber, [self travelData][@"currency"][@"destinationCurrency"]];
+ }
+ 
+ info[@"currency"] = currency;
+ }
+ 
+ if ([[self travelData][@"languages"] count]) {
+ 
+ NSMutableDictionary *languages = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"languages"], @"data", @"Languages", @"name", nil];
+ 
+ NSMutableString *detail = [[NSMutableString alloc] init];
+ 
+ for (int i = 0; i <= [[self travelData][@"languages"] count] - 1; i++) {
+ 
+ [detail appendFormat:@"%@", [self travelData][@"languages"][i][@"name"]];
+ 
+ if (i != [[self travelData][@"languages"] count] - 1) {
+ 
+ [detail appendString:@", "];
+ }
+ }
+ 
+ languages[@"detail"] = detail;
+ 
+ BOOL hasTranslations = NO;
+ 
+ languages[@"accessoryType"] = @(UITableViewCellAccessoryNone);
+ 
+ for (NSMutableDictionary *dictionary in [self travelData][@"languages"]) {
+ 
+ if (dictionary[@"translations"]) {
+ 
+ hasTranslations = YES;
+ 
+ break;
+ }
+ }
+ 
+ if (hasTranslations) {
+ 
+ languages[@"accessoryType"] = @(UITableViewCellAccessoryDisclosureIndicator);
+ }
+ 
+ info[@"languages"] = languages;
+ }
+ 
+ if ([[self travelData][@"timezone"] count]) {
+ 
+ NSMutableDictionary *timezone = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"timezone"], @"data", @"Timezone", @"name", @(UITableViewCellAccessoryNone), @"accessoryType", nil];
+ 
+ NSString *currentOffset = [self travelData][@"timezone"][@"currentOffsetString"];
+ 
+ NSString *sub = nil;
+ 
+ if ([currentOffset floatValue] > 0) {
+ 
+ sub = @"ahead of";
+ }
+ else {
+ 
+ sub = @"behind";
+ }
+ 
+ NSString *detail = [NSString stringWithFormat:@"%@ is %@ hours %@ you", [TVDatabase flightFromID:self.FlightID] .destinationCity, currentOffset, sub];
+ 
+ detail = [detail stringByReplacingOccurrencesOfString:@".0" withString:@""];
+ detail = [detail stringByReplacingOccurrencesOfString:@"-" withString:@""];
+ detail = [detail stringByReplacingOccurrencesOfString:@"+" withString:@""];
+ 
+ timezone[@"detail"] = detail;
+ 
+ info[@"timezone"] = timezone;
+ }
+ 
+ if ([[self travelData][@"plugs"] count]) {
+ 
+ NSMutableDictionary *plugs = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"plugs"], @"data", @"Plugs", @"name", @(UITableViewCellAccessoryDisclosureIndicator), @"accessoryType", nil];
+ 
+ plugs[@"detail"] = [self travelData][@"plugs"][@"plugs"];
+ info[@"plugs"] = plugs;
+ }
+ 
+ if ([[self travelData][@"facts"] count] && dataType == kTravelDataFacts) {
+ 
+ NSMutableDictionary *facts = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"facts"], @"data", @"Fun Facts", @"name", @(UITableViewCellAccessoryDisclosureIndicator), @"accessoryType", nil];
+ 
+ facts[@"detail"] = [self travelData][@"facts"][0];
+ 
+ info[@"facts"] = facts;
+ }
+ }
+*/
 
 #pragma mark Map Methods
 
 - (void)updateMap {
-                
-    [self.travelMap setRegion:MKCoordinateRegionMakeWithDistance([TVDatabase flightFromID:self.FlightID].destinationCoordinate, 5000, 5000)];
+ 
+    [self.travelMap setRegion:MKCoordinateRegionMakeWithDistance([TVDatabase flightFromID:self.FlightID].destinationCoordinate, 10000, 10000)];
 }
 
 #pragma mark Operational Methods
 
 - (NSString *)generateDate:(NSDate *)date {
-    
+ 
     return [TVConversions convertDateToString:date withFormat:DAY_MONTH_YEAR];
 }
 
 - (IBAction)shareFlight {
-    
+ 
     NSArray *activityItems = @[[NSString stringWithFormat:@"Going from %@ to %@ on the %@. What about you?", [TVDatabase flightFromID:self.FlightID] .originCity, [TVDatabase flightFromID:self.FlightID] .destinationCity, [TVConversions convertDateToString:[TVDatabase flightFromID:self.FlightID] .date withFormat:DAY_MONTH]]];
-    
+ 
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
     activityViewController.excludedActivityTypes = @[UIActivityTypePostToWeibo, UIActivityTypeAssignToContact];
-    
+ 
     [self presentViewController:activityViewController animated:YES completion:NULL];
 }
 
 - (IBAction)deleteFlight {
-    
+ 
     [TVLoadingSignifier signifyLoading:@"Deleting this flight" duration:-1];
-    
+ 
     [self updateAccount];
 }
 
 - (void)updateAccount {
-    
+ 
     TVAccount *updatedAccount = [TVDatabase currentAccount];
     [updatedAccount deleteFlight:[TVDatabase flightFromID:self.FlightID]];
-    
+ 
     [TVDatabase updateMyAccount:updatedAccount withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
-        
+ 
         if (!error && success) {
-            
+ 
             [TVNotificationSignifier signifyNotification:@"Deleted the flight" forDuration:3];
-            
+ 
             [self.navigationController popViewControllerAnimated:YES];
         }
         else {
-            
+ 
             [self handleError:error andType:callCode];
         }
     }];
@@ -581,29 +697,29 @@
 #pragma mark Initialization
 
 - (id)init {
-    
+ 
     self = [super init];
-    
+ 
     if (self) {
-        
+ 
         gridConvert = [[NSMutableDictionary alloc] init];
-        
-        info = [[NSMutableArray alloc] init];
-        
+ 
+        info = [[NSMutableDictionary alloc] init];
+ 
         slideNames = [[NSMutableArray alloc] init];
         [slideNames addObject:@"People"];
         [slideNames addObject:@"News"];
         [slideNames addObject:@"Places"];
         [slideNames addObject:@"Weather"];
-        
+ 
         slideCount = 1;
     }
-    
+ 
     return self;
 }
 
 - (id)initWithTrvlogueFlightID:(NSString *)_FlightID {
-    
+ 
     self = [self init];
     
     if (self) {
@@ -630,68 +746,54 @@
     });
 }
 
+#pragma mark Swipe Banner
+
+- (void)pollForTravelInfoBanner {
+    
+    if ([info[@"currency"] count]) {
+        
+        [self.travelInfoBanner addTravelInfoTidbit:[NSMutableDictionary dictionaryWithObjectsAndKeys:info[@"currency"][@"detail"], @"body", @"Currency", @"ID", nil]];
+    }
+    
+    if ([info[@"plugs"] count]) {
+        
+        [self.travelInfoBanner addTravelInfoTidbit:[NSMutableDictionary dictionaryWithObjectsAndKeys:info[@"plugs"][@"detail"], @"body", @"Plugs", @"ID", nil]];
+    }
+    
+    NSLog(@"%@", [self.travelInfoBanner.subviews[0] subviews]);
+}
+
+- (void)addBanner {
+
+    self.travelInfoBanner = [[TVSwipeBanner alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 96, self.view.frame.size.width, 52)];
+    [self.view addSubview:self.travelInfoBanner];
+    [self.travelInfoBanner setTidbits:[NSMutableArray array] andMode:(TVSwipeBannerMode *)kTVSwipeBannerTravelInfo];
+        
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tidbitClicked:) name:[NSString stringWithFormat:@"TidbitClicked"] object:nil];
+    
+    [self pollForTravelInfoBanner];
+}
+
 #pragma mark Dirty, Funky, Native :I
-
-- (void)updateLastUpdatedLabel {
-    
-    NSNumberFormatter *milesFormatter = [[NSNumberFormatter alloc] init];
-    [milesFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-    milesFormatter.maximumFractionDigits = 0;
-    
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"hh:mm a"];
-    
-    NSLocale *twelveHourLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
-    [dateFormatter setLocale:twelveHourLocale];
-    
-    NSDateFormatter *dayFormatter = [[NSDateFormatter alloc] init];
-    [dayFormatter setDateFormat:@"EEEE"];
-    
-    NSDate *lastUpdated = [self travelData][@"lastUpdated"];
-    
-    NSString *formattedLastUpdated;
-    
-    if ([lastUpdated isToday]) {
-        
-        formattedLastUpdated = [NSString stringWithFormat:@"today at %@", [dateFormatter stringFromDate:lastUpdated]];
-    }
-    else if ([lastUpdated isYesterday]) {
-        
-        formattedLastUpdated = [NSString stringWithFormat:@"yesterday at %@", [dateFormatter stringFromDate:lastUpdated]];
-    }
-    else if ([lastUpdated isThisWeek] && ![lastUpdated isToday] && ![lastUpdated isYesterday]) {
-                
-        formattedLastUpdated = [NSString stringWithFormat:@"%@ at %@", [dayFormatter stringFromDate:lastUpdated],  [dateFormatter stringFromDate:lastUpdated]];
-    }
-    else if ([lastUpdated isLastWeek]) {
-        
-        formattedLastUpdated = [NSString stringWithFormat:@"last week %@ at %@", [dayFormatter stringFromDate:lastUpdated], [dateFormatter stringFromDate:lastUpdated]];
-    }
-    else if ([lastUpdated daysBeforeDate:[NSDate date]] > 7) {
-        
-        [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-        
-        formattedLastUpdated = [NSString stringWithFormat:@"%@ at %@", [dateFormatter stringFromDate:lastUpdated],  [dateFormatter stringFromDate:lastUpdated]];
-    }
-    
-    [self.lastUpdatedLabel setText:[NSString stringWithFormat:@"Updated %@", formattedLastUpdated]];
-}
-
-- (void)UIBuffer {
-    
-    [self updateLastUpdatedLabel];
-    [self updateMap];
-}
 
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:YES];
     
-    [self UIBuffer];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(travelDataUpdated:) name:[NSString stringWithFormat:@"TravelDataUpdated_%@", self.FlightID] object:nil];
     
     [TVDatabase isCreatingAnAccount:NO];
+    
+    [self.newsTableView reloadData];
+    [self.newsTableView setNeedsDisplay];
+    
+    [self.peopleTableView reloadData];
+    [self.peopleTableView setNeedsDisplay];
+    
+    [self.weatherTableView reloadData];
+    [self.weatherTableView setNeedsDisplay];
+    
+    [self updateMap];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -715,17 +817,17 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)UIBuffer {
+    
     infoScrollView.pagingEnabled = YES;
     infoScrollView.showsHorizontalScrollIndicator = NO;
     infoScrollView.showsVerticalScrollIndicator = NO;
     infoScrollView.scrollsToTop = NO;
     infoScrollView.delegate = self;
     infoScrollView.bounces = NO;
-
+    
     infoScrollView.contentSize = CGSizeMake(infoScrollView.frame.size.width * NUMBER_OF_SLIDES, infoScrollView.frame.size.height);
-
+    
     for (int i = 0; i <= NUMBER_OF_SLIDES - 1; i++) {
         
         NSString *slideName = slideNames[i];
@@ -743,13 +845,20 @@
     
     [self.view addSubview:infoView];
     
-    [infoView setFrame:CGRectMake(0, 29, infoView.frame.size.width, infoView.frame.size.height)];
+    [infoView setFrame:CGRectMake(0, 0, infoView.frame.size.width, infoView.frame.size.height)];
     
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareFlight)];
     
-    self.navigationItem.rightBarButtonItem = barButtonItem; 
+    self.navigationItem.rightBarButtonItem = barButtonItem;
     
     infoSegControl.selectedSegmentIndex = slideCount - 1;
+
+    [self addBanner];
+}
+
+- (void)viewDidLoad
+{
+    [self UIBuffer];
     
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.

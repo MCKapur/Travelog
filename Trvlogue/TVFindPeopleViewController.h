@@ -36,6 +36,6 @@ typedef enum {
 @property (nonatomic, strong) NSMutableArray *people;
 @property (nonatomic, strong) NSMutableArray *users;
 
-@property (nonatomic, strong) IBOutlet UITableView *table;
+@property (nonatomic, weak) IBOutlet UITableView *table;
 
 @end

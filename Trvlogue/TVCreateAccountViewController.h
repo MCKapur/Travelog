@@ -24,18 +24,17 @@
 
 @interface TVCreateAccountViewController : UIViewController <UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 {
-    IBOutlet UITextField *nameTextField;
-    IBOutlet UITextField *originCityTextField;
-    IBOutlet UITextField *jobTextField;
-
-    TVDatabase *databaseOperator;
-            
+    __weak IBOutlet UITextField *firstNameTextField;
+    __weak IBOutlet UITextField *lastNameTextField;
+    __weak IBOutlet UITextField *originCityTextField;
+    __weak IBOutlet UITextField *jobTextField;
+    
     TVAccount *account;
     NSMutableArray *followingArray;
         
-    IBOutlet GIFBackground *gifImage;
+    __strong IBOutlet GIFBackground *gifImage;
 
-    IBOutlet UIImageView *profileImageView;
+    __weak IBOutlet UIImageView *profileImageView;
     
     NSDictionary *presetData;
 }

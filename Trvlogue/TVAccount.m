@@ -93,9 +93,9 @@
 
 - (NSMutableArray *)flights {
     
-    NSSortDescriptor *sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES];
-    [flights sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];
-    
+    NSSortDescriptor *sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO];
+    [flights sortUsingDescriptors:@[sortByDate]];
+
     return flights;
 }
 
@@ -123,13 +123,21 @@
         
         if ([flight.ID isEqualToString:_flight.ID]) {
             
-            self.person.miles -= flight.miles;
             [TVDatabase removeTravelDataPacketWithID:flight.ID];
             [indexesToRemove addIndex:i];
         }
     }
     
     [self.flights removeObjectsAtIndexes:indexesToRemove];
+    
+    double miles = 0.0;
+    
+    for (TVFlight *flight in self.flights) {
+        
+        miles += flight.miles;
+    }
+    
+    self.person.miles = miles;
 }
 
 - (NSString *)description {

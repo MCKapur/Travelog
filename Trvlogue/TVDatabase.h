@@ -119,12 +119,11 @@ typedef enum {
 + (TVAccount *)nativeAccount;
 + (TVAccount *)currentAccount;
 
-+ (void)refreshAccount;
-
 + (void)isCreatingAnAccount:(BOOL)creatingAnAccount;
 
 + (void)downloadUsersFromUserIds:(NSArray *)userIds withCompletionHandler:(void (^)(NSMutableArray *users, NSError *error, NSString *callCode))callback;
 + (void)getAccountFromUser:(PFUser *)object withCompletionHandler:(void (^)(TVAccount *account, BOOL allOperationsComplete, BOOL hasWrittenProfilePicture))callback;
++ (void)refreshAccountWithCompletionHandler:(void (^)(BOOL completed))callback;
 
 + (void)uploadAccount:(TVAccount *)trvlogueAccount withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;
 + (void)updateMyAccount:(TVAccount *)accountObj withCompletionHandler:(void (^)(BOOL succeeded, NSError *error, NSString *callCode))callback;

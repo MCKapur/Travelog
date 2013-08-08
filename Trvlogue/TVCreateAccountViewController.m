@@ -44,7 +44,6 @@
 @end
 
 @implementation TVCreateAccountViewController
-
 @synthesize accountDict;
 
 #pragma mark Extra Methods
@@ -224,7 +223,7 @@
         
         if ([location length] && !error) {
                         
-            self.accountDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:nameTextField.text, @"name", email, @"email", /*needs to be fixed*/password, @"password", followingArray, @"connections", milesNumber, @"miles", flightsArray, @"flights", [[NSMutableDictionary alloc] init], @"knownDestinationPreferences", location, @"originCity", [[NSMutableArray alloc] init], @"notifications", jobTextField.text, @"position", @(isUsingLinkedIn), @"isUsingLinkedIn", accessToken, @"linkedInAccessKey", linkedInId, @"linkedInId", nil];
+            self.accountDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%@ %@", firstNameTextField.text, lastNameTextField.text], @"name", email, @"email", /*needs to be fixed*/password, @"password", followingArray, @"connections", milesNumber, @"miles", flightsArray, @"flights", [[NSMutableDictionary alloc] init], @"knownDestinationPreferences", location, @"originCity", [[NSMutableArray alloc] init], @"notifications", jobTextField.text, @"position", @(isUsingLinkedIn), @"isUsingLinkedIn", accessToken, @"linkedInAccessKey", linkedInId, @"linkedInId", nil];
             
             account = [[TVAccount alloc] initWithProfile:self.accountDict];
             
@@ -482,20 +481,6 @@
         jobTextField.text = presetData[@"headline"];
         profileImageView.image = presetData[@"profilePic"];
     }
-    
-    for (UIView *view in self.view.subviews) {
-        
-        if ([view isKindOfClass:[UITextView class]]) {
-            
-            [[view layer] setCornerRadius:7.0f];
-            [[view layer] setMasksToBounds:YES];
-            [view setClipsToBounds:YES];
-        }
-    }
-    
-    [[profileImageView layer] setCornerRadius:7.0f];
-    [[profileImageView layer] setMasksToBounds:YES];
-    [profileImageView setClipsToBounds:YES];
     
     [gifImage animateGIF];
     

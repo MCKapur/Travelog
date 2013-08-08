@@ -41,13 +41,13 @@
 
 - (IBAction)linkedIn;
 
-@property (strong, nonatomic) IBOutlet UIButton *loginButton;
-@property (strong, nonatomic) IBOutlet UILabel *trvlogueLabel;
-@property (strong, nonatomic) IBOutlet UILabel *loginLabel;
+@property (weak, nonatomic) IBOutlet UIButton *loginButton;
+@property (weak, nonatomic) IBOutlet UILabel *trvlogueLabel;
+@property (weak, nonatomic) IBOutlet UILabel *loginLabel;
 
 - (IBAction)registerAccount;
 - (IBAction)loginAccount;
 
-@property (strong, nonatomic) IBOutlet UIButton *registerAccountBtn;
+@property (weak, nonatomic) IBOutlet UIButton *registerAccountBtn;
 
 @end

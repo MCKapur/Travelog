@@ -21,6 +21,8 @@
 
     NSURLRequest *URLRequest = [self getURLRequest:request];
     
+    NSLog(@"%@", URLRequest);
+    
     [NSURLConnection sendAsynchronousRequest:URLRequest queue:opQue completionHandler:^(NSURLResponse *URLResponse, NSData *responseData, NSError *responseError) {
         
         if (!responseError && responseData) {
@@ -30,7 +32,7 @@
             if ([self handleData:responseData].count) {
                 
                 location = [[self handleData:responseData] mutableCopy];
-
+                
                 success = YES;
             }
             else {
@@ -70,7 +72,7 @@
 
 + (NSString *)APIRequest:(NSString *)input {
     
-    return [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%@&types=(cities)&sensor=false&key=%@", [input stringByReplacingOccurrencesOfString:@" " withString:@"%20"], GOOGLE_API_KEY];
+    return [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%@&types=(regions)&sensor=false&key=%@", [input stringByReplacingOccurrencesOfString:@" " withString:@"%20"], GOOGLE_API_KEY];
 }
 
 - (NSURLRequest *)getURLRequest:(NSString *)request {

@@ -8,18 +8,6 @@
 
 #import "TVViewController.h"
 
-#import "TVFlightCell.h"
-
-#import "TVFlightRecorderViewController.h"
-
-#import "TVLoginViewController.h"
-
-#import "TVFindPeopleViewController.h"
-
-@interface TVViewController ()
-
-@end
-
 @interface NSMutableArray (HasAnEqualObject)
 
 - (BOOL)hasACollectiveNotification:(TVNotification *)notification1;
@@ -74,8 +62,12 @@
 
 - (void)accountUpdated {
     
-    [self updateFlights];
     [self updateNotifications];
+}
+
+- (void)refreshedFlights {
+    
+    [self updateFlights];
     [self updateMilesLabel];
 }
 
@@ -97,9 +89,87 @@
 }
 
 - (void)updateFlights {
-
+    
     [self.flightsTable reloadData];
     [self.flightsTable setNeedsDisplay];
+}
+
+- (void)refreshAccount:(UIRefreshControl *)refreshControl {
+    
+    dispatch_queue_t downloadQueue = dispatch_queue_create("Refresh", NULL);
+    
+    dispatch_async(downloadQueue, ^{
+        
+        Reachability *reach = [Reachability reachabilityWithHostname:@"google.com"];
+        
+        if ([reach isReachable] && ([reach isReachableViaWiFi] || [reach isReachableViaWWAN])) {
+            
+            for (int i = 0; [[[TVDatabase currentAccount] flights] count] - 1; i++) {
+
+                ((TVFlightCell *)[self.flightsTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]]).shouldDrag = NO;
+            }
+            
+            [TVDatabase refreshAccountWithCompletionHandler:^(BOOL completed) {
+                    
+                if (completed) {
+                    
+                    if (refreshControl) {
+                        
+                        [refreshControl setAttributedTitle:[[NSAttributedString alloc] initWithString:[self getLastUpdatedString]]];
+                        [refreshControl endRefreshing];
+                    }
+                }
+            }];
+        }
+        else {
+            
+            if (refreshControl) {
+                
+                [refreshControl endRefreshing];
+            }
+        }
+    });
+}
+        
+- (NSString *)getLastUpdatedString {
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"hh:mm a"];
+    
+    NSLocale *twelveHourLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+    [dateFormatter setLocale:twelveHourLocale];
+    
+    NSDateFormatter *dayFormatter = [[NSDateFormatter alloc] init];
+    [dayFormatter setDateFormat:@"EEEE"];
+    
+    NSDate *lastUpdated = [NSDate date];
+    
+    NSString *formattedLastUpdated;
+    
+    if ([lastUpdated isToday]) {
+        
+        formattedLastUpdated = [NSString stringWithFormat:@"today at %@", [dateFormatter stringFromDate:lastUpdated]];
+    }
+    else if ([lastUpdated isYesterday]) {
+        
+        formattedLastUpdated = [NSString stringWithFormat:@"yesterday at %@", [dateFormatter stringFromDate:lastUpdated]];
+    }
+    else if ([lastUpdated isThisWeek] && ![lastUpdated isToday] && ![lastUpdated isYesterday]) {
+        
+        formattedLastUpdated = [NSString stringWithFormat:@"%@ at %@", [dayFormatter stringFromDate:lastUpdated],  [dateFormatter stringFromDate:lastUpdated]];
+    }
+    else if ([lastUpdated isLastWeek]) {
+        
+        formattedLastUpdated = [NSString stringWithFormat:@"last week %@ at %@", [dayFormatter stringFromDate:lastUpdated], [dateFormatter stringFromDate:lastUpdated]];
+    }
+    else if ([lastUpdated daysBeforeDate:[NSDate date]] > 7) {
+        
+        [dateFormatter setDateStyle:NSDateFormatterShortStyle];
+        
+        formattedLastUpdated = [NSString stringWithFormat:@"%@ at %@", [dateFormatter stringFromDate:lastUpdated],  [dateFormatter stringFromDate:lastUpdated]];
+    }
+    
+    return [NSString stringWithFormat:@"Last updated %@", formattedLastUpdated];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -124,7 +194,7 @@
     
     if (tableView == self.flightsTable) {
         
-        retVal = 66.0f;
+        retVal = 65.0f;
     }
     else {
 
@@ -179,8 +249,8 @@
     if ([CellIdentifier isEqualToString:FlightCell]) {
         
         if (!cell) {
-            
-            NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"FlightTableCell" owner:self options:nil];
+
+            NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"TVFlightCell" owner:self options:nil];
             
             for (UIView *view in views) {
                 
@@ -202,13 +272,27 @@
             
             ((TVFlightCell *)cell).gradient.layer.masksToBounds = YES;
             ((TVFlightCell *)cell).gradient.layer.cornerRadius = 3.0f;
+            
+            [(TVFlightCell *)cell setDelegate:self];
+            [(TVFlightCell *)cell
+                        setFirstStateIconName:@"cross.png"
+                            firstColor:[UIColor colorWithRed:232.0 / 255.0 green:61.0 / 255.0 blue:14.0 / 255.0 alpha:1.0]
+                        secondStateIconName:@"cross.png"
+                            secondColor:[UIColor colorWithRed:232.0 / 255.0 green:61.0 / 255.0 blue:14.0 / 255.0 alpha:1.0]
+                        thirdIconName:@"cross.png"
+                            thirdColor:[UIColor colorWithRed:232.0 / 255.0 green:61.0 / 255.0 blue:14.0 / 255.0 alpha:1.0]
+                        fourthIconName:@"cross.png"
+                            fourthColor:[UIColor colorWithRed:232.0 / 255.0 green:61.0 / 255.0 blue:14.0 / 255.0 alpha:1.0]];
+            [(TVFlightCell *)cell setMode:MCSwipeTableViewCellModeExit];
+            [(TVFlightCell *)cell setShouldDrag:YES];
+            [(TVFlightCell *)cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         }
     }
     else {
 
         if (!cell) {
             
-            NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"NotificationCell" owner:self options:nil];
+            NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"TVNotificationCell" owner:self options:nil];
             
             for (UIView *view in views) {
                 
@@ -232,6 +316,26 @@
     }
     
     return cell;
+}
+
+- (void)swipeTableViewCell:(MCSwipeTableViewCell *)cell didTriggerState:(MCSwipeTableViewCellState)state withMode:(MCSwipeTableViewCellMode)mode {
+
+    if (mode == MCSwipeTableViewCellModeExit && cell.shouldDrag) {
+        
+        int row = [[self.flightsTable indexPathForCell:(TVFlightCell *)cell] row];
+        
+        TVAccount *account = [TVDatabase currentAccount];
+        [account deleteFlight:[account flights][row]];
+        
+        [TVDatabase updateMyAccount:account withCompletionHandler:^(BOOL succeeded, NSError *error, NSString *callCode) {
+        }];
+
+        [self.flightsTable beginUpdates];
+        [self.flightsTable deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:row inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+        [self.flightsTable endUpdates];
+        
+        [self updateMilesLabel];
+    }
 }
 
 #pragma mark Operational Methods
@@ -344,7 +448,14 @@
 
 - (void)updateMilesLabel {
 
-    [self.mileTidbitsSwipeView setTidbits:[NSMutableArray arrayWithObject:[NSNumber numberWithDouble:[[[TVDatabase currentAccount] person] miles]]] andMode:kTVSwipeBannerModeMileTidbits];
+    double miles = 0.0f;
+    
+    for (TVFlight *flight in [[TVDatabase currentAccount] flights]) {
+        
+        miles += flight.miles;
+    }
+    
+    [self.mileTidbitsSwipeView setTidbits:[NSMutableArray arrayWithObject:@(miles)] andMode:kTVSwipeBannerModeMileTidbits];
 }
 
 #pragma mark Flight Recording + Delegate
@@ -425,14 +536,21 @@
 
 - (void)viewDidLoad {
 
+    [self refreshAccount:nil];
     [self UIBuffer];
     
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(refreshAccount:) forControlEvents:UIControlEventValueChanged];
+    [self.flightsTable addSubview:refreshControl];
+
     detailView = [[TVFlightDetailViewController alloc] init];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accountUpdated) name:@"RecordedFlight" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accountUpdated) name:@"RefreshedAccount" object:nil];
-        
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshedFlights) name:@"RefreshedFlights" object:nil];
+    
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 }

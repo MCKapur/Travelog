@@ -26,6 +26,8 @@
 
 #import "NSDate-Utilities.h"
 
+#import "TVSwipeBanner.h"
+
 typedef enum {
     
     kSegmentedControlPeople = 0,
@@ -39,11 +41,11 @@ typedef enum {
 
 @interface TVFlightDetailViewController : UIViewController <MKMapViewDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIGridViewDelegate>
 {
-    IBOutlet UIScrollView *infoScrollView;
-    IBOutlet UIView *infoView;
-    IBOutlet UISegmentedControl *infoSegControl;
+    __weak IBOutlet UIScrollView *infoScrollView;
+    __weak IBOutlet UIView *infoView;
+    __weak IBOutlet UISegmentedControl *infoSegControl;
         
-    NSMutableArray *info;
+    NSMutableDictionary *info;
         
     NSMutableArray *slideNames;
     int slideCount;
@@ -53,20 +55,20 @@ typedef enum {
 }
 
 @property (strong, nonatomic) IBOutlet UIGridView *peopleTableView;
-@property (strong, nonatomic) IBOutlet UITableView *newsTableView;
+@property (weak, nonatomic) IBOutlet UITableView *newsTableView;
 
-@property (strong, nonatomic) IBOutlet UITableView *weatherTableView;
-@property (strong, nonatomic) IBOutlet UILabel *weatherTimestamp;
+@property (weak, nonatomic) IBOutlet UITableView *weatherTableView;
+@property (weak, nonatomic) IBOutlet UILabel *weatherTimestamp;
 
-- (IBAction)changedSegmentedControl:(UISegmentedControl *)sender;
+@property (weak, nonatomic) IBOutlet MKMapView *travelMap;
 
-@property (strong, nonatomic) IBOutlet MKMapView *travelMap;
-
-@property (strong, nonatomic) IBOutlet UILabel *lastUpdatedLabel;
+@property (strong, nonatomic) TVSwipeBanner *travelInfoBanner;
 
 @property (nonatomic, strong) NSString *FlightID;
 
 - (id)initWithTrvlogueFlightID:(NSString *)_FlightID;
+
+- (IBAction)changedSegmentedControl:(UISegmentedControl *)sender;
 
 - (IBAction)shareFlight;
 - (IBAction)deleteFlight;

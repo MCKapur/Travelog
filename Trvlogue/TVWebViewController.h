@@ -16,7 +16,7 @@
     NSString *link;
     NSString *title;
     
-    IBOutlet UIWebView *wv;
+    __weak IBOutlet UIWebView *wv;
 }
 
 - (IBAction)back;

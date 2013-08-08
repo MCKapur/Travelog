@@ -14,18 +14,26 @@
 
 #import "TVFlightDetailViewController.h"
 
-@interface TVViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate>
+#import "Reachability.h"
+
+#import "TVFlightCell.h"
+
+#import "TVFlightRecorderViewController.h"
+
+#import "TVLoginViewController.h"
+
+#import "TVFindPeopleViewController.h"
+
+@interface TVViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, MCSwipeTableViewCellDelegate>
 {
     TVFlightDetailViewController *detailView;
 }
 
 @property (strong, nonatomic) UITableView *notificationsTable;
 
-@property (strong, nonatomic) IBOutlet UINavigationBar *navBar;
+@property (weak, nonatomic) IBOutlet UITableView *flightsTable;
 
-@property (strong, nonatomic) IBOutlet UITableView *flightsTable;
-
-@property (strong, nonatomic) IBOutlet UIView *headerView;
+@property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (nonatomic, strong) TVSwipeBanner *mileTidbitsSwipeView;
 
 @end

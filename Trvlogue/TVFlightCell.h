@@ -10,7 +10,9 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-@interface TVFlightCell : UITableViewCell
+#import "MCSwipeTableViewCell.h"
+
+@interface TVFlightCell : MCSwipeTableViewCell
 
 @property (strong, nonatomic) IBOutlet UILabel *flight;
 

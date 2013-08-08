@@ -308,8 +308,6 @@
         
         retrievedLocations = locations;
         
-        NSLog(@"%@", retrievedLocations);
-        
         if ([retrievedLocations count] == 2) {
             
             CLPlacemark *originLocation = retrievedLocations[0];

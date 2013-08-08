@@ -55,7 +55,7 @@
     [controller.navigationBar setBackgroundImage:[UIImage imageNamed:TRVLOGUE_NAVIGATION_BAR] forBarMetrics:UIBarMetricsDefault];
     
     self.window.rootViewController = controller;
-        
+    
     [self.window makeKeyAndVisible];
 
     return YES;
@@ -83,21 +83,6 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
     application.applicationIconBadgeNumber = 0;
-    
-    if ([TVDatabase staysLoggedIn]) {
-        
-        dispatch_queue_t downloadQueue = dispatch_queue_create("Refresh", NULL);
-        
-        dispatch_async(downloadQueue, ^{
-            
-            Reachability *reach = [Reachability reachabilityWithHostname:@"google.com"];
-            
-            if ([reach isReachable] && ([reach isReachableViaWiFi] || [reach isReachableViaWWAN])) {
-                
-                [TVDatabase refreshAccount];
-            }
-        });
-    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

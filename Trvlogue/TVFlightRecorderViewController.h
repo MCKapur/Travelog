@@ -32,6 +32,6 @@
 
 @property (strong, nonatomic) IBOutlet HTAutocompleteTextField *destinationTextField;
 
-@property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;
+@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
 
 @end

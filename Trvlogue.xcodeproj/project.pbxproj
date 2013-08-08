@@ -14,6 +14,9 @@
 		4351CBF917AEB3D0001A774B /* HTAutocompleteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4351CBF817AEB3D0001A774B /* HTAutocompleteManager.m */; };
 		4368C53817AF66B500F3AB2A /* NSDate-Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4368C53717AF66B500F3AB2A /* NSDate-Utilities.m */; };
 		439EBC7E179A30C700B81584 /* TVPlacesQuerySuggestionsRetriever.m in Sources */ = {isa = PBXBuildFile; fileRef = 439EBC7D179A30C700B81584 /* TVPlacesQuerySuggestionsRetriever.m */; };
+		43A8FF2D17B3559900BCC5C0 /* MCSwipeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 43A8FF2C17B3559900BCC5C0 /* MCSwipeTableViewCell.m */; };
+		43A8FF3017B35F5800BCC5C0 /* cross.png in Resources */ = {isa = PBXBuildFile; fileRef = 43A8FF2E17B35F5800BCC5C0 /* cross.png */; };
+		43A8FF3117B35F5800BCC5C0 /* cross@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 43A8FF2F17B35F5800BCC5C0 /* cross@2x.png */; };
 		43D46DC817913B940061C41E /* AWSiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43D45DCF17913B3F0061C41E /* AWSiOSSDK.framework */; };
 		43D46DCA17913CF00061C41E /* Airplane.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43D46DC917913CF00061C41E /* Airplane.ttf */; };
 		460329C1175B4FCE000F820F /* People.xib in Resources */ = {isa = PBXBuildFile; fileRef = 460329C0175B4FCE000F820F /* People.xib */; };
@@ -404,6 +407,10 @@
 		4368C53717AF66B500F3AB2A /* NSDate-Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate-Utilities.m"; sourceTree = "<group>"; };
 		439EBC7C179A30C700B81584 /* TVPlacesQuerySuggestionsRetriever.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVPlacesQuerySuggestionsRetriever.h; sourceTree = "<group>"; };
 		439EBC7D179A30C700B81584 /* TVPlacesQuerySuggestionsRetriever.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVPlacesQuerySuggestionsRetriever.m; sourceTree = "<group>"; };
+		43A8FF2B17B3559900BCC5C0 /* MCSwipeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCSwipeTableViewCell.h; path = MCSwipeTableViewCell/MCSwipeTableViewCell.h; sourceTree = "<group>"; };
+		43A8FF2C17B3559900BCC5C0 /* MCSwipeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCSwipeTableViewCell.m; path = MCSwipeTableViewCell/MCSwipeTableViewCell.m; sourceTree = "<group>"; };
+		43A8FF2E17B35F5800BCC5C0 /* cross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cross.png; sourceTree = "<group>"; };
+		43A8FF2F17B35F5800BCC5C0 /* cross@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cross@2x.png"; sourceTree = "<group>"; };
 		43D45A1E17913B310061C41E /* AWSAutoScaling.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AWSAutoScaling.framework; sourceTree = "<group>"; };
 		43D45A1F17913B310061C41E /* AWSCloudWatch.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AWSCloudWatch.framework; sourceTree = "<group>"; };
 		43D45A2017913B310061C41E /* AWSDynamoDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AWSDynamoDB.framework; sourceTree = "<group>"; };
@@ -5582,8 +5589,7 @@
 				43D45FC617913B420061C41E /* src */,
 				43D46D7317913B610061C41E /* src-persistence */,
 			);
-			name = "aws-ios-sdk-1.6.0";
-			path = "Trvlogue/aws-ios-sdk-1.6.0";
+			path = "aws-ios-sdk-1.6.0";
 			sourceTree = "<group>";
 		};
 		43D45A2B17913B310061C41E /* Documentation */ = {
@@ -11452,6 +11458,7 @@
 				460A9E8B16F9920400FFBF2A /* TVConversions.m */,
 				46C917AB1775A82E00CD505B /* Reachability.h */,
 				46C917AC1775A82E00CD505B /* Reachability.m */,
+				43D45A1D17913B310061C41E /* aws-ios-sdk-1.6.0 */,
 				460329CE175B897F000F820F /* UIGridView */,
 				4351CBFA17AEB3DA001A774B /* HTAutocompleteTextField */,
 				43A89D201791B95A00C039F3 /* NSDate-Extensions */,
@@ -11514,7 +11521,6 @@
 			isa = PBXGroup;
 			children = (
 				46FFBB1C173F455C00E44A13 /* libz.1.1.3.dylib */,
-				43D45A1D17913B310061C41E /* aws-ios-sdk-1.6.0 */,
 				46C28F0316EDD6F800399BDE /* Trvlogue */,
 				46C28EFC16EDD6F800399BDE /* Frameworks */,
 				46C28EFB16EDD6F800399BDE /* Products */,
@@ -11562,7 +11568,7 @@
 				46C28F0D16EDD6F900399BDE /* TVAppDelegate.m */,
 				46A2D5F816EEA15800C886CB /* Plugins + Extensions */,
 				46A2D5F916EEA22100C886CB /* UI */,
-				46F8491F17094E2C00A9F0BB /* Account Data */,
+				46F8491F17094E2C00A9F0BB /* Data */,
 				46F8492017094E6800A9F0BB /* View Controllers */,
 				460B0BE1174F524100A1229C /* Resources */,
 				46C28F0416EDD6F800399BDE /* Supporting Files */,
@@ -11584,6 +11590,8 @@
 		46C28FA916EDE9E900399BDE /* slices */ = {
 			isa = PBXGroup;
 			children = (
+				43A8FF2E17B35F5800BCC5C0 /* cross.png */,
+				43A8FF2F17B35F5800BCC5C0 /* cross@2x.png */,
 				46F7E15417729E2B007B5D1C /* person.png */,
 				46F80F5A175E235D005EA59E /* anonymous_person.png */,
 				469788281723AFE300D4E899 /* BackgroundBlueBlur.png */,
@@ -11681,6 +11689,8 @@
 		46C744AC176F4A790075121E /* Table View Cells */ = {
 			isa = PBXGroup;
 			children = (
+				43A8FF2B17B3559900BCC5C0 /* MCSwipeTableViewCell.h */,
+				43A8FF2C17B3559900BCC5C0 /* MCSwipeTableViewCell.m */,
 				460329D9175B8BDB000F820F /* TVPersonCell.h */,
 				460329DA175B8BDB000F820F /* TVPersonCell.m */,
 				460329DB175B8BDC000F820F /* TVPersonCell.xib */,
@@ -11702,11 +11712,9 @@
 			name = "Table View Cells";
 			sourceTree = "<group>";
 		};
-		46F8491F17094E2C00A9F0BB /* Account Data */ = {
+		46F8491F17094E2C00A9F0BB /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				46A9F262175ACF4A000E7539 /* TVPerson.h */,
-				46A9F263175ACF4A000E7539 /* TVPerson.m */,
 				463F8100173D37F700D485C0 /* TVPeopleFeed.h */,
 				463F8101173D37F700D485C0 /* TVPeopleFeed.m */,
 				46B47ED216FE7D2F00ACBD64 /* TVTravelDataDownloader.h */,
@@ -11721,10 +11729,12 @@
 				46A4BE1417701DF100A71EFA /* TVNotification.m */,
 				467C63CC178016BC00BD1F31 /* TVConnection.h */,
 				467C63CD178016BC00BD1F31 /* TVConnection.m */,
+				46A9F262175ACF4A000E7539 /* TVPerson.h */,
+				46A9F263175ACF4A000E7539 /* TVPerson.m */,
 				46C2915B16EE19D200399BDE /* TVAccount.h */,
 				46C2915C16EE19D200399BDE /* TVAccount.m */,
 			);
-			name = "Account Data";
+			name = Data;
 			sourceTree = "<group>";
 		};
 		46F8492017094E6800A9F0BB /* View Controllers */ = {
@@ -12249,6 +12259,8 @@
 				46ADED1B177EF4960074ACC9 /* TVFlightRecorderViewController.xib in Resources */,
 				46ADED1E177F047F0074ACC9 /* TVNotificationCell.xib in Resources */,
 				43D46DCA17913CF00061C41E /* Airplane.ttf in Resources */,
+				43A8FF3017B35F5800BCC5C0 /* cross.png in Resources */,
+				43A8FF3117B35F5800BCC5C0 /* cross@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -12338,6 +12350,7 @@
 				4351CBD117AEB262001A774B /* HTAutocompleteTextField.m in Sources */,
 				4351CBF917AEB3D0001A774B /* HTAutocompleteManager.m in Sources */,
 				4368C53817AF66B500F3AB2A /* NSDate-Utilities.m in Sources */,
+				43A8FF2D17B3559900BCC5C0 /* MCSwipeTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

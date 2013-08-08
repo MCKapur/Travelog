@@ -224,13 +224,13 @@
     
     __block NSString *originCurrency;
     __block NSString *destinationCurrency;
-    
+
     [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue completionHandler:^(NSURLResponse *urlResponse, NSData *responseData, NSError *error) {
-        
+
         if (!error) {
             
             NSDictionary *result = [self deserialize:responseData][@"result"];
-            
+
             if (result && ![result isEqual:[NSNull null]]) {
                 
                 originCurrency = (result[@"currency_used"])[0];
@@ -245,7 +245,7 @@
                     NSString *requestURL = requestString;
                     
                     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:requestURL]];
-                    
+
                     [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue completionHandler:^(NSURLResponse *urlResponse, NSData *responseData, NSError *error) {
                         
                         if (!error) {
@@ -267,12 +267,12 @@
                                             (currency)[@"originCurrency"] = originCurrency;
                                             
                                             self.downloadedData[@"currency"] = currency;
-                                            
+
                                             if ([self hasDDUnit:originCurrency] && [self hasDDUnit:destinationCurrency]) {
                                                 
                                                 (currency)[@"o->d"] = @([self currencyConversionWithKey:@"o->d" withAmount:amountToConvert]);
                                                 (currency)[@"d->o"] = @([self currencyConversionWithKey:@"d->o" withAmount:amountToConvert]);
-                                                
+
                                                 self.downloadedData[@"currency"] = currency;
                                                                                                 
                                                 [TVDatabase refreshTravelDataPacketWithID:self.FlightID andTravelDataObject:self];

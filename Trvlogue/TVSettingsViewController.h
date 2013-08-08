@@ -14,11 +14,11 @@
 {
     TVDatabase *databaseOperator;
     
-    IBOutlet UITextField *nameTextField;
-    IBOutlet UITextField *emailTextField;
-    IBOutlet UITextField *passwordTextField;
-    IBOutlet UIImageView *profilePicture;
-    IBOutlet UISwitch *pushNotificationEnabled;
+    __weak IBOutlet UITextField *nameTextField;
+    __weak IBOutlet UITextField *emailTextField;
+    __weak IBOutlet UITextField *passwordTextField;
+    __weak IBOutlet UIImageView *profilePicture;
+    __weak IBOutlet UISwitch *pushNotificationEnabled;
     
     BOOL customOrNot;
 }

@@ -14,8 +14,6 @@
 
 @implementation TVLoginViewController
 
-@synthesize trvlogueLabel;
-
 - (void)handleError:(NSError *)error andType:(NSString *)type {
     
     if (type) {
