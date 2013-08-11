@@ -20,7 +20,7 @@
 
 - (int)indexOfFlight:(TVFlight *)flight {
     
-    int retVal = 2147483647;
+    int retVal = NSNotFound;
     
     for (int i = 0; i <= self.count - 1; i++) {
         
@@ -248,7 +248,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 }
 
 + (void)refreshAccountWithCompletionHandler:(void (^)(BOOL completed))callback {
-        
+
     [[PFUser currentUser] refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         
         [TVDatabase getAccountFromUser:(PFUser *)object withCompletionHandler:^(TVAccount *account, BOOL allOperationsComplete, BOOL hasWrittenProfilePicture) {
@@ -914,6 +914,8 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
             operationCount++;
             
             callback(account, operationCount == totalOperations ? YES : NO, profilePictureWritten);
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshedFlights" object:nil userInfo:nil];
         }
     }];
     
@@ -1131,13 +1133,13 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     reqTag = N_UPDATING_MY_ACCOUNT;
 
     [TVDatabase updateMyCache:accountObj];
-    
+        
     for (NSDictionary *attribute in [self attributesWithAccount:accountObj]) {
         
         [PFUser currentUser][attribute[@"key"]] = attribute[@"value"];
     }
     
-    [[PFUser currentUser] saveEventually:^(BOOL succeeded, NSError *error) {
+    [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         
         if (!error && succeeded) {
             

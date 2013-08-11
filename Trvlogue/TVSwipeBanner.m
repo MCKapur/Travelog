@@ -91,7 +91,7 @@
         
         self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * self.tidbits.count, self.scrollView.frame.size.height);
         
-        UILabel *tidbitLabel = [[UILabel alloc] initWithFrame:CGRectMake((320 * (self.tidbits.count - 1)) + 8, 0, 320, 50)];
+        UILabel *tidbitLabel = [[UILabel alloc] initWithFrame:CGRectMake((320 * (self.tidbits.count - 1)) + 8, 0, 305, 50)];
         tidbitLabel.backgroundColor = [UIColor clearColor];
         tidbitLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15.0];
         tidbitLabel.textColor = [UIColor whiteColor];

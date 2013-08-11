@@ -27,6 +27,8 @@
 @interface TVViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, MCSwipeTableViewCellDelegate>
 {
     TVFlightDetailViewController *detailView;
+    
+    BOOL loading;
 }
 
 @property (strong, nonatomic) UITableView *notificationsTable;

@@ -40,8 +40,6 @@
 
 - (void)travelDataUpdated:(NSNotification *)notification {
     
-    NSLog(@"%@", [self travelData]);
-
     TravelDataTypes *dataType = (TravelDataTypes *)[notification.userInfo[@"dataType"] intValue];
 
     [self initializeInfoWithType:(int)dataType];
@@ -408,12 +406,12 @@
         
         info[@"timezone"] = timezone;
     }
-    
+        
     if ([[self travelData][@"plugs"] count] || dataType == kTravelDataPlug) {
         
         NSMutableDictionary *plugs = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"plugs"], @"data", @"Plugs", @"name", @(UITableViewCellAccessoryDisclosureIndicator), @"accessoryType", nil];
 
-        plugs[@"detail"] = [NSString stringWithFormat:@"The plug socket sizes are: %@ - voltage is %@ and frequency is %@. Click to see images.", [self travelData][@"plugs"][@"plugs"], [self travelData][@"plugs"][@"voltage"], [self travelData][@"plugs"][@"frequency"]];
+        plugs[@"detail"] = [NSString stringWithFormat:@"The plug socket voltage is %@ and frequency %@. Click for image.", [self travelData][@"plugs"][@"voltage"], [self travelData][@"plugs"][@"frequency"]];
         info[@"plugs"] = plugs;
     }
     
@@ -759,8 +757,6 @@
         
         [self.travelInfoBanner addTravelInfoTidbit:[NSMutableDictionary dictionaryWithObjectsAndKeys:info[@"plugs"][@"detail"], @"body", @"Plugs", @"ID", nil]];
     }
-    
-    NSLog(@"%@", [self.travelInfoBanner.subviews[0] subviews]);
 }
 
 - (void)addBanner {
@@ -857,9 +853,9 @@
 }
 
 - (void)viewDidLoad
-{
+{    
     [self UIBuffer];
-    
+
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 }

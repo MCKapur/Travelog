@@ -67,6 +67,8 @@
 
 - (void)refreshedFlights {
     
+    loading = NO;
+    
     [self updateFlights];
     [self updateMilesLabel];
 }
@@ -95,7 +97,7 @@
 }
 
 - (void)refreshAccount:(UIRefreshControl *)refreshControl {
-    
+
     dispatch_queue_t downloadQueue = dispatch_queue_create("Refresh", NULL);
     
     dispatch_async(downloadQueue, ^{
@@ -104,34 +106,52 @@
         
         if ([reach isReachable] && ([reach isReachableViaWiFi] || [reach isReachableViaWWAN])) {
             
-            for (int i = 0; [[[TVDatabase currentAccount] flights] count] - 1; i++) {
-
-                ((TVFlightCell *)[self.flightsTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]]).shouldDrag = NO;
-            }
+            loading = YES;
+            
+            [self.flightsTable reloadData];
+            [self.flightsTable setNeedsDisplay];
             
             [TVDatabase refreshAccountWithCompletionHandler:^(BOOL completed) {
-                    
+                
                 if (completed) {
+                    
+                    loading = NO;
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
                     
                     if (refreshControl) {
                         
-                        [refreshControl setAttributedTitle:[[NSAttributedString alloc] initWithString:[self getLastUpdatedString]]];
                         [refreshControl endRefreshing];
                     }
-                }
+
+                    [self updateFlights];
+                    [self updateMilesLabel];
+                    [self updateNotifications];
+                    
+                });
             }];
         }
         else {
             
-            if (refreshControl) {
+            loading = NO;
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
                 
-                [refreshControl endRefreshing];
-            }
+                if (refreshControl) {
+                    
+                    [refreshControl endRefreshing];
+                }
+                
+                [self updateFlights];
+                [self updateMilesLabel];
+                [self updateNotifications];
+            });
         }
     });
 }
         
-- (NSString *)getLastUpdatedString {
+- (NSString *)getLastUpdatedStringFromDate:(NSDate *)lastUpdated {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"hh:mm a"];
@@ -141,9 +161,7 @@
     
     NSDateFormatter *dayFormatter = [[NSDateFormatter alloc] init];
     [dayFormatter setDateFormat:@"EEEE"];
-    
-    NSDate *lastUpdated = [NSDate date];
-    
+        
     NSString *formattedLastUpdated;
     
     if ([lastUpdated isToday]) {
@@ -177,7 +195,7 @@
     int retVal = 0;
     
     if (tableView == self.flightsTable) {
-        
+
         retVal = [[[TVDatabase currentAccount] flights] count];
     }
     else if (tableView == self.notificationsTable) {
@@ -211,6 +229,7 @@
     if (tableView == self.flightsTable) {
         
         [detailView setFlightID:[((TVFlight *)[[TVDatabase currentAccount] flights][indexPath.row]) ID]];
+        [detailView updateMap];
         
         [self.navigationController pushViewController:detailView animated:YES];
     }
@@ -245,11 +264,11 @@
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-
+    
     if ([CellIdentifier isEqualToString:FlightCell]) {
-        
-        if (!cell) {
 
+        if (!cell) {
+            
             NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"TVFlightCell" owner:self options:nil];
             
             for (UIView *view in views) {
@@ -259,7 +278,7 @@
                     cell = (TVFlightCell *)view;
                 }
             }
-                        
+            
             TVFlight *flight = [[TVDatabase currentAccount] flights][indexPath.row];
             
             ((TVFlightCell *)cell).flight.font = [UIFont fontWithName:@"Gotham Book" size:15.0];
@@ -276,16 +295,25 @@
             [(TVFlightCell *)cell setDelegate:self];
             [(TVFlightCell *)cell
                         setFirstStateIconName:@"cross.png"
-                            firstColor:[UIColor colorWithRed:232.0 / 255.0 green:61.0 / 255.0 blue:14.0 / 255.0 alpha:1.0]
+                            firstColor:[UIColor redColor]
                         secondStateIconName:@"cross.png"
-                            secondColor:[UIColor colorWithRed:232.0 / 255.0 green:61.0 / 255.0 blue:14.0 / 255.0 alpha:1.0]
+                            secondColor:[UIColor redColor]
                         thirdIconName:@"cross.png"
-                            thirdColor:[UIColor colorWithRed:232.0 / 255.0 green:61.0 / 255.0 blue:14.0 / 255.0 alpha:1.0]
+                            thirdColor:[UIColor redColor]
                         fourthIconName:@"cross.png"
-                            fourthColor:[UIColor colorWithRed:232.0 / 255.0 green:61.0 / 255.0 blue:14.0 / 255.0 alpha:1.0]];
+                            fourthColor:[UIColor redColor]];
             [(TVFlightCell *)cell setMode:MCSwipeTableViewCellModeExit];
-            [(TVFlightCell *)cell setShouldDrag:YES];
+            
             [(TVFlightCell *)cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        }
+        
+        if (loading) {
+                        
+            [(TVFlightCell *)cell setShouldDrag:NO];
+        }
+        else {
+            
+            [(TVFlightCell *)cell setShouldDrag:YES];
         }
     }
     else {
@@ -326,12 +354,12 @@
         
         TVAccount *account = [TVDatabase currentAccount];
         [account deleteFlight:[account flights][row]];
-        
+
         [TVDatabase updateMyAccount:account withCompletionHandler:^(BOOL succeeded, NSError *error, NSString *callCode) {
         }];
 
         [self.flightsTable beginUpdates];
-        [self.flightsTable deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:row inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+        [self.flightsTable deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:row inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
         [self.flightsTable endUpdates];
         
         [self updateMilesLabel];
@@ -535,15 +563,24 @@
 }
 
 - (void)viewDidLoad {
-
-    [self refreshAccount:nil];
+    
+    loading = YES;
+    
     [self UIBuffer];
     
+    [self updateFlights];
+
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refreshAccount:) forControlEvents:UIControlEventValueChanged];
     [self.flightsTable addSubview:refreshControl];
+    
+    [refreshControl beginRefreshing];
+    [self.flightsTable setContentOffset:CGPointMake(0, -refreshControl.frame.size.height) animated:YES];
+    
+    [self refreshAccount:refreshControl];
 
     detailView = [[TVFlightDetailViewController alloc] init];
+    [detailView setTravelMap:[[MKMapView alloc] init]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accountUpdated) name:@"RecordedFlight" object:nil];
     

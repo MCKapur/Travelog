@@ -10,6 +10,14 @@
          symbolName = "malloc_error_break"
          moduleName = "">
       </SymbolicBreakpoint>
+      <SymbolicBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         condition = "malloc_error_break"
+         continueAfterRunningActions = "No"
+         symbolName = "malloc_error_break"
+         moduleName = "malloc_error_break">
+      </SymbolicBreakpoint>
    </SymbolicBreakpoints>
    <ExceptionBreakpoints>
       <ExceptionBreakpoint

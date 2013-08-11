@@ -73,4 +73,6 @@ typedef enum {
 - (IBAction)shareFlight;
 - (IBAction)deleteFlight;
 
+- (void)updateMap;
+
 @end

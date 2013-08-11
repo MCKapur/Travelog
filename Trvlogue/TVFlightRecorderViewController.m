@@ -405,7 +405,7 @@
 - (void)createTrvlogueFlight {
     
     TVFlight *trvlogueFlight = [[TVFlight alloc] initWithParameters:flightParameters];
-
+    NSLog(@"%@", trvlogueFlight);
     [self insertTrvlogueFlight:trvlogueFlight];
 }
 

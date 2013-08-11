@@ -20,9 +20,7 @@
     NSString *request = [TVAutocompleteSuggestionsRetriever APIRequest:input];
 
     NSURLRequest *URLRequest = [self getURLRequest:request];
-    
-    NSLog(@"%@", URLRequest);
-    
+        
     [NSURLConnection sendAsynchronousRequest:URLRequest queue:opQue completionHandler:^(NSURLResponse *URLResponse, NSData *responseData, NSError *responseError) {
         
         if (!responseError && responseData) {
@@ -32,7 +30,7 @@
             if ([self handleData:responseData].count) {
                 
                 location = [[self handleData:responseData] mutableCopy];
-                
+                                
                 success = YES;
             }
             else {

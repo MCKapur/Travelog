@@ -144,7 +144,7 @@ secondStateIconName:(NSString *)secondIconName
     _isDragging = NO;
     
     // By default the cells are draggable
-    _shouldDrag = YES;
+//    _shouldDrag = YES;
 }
 
 #pragma mark - Prepare reuse
@@ -159,7 +159,7 @@ secondStateIconName:(NSString *)secondIconName
     _isDragging = NO;
 
     // Before reuse we need to reset it's state
-    _shouldDrag = YES;
+//    _shouldDrag = YES;
 }
 
 #pragma mark - Handle Gestures
