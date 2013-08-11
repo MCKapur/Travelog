@@ -405,7 +405,7 @@
 - (void)createTrvlogueFlight {
     
     TVFlight *trvlogueFlight = [[TVFlight alloc] initWithParameters:flightParameters];
-    NSLog(@"%@", trvlogueFlight);
+    
     [self insertTrvlogueFlight:trvlogueFlight];
 }
 
@@ -413,7 +413,7 @@
     
     TVAccount *updatedAccount = [TVDatabase currentAccount];
     [updatedAccount addFlight:trvlogueFlight];
-    
+
     [self updateAccount:updatedAccount];
     
     [trvlogueFlight instantiateTravelData];

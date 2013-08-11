@@ -882,7 +882,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     
     if ([object.objectId isEqualToString:[PFUser currentUser].objectId]) {
         
-        account = [TVDatabase currentAccount];
+        account = ![TVDatabase currentAccount] ? [[TVAccount alloc] init] : [TVDatabase currentAccount];
     }
     else {
         

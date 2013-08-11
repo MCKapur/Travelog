@@ -247,8 +247,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    NSString *FlightCell = @"FlightTableCell";
-    NSString *NotificationsCell = @"NotificationsCell";
+    NSString *FlightCell = @"FlightTableCell_%@";
+    NSString *NotificationsCell = @"NotificationsCell_%@";
     
     NSString *CellIdentifier = nil;
 
@@ -278,17 +278,7 @@
                     cell = (TVFlightCell *)view;
                 }
             }
-            
-            TVFlight *flight = [[TVDatabase currentAccount] flights][indexPath.row];
-            
-            ((TVFlightCell *)cell).flight.font = [UIFont fontWithName:@"Gotham Book" size:15.0];
-            
-            ((TVFlightCell *)cell).flight.text = [NSString stringWithFormat:@"%@ to %@", flight.originCity, flight.destinationCity];
-            
-            ((TVFlightCell *)cell).shortMiles.text = [self generateShortcuttedMiles:[flight miles]];
-            
-            ((TVFlightCell *)cell).shortDate.text = [self generateShortcuttedDates:[flight date]];
-            
+                                    
             ((TVFlightCell *)cell).gradient.layer.masksToBounds = YES;
             ((TVFlightCell *)cell).gradient.layer.cornerRadius = 3.0f;
             
@@ -307,8 +297,18 @@
             [(TVFlightCell *)cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         }
         
+        TVFlight *flight = [[TVDatabase currentAccount] flights][indexPath.row];
+        
+        ((TVFlightCell *)cell).flight.text = [NSString stringWithFormat:@"%@ to %@", flight.originCity, flight.destinationCity];
+        
+        ((TVFlightCell *)cell).shortMiles.text = [self generateShortcuttedMiles:[flight miles]];
+        
+        ((TVFlightCell *)cell).shortDate.text = [self generateShortcuttedDates:[flight date]];
+        
+        ((TVFlightCell *)cell).flight.font = [UIFont fontWithName:@"Gotham Book" size:15.0];
+
         if (loading) {
-                        
+            
             [(TVFlightCell *)cell setShouldDrag:NO];
         }
         else {
@@ -333,13 +333,13 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
             cell.backgroundColor = [UIColor clearColor];
+        }
+        
+        if ([[[[TVDatabase currentAccount] person] notifications] collectiveNotifications].count) {
             
-            if ([[[[TVDatabase currentAccount] person] notifications] collectiveNotifications].count) {
-                
-                ((TVNotificationCell *)cell).titleLabel.text = ((TVNotification *)[[[[TVDatabase currentAccount] person] notifications] collectiveNotifications][indexPath.row]).title;
-                
-                ((TVNotificationCell *)cell).titleLabel.textColor = [UIColor blueColor];
-            }
+            ((TVNotificationCell *)cell).titleLabel.text = ((TVNotification *)[[[[TVDatabase currentAccount] person] notifications] collectiveNotifications][indexPath.row]).title;
+            
+            ((TVNotificationCell *)cell).titleLabel.textColor = [UIColor blueColor];
         }
     }
     
@@ -553,9 +553,9 @@
 
 #pragma mark Funky, Dirty, Native :)
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
     
-    [super viewWillAppear:YES];
+    [super viewDidAppear:YES];
 
     [self updateNotifications];
     [self updateMilesLabel];
