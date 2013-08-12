@@ -58,6 +58,9 @@
 		463F8111173D45DC00D485C0 /* 4.gif in Resources */ = {isa = PBXBuildFile; fileRef = 463F810A173D45DC00D485C0 /* 4.gif */; };
 		463F8112173D45DC00D485C0 /* 5.gif in Resources */ = {isa = PBXBuildFile; fileRef = 463F810B173D45DC00D485C0 /* 5.gif */; };
 		463F8114173D45DC00D485C0 /* 6.gif in Resources */ = {isa = PBXBuildFile; fileRef = 463F810D173D45DC00D485C0 /* 6.gif */; };
+		4652BAE117B8B46E009A0C04 /* 7.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4652BADE17B8B46E009A0C04 /* 7.gif */; };
+		4652BAE217B8B46E009A0C04 /* 8.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4652BADF17B8B46E009A0C04 /* 8.gif */; };
+		4652BAE317B8B46E009A0C04 /* 9.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4652BAE017B8B46E009A0C04 /* 9.gif */; };
 		466CD13317094CBB00994578 /* TVSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 466CD13117094CBB00994578 /* TVSettingsViewController.m */; };
 		466CD13417094CBB00994578 /* TVSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466CD13217094CBB00994578 /* TVSettingsViewController.xib */; };
 		467054A9177EC8A300D8B740 /* TVViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 467054A8177EC8A300D8B740 /* TVViewController.xib */; };
@@ -5267,6 +5270,9 @@
 		463F810A173D45DC00D485C0 /* 4.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = 4.gif; sourceTree = "<group>"; };
 		463F810B173D45DC00D485C0 /* 5.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = 5.gif; sourceTree = "<group>"; };
 		463F810D173D45DC00D485C0 /* 6.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = 6.gif; sourceTree = "<group>"; };
+		4652BADE17B8B46E009A0C04 /* 7.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = 7.gif; sourceTree = "<group>"; };
+		4652BADF17B8B46E009A0C04 /* 8.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = 8.gif; sourceTree = "<group>"; };
+		4652BAE017B8B46E009A0C04 /* 9.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = 9.gif; sourceTree = "<group>"; };
 		466CD13017094CBB00994578 /* TVSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVSettingsViewController.h; sourceTree = "<group>"; };
 		466CD13117094CBB00994578 /* TVSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVSettingsViewController.m; sourceTree = "<group>"; };
 		466CD13217094CBB00994578 /* TVSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TVSettingsViewController.xib; sourceTree = "<group>"; };
@@ -11336,6 +11342,9 @@
 				463F810A173D45DC00D485C0 /* 4.gif */,
 				463F810B173D45DC00D485C0 /* 5.gif */,
 				463F810D173D45DC00D485C0 /* 6.gif */,
+				4652BADE17B8B46E009A0C04 /* 7.gif */,
+				4652BADF17B8B46E009A0C04 /* 8.gif */,
+				4652BAE017B8B46E009A0C04 /* 9.gif */,
 				46B32F29174CEDF300484A1B /* 10.gif */,
 				46B32F2A174CEDF300484A1B /* 11.gif */,
 				46B32F2B174CEDF300484A1B /* 12.gif */,
@@ -12261,6 +12270,9 @@
 				43D46DCA17913CF00061C41E /* Airplane.ttf in Resources */,
 				43A8FF3017B35F5800BCC5C0 /* cross.png in Resources */,
 				43A8FF3117B35F5800BCC5C0 /* cross@2x.png in Resources */,
+				4652BAE117B8B46E009A0C04 /* 7.gif in Resources */,
+				4652BAE217B8B46E009A0C04 /* 8.gif in Resources */,
+				4652BAE317B8B46E009A0C04 /* 9.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

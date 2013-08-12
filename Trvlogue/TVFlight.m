@@ -10,6 +10,31 @@
 
 #import "Reachability.h"
 
+@interface NSArray (Indexing)
+
+- (int)indexOfFlight:(TVFlight *)flight;
+
+@end
+
+@implementation NSArray (Indexing)
+
+- (int)indexOfFlight:(TVFlight *)flight {
+    
+    int retVal = NSNotFound;
+    
+    for (int i = 0; i <= self.count - 1; i++) {
+        
+        if ([((TVFlight *)self[i]).ID isEqualToString:flight.ID]) {
+            
+            retVal = i;
+        }
+    }
+    
+    return retVal;
+}
+
+@end
+
 @implementation TVFlight
 
 @synthesize date, miles, originCity, destinationCity, originCountry, destinationCountry, originCoordinate, destinationCoordinate, ID;

@@ -491,6 +491,26 @@
     
     followingArray = [[NSMutableArray alloc] init];
     
+    for (UIView *view in self.view.subviews) {
+        
+        if ([view isKindOfClass:[UIImageView class]]) {
+            
+            view.layer.cornerRadius = 7.0f;
+        }
+        else if ([view isKindOfClass:[UITextField class]]) {
+            
+            view.layer.cornerRadius = 7.0f;
+        }
+        else if ([view isKindOfClass:[UITextView class]]) {
+            
+            view.layer.cornerRadius = 7.0f;
+        }
+        else if ([view isKindOfClass:[UIButton class]]) {
+            
+            view.layer.cornerRadius = 7.0f;
+        }
+    }
+    
     [super viewDidLoad];
     //     Do any additional setup after loading the view from its nib.
 }

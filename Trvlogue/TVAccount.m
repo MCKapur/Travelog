@@ -8,6 +8,31 @@
 
 #import "TVAccount.h"
 
+@interface NSArray (Indexing)
+
+- (int)indexOfFlight:(TVFlight *)flight;
+
+@end
+
+@implementation NSArray (Indexing)
+
+- (int)indexOfFlight:(TVFlight *)flight {
+    
+    int retVal = NSNotFound;
+    
+    for (int i = 0; i <= self.count - 1; i++) {
+        
+        if ([((TVFlight *)self[i]).ID isEqualToString:flight.ID]) {
+            
+            retVal = i;
+        }
+    }
+    
+    return retVal;
+}
+
+@end
+
 @implementation TVAccount
 @synthesize email, password, flights, isUsingLinkedIn, linkedInAccessKey, linkedInId, person;
 
@@ -91,28 +116,14 @@
     return self;
 }
 
-- (NSMutableArray *)flights {
+- (NSMutableArray *)sortedFlights {
     
     NSSortDescriptor *sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO];
-    [flights sortUsingDescriptors:@[sortByDate]];
 
-//    void* callstack[128];
-//    int i, frames = backtrace(callstack, 128);
-//    char** strs = backtrace_symbols(callstack, frames);
-//    for (i = frames - 1; i >= 0; i-=2) {
-//                
-//        NSString *string = [NSString stringWithCString:strs[i] encoding:NSASCIIStringEncoding];
-//        
-//        if ([string rangeOfString:@"-[TVAccount flights]"].location != NSNotFound) {
-//            
-//            NSLog(@"%@\n%s", string,strs[i+1]);
-//            
-//            break;
-//        }
-//    }
-//    free(strs);
+    NSMutableArray *_flights = [flights mutableCopy];
+    [_flights sortUsingDescriptors:@[sortByDate]];
     
-    return flights;
+    return _flights;
 }
 
 - (void)addFlight:(TVFlight *)flight {
@@ -138,7 +149,7 @@
         TVFlight *flight = self.flights[i];
         
         if ([flight.ID isEqualToString:_flight.ID]) {
-            
+
             [TVDatabase removeTravelDataPacketWithID:flight.ID];
             [indexesToRemove addIndex:i];
         }

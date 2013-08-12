@@ -12,9 +12,6 @@
 
 #import "TVMileTidbits.h"
 
-#include <execinfo.h>
-#include <stdio.h>
-
 @interface TVAccount : NSObject <NSCoding>
 
 @property (nonatomic, strong) TVPerson *person;
@@ -32,5 +29,7 @@
 - (void)deleteFlight: (TVFlight *)flight;
 
 - (id)initWithProfile:(NSDictionary *)profileDictionary;
+
+- (NSMutableArray *)sortedFlights;
 
 @end

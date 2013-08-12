@@ -78,14 +78,18 @@
     if (isDrawn) {
         
         for (UILabel *tidbitLabel in self.subviews) {
-            
+
             if ([tidbitLabel.accessibilityIdentifier isEqualToString:_tidbit[@"ID"]]) {
+               
+                NSLog(@"change");
                 
                 [tidbitLabel setText:_tidbit[@"body"]];
             }
         }
     }
     else {
+        
+        self.backgroundColor = [UIColor colorWithRed:246.0f/255.0f green:246.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         
         [self.tidbits addObject:_tidbit];
         
@@ -94,7 +98,7 @@
         UILabel *tidbitLabel = [[UILabel alloc] initWithFrame:CGRectMake((320 * (self.tidbits.count - 1)) + 8, 0, 305, 50)];
         tidbitLabel.backgroundColor = [UIColor clearColor];
         tidbitLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15.0];
-        tidbitLabel.textColor = [UIColor whiteColor];
+        tidbitLabel.textColor = [UIColor darkGrayColor];
         tidbitLabel.textAlignment = NSTextAlignmentLeft;
         tidbitLabel.userInteractionEnabled = YES;
         tidbitLabel.numberOfLines = 2;
@@ -120,7 +124,7 @@
     if (self.page < self.tidbits.count) {
         
         self.page++;
-
+        
         [self.scrollView scrollRectToVisible:CGRectMake(self.page * 320, 0, 320, 21) animated:YES];
     }
     else {
@@ -148,8 +152,11 @@
 
             self.page = _page;
             
-            timer = [NSTimer timerWithTimeInterval:2.5 target:self selector:@selector(scroll) userInfo:nil repeats:YES];
-            [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+            if (mode == kTVSwipeBannerModeMileTidbits) {
+                
+                timer = [NSTimer timerWithTimeInterval:2.5 target:self selector:@selector(scroll) userInfo:nil repeats:YES];
+                [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+            }
         }
     }
 }

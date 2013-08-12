@@ -12,7 +12,6 @@
 
 #import "TVTravelDataDownloader.h"
 
-
 #import "TVFlightDetailViewController.h"
 
 @interface TVFlight : NSObject <NSCoding, TravelDataDelegate>

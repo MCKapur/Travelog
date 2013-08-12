@@ -196,7 +196,7 @@
     
     if (tableView == self.flightsTable) {
 
-        retVal = [[[TVDatabase currentAccount] flights] count];
+        retVal = [[[TVDatabase currentAccount] sortedFlights] count];
     }
     else if (tableView == self.notificationsTable) {
 
@@ -228,7 +228,7 @@
     
     if (tableView == self.flightsTable) {
         
-        [detailView setFlightID:[((TVFlight *)[[TVDatabase currentAccount] flights][indexPath.row]) ID]];
+        [detailView setFlightID:[((TVFlight *)[[TVDatabase currentAccount] sortedFlights][indexPath.row]) ID]];
         [detailView updateMap];
         
         [self.navigationController pushViewController:detailView animated:YES];
@@ -297,7 +297,7 @@
             [(TVFlightCell *)cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         }
         
-        TVFlight *flight = [[TVDatabase currentAccount] flights][indexPath.row];
+        TVFlight *flight = [[TVDatabase currentAccount] sortedFlights][indexPath.row];
         
         ((TVFlightCell *)cell).flight.text = [NSString stringWithFormat:@"%@ to %@", flight.originCity, flight.destinationCity];
         
@@ -353,7 +353,7 @@
         int row = [[self.flightsTable indexPathForCell:(TVFlightCell *)cell] row];
         
         TVAccount *account = [TVDatabase currentAccount];
-        [account deleteFlight:[account flights][row]];
+        [account deleteFlight:[account sortedFlights][row]];
 
         [TVDatabase updateMyAccount:account withCompletionHandler:^(BOOL succeeded, NSError *error, NSString *callCode) {
         }];
