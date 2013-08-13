@@ -370,8 +370,6 @@
 
 - (void)viewDidLoad
 {
-    [TVDatabase isCreatingAnAccount:NO];
-    
     [self loadInAccountData];
     
     UIBarButtonItem *tickItem;

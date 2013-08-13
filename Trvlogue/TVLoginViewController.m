@@ -141,8 +141,6 @@
 {
     [self UIBuffer];
     
-    [TVDatabase isCreatingAnAccount:NO];
-    
     [super viewDidLoad];
     
     // Do any additional setup after loading the view from its nib.
@@ -210,7 +208,7 @@
                             
                             [TVLoadingSignifier hideLoadingSignifier];
                             
-                            [self handleError:error andType:Y_GET_LINKEDIN];
+                            [self handleError:error andType:GET_LINKEDIN];
                         }
                     }
                 }];
@@ -221,7 +219,7 @@
                     
                     [TVLoadingSignifier hideLoadingSignifier];
                     
-                    [self handleError:error andType:Y_GET_LINKEDIN];
+                    [self handleError:error andType:GET_LINKEDIN];
                 }
             }
         }];
@@ -266,6 +264,23 @@
     
     if ([[emailTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""] length] && [self validateEmailWithString:[emailTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""]]) {
         
+        [TVLoadingSignifier signifyLoading:@"Requesting for a new password" duration:-1];
+        
+        [TVDatabase requestForNewPassword:emailTextField.text withCompletionHandler:^(BOOL succeeded, NSError *error, NSString *callCode) {
+            
+            if (!error && succeeded) {
+                
+                [TVNotificationSignifier signifyNotification:@"Check your email for more info" forDuration:4];
+            }
+            else {
+                
+                [self handleError:error andType:REQUEST_FORGOT_PASSWORD];
+            }
+        }];
+    }
+    else {
+        
+        [self handleError:[NSError errorWithDomain:@"Invalid email" code:200 userInfo:@{NSLocalizedDescriptionKey: @"Please enter a valid email"}] andType:nil];
     }
 }
 

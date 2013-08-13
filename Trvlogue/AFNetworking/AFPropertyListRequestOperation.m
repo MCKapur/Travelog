@@ -33,9 +33,9 @@ static dispatch_queue_t property_list_request_operation_processing_queue() {
 }
 
 @interface AFPropertyListRequestOperation ()
-@property (weak, readwrite, nonatomic) id responsePropertyList;
+@property (readwrite, nonatomic) id responsePropertyList;
 @property (readwrite, nonatomic, assign) NSPropertyListFormat propertyListFormat;
-@property (weak, readwrite, nonatomic) NSError *propertyListError;
+@property (readwrite, nonatomic) NSError *propertyListError;
 @end
 
 @implementation AFPropertyListRequestOperation
@@ -109,6 +109,7 @@ static dispatch_queue_t property_list_request_operation_processing_queue() {
 {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-retain-cycles"
+#pragma clang diagnostic ignored "-Wgnu"
     self.completionBlock = ^ {
         if (self.error) {
             if (failure) {

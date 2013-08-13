@@ -16,6 +16,8 @@
 
 #import "Reachability.h"
 
+#import "TestFlight.h"
+
 @implementation TVAppDelegate
 @synthesize randomNumber, backgroundColor;
 
@@ -28,6 +30,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+     UIRemoteNotificationTypeBadge |
+     UIRemoteNotificationTypeAlert |
+     UIRemoteNotificationTypeSound];
+    
     self.backgroundColor = [TVAppDelegate generateRandomColor];
 
     [Parse setApplicationId:@"tuE6sOcRNK3YSUaIgDM7mp4PgkMrnxuKKrvciTFw" clientKey:@"oWXDlTXcbIFfoePaVSdh0ZlmxBd8uSGBjtIOSowk"];
@@ -51,12 +58,19 @@
         
         controller = [[UINavigationController alloc] initWithRootViewController:self.loginViewController];
     }
-    
+        
     [controller.navigationBar setBackgroundImage:[UIImage imageNamed:TRVLOGUE_NAVIGATION_BAR] forBarMetrics:UIBarMetricsDefault];
     
     self.window.rootViewController = controller;
     
     [self.window makeKeyAndVisible];
+    
+    if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
+        
+        [TVDatabase receivedLocalNotification:launchOptions];
+    }
+    
+//    [TestFlight takeOff:@"6c9526c1-d130-4ffe-95b7-898c408d014a"];
 
     return YES;
 }
@@ -102,7 +116,7 @@
     
     application.applicationIconBadgeNumber++;
     
-    [TVDatabase recievedLocalNotification:userInfo];
+    [TVDatabase receivedLocalNotification:userInfo];
 }
 
 @end

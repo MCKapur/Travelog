@@ -83,7 +83,7 @@ static NSTimeInterval const kAFNetworkActivityIndicatorInvisibilityDelay = 0.17;
             self.activityIndicatorVisibilityTimer = [NSTimer timerWithTimeInterval:kAFNetworkActivityIndicatorInvisibilityDelay target:self selector:@selector(updateNetworkActivityIndicatorVisibility) userInfo:nil repeats:NO];
             [[NSRunLoop mainRunLoop] addTimer:self.activityIndicatorVisibilityTimer forMode:NSRunLoopCommonModes];
         } else {
-            [self performSelectorOnMainThread:@selector(updateNetworkActivityIndicatorVisibility) withObject:nil waitUntilDone:NO modes:@[NSRunLoopCommonModes]];
+            [self performSelectorOnMainThread:@selector(updateNetworkActivityIndicatorVisibility) withObject:nil waitUntilDone:NO modes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
         }
     }
 }
@@ -126,7 +126,10 @@ static NSTimeInterval const kAFNetworkActivityIndicatorInvisibilityDelay = 0.17;
 - (void)decrementActivityCount {
     [self willChangeValueForKey:@"activityCount"];
 	@synchronized(self) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wgnu"
 		_activityCount = MAX(_activityCount - 1, 0);
+#pragma clang diagnostic pop
 	}
     [self didChangeValueForKey:@"activityCount"];
     

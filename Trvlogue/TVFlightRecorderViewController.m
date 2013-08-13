@@ -169,9 +169,7 @@
     [self UIBuffer];
     
     [self addTextFieldTargets];
-    
-    [TVDatabase isCreatingAnAccount:NO];
-    
+        
     flightParameters = [[NSMutableDictionary alloc] init];
     
     [self initializeAutocompletionObject];

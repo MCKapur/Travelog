@@ -125,7 +125,7 @@
 
     self.downloadedData[@"people"] = [[NSMutableArray alloc] init];
 
-    [TVPeopleFeed findPeopleFromFlight:self.FlightID withCompletionHandler:^(NSMutableArray *objects, NSError *error, NSString *callCode) {
+    [TVDatabase downloadConnectionsInTheSameCity:self.FlightID withCompletionHandler:^(NSMutableArray *objects, NSError *error, NSString *callCode) {
         
         if (!error) {
 

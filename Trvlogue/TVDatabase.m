@@ -74,6 +74,7 @@ NSString *const EMAIL_TAKEN = @"202";
     PFPush *push = [[PFPush alloc] init];
     [push setQuery:query];
     [push setMessage:data[@"message"]];
+    [push setData:data];
     
     [push sendPushInBackground];
 }
@@ -87,9 +88,64 @@ NSString *const EMAIL_TAKEN = @"202";
     [currentInstallation saveEventually];
 }
 
-+ (void)recievedLocalNotification:(NSDictionary *)userInfo {
++ (void)receivedLocalNotification:(NSDictionary *)userInfo {
     
     [PFPush handlePush:userInfo];
+        
+    if ([userInfo[@"type"] intValue] == kPushNotificationWantsToConnect) {
+        
+        TVConnection *connection = [NSKeyedUnarchiver unarchiveObjectWithData:userInfo[@"connection"]];
+
+        TVAccount *newAccount = [TVDatabase currentAccount];
+
+        for (TVConnection *connection in [[[TVDatabase currentAccount] person] connections]) {
+            
+            if ((connection.senderId == connection.senderId) || (connection.receiverId == connection.senderId)) {
+                
+                [[[newAccount person] connections] removeObject:connection];
+                
+                TVNotification *notification = [[TVNotification alloc] initWithTitle:@"People want to connect with you" andType:kNotificationTypeConnectionRequest];
+                
+                [[[newAccount person] notifications] addObject:notification];
+            }
+        }
+        
+        [[[newAccount person] connections] insertObject:connection atIndex:0];
+        
+        [TVDatabase updateMyCache:newAccount];
+        
+        [((UINavigationController *)((TVAppDelegate *)[UIApplication sharedApplication].delegate).window.rootViewController) popViewControllerAnimated:YES];
+        
+        TVFindPeopleViewController *findPeopleViewController = [[TVFindPeopleViewController alloc] init];
+        [findPeopleViewController setFilter:(FindPeopleFilter *)kFindPeopleOnlyConnectRequests];
+        
+        [((UINavigationController *)((TVAppDelegate *)[UIApplication sharedApplication].delegate).window.rootViewController) pushViewController:findPeopleViewController animated:YES];
+    }
+    else if ([userInfo[@"type"] intValue] == kPushNotificationAcceptedConnection) {
+        
+        TVConnection *connection = [NSKeyedUnarchiver unarchiveObjectWithData:userInfo[@"connection"]];
+        
+        TVAccount *newAccount = [TVDatabase currentAccount];
+        
+        for (TVConnection *connection in [[[TVDatabase currentAccount] person] connections]) {
+            
+            if ((connection.senderId == connection.senderId) || (connection.receiverId == connection.senderId)) {
+                
+                [[[newAccount person] connections] removeObject:connection];
+            }
+        }
+        
+        [[[newAccount person] connections] insertObject:connection atIndex:0];
+        
+        [TVDatabase updateMyCache:newAccount];
+        
+        [((UINavigationController *)((TVAppDelegate *)[UIApplication sharedApplication].delegate).window.rootViewController) popViewControllerAnimated:YES];
+        
+        TVFindPeopleViewController *findPeopleViewController = [[TVFindPeopleViewController alloc] init];
+        [findPeopleViewController setFilter:(FindPeopleFilter *)kFindPeopleOnlyConnectRequests];
+        
+        [((UINavigationController *)((TVAppDelegate *)[UIApplication sharedApplication].delegate).window.rootViewController) pushViewController:findPeopleViewController animated:YES];
+    }
 }
 
 + (void)updatePushNotificationsSetup {
@@ -136,18 +192,6 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     return (__bridge NSString *)string;
 }
 
-#pragma mark Creating An Account
-
-+ (void)isCreatingAnAccount:(BOOL)creatingAnAccount {
-    
-    [[NSUserDefaults standardUserDefaults] setBool:creatingAnAccount forKey:@"creatingAnAccount"];
-}
-
-+ (BOOL)creatingAnAccount {
-    
-    return [[NSUserDefaults standardUserDefaults] boolForKey:@"creatingAnAccount"];
-}
-
 #pragma mark TravelData Packets
 
 + (void)removeTravelDataPacketWithID:(NSString *)_FlightID {
@@ -167,7 +211,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 }
 
 + (void)refreshTravelDataPacketWithID:(NSString *)_FlightID andTravelDataObject:(TVTravelDataDownloader *)travelData {
-
+    
     [TVDatabase removeTravelDataPacketWithID:_FlightID];
     
     [TVDatabase addTravelDataPacketWithID:_FlightID andTravelDataObject:travelData];
@@ -248,7 +292,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 }
 
 + (void)refreshAccountWithCompletionHandler:(void (^)(BOOL completed))callback {
-
+    
     [[PFUser currentUser] refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         
         [TVDatabase getAccountFromUser:(PFUser *)object withCompletionHandler:^(TVAccount *account, BOOL allOperationsComplete, BOOL hasWrittenProfilePicture) {
@@ -256,7 +300,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
             [TVDatabase updateMyCache:account];
             
             [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshedAccount" object:nil];
-
+            
             if (allOperationsComplete) {
                 
                 callback(YES);
@@ -264,7 +308,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                 dispatch_queue_t downloadQueue = dispatch_queue_create("Downloading travel data", NULL);
                 
                 dispatch_async(downloadQueue, ^{
-                                        
+                    
                     for (int i = [TVDatabase currentAccount].flights.count - 1; i >= 0; i--) {
                         
                         TVFlight *flight = [[TVDatabase currentAccount] flights][i];
@@ -302,7 +346,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 }
 
 + (NSMutableArray *)allUserConnections {
- 
+    
     NSMutableArray *connections = [[NSMutableArray alloc] init];
     
     for (TVConnection *connection in [[TVDatabase currentAccount].person connections]) {
@@ -316,24 +360,24 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
             [connections addObject:connection.receiverId];
         }
     }
-        
+    
     return connections;
 }
-                                   
-+ (void)downloadConnectionsInTheSameCity:(NSString *)FlightID withCompletionHandler:(void (^)(NSMutableArray *objects, NSError *error, NSString *callCode))callback{
 
++ (void)downloadConnectionsInTheSameCity:(NSString *)FlightID withCompletionHandler:(void (^)(NSMutableArray *objects, NSError *error, NSString *callCode))callback{
+    
     TVFlight *flight = [TVDatabase flightFromID:FlightID];
     
     PFQuery *query = [PFQuery queryWithClassName:@"Flights"];
     [query whereKey:@"flightId" containedIn:[TVDatabase confirmedUserConnections]];
     
     [query setCachePolicy:kPFCachePolicyNetworkOnly];
-        
+    
     [query findObjectsInBackgroundWithBlock:^(NSArray *flights, NSError *error) {
-
+        
         NSMutableArray *possibleSameCity = [[NSMutableArray alloc] init];
         NSMutableArray *confirmedSameCity = [[NSMutableArray alloc] init];
-
+        
         NSMutableArray *allIDs = [[NSMutableArray alloc] init];
         
         for (PFObject *flightObject in flights) {
@@ -341,14 +385,14 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
             NSMutableArray *flights = [NSKeyedUnarchiver unarchiveObjectWithData:flightObject[@"flights"]];
             
             int possibility = 0;
-
+            
             if (flights.count) {
                 
                 int self_dayArrives = [[flight date] timeIntervalSinceReferenceDate];
                 int self_dayLeaves;
                 
                 int indexOfOurFlight = [[[TVDatabase currentAccount] flights] indexOfFlight:[TVDatabase flightFromID:FlightID]];
-
+                
                 if (!indexOfOurFlight) {
                     
                     self_dayLeaves = -1;
@@ -359,7 +403,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                     
                     self_dayLeaves = [[flight date] timeIntervalSinceReferenceDate];
                 }
-
+                
                 for (int i = 0; i <= flights.count - 1; i++) {
                     
                     TVFlight *_flight = flights[i];
@@ -382,7 +426,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                         
                         possibility = 2;
                     }
-                }    
+                }
             }
             else {
                 
@@ -437,17 +481,17 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 }
 
 + (void)findMyConnections:(void (^)(NSMutableArray *objects, NSError *error, NSString *callCode))callback {
-
+    
     PFQuery *connectQuery1 = [PFQuery queryWithClassName:@"Connections"];
     [connectQuery1 whereKey:@"from" equalTo:[[PFUser currentUser] objectId]];
-
+    
     PFQuery *connectQuery2 = [PFQuery queryWithClassName:@"Connections"];
     [connectQuery2 whereKey:@"to" equalTo:[[PFUser currentUser] objectId]];
-
+    
     PFQuery *connectQuery = [PFQuery orQueryWithSubqueries:@[connectQuery1, connectQuery2]];
     
     [connectQuery setCachePolicy:kPFCachePolicyNetworkElseCache];
-
+    
     [connectQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         
         NSMutableArray *connections = [[NSMutableArray alloc] init];
@@ -455,14 +499,14 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         for (PFObject *connectionObject in objects) {
             
             TVConnection *connection = [[TVConnection alloc] initWithSenderId:connectionObject[@"from"] receiverId:connectionObject[@"to"] andStatus:(ConnectRequestStatus *)[connectionObject[@"status"] intValue]];
-        
+            
             [connections addObject:connection];
         }
-
-        callback([connections mutableCopy], error, N_FINDING_PEOPLE);
+        
+        callback([connections mutableCopy], error, FINDING_PEOPLE);
     }];
 }
-
+        
 + (void)findUsersWithEmails:(NSMutableArray *)emails withCompletionHandler:(void (^)(NSMutableArray *objects, NSError *error, NSString *callCode))callback {
     
     PFQuery *emailQuery = [PFUser query];
@@ -477,7 +521,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         else {
         }
         
-        callback([objects mutableCopy], error, N_FINDING_PEOPLE);
+        callback([objects mutableCopy], error, FINDING_PEOPLE);
     }];
 }
 
@@ -490,7 +534,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         
-        callback([objects mutableCopy], nil, N_FINDING_PEOPLE);
+        callback([objects mutableCopy], nil, FINDING_PEOPLE);
     }];
 }
 
@@ -508,7 +552,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         else {
         }
         
-        callback([objects mutableCopy], error, N_FINDING_PEOPLE);
+        callback([objects mutableCopy], error, FINDING_PEOPLE);
     }];
 }
 
@@ -527,9 +571,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     [connection saveEventually:^(BOOL succeeded, NSError *error) {
         
         if (!error && succeeded) {
-            
-            [TVDatabase pushNotificationToObjectId:[user objectId] withData:@{@"message":[NSString stringWithFormat:@"%@ wants to connect with you", [[TVDatabase currentAccount].person name]]}];
-            
+                        
             TVAccount *newAccount = [TVDatabase currentAccount];
                         
             TVConnection *connection = [[TVConnection alloc] initWithSenderId:[[PFUser currentUser] objectId] receiverId:[user objectId] andStatus:kConnectRequestPending];
@@ -537,12 +579,14 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
             [[newAccount.person connections] addObject:connection];
                         
             [TVDatabase updateMyCache:newAccount];
+            
+            [TVDatabase pushNotificationToObjectId:[user objectId] withData:@{@"message":[NSString stringWithFormat:@"%@ wants to connect with you", [[TVDatabase currentAccount].person name]], @"type": @(kPushNotificationWantsToConnect), @"connection": [NSKeyedArchiver archivedDataWithRootObject:connection]}];
 
-            callback(N_SEND_CONNECTION_REQUEST, YES);
+            callback(CONNECTING_PEOPLE, YES);
         }
         else {
             
-            callback(N_SEND_CONNECTION_REQUEST, NO);
+            callback(CONNECTING_PEOPLE, NO);
         }
     }];
 }
@@ -586,21 +630,19 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                     else {
                     }
                     
-                    callback(nil, N_DISCONNECTING_PEOPLE, succeeded);
+                    callback(nil, DISCONNECTING_PEOPLE, succeeded);
                 }];
             }
         }
         else {
             
-            callback(error, N_DISCONNECTING_PEOPLE, NO);
+            callback(error, DISCONNECTING_PEOPLE, NO);
         }
     }];
 }
 
 + (void)acceptConnection:(TVConnection *)connection withCompletionHandler:(void (^)(NSError *, NSString *, BOOL))callback {
-    
-    [TVDatabase pushNotificationToObjectId:connection.senderId withData:@{@"message":[NSString stringWithFormat:@"%@ accepted your connection request", [[TVDatabase currentAccount].person name]]}];
-    
+        
     TVAccount *account = [TVDatabase currentAccount];
     
     int index;
@@ -658,19 +700,20 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                 [activity saveEventually:^(BOOL succeeded, NSError *error) {
                     
                     if (succeeded && !error) {
-                        
+                     
+                        [TVDatabase pushNotificationToObjectId:connection.senderId withData:@{@"message":[NSString stringWithFormat:@"%@ accepted your connection request", [[TVDatabase currentAccount].person name]], @"type": @(kPushNotificationAcceptedConnection), @"connection": [NSKeyedArchiver archivedDataWithRootObject:connection]}];
                     }
                     else {
                         
                     }
                     
-                    callback(error, N_CONNECTING_PEOPLE, succeeded);
+                    callback(error, CONNECTING_PEOPLE, succeeded);
                 }];
             }
         }
         else {
             
-            callback(error, N_CONNECTING_PEOPLE, NO);
+            callback(error, CONNECTING_PEOPLE, NO);
         }
     }];
 }
@@ -811,12 +854,12 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                 callbackError = error;
                 success = succeeded;
                 
-                callback(success, callbackError, N_UPLOADING_PHOTO);
+                callback(success, callbackError, UPLOADING_PHOTO);
             }];
         }
         else {
             
-            callback(success, callbackError, N_UPLOADING_PHOTO);
+            callback(success, callbackError, UPLOADING_PHOTO);
         }
     }];
 }
@@ -844,6 +887,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 + (void)uploadFlights:(NSArray *)flights withObjectId:(NSString *)objectId {
     
     PFObject *flightsObject = [PFObject objectWithClassName:@"Flights"];
+        
     flightsObject[@"flights"] = [NSKeyedArchiver archivedDataWithRootObject:flights];
     flightsObject[@"flightId"] = objectId;
     
@@ -973,7 +1017,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         
         if (!error && objects.count) {
             
-            callback([objects mutableCopy], error, N_DOWNLOADING_ACCOUNTS_FROM_IDS);
+            callback([objects mutableCopy], error, DOWNLOADING_ACCOUNTS_FROM_IDS);
         }
         else {
         
@@ -1007,9 +1051,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 + (void)sendEmail:(NSMutableDictionary *)dictionary withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback {
     
     AmazonSESClient *sesClient = [[AmazonSESClient alloc] initWithAccessKey:AWS_ACCESS_KEY_ID withSecretKey:AWS_SECRET_KEY];
-    
-    [TVDatabase isCreatingAnAccount:NO];
-    
+        
     NSDictionary *paramDict = [TVDatabase emailParameters:dictionary];
     
     SESSendEmailRequest *ser = [[SESSendEmailRequest alloc] init];
@@ -1018,7 +1060,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     ser.destination = paramDict[@"destination"];
     ser.message = paramDict[@"message"];
     
-    ser.requestTag = YN_SENDING_REQUEST_EMAIL;
+    ser.requestTag = SENDING_REQUEST_EMAIL;
     
     SESSendEmailResponse *response = [sesClient sendEmail:ser];
     
@@ -1032,7 +1074,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     callback(success, response.error, ser.requestTag);
 }
 
-#pragma mark Operations
+#pragma mark Logging in
 
 + (void)loginToAccountWithEmail:(NSString *)email andPassword:(NSString *)password withCompletionHandler:(void (^)(BOOL success, BOOL correctCredentials, NSError *error, NSString *callCode))callback {
     
@@ -1047,7 +1089,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
             
             correctCredentials = YES;
             
-            callback(success, correctCredentials, error, N_LOGGING_IN);
+            callback(success, correctCredentials, error, LOGGING_IN);
             
             [TVDatabase getAccountFromUser:user withCompletionHandler:^(TVAccount *account, BOOL allOperationsComplete, BOOL hasWrittenProfilePicture) {
                                 
@@ -1072,10 +1114,20 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                 correctCredentials = NO;
             }
             
-            callback(success, correctCredentials, error, N_LOGGING_IN);
+            callback(success, correctCredentials, error, LOGGING_IN);
         }
     }];
 }
+
++ (void)requestForNewPassword:(NSString *)email withCompletionHandler:(void (^)(BOOL succeeded, NSError *error, NSString *callCode))callback {
+
+    [PFUser requestPasswordResetForEmailInBackground:email block:^(BOOL succeeded, NSError *error) {
+       
+        callback(succeeded, error, REQUEST_FORGOT_PASSWORD);
+    }];
+}
+
+#pragma mark Operations
 
 + (NSMutableArray *)attributesWithAccount:(TVAccount *)accountObj {
 
@@ -1129,8 +1181,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 
 + (void)updateMyAccount:(TVAccount *)accountObj withCompletionHandler:(void (^)(BOOL succeeded, NSError *error, NSString *callCode))callback {
     
-    NSString *reqTag;
-    reqTag = N_UPDATING_MY_ACCOUNT;
+    NSString *reqTag = UPDATING_MY_ACCOUNT;
 
     [TVDatabase updateMyCache:accountObj];
         
@@ -1189,7 +1240,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
             [TVDatabase updateMyCache:trvlogueAccount];
         }
         
-        callback(succeeded, error, Y_CREATING_ACCOUNT);
+        callback(succeeded, error, CREATING_ACCOUNT);
     }];
 }
 

@@ -486,9 +486,7 @@
     
     [self.navigationController setNavigationBarHidden:NO];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(registerAction)]];
-    
-    [TVDatabase isCreatingAnAccount:YES];
-    
+        
     followingArray = [[NSMutableArray alloc] init];
     
     for (UIView *view in self.view.subviews) {

@@ -250,6 +250,10 @@
 
 - (void)tidbitClicked:(NSNotification *)notification {
     
+    if ([notification.userInfo[@"ID"] isEqualToString:@"Plugs"]) {
+        
+    }
+    
     NSLog(@"%@", notification.userInfo);
 }
 
@@ -632,7 +636,7 @@
         
         info[@"timezone"] = timezone;
     }
-        
+            
     if ([[self travelData][@"plugs"] count] || dataType == kTravelDataPlug) {
         
         NSMutableDictionary *plugs = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"plugs"], @"data", @"Plugs", @"name", @(UITableViewCellAccessoryDisclosureIndicator), @"accessoryType", nil];
@@ -791,9 +795,7 @@
     [super viewWillAppear:YES];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(travelDataUpdated:) name:[NSString stringWithFormat:@"TravelDataUpdated_%@", self.FlightID] object:nil];
-    
-    [TVDatabase isCreatingAnAccount:NO];
-    
+        
     [self.newsTableView reloadData];
     [self.newsTableView setNeedsDisplay];
     

@@ -22,6 +22,10 @@
 
 #import "TVAppDelegate.h"
 
+#import "TVDatabase.h"
+
+#import "TVNotificationSignifier.h"
+
 @interface TVLoginViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate, UIActionSheetDelegate>
 {
     IBOutlet UITextField *emailTextField;
@@ -30,9 +34,7 @@
     IBOutlet UILabel *trvlogueLabel;
     
     IBOutlet GIFBackground *gifImage;
-        
-    TVDatabase *databaseOperator;
-    
+            
     UIAlertView *loadingAlert;
     UIActivityIndicatorView *indicatorView;
 }

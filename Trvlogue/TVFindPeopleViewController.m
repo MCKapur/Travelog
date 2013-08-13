@@ -473,8 +473,6 @@ static int expectedOperations;
     
     if (self) {
         
-        [TVDatabase isCreatingAnAccount:NO];
-        
         self.people = [[NSMutableArray alloc] init];
         self.users = [[NSMutableArray alloc] init];
         

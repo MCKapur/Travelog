@@ -27,29 +27,36 @@ extern NSString *const EMAIL_TAKEN;
 
 // Operation tags - used for error handling too! :) :) :) :)
 
-#define N_LOGGING_IN @"log in"
-#define Y_CREATING_ACCOUNT @"create your account"
-#define Y_CHECK_IF_EMAIL_HAS_BEEN_USED @"register your email"
-#define N_CHECK_IF_EMAIL_HAS_BEEN_USED @"register your email"
-#define Y_DOWNLOADING_ACCOUNTS_FROM_EMAILS @"download the accounts"
-#define N_DOWNLOADING_ACCOUNTS_FROM_EMAILS @"download the accounts"
-#define N_DOWNLOADING_ACCOUNTS_FROM_IDS @"download the accounts"
-#define N_UPDATING_MY_ACCOUNT @"update your account"
-#define N_UPLOADING_PHOTO @"upload your photo"
-#define YN_SENDING_REQUEST_EMAIL @"send you an email"
-#define N_SEND_CONNECTION_REQUEST @"send the connection request"
-#define N_CONNECTING_PEOPLE @"connect with this person"
-#define N_DISCONNECTING_PEOPLE @"disconnect with this person"
-#define N_FINDING_PEOPLE @"find people"
-#define Y_GET_LINKEDIN @"retrieve LinkedIn info"
-#define N_GET_LINKEDIN @"retrieve LinkedIn info"
+#define LOGGING_IN @"log in"
+#define CREATING_ACCOUNT @"create your account"
+#define CHECK_IF_EMAIL_HAS_BEEUSED @"register your email"
+#define CHECK_IF_EMAIL_HAS_BEEUSED @"register your email"
+#define DOWNLOADING_ACCOUNTS_FROM_EMAILS @"download the accounts"
+#define DOWNLOADING_ACCOUNTS_FROM_EMAILS @"download the accounts"
+#define DOWNLOADING_ACCOUNTS_FROM_IDS @"download the accounts"
+#define UPDATING_MY_ACCOUNT @"update your account"
+#define UPLOADING_PHOTO @"upload your photo"
+#define SENDING_REQUEST_EMAIL @"send you an email"
+#define CONNECTING_PEOPLE @"connect with this person"
+#define DISCONNECTING_PEOPLE @"disconnect with this person"
+#define FINDING_PEOPLE @"find people"
+#define GET_LINKEDIN @"retrieve LinkedIn info"
+#define GET_LINKEDIN @"retrieve LinkedIn info"
+#define REQUEST_FORGOT_PASSWORD @"request a new password"
 
 typedef enum {
     
-    kCouldNotSend = 0,
-    kSent = 1
+    kEmailCouldNotSend = 0,
+    kEmailSent = 1
     
 } EmailSendRequestResult;
+
+typedef enum {
+    
+    kPushNotificationWantsToConnect = 0,
+    kPushNotificationAcceptedConnection
+
+} PushNotificationType;
 
 #import <Foundation/Foundation.h>
 
@@ -64,6 +71,8 @@ typedef enum {
 #import "TVNotification.h"
 
 #import "TVConnection.h"
+
+#import "TVFindPeopleViewController.h"
  
 @class TVCreateAccountViewController;
 
@@ -109,7 +118,7 @@ typedef enum {
 
 + (void)trackAnalytics:(NSDictionary *)launchOptions;
 
-+ (void)recievedLocalNotification:(NSDictionary *)userInfo;
++ (void)receivedLocalNotification:(NSDictionary *)userInfo;
 + (void)setupPushNotifications:(NSData *)deviceToken;
 + (void)pushNotificationToObjectId:(NSString *)objectId withData:(NSDictionary *)data;
 + (void)removePushNotificationsSetup;
@@ -118,8 +127,6 @@ typedef enum {
 
 + (TVAccount *)nativeAccount;
 + (TVAccount *)currentAccount;
-
-+ (void)isCreatingAnAccount:(BOOL)creatingAnAccount;
 
 + (void)downloadUsersFromUserIds:(NSArray *)userIds withCompletionHandler:(void (^)(NSMutableArray *users, NSError *error, NSString *callCode))callback;
 + (void)getAccountFromUser:(PFUser *)object withCompletionHandler:(void (^)(TVAccount *account, BOOL allOperationsComplete, BOOL hasWrittenProfilePicture))callback;
@@ -130,6 +137,7 @@ typedef enum {
 + (void)updateMyCache:(TVAccount *)accountObj;
 
 + (void)loginToAccountWithEmail:(NSString *)email andPassword:(NSString *)password withCompletionHandler:(void (^)(BOOL success, BOOL correctCredentials, NSError *error, NSString *callCode))callback;
++ (void)requestForNewPassword:(NSString *)email withCompletionHandler:(void (^)(BOOL succeeded, NSError *error, NSString *callCode))callback;
 
 + (NSData *)archiveAccount:(TVAccount *)accountObj;
 + (TVAccount *)unarchiveAccount:(NSData *)data;

@@ -13,8 +13,6 @@
 #import "TVRSSItem.h"
 #import "RSSChannel.h"
 
-#import "TVPeopleFeed.h"
-
 #import "TVFlight.h"
 #import "TVPlacesQuerySuggestionsRetriever.h"
 

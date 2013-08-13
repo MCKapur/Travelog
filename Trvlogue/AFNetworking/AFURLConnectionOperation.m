@@ -27,7 +27,7 @@
 #endif
 
 #if !__has_feature(objc_arc)
-//#error AFNetworking must be built with ARC.
+#error AFNetworking must be built with ARC.
 // You can turn on ARC for only AFNetworking files by adding -fobjc-arc to the build phase for each of its files.
 #endif
 
@@ -56,7 +56,6 @@ NSString * const AFNetworkingOperationDidStartNotification = @"com.alamofire.net
 NSString * const AFNetworkingOperationDidFinishNotification = @"com.alamofire.networking.operation.finish";
 
 typedef void (^AFURLConnectionOperationProgressBlock)(NSUInteger bytes, long long totalBytes, long long totalBytesExpected);
-typedef BOOL (^AFURLConnectionOperationAuthenticationAgainstProtectionSpaceBlock)(NSURLConnection *connection, NSURLProtectionSpace *protectionSpace);
 typedef void (^AFURLConnectionOperationAuthenticationChallengeBlock)(NSURLConnection *connection, NSURLAuthenticationChallenge *challenge);
 typedef NSCachedURLResponse * (^AFURLConnectionOperationCacheResponseBlock)(NSURLConnection *connection, NSCachedURLResponse *cachedResponse);
 typedef NSURLRequest * (^AFURLConnectionOperationRedirectResponseBlock)(NSURLConnection *connection, NSURLRequest *request, NSURLResponse *redirectResponse);
@@ -105,6 +104,26 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
     }
 }
 
+#if !defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
+static NSData *AFSecKeyGetData(SecKeyRef key) {
+    CFDataRef data = NULL;
+    
+    OSStatus status = SecItemExport(key, kSecFormatUnknown, kSecItemPemArmour, NULL, &data);
+    NSCAssert(status == errSecSuccess, @"SecItemExport error: %ld", (long int)status);
+    NSCParameterAssert(data);
+    
+    return (__bridge_transfer NSData *)data;
+}
+#endif
+
+static BOOL AFSecKeyIsEqualToKey(SecKeyRef key1, SecKeyRef key2) {
+#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
+    return [(__bridge id)key1 isEqual:(__bridge id)key2];
+#else
+    return [AFSecKeyGetData(key1) isEqual:AFSecKeyGetData(key2)];
+#endif
+}
+
 @interface AFURLConnectionOperation ()
 @property (readwrite, nonatomic, assign) AFOperationState state;
 @property (readwrite, nonatomic, assign, getter = isCancelled) BOOL cancelled;
@@ -120,7 +139,6 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
 @property (readwrite, nonatomic, assign) AFBackgroundTaskIdentifier backgroundTaskIdentifier;
 @property (readwrite, nonatomic, copy) AFURLConnectionOperationProgressBlock uploadProgress;
 @property (readwrite, nonatomic, copy) AFURLConnectionOperationProgressBlock downloadProgress;
-@property (readwrite, nonatomic, copy) AFURLConnectionOperationAuthenticationAgainstProtectionSpaceBlock authenticationAgainstProtectionSpace;
 @property (readwrite, nonatomic, copy) AFURLConnectionOperationAuthenticationChallengeBlock authenticationChallenge;
 @property (readwrite, nonatomic, copy) AFURLConnectionOperationCacheResponseBlock cacheResponse;
 @property (readwrite, nonatomic, copy) AFURLConnectionOperationRedirectResponseBlock redirectResponse;
@@ -146,27 +164,25 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
 @dynamic inputStream;
 @synthesize outputStream = _outputStream;
 @synthesize credential = _credential;
-#ifdef _AFNETWORKING_PIN_SSL_CERTIFICATES_
 @synthesize SSLPinningMode = _SSLPinningMode;
-#endif
 @synthesize shouldUseCredentialStorage = _shouldUseCredentialStorage;
 @synthesize userInfo = _userInfo;
 @synthesize backgroundTaskIdentifier = _backgroundTaskIdentifier;
 @synthesize uploadProgress = _uploadProgress;
 @synthesize downloadProgress = _downloadProgress;
-@synthesize authenticationAgainstProtectionSpace = _authenticationAgainstProtectionSpace;
 @synthesize authenticationChallenge = _authenticationChallenge;
 @synthesize cacheResponse = _cacheResponse;
 @synthesize redirectResponse = _redirectResponse;
 @synthesize lock = _lock;
 
-+ (void) __attribute__((noreturn)) networkRequestThreadEntryPoint:(id)__unused object {
-    do {
-        @autoreleasepool {
-            [[NSThread currentThread] setName:@"AFNetworking"];
-            [[NSRunLoop currentRunLoop] run];
-        }
-    } while (YES);
++ (void)networkRequestThreadEntryPoint:(id __unused)object {
+    @autoreleasepool {
+        [[NSThread currentThread] setName:@"AFNetworking"];
+
+        NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+        [runLoop addPort:[NSMachPort port] forMode:NSDefaultRunLoopMode];
+        [runLoop run];
+    }
 }
 
 + (NSThread *)networkRequestThread {
@@ -180,7 +196,6 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
     return _networkRequestThread;
 }
 
-#ifdef _AFNETWORKING_PIN_SSL_CERTIFICATES_
 + (NSArray *)pinnedCertificates {
     static NSArray *_pinnedCertificates = nil;
     static dispatch_once_t onceToken;
@@ -218,16 +233,21 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
             SecTrustRef allowedTrust = NULL;
             OSStatus status = SecTrustCreateWithCertificates(certificates, policy, &allowedTrust);
             NSAssert(status == errSecSuccess, @"SecTrustCreateWithCertificates error: %ld", (long int)status);
+            if (status == errSecSuccess && allowedTrust) {
+                SecTrustResultType result = 0;
+                status = SecTrustEvaluate(allowedTrust, &result);
+                NSAssert(status == errSecSuccess, @"SecTrustEvaluate error: %ld", (long int)status);
+                if (status == errSecSuccess) {
+                    SecKeyRef allowedPublicKey = SecTrustCopyPublicKey(allowedTrust);
+                    NSParameterAssert(allowedPublicKey);
+                    if (allowedPublicKey) {
+                        [publicKeys addObject:(__bridge_transfer id)allowedPublicKey];
+                    }
+                }
+                
+                CFRelease(allowedTrust);
+            }          
             
-            SecTrustResultType result = 0;
-            status = SecTrustEvaluate(allowedTrust, &result);
-            NSAssert(status == errSecSuccess, @"SecTrustEvaluate error: %ld", (long int)status);
-            
-            SecKeyRef allowedPublicKey = SecTrustCopyPublicKey(allowedTrust);            
-            NSParameterAssert(allowedPublicKey);
-            [publicKeys addObject:(__bridge_transfer id)allowedPublicKey];
-            
-            CFRelease(allowedTrust);
             CFRelease(policy);
             CFRelease(certificates);
             CFRelease(allowedCertificate);
@@ -238,9 +258,10 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
     
     return _pinnedPublicKeys;
 }
-#endif
 
 - (id)initWithRequest:(NSURLRequest *)urlRequest {
+    NSParameterAssert(urlRequest);
+
     self = [super init];
     if (!self) {
 		return nil;
@@ -365,11 +386,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
     self.downloadProgress = block;
 }
 
-- (void)setAuthenticationAgainstProtectionSpaceBlock:(BOOL (^)(NSURLConnection *, NSURLProtectionSpace *))block {
-    self.authenticationAgainstProtectionSpace = block;
-}
-
-- (void)setAuthenticationChallengeBlock:(void (^)(NSURLConnection *connection, NSURLAuthenticationChallenge *challenge))block {
+- (void)setWillSendRequestForAuthenticationChallengeBlock:(void (^)(NSURLConnection *connection, NSURLAuthenticationChallenge *challenge))block {
     self.authenticationChallenge = block;
 }
 
@@ -511,6 +528,11 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
     });
     
     if ([self isCancelled]) {
+        NSDictionary *userInfo = nil;
+        if ([self.request URL]) {
+            userInfo = [NSDictionary dictionaryWithObject:[self.request URL] forKey:NSURLErrorFailingURLErrorKey];
+        }
+        self.error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCancelled userInfo:userInfo];
         [self finish];
     }
 }
@@ -540,7 +562,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
 - (void)cancelConnection {
     NSDictionary *userInfo = nil;
     if ([self.request URL]) {
-        userInfo = @{NSURLErrorFailingURLErrorKey: [self.request URL]};
+        userInfo = [NSDictionary dictionaryWithObject:[self.request URL] forKey:NSURLErrorFailingURLErrorKey];
     }
     self.error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCancelled userInfo:userInfo];
     
@@ -554,10 +576,14 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
 
 #pragma mark - NSURLConnectionDelegate
 
-#ifdef _AFNETWORKING_PIN_SSL_CERTIFICATES_
 - (void)connection:(NSURLConnection *)connection
 willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
+    if (self.authenticationChallenge) {
+        self.authenticationChallenge(connection, challenge);
+        return;
+    }
+    
     if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
         SecTrustRef serverTrust = challenge.protectionSpace.serverTrust;
         
@@ -578,14 +604,17 @@ willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challe
                 
                 OSStatus status = SecTrustCreateWithCertificates(certificates, policy, &trust);
                 NSAssert(status == errSecSuccess, @"SecTrustCreateWithCertificates error: %ld", (long int)status);
-                
-                SecTrustResultType result;
-                status = SecTrustEvaluate(trust, &result);
-                NSAssert(status == errSecSuccess, @"SecTrustEvaluate error: %ld", (long int)status);
-                
-                [trustChain addObject:(__bridge_transfer id)SecTrustCopyPublicKey(trust)];
-                
-                CFRelease(trust);
+                if (status == errSecSuccess && trust) {
+                    SecTrustResultType result;
+                    status = SecTrustEvaluate(trust, &result);
+                    NSAssert(status == errSecSuccess, @"SecTrustEvaluate error: %ld", (long int)status);
+                    if (status == errSecSuccess) {
+                        [trustChain addObject:(__bridge_transfer id)SecTrustCopyPublicKey(trust)];
+                    }
+
+                    CFRelease(trust);
+                }
+              
                 CFRelease(certificates);
             }
         }
@@ -594,11 +623,15 @@ willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challe
         
         switch (self.SSLPinningMode) {
             case AFSSLPinningModePublicKey: {
+                NSArray *pinnedPublicKeys = [self.class pinnedPublicKeys];
+                
                 for (id publicKey in trustChain) {
-                    if ([[self.class pinnedPublicKeys] containsObject:publicKey]) {
-                        NSURLCredential *credential = [NSURLCredential credentialForTrust:serverTrust];
-                        [[challenge sender] useCredential:credential forAuthenticationChallenge:challenge];
-                        return;
+                    for (id pinnedPublicKey in pinnedPublicKeys) {
+                        if (AFSecKeyIsEqualToKey((__bridge SecKeyRef)publicKey, (__bridge SecKeyRef)pinnedPublicKey)) {
+                            NSURLCredential *credential = [NSURLCredential credentialForTrust:serverTrust];
+                            [[challenge sender] useCredential:credential forAuthenticationChallenge:challenge];
+                            return;
+                        }
                     }
                 }
                 
@@ -623,11 +656,10 @@ willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challe
                     [[challenge sender] useCredential:credential forAuthenticationChallenge:challenge];
                 } else {
                     SecTrustResultType result = 0;
-                    OSStatus status;
-                    status = SecTrustEvaluate(serverTrust, &result);
+                    OSStatus status = SecTrustEvaluate(serverTrust, &result);
                     NSAssert(status == errSecSuccess, @"SecTrustEvaluate error: %ld", (long int)status);
                     
-                    if (result == kSecTrustResultUnspecified || result == kSecTrustResultProceed) {
+                    if (status == errSecSuccess && (result == kSecTrustResultUnspecified || result == kSecTrustResultProceed)) {
                         NSURLCredential *credential = [NSURLCredential credentialForTrust:serverTrust];
                         [[challenge sender] useCredential:credential forAuthenticationChallenge:challenge];
                     } else {
@@ -637,42 +669,6 @@ willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challe
                 break;
             }
         }
-    } else if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodDefault]) {
-        [[challenge sender] performDefaultHandlingForAuthenticationChallenge:challenge];
-    }
-}
-#endif
-
-
-- (BOOL)connection:(NSURLConnection *)connection
-canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
-{
-    if (self.allowsInvalidSSLCertificate &&
-       [protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
-            return YES;
-    }
-    
-    if (self.authenticationAgainstProtectionSpace) {
-        return self.authenticationAgainstProtectionSpace(connection, protectionSpace);
-    } else if ([protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust] || [protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodClientCertificate]) {
-        return NO;
-    } else {
-        return YES;
-    }
-}
-
-- (void)connection:(NSURLConnection *)connection
-didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
-{
-
-    if (self.allowsInvalidSSLCertificate
-       && [challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
-        [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
-        return;
-    }
-
-    if (self.authenticationChallenge) {
-        self.authenticationChallenge(connection, challenge);
     } else {
         if ([challenge previousFailureCount] == 0) {
             if (self.credential) {
@@ -827,8 +823,8 @@ didReceiveResponse:(NSURLResponse *)response
     [aCoder encodeObject:self.response forKey:@"response"];
     [aCoder encodeObject:self.error forKey:@"error"];
     [aCoder encodeObject:self.responseData forKey:@"responseData"];
-    [aCoder encodeObject:@(self.totalBytesRead) forKey:@"totalBytesRead"];
-    [aCoder encodeObject:@(self.allowsInvalidSSLCertificate) forKey:@"allowsInvalidSSLCertificate"];
+    [aCoder encodeObject:[NSNumber numberWithLongLong:self.totalBytesRead] forKey:@"totalBytesRead"];
+    [aCoder encodeObject:[NSNumber numberWithBool:self.allowsInvalidSSLCertificate] forKey:@"allowsInvalidSSLCertificate"];
 }
 
 #pragma mark - NSCopying
@@ -838,7 +834,6 @@ didReceiveResponse:(NSURLResponse *)response
     
     operation.uploadProgress = self.uploadProgress;
     operation.downloadProgress = self.downloadProgress;
-    operation.authenticationAgainstProtectionSpace = self.authenticationAgainstProtectionSpace;
     operation.authenticationChallenge = self.authenticationChallenge;
     operation.cacheResponse = self.cacheResponse;
     operation.redirectResponse = self.redirectResponse;

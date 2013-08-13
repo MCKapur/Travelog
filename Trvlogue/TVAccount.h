@@ -12,6 +12,8 @@
 
 #import "TVMileTidbits.h"
 
+#import "TVPerson.h"
+
 @interface TVAccount : NSObject <NSCoding>
 
 @property (nonatomic, strong) TVPerson *person;
