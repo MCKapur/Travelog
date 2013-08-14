@@ -304,7 +304,7 @@
         
         ((TVFlightCell *)cell).shortDate.text = [self generateShortcuttedDates:[flight date]];
         
-        ((TVFlightCell *)cell).flight.font = [UIFont fontWithName:@"Gotham Book" size:15.0];
+        ((TVFlightCell *)cell).flight.font = [UIFont fontWithName:@"Gotham Book" size:16.0];
 
         if (loading) {
             
@@ -493,14 +493,76 @@
     [self.navigationController pushViewController:flightRecorder animated:YES];
 }
 
-#pragma mark Find People
+#pragma mark Dropdown Menu
 
-- (void)connectView {
+- (void)showPopover:(UIBarButtonItem *)barButtonItem {
+    
+    if ([[barButtonItem accessibilityValue] isEqualToString:@"Show"]) {
+        
+        barButtonItem.image = [UIImage imageNamed:@"carrot_up.png"];
+    }
+    else {
+        
+        barButtonItem.image = [UIImage imageNamed:@"carrow_down.png"];
+    }
+    
+    NSArray *menuItems =
+    @[      
+      [KxMenuItem menuItem:@"Messages"
+                     image:[UIImage imageNamed:@"messages.png"]
+                    target:self
+                    action:@selector(showMessagesPage)],
+      
+      [KxMenuItem menuItem:@"Connect"
+                     image:[UIImage imageNamed:@"person.png"]
+                    target:self
+                    action:@selector(showFindPeoplePage)],
+      
+      [KxMenuItem menuItem:@"Export"
+                     image:[UIImage imageNamed:@"export.png"]
+                    target:self
+                    action:@selector(exportFlights)],
+      
+      [KxMenuItem menuItem:@"Settings"
+                     image:[UIImage imageNamed:@"settings.png"]
+                    target:self
+                    action:@selector(showSettingsPage)],
+      ];
+    
+    [KxMenu setTintColor:[UIColor whiteColor]];
+    [KxMenu setTitleFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0]];
+    
+    [KxMenu showMenuInView:self.view
+                  fromRect:CGRectMake(-50, -200, 100, 200)
+                 menuItems:menuItems];
+}
+
+- (void)showMessagesPage {
+    
+}
+
+- (void)showFindPeoplePage {
     
     TVFindPeopleViewController *findPeople = [[TVFindPeopleViewController alloc] init];
     [findPeople setFilter:kFindPeopleFilterAllPeople];
     
     [[self navigationController] pushViewController:findPeople animated:YES];
+}
+
+- (void)exportFlights {
+    
+}
+
+- (void)showSettingsPage {
+    
+}
+
+- (void)logout {
+    
+    TVLoginViewController *login = [[TVLoginViewController alloc] init];
+    [self.navigationController pushViewController:login animated:YES];
+    
+    [TVDatabase logout];
 }
 
 #pragma mark UI Handling
@@ -519,8 +581,8 @@
     UIBarButtonItem *recordFlightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(recordAFlight)];
     self.navigationItem.rightBarButtonItem = recordFlightItem;
     
-    UIBarButtonItem *barButtonItemConnect = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"person.png"] landscapeImagePhone:nil style:UIBarButtonItemStylePlain target:self action:@selector(connectView)];
-    self.navigationItem.leftBarButtonItem = barButtonItemConnect;
+    UIBarButtonItem *barButtonItemPopover = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"person.png"] landscapeImagePhone:nil style:UIBarButtonItemStylePlain target:self action:@selector(showPopover:)];
+    self.navigationItem.leftBarButtonItem = barButtonItemPopover;
         
     UIButton *logoutButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     logoutButton.frame = self.navigationItem.titleView.frame;
@@ -540,14 +602,6 @@
     [self.headerView setFrame:CGRectMake(self.headerView.frame.origin.x, self.headerView.frame.origin.y, self.headerView.frame.size.width, 31 + (27 * [[[[TVDatabase currentAccount] person] notifications] collectiveNotifications].count))];
     
     [self.headerView addSubview:self.notificationsTable];
-}
-
-- (void)logout {
-    
-    TVLoginViewController *login = [[TVLoginViewController alloc] init];
-    [self.navigationController pushViewController:login animated:YES];
-    
-    [TVDatabase logout];
 }
 
 #pragma mark Funky, Dirty, Native :)

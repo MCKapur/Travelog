@@ -48,6 +48,7 @@
 		460B0D31175309E300A1229C /* LinkedInDataRetriever.m in Sources */ = {isa = PBXBuildFile; fileRef = 460B0D30175309E200A1229C /* LinkedInDataRetriever.m */; };
 		460B0D341753ACBB00A1229C /* LinkedInAuthorizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 460B0D331753ACBA00A1229C /* LinkedInAuthorizer.m */; };
 		4629DF9417BA8FF50057AB0B /* TVMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4629DF9317BA8FF50057AB0B /* TVMessage.m */; };
+		4629DFBC17BB2C5D0057AB0B /* KxMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 4629DFBB17BB2C5D0057AB0B /* KxMenu.m */; };
 		462E441817B9FB0D00BDE403 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 462E440617B9FB0D00BDE403 /* AFHTTPClient.m */; };
 		462E441917B9FB0D00BDE403 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 462E440817B9FB0D00BDE403 /* AFHTTPRequestOperation.m */; };
 		462E441A17B9FB0D00BDE403 /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 462E440A17B9FB0D00BDE403 /* AFImageRequestOperation.m */; };
@@ -5263,6 +5264,8 @@
 		460B0D331753ACBA00A1229C /* LinkedInAuthorizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkedInAuthorizer.m; sourceTree = "<group>"; };
 		4629DF9217BA8FF50057AB0B /* TVMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVMessage.h; sourceTree = "<group>"; };
 		4629DF9317BA8FF50057AB0B /* TVMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVMessage.m; sourceTree = "<group>"; };
+		4629DFBA17BB2C5D0057AB0B /* KxMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KxMenu.h; sourceTree = "<group>"; };
+		4629DFBB17BB2C5D0057AB0B /* KxMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KxMenu.m; sourceTree = "<group>"; };
 		462E440517B9FB0D00BDE403 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		462E440617B9FB0D00BDE403 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		462E440717B9FB0D00BDE403 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -11514,6 +11517,8 @@
 		46A2D5F916EEA22100C886CB /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				4629DFBA17BB2C5D0057AB0B /* KxMenu.h */,
+				4629DFBB17BB2C5D0057AB0B /* KxMenu.m */,
 				46B47EED16FF044500ACBD64 /* TVAnnotation.h */,
 				46B47EEE16FF044500ACBD64 /* TVAnnotation.m */,
 				46A4BDF217701D3000A71EFA /* TVSwipeBanner.h */,
@@ -12393,6 +12398,7 @@
 				462E441F17B9FB0D00BDE403 /* AFXMLRequestOperation.m in Sources */,
 				462E442017B9FB0D00BDE403 /* UIImageView+AFNetworking.m in Sources */,
 				4629DF9417BA8FF50057AB0B /* TVMessage.m in Sources */,
+				4629DFBC17BB2C5D0057AB0B /* KxMenu.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
