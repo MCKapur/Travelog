@@ -28,6 +28,11 @@
 		460329D8175B8980000F820F /* UIGridViewRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 460329D5175B8980000F820F /* UIGridViewRow.m */; };
 		460329DC175B8BDC000F820F /* TVPersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 460329DA175B8BDB000F820F /* TVPersonCell.m */; };
 		460329DD175B8BDC000F820F /* TVPersonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 460329DB175B8BDC000F820F /* TVPersonCell.xib */; };
+		4605838A17BB4ED900AA604E /* CustomBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4605838917BB4ED900AA604E /* CustomBadge.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		460583B117BB5AE100AA604E /* person.png in Resources */ = {isa = PBXBuildFile; fileRef = 460583B017BB5AE100AA604E /* person.png */; };
+		460583B317BB5AE700AA604E /* messages.png in Resources */ = {isa = PBXBuildFile; fileRef = 460583B217BB5AE700AA604E /* messages.png */; };
+		460583B517BB5AED00AA604E /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 460583B417BB5AED00AA604E /* settings.png */; };
+		460583B717BB5AF600AA604E /* download.png in Resources */ = {isa = PBXBuildFile; fileRef = 460583B617BB5AF600AA604E /* download.png */; };
 		460A9E8916F98C5A00FFBF2A /* TVErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 460A9E8816F98C5A00FFBF2A /* TVErrorHandler.m */; };
 		460A9E8C16F9920500FFBF2A /* TVConversions.m in Sources */ = {isa = PBXBuildFile; fileRef = 460A9E8B16F9920400FFBF2A /* TVConversions.m */; };
 		460A9E8F16F99B1500FFBF2A /* TVLoadingSignifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 460A9E8E16F99B1500FFBF2A /* TVLoadingSignifier.m */; };
@@ -5234,6 +5239,12 @@
 		460329D9175B8BDB000F820F /* TVPersonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVPersonCell.h; sourceTree = "<group>"; };
 		460329DA175B8BDB000F820F /* TVPersonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVPersonCell.m; sourceTree = "<group>"; };
 		460329DB175B8BDC000F820F /* TVPersonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TVPersonCell.xib; sourceTree = "<group>"; };
+		4605838817BB4ED900AA604E /* CustomBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomBadge.h; sourceTree = "<group>"; };
+		4605838917BB4ED900AA604E /* CustomBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomBadge.m; sourceTree = "<group>"; };
+		460583B017BB5AE100AA604E /* person.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = person.png; sourceTree = "<group>"; };
+		460583B217BB5AE700AA604E /* messages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = messages.png; sourceTree = "<group>"; };
+		460583B417BB5AED00AA604E /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
+		460583B617BB5AF600AA604E /* download.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = download.png; sourceTree = "<group>"; };
 		460A9E8716F98C5900FFBF2A /* TVErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVErrorHandler.h; sourceTree = "<group>"; };
 		460A9E8816F98C5A00FFBF2A /* TVErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVErrorHandler.m; sourceTree = "<group>"; };
 		460A9E8A16F9920400FFBF2A /* TVConversions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVConversions.h; sourceTree = "<group>"; };
@@ -11517,6 +11528,8 @@
 		46A2D5F916EEA22100C886CB /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				4605838817BB4ED900AA604E /* CustomBadge.h */,
+				4605838917BB4ED900AA604E /* CustomBadge.m */,
 				4629DFBA17BB2C5D0057AB0B /* KxMenu.h */,
 				4629DFBB17BB2C5D0057AB0B /* KxMenu.m */,
 				46B47EED16FF044500ACBD64 /* TVAnnotation.h */,
@@ -11632,6 +11645,10 @@
 		46C28FA916EDE9E900399BDE /* slices */ = {
 			isa = PBXGroup;
 			children = (
+				460583B617BB5AF600AA604E /* download.png */,
+				460583B417BB5AED00AA604E /* settings.png */,
+				460583B217BB5AE700AA604E /* messages.png */,
+				460583B017BB5AE100AA604E /* person.png */,
 				43A8FF2E17B35F5800BCC5C0 /* cross.png */,
 				43A8FF2F17B35F5800BCC5C0 /* cross@2x.png */,
 				46F7E15417729E2B007B5D1C /* person.png */,
@@ -12308,6 +12325,10 @@
 				4652BAE317B8B46E009A0C04 /* 9.gif in Resources */,
 				462E443317BA1E5000BDE403 /* README.md in Resources */,
 				462E443417BA1E5000BDE403 /* release_notes.md in Resources */,
+				460583B117BB5AE100AA604E /* person.png in Resources */,
+				460583B317BB5AE700AA604E /* messages.png in Resources */,
+				460583B517BB5AED00AA604E /* settings.png in Resources */,
+				460583B717BB5AF600AA604E /* download.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -12399,6 +12420,7 @@
 				462E442017B9FB0D00BDE403 /* UIImageView+AFNetworking.m in Sources */,
 				4629DF9417BA8FF50057AB0B /* TVMessage.m in Sources */,
 				4629DFBC17BB2C5D0057AB0B /* KxMenu.m in Sources */,
+				4605838A17BB4ED900AA604E /* CustomBadge.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

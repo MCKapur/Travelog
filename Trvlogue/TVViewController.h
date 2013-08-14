@@ -24,7 +24,7 @@
 
 #import "TVFindPeopleViewController.h"
 
-#import "KxMenu.h"
+#import "CustomBadge.h"
 
 @interface TVViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, MCSwipeTableViewCellDelegate>
 {

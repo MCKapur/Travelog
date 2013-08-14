@@ -23,7 +23,7 @@
     for (TVNotification *notification2 in self) {
         
         if (notification1.type == notification2.type) {
-
+            
             duplicate = YES;
         }
     }
@@ -42,13 +42,13 @@
 @implementation NSMutableArray (CollectiveNotifications)
 
 - (NSMutableArray *)collectiveNotifications {
-
+    
     NSMutableArray *collectiveNotifications = [[NSMutableArray alloc] init];
     
     for (TVNotification *notification in self) {
         
         if (![collectiveNotifications hasACollectiveNotification:notification]) {
-
+            
             [collectiveNotifications addObject:notification];
         }
     }
@@ -75,19 +75,11 @@
 
 #pragma mark UITableView Methods
 
-- (void)updateNotifications {    
+- (void)updateNotifications {
     
-    if (![self.view.subviews containsObject:self.notificationsTable])
-        [self.headerView addSubview:self.notificationsTable];
-    
-    [self.notificationsTable setFrame:CGRectMake(0, 27, 320, 66 * [[[[TVDatabase currentAccount] person] notifications] collectiveNotifications].count)];
-    
-    [self.headerView setFrame:CGRectMake(self.headerView.frame.origin.x, self.headerView.frame.origin.y, self.headerView.frame.size.width, 31 + (27 * [[[[TVDatabase currentAccount] person] notifications] collectiveNotifications].count))];
+    [self.headerView setFrame:CGRectMake(self.headerView.frame.origin.x, self.headerView.frame.origin.y, 320, 80)];
     
     self.flightsTable.tableHeaderView = self.headerView;
-    
-    [self.notificationsTable reloadData];
-    [self.notificationsTable setNeedsDisplay];
 }
 
 - (void)updateFlights {
@@ -97,7 +89,7 @@
 }
 
 - (void)refreshAccount:(UIRefreshControl *)refreshControl {
-
+    
     dispatch_queue_t downloadQueue = dispatch_queue_create("Refresh", NULL);
     
     dispatch_async(downloadQueue, ^{
@@ -124,7 +116,7 @@
                         
                         [refreshControl endRefreshing];
                     }
-
+                    
                     [self updateFlights];
                     [self updateMilesLabel];
                     [self updateNotifications];
@@ -150,7 +142,7 @@
         }
     });
 }
-        
+
 - (NSString *)getLastUpdatedStringFromDate:(NSDate *)lastUpdated {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -161,7 +153,7 @@
     
     NSDateFormatter *dayFormatter = [[NSDateFormatter alloc] init];
     [dayFormatter setDateFormat:@"EEEE"];
-        
+    
     NSString *formattedLastUpdated;
     
     if ([lastUpdated isToday]) {
@@ -195,14 +187,14 @@
     int retVal = 0;
     
     if (tableView == self.flightsTable) {
-
+        
         retVal = [[[TVDatabase currentAccount] sortedFlights] count];
     }
     else if (tableView == self.notificationsTable) {
-
+        
         retVal = [[[[[TVDatabase currentAccount] person] notifications] collectiveNotifications] count];
     }
-
+    
     return retVal;
 }
 
@@ -215,7 +207,7 @@
         retVal = 65.0f;
     }
     else {
-
+        
         retVal = 27.0f;
     }
     
@@ -245,18 +237,18 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    
     NSString *FlightCell = @"FlightTableCell_%@";
     NSString *NotificationsCell = @"NotificationsCell_%@";
     
     NSString *CellIdentifier = nil;
-
+    
     if (tableView == self.flightsTable) {
         
         CellIdentifier = FlightCell;
     }
     else {
-
+        
         CellIdentifier = NotificationsCell;
     }
     
@@ -265,7 +257,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if ([CellIdentifier isEqualToString:FlightCell]) {
-
+        
         if (!cell) {
             
             NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"TVFlightCell" owner:self options:nil];
@@ -277,20 +269,20 @@
                     cell = (TVFlightCell *)view;
                 }
             }
-                                    
+            
             ((TVFlightCell *)cell).gradient.layer.masksToBounds = YES;
             ((TVFlightCell *)cell).gradient.layer.cornerRadius = 3.0f;
             
             [(TVFlightCell *)cell setDelegate:self];
             [(TVFlightCell *)cell
-                        setFirstStateIconName:@"cross.png"
-                            firstColor:[UIColor redColor]
-                        secondStateIconName:@"cross.png"
-                            secondColor:[UIColor redColor]
-                        thirdIconName:@"cross.png"
-                            thirdColor:[UIColor redColor]
-                        fourthIconName:@"cross.png"
-                            fourthColor:[UIColor redColor]];
+             setFirstStateIconName:@"cross.png"
+             firstColor:[UIColor redColor]
+             secondStateIconName:@"cross.png"
+             secondColor:[UIColor redColor]
+             thirdIconName:@"cross.png"
+             thirdColor:[UIColor redColor]
+             fourthIconName:@"cross.png"
+             fourthColor:[UIColor redColor]];
             [(TVFlightCell *)cell setMode:MCSwipeTableViewCellModeExit];
             
             [(TVFlightCell *)cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -304,8 +296,8 @@
         
         ((TVFlightCell *)cell).shortDate.text = [self generateShortcuttedDates:[flight date]];
         
-        ((TVFlightCell *)cell).flight.font = [UIFont fontWithName:@"Gotham Book" size:16.0];
-
+        ((TVFlightCell *)cell).flight.font = [UIFont fontWithName:@"Gotham Book" size:15.0f];
+        
         if (loading) {
             
             [(TVFlightCell *)cell setShouldDrag:NO];
@@ -316,7 +308,7 @@
         }
     }
     else {
-
+        
         if (!cell) {
             
             NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"TVNotificationCell" owner:self options:nil];
@@ -346,17 +338,17 @@
 }
 
 - (void)swipeTableViewCell:(MCSwipeTableViewCell *)cell didTriggerState:(MCSwipeTableViewCellState)state withMode:(MCSwipeTableViewCellMode)mode {
-
+    
     if (mode == MCSwipeTableViewCellModeExit && cell.shouldDrag) {
         
         int row = [[self.flightsTable indexPathForCell:(TVFlightCell *)cell] row];
         
         TVAccount *account = [TVDatabase currentAccount];
         [account deleteFlight:[account sortedFlights][row]];
-
+        
         [TVDatabase updateMyAccount:account withCompletionHandler:^(BOOL succeeded, NSError *error, NSString *callCode) {
         }];
-
+        
         [self.flightsTable beginUpdates];
         [self.flightsTable deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:row inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
         [self.flightsTable endUpdates];
@@ -474,7 +466,7 @@
 }
 
 - (void)updateMilesLabel {
-
+    
     double miles = 0.0f;
     
     for (TVFlight *flight in [[TVDatabase currentAccount] flights]) {
@@ -493,49 +485,49 @@
     [self.navigationController pushViewController:flightRecorder animated:YES];
 }
 
-#pragma mark Dropdown Menu
+#pragma mark Actions
 
-- (void)showPopover:(UIBarButtonItem *)barButtonItem {
-    
-    if ([[barButtonItem accessibilityValue] isEqualToString:@"Show"]) {
-        
-        barButtonItem.image = [UIImage imageNamed:@"carrot_up.png"];
-    }
-    else {
-        
-        barButtonItem.image = [UIImage imageNamed:@"carrow_down.png"];
-    }
-    
-    NSArray *menuItems =
-    @[      
-      [KxMenuItem menuItem:@"Messages"
-                     image:[UIImage imageNamed:@"messages.png"]
-                    target:self
-                    action:@selector(showMessagesPage)],
-      
-      [KxMenuItem menuItem:@"Connect"
-                     image:[UIImage imageNamed:@"person.png"]
-                    target:self
-                    action:@selector(showFindPeoplePage)],
-      
-      [KxMenuItem menuItem:@"Export"
-                     image:[UIImage imageNamed:@"export.png"]
-                    target:self
-                    action:@selector(exportFlights)],
-      
-      [KxMenuItem menuItem:@"Settings"
-                     image:[UIImage imageNamed:@"settings.png"]
-                    target:self
-                    action:@selector(showSettingsPage)],
-      ];
-    
-    [KxMenu setTintColor:[UIColor whiteColor]];
-    [KxMenu setTitleFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0]];
-    
-    [KxMenu showMenuInView:self.view
-                  fromRect:CGRectMake(-50, -200, 100, 200)
-                 menuItems:menuItems];
-}
+//- (void)showPopover:(UIBarButtonItem *)barButtonItem {
+//
+//    if ([[barButtonItem accessibilityValue] isEqualToString:@"Show"]) {
+//
+//        barButtonItem.image = [UIImage imageNamed:@"carrot_up.png"];
+//    }
+//    else {
+//
+//        barButtonItem.image = [UIImage imageNamed:@"carrow_down.png"];
+//    }
+//
+//    NSArray *menuItems =
+//    @[
+//      [KxMenuItem menuItem:@"Messages"
+//                     image:[UIImage imageNamed:@"messages.png"]
+//                    target:self
+//                    action:@selector(showMessagesPage)],
+//
+//      [KxMenuItem menuItem:@"Connect"
+//                     image:[UIImage imageNamed:@"person.png"]
+//                    target:self
+//                    action:@selector(showFindPeoplePage)],
+//
+//      [KxMenuItem menuItem:@"Export"
+//                     image:[UIImage imageNamed:@"export.png"]
+//                    target:self
+//                    action:@selector(exportFlights)],
+//
+//      [KxMenuItem menuItem:@"Settings"
+//                     image:[UIImage imageNamed:@"settings.png"]
+//                    target:self
+//                    action:@selector(showSettingsPage)],
+//      ];
+//
+//    [KxMenu setTintColor:[UIColor whiteColor]];
+//    [KxMenu setTitleFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0]];
+//
+//    [KxMenu showMenuInView:self.view
+//                  fromRect:CGRectMake(-50, -200, 100, 200)
+//                 menuItems:menuItems];
+//}
 
 - (void)showMessagesPage {
     
@@ -577,31 +569,35 @@
     [self.navigationController setNavigationBarHidden:NO];
     
     self.navigationItem.hidesBackButton = YES;
-
+    
     UIBarButtonItem *recordFlightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(recordAFlight)];
-    self.navigationItem.rightBarButtonItem = recordFlightItem;
+    self.navigationItem.leftBarButtonItem = recordFlightItem;
+            
+    [self.headerView setFrame:CGRectMake(self.headerView.frame.origin.x, self.headerView.frame.origin.y, 320, 80)];
     
-    UIBarButtonItem *barButtonItemPopover = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"person.png"] landscapeImagePhone:nil style:UIBarButtonItemStylePlain target:self action:@selector(showPopover:)];
-    self.navigationItem.leftBarButtonItem = barButtonItemPopover;
-        
-    UIButton *logoutButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    logoutButton.frame = self.navigationItem.titleView.frame;
-    logoutButton.alpha = 0.02f;
-    [logoutButton addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *messages = [[UIButton alloc] init];
+    [messages setImage:[UIImage imageNamed:@"messages.png"] forState:UIControlStateNormal];
+    [messages setFrame:CGRectMake(70, 40, 24, 22)];
+    [messages addTarget:self action:@selector(showMessagesPage) forControlEvents:UIControlEventTouchUpInside];
+    [self.headerView addSubview:messages];
     
-    [self.navigationItem setTitleView:logoutButton];
+    UIButton *findPeople = [[UIButton alloc] init];
+    [findPeople setImage:[UIImage imageNamed:@"person.png"] forState:UIControlStateNormal];
+    [findPeople setFrame:CGRectMake(120, 40, 22, 22)];
+    [findPeople addTarget:self action:@selector(showFindPeoplePage) forControlEvents:UIControlEventTouchUpInside];
+    [self.headerView addSubview:findPeople];
     
-    self.notificationsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 27, 320, 66 * [[[[TVDatabase currentAccount] person] notifications] collectiveNotifications].count) style:UITableViewStylePlain];
-    
-    self.notificationsTable.separatorColor = [UIColor clearColor];
-    self.notificationsTable.backgroundColor = [UIColor clearColor];
-    
-    self.notificationsTable.dataSource = self;
-    self.notificationsTable.delegate = self;
-    
-    [self.headerView setFrame:CGRectMake(self.headerView.frame.origin.x, self.headerView.frame.origin.y, self.headerView.frame.size.width, 31 + (27 * [[[[TVDatabase currentAccount] person] notifications] collectiveNotifications].count))];
-    
-    [self.headerView addSubview:self.notificationsTable];
+    UIButton *exportFlights = [[UIButton alloc] init];
+    [exportFlights setImage:[UIImage imageNamed:@"download.png"] forState:UIControlStateNormal];
+    [exportFlights setFrame:CGRectMake(164.5, 40, 18.5, 22)];
+    [exportFlights addTarget:self action:@selector(showFindPeoplePage) forControlEvents:UIControlEventTouchUpInside];
+    [self.headerView addSubview:exportFlights];
+
+    UIButton *settings = [[UIButton alloc] init];
+    [settings setImage:[UIImage imageNamed:@"settings.png"] forState:UIControlStateNormal];
+    [settings setFrame:CGRectMake(214.5, 40, 22, 22)];
+    [settings addTarget:self action:@selector(showFindPeoplePage) forControlEvents:UIControlEventTouchUpInside];
+    [self.headerView addSubview:settings];
 }
 
 #pragma mark Funky, Dirty, Native :)
@@ -609,7 +605,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:YES];
-
+    
     [self updateNotifications];
     [self updateMilesLabel];
     [self updateFlights];
@@ -622,7 +618,7 @@
     [self UIBuffer];
     
     [self updateFlights];
-
+    
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refreshAccount:) forControlEvents:UIControlEventValueChanged];
     [self.flightsTable addSubview:refreshControl];
@@ -631,8 +627,17 @@
     [self.flightsTable setContentOffset:CGPointMake(0, -refreshControl.frame.size.height) animated:YES];
     
     [self refreshAccount:refreshControl];
-
+    
     detailView = [[TVFlightDetailViewController alloc] init];
+    
+    /*	CustomBadge *badge = [CustomBadge customBadgeWithString:@"2"
+     withStringColor:[UIColor whiteColor]
+     withInsetColor:[UIColor redColor]
+     withBadgeFrame:NO
+     withBadgeFrameColor:[UIColor clearColor]
+     withScale:1.0
+     withShining:NO];
+     */
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accountUpdated) name:@"RecordedFlight" object:nil];
     

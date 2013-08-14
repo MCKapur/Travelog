@@ -109,7 +109,11 @@
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     // Store the deviceToken in the current installation and save it to Parse.
-    [TVDatabase setupPushNotifications:deviceToken];
+    
+    if ([TVDatabase staysLoggedIn]) {
+        
+        [TVDatabase setupPushNotifications:deviceToken];
+    }
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {

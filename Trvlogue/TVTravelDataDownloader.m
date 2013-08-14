@@ -59,7 +59,7 @@
                 
         self.downloadedData = [[NSMutableDictionary alloc] init];
         
-        dispatch_queue_t downloadQueue = dispatch_queue_create("Lots of requests", NULL);
+        dispatch_queue_t downloadQueue = dispatch_queue_create("OperationQueue", NULL);
         
         dispatch_async(downloadQueue, ^{
             
