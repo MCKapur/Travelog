@@ -231,7 +231,7 @@
 
 @implementation TVFlightDetailViewController
 
-@synthesize FlightID, travelMap, travelInfoBanner, newsTableView, weatherTableView, peopleTableView, weatherTimestamp;
+@synthesize FlightID, travelInfoBanner, newsTableView, weatherTableView, peopleTableView, weatherTimestamp;
 
 - (void)handleError:(NSError *)error andType:(NSString *)type {
     
@@ -422,10 +422,10 @@
             cell.imageView.image = nil;
                             
             cell.textLabel.font = [UIFont fontWithName:@"System" size:13.0];
-            cell.textLabel.textColor = [UIColor whiteColor];
+            cell.textLabel.textColor = [UIColor blackColor];
             
             cell.detailTextLabel.font = [UIFont fontWithName:@"System" size:15.0];
-            cell.detailTextLabel.textColor = [UIColor whiteColor];
+            cell.detailTextLabel.textColor = [UIColor blackColor];
             
             cell.layer.cornerRadius = 7.0f;
             cell.layer.masksToBounds = YES;
@@ -655,13 +655,6 @@
     }
 }
 
-#pragma mark Map Methods
-
-- (void)updateMap {
- 
-    [self.travelMap setRegion:MKCoordinateRegionMakeWithDistance([TVDatabase flightFromID:self.FlightID].destinationCoordinate, 10000, 10000)];
-}
-
 #pragma mark Operational Methods
 
 - (NSString *)generateDate:(NSDate *)date {
@@ -750,6 +743,8 @@
     FlightID = _FlightID;
     
     [self initializeInfoWithType:200];
+    
+    [self pollForTravelInfoBanner];
 }
 
 #pragma mark Swipe Banner
@@ -804,8 +799,6 @@
     
     [self.weatherTableView reloadData];
     [self.weatherTableView setNeedsDisplay];
-    
-    [self updateMap];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

@@ -23,7 +23,7 @@ extern NSString *const EMAIL_TAKEN;
 #define TRVLOGUE_NAVIGATION_BAR @"TrvlogueNavigationBar.png"
 
 #define VERIFIED_EMAIL_TEST @"me@rohankapur.com"
-#define VERIFIED_EMAIL @"us@trvlogue.com"
+#define VERIFIED_EMAIL @"support@trvlogue.com"
 
 // Operation tags - used for error handling too! :) :) :) :)
 
@@ -43,6 +43,8 @@ extern NSString *const EMAIL_TAKEN;
 #define GET_LINKEDIN @"retrieve LinkedIn info"
 #define GET_LINKEDIN @"retrieve LinkedIn info"
 #define REQUEST_FORGOT_PASSWORD @"request a new password"
+#define SEND_MESSAGE @"send the message"
+#define DOWNLOAD_MESSAGE @"download messages"
 
 typedef enum {
     
@@ -80,10 +82,10 @@ typedef enum {
 
 + (void)setCurrentAccount:(TVAccount *)account;
 
-+ (void)createMessageHistory:(TVMessageHistory *)messageHistory withUserId:(NSString *)userId withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;
-+ (void)queueMessages:(NSMutableArray *)messageHistory withUserId:(NSString *)userId withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;
-+ (void)userHasReadAllMessagesInMessageHistory:(TVMessageHistory *)messageHistory withUserId:(NSString *)userId withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;
-+ (void)downloadMessageHistoriesWithUserId:(NSString *)userId withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode, TVMessageHistory *messageHistories))callback;
++ (void)createMessageHistory:(TVMessageHistory *)messageHistory withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;
++ (void)confirmReceiverHasReadNewMessages:(NSMutableArray *)messages inMessageHistory:(TVMessageHistory *)messageHistory withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;
++ (void)downloadMessageHistoriesWithUserId:(NSString *)userId withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode, NSMutableArray *messageHistories))callback;
++ (void)downloadMessageHistoryBetweenRecipients:(NSMutableArray *)userIds withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode, NSMutableArray *messageHistories))callback;
 
 + (void)downloadProfilePicturesWithObjectIds:(NSArray *)objectIds withCompletionHandler:(void (^)(NSError *error, UIImage *profilePic))callback;
 + (void)uploadProfilePicture:(UIImage *)profilePicture withObjectId:(NSString *)objectId; // Doesn't really need a callback/completion handler but I guess I should add it...

@@ -89,7 +89,7 @@
     }
     else {
         
-        self.backgroundColor = [UIColor colorWithRed:246.0f/255.0f green:246.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        self.backgroundColor = [UIColor clearColor];
         
         [self.tidbits addObject:_tidbit];
         

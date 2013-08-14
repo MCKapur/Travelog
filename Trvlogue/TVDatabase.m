@@ -47,19 +47,131 @@ NSString *const EMAIL_TAKEN = @"202";
 
 #pragma mark Messaging Service
 
-+ (void)createMessageHistory:(TVMessageHistory *)messageHistory withUserId:(NSString *)userId withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback {
++ (void)createMessageHistory:(TVMessageHistory *)messageHistory withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback {
 
+    PFQuery *query = [PFQuery queryWithClassName:@"Messages"];
+    
+    [query whereKey:@"senderId" equalTo:messageHistory.senderId];
+    [query whereKey:@"receiverId" equalTo:messageHistory.receiverId];
+
+    [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+        
+        if (!error) {
+            
+            if (!number) {
+                
+                PFObject *messageObject = [PFObject objectWithClassName:@"Messages"];
+                
+                messageObject[@"senderId"] = messageHistory.senderId;
+                messageObject[@"receiverId"] = messageHistory.receiverId;
+                
+                messageObject[@"messageHistory"] = [NSKeyedArchiver archivedDataWithRootObject:messageHistory];
+                
+                [messageObject saveEventually:^(BOOL succeeded, NSError *error) {
+                    
+                    callback(succeeded, error, SEND_MESSAGE);
+                }];
+            }
+            else {
+                
+                callback(NO, error, SEND_MESSAGE);
+            }
+        }
+        else {
+            
+            callback(NO, error, SEND_MESSAGE);
+        }
+    }];
 }
 
-+ (void)queueMessages:(NSMutableArray *)messageHistory withUserId:(NSString *)userId withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback {
++ (void)confirmReceiverHasReadNewMessages:(NSMutableArray *)messages inMessageHistory:(TVMessageHistory *)messageHistory withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback {
 
+    PFQuery *query = [PFQuery queryWithClassName:@"Messages"];
+    
+    [query whereKey:@"senderId" equalTo:messageHistory.senderId];
+    [query whereKey:@"receiverId" equalTo:messageHistory.receiverId];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+       
+        if (objects.count && !error) {
+            
+            TVMessageHistory *messageHistory = [NSKeyedUnarchiver unarchiveObjectWithData:objects[0][@"messageHistory"]];
+            
+            for (TVMessage *message in messageHistory.messages) {
+                
+                for (TVMessage *_message in messages) {
+                    
+                    if ([message.ID isEqualToString:_message.ID]) {
+                    
+                        message.recieverRead = YES;
+                    }
+                }
+            }
+            
+            objects[0][@"messageHistory"] = [NSKeyedArchiver archivedDataWithRootObject:messageHistory];
+            
+            [objects[0] saveEventually:^(BOOL succeeded, NSError *error) {
+                
+                callback(succeeded, error, nil);
+            }];
+        }
+        else {
+            
+            callback(NO, error, nil);
+        }
+    }];
 }
 
-+ (void)userHasReadAllMessagesInMessageHistory:(TVMessageHistory *)messageHistory withUserId:(NSString *)userId withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback {
-
++ (void)downloadMessageHistoriesWithUserId:(NSString *)userId withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode, NSMutableArray *messageHistories))callback {
+    
+    PFQuery *senderQuery = [PFQuery queryWithClassName:@"Messages"];
+    [senderQuery whereKey:@"senderId" equalTo:userId];
+    
+    PFQuery *receiverQuery = [PFQuery queryWithClassName:@"Messages"];
+    [receiverQuery whereKey:@"receiverId" equalTo:userId];
+    
+    PFQuery *query = [PFQuery orQueryWithSubqueries:[NSArray arrayWithObjects:senderQuery, receiverQuery, nil]];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        
+        NSMutableArray *messageHistories = [[NSMutableArray alloc] init];
+        
+        for (PFObject *messageObject in objects) {
+            
+            TVMessageHistory *messageHistory = [NSKeyedUnarchiver unarchiveObjectWithData:messageObject[@"messageHistory"]];
+            
+            [messageHistories addObject:messageHistory];
+        }
+        
+        callback(objects.count ? YES : NO, error, DOWNLOAD_MESSAGE, messageHistories);
+    }];
 }
 
-+ (void)downloadMessageHistoriesWithUserId:(NSString *)userId withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode, TVMessageHistory *messageHistory))callback {
++ (void)downloadMessageHistoryBetweenRecipients:(NSMutableArray *)userIds withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode, NSMutableArray *messageHistories))callback {
+    
+    PFQuery *queryScenario1 = [PFQuery queryWithClassName:@"Messages"];
+    [queryScenario1 whereKey:@"senderId" equalTo:userIds[0]];
+    [queryScenario1 whereKey:@"receiverId" equalTo:userIds[1]];
+    
+    PFQuery *queryScenario2 = [PFQuery queryWithClassName:@"Messages"];
+    [queryScenario2 whereKey:@"senderId" equalTo:userIds[1]];
+    [queryScenario1 whereKey:@"receiverId" equalTo:userIds[0]];
+
+    PFQuery *query = [PFQuery orQueryWithSubqueries:[NSArray arrayWithObjects:queryScenario1, queryScenario2, nil]];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        
+        NSMutableArray *messageHistories = [[NSMutableArray alloc] init];
+        
+        for (PFObject *messageObject in objects) {
+            
+            TVMessageHistory *messageHistory = [NSKeyedUnarchiver unarchiveObjectWithData:messageObject[@"messageHistory"]];
+            
+            [messageHistories addObject:messageHistory];
+        }
+        
+        callback(objects.count ? YES : NO, error, DOWNLOAD_MESSAGE, messageHistories);
+    }];
 }
 
 #pragma mark Push Notifications
@@ -462,8 +574,8 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                         }];
                     }
                     else {
-                        
-                        if ([user[@"originCity"] isEqualToString:flight.originCity]) {
+                                                
+                        if ([user[@"originCity"] isEqualToString:flight.destinationCity]) {
                             
                             [TVDatabase getAccountFromUser:user withCompletionHandler:^(TVAccount *account, BOOL allOperationsComplete, BOOL hasWrittenProfilePicture) {
                                 

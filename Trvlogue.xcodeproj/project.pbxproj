@@ -47,6 +47,7 @@
 		460B0BF117511DAC00A1229C /* LIALinkedInHttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 460B0BEE17511DAC00A1229C /* LIALinkedInHttpClient.m */; };
 		460B0D31175309E300A1229C /* LinkedInDataRetriever.m in Sources */ = {isa = PBXBuildFile; fileRef = 460B0D30175309E200A1229C /* LinkedInDataRetriever.m */; };
 		460B0D341753ACBB00A1229C /* LinkedInAuthorizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 460B0D331753ACBA00A1229C /* LinkedInAuthorizer.m */; };
+		4629DF9417BA8FF50057AB0B /* TVMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4629DF9317BA8FF50057AB0B /* TVMessage.m */; };
 		462E441817B9FB0D00BDE403 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 462E440617B9FB0D00BDE403 /* AFHTTPClient.m */; };
 		462E441917B9FB0D00BDE403 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 462E440817B9FB0D00BDE403 /* AFHTTPRequestOperation.m */; };
 		462E441A17B9FB0D00BDE403 /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 462E440A17B9FB0D00BDE403 /* AFImageRequestOperation.m */; };
@@ -5260,6 +5261,8 @@
 		460B0D30175309E200A1229C /* LinkedInDataRetriever.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LinkedInDataRetriever.m; path = ../LinkedInDataRetriever.m; sourceTree = "<group>"; };
 		460B0D321753ACB800A1229C /* LinkedInAuthorizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedInAuthorizer.h; sourceTree = "<group>"; };
 		460B0D331753ACBA00A1229C /* LinkedInAuthorizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkedInAuthorizer.m; sourceTree = "<group>"; };
+		4629DF9217BA8FF50057AB0B /* TVMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVMessage.h; sourceTree = "<group>"; };
+		4629DF9317BA8FF50057AB0B /* TVMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVMessage.m; sourceTree = "<group>"; };
 		462E440517B9FB0D00BDE403 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		462E440617B9FB0D00BDE403 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		462E440717B9FB0D00BDE403 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -11755,6 +11758,8 @@
 				46C28F2F16EDE66D00399BDE /* TVMileTidbits.m */,
 				46C28F2C16EDE66D00399BDE /* TVFlight.h */,
 				46C28F2D16EDE66D00399BDE /* TVFlight.m */,
+				4629DF9217BA8FF50057AB0B /* TVMessage.h */,
+				4629DF9317BA8FF50057AB0B /* TVMessage.m */,
 				463CED1117707DFA00051E9D /* TVMessageHistory.h */,
 				463CED1217707DFA00051E9D /* TVMessageHistory.m */,
 				46A4BE1317701DF100A71EFA /* TVNotification.h */,
@@ -12387,6 +12392,7 @@
 				462E441E17B9FB0D00BDE403 /* AFURLConnectionOperation.m in Sources */,
 				462E441F17B9FB0D00BDE403 /* AFXMLRequestOperation.m in Sources */,
 				462E442017B9FB0D00BDE403 /* UIImageView+AFNetworking.m in Sources */,
+				4629DF9417BA8FF50057AB0B /* TVMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

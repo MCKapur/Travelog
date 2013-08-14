@@ -60,8 +60,6 @@ typedef enum {
 @property (weak, nonatomic) IBOutlet UITableView *weatherTableView;
 @property (weak, nonatomic) IBOutlet UILabel *weatherTimestamp;
 
-@property (weak, nonatomic) IBOutlet MKMapView *travelMap;
-
 @property (strong, nonatomic) TVSwipeBanner *travelInfoBanner;
 
 @property (nonatomic, strong) NSString *FlightID;
@@ -72,7 +70,5 @@ typedef enum {
 
 - (IBAction)shareFlight;
 - (IBAction)deleteFlight;
-
-- (void)updateMap;
 
 @end

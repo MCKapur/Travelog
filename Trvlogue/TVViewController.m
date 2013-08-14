@@ -229,7 +229,6 @@
     if (tableView == self.flightsTable) {
         
         [detailView setFlightID:[((TVFlight *)[[TVDatabase currentAccount] sortedFlights][indexPath.row]) ID]];
-        [detailView updateMap];
         
         [self.navigationController pushViewController:detailView animated:YES];
     }
@@ -580,7 +579,6 @@
     [self refreshAccount:refreshControl];
 
     detailView = [[TVFlightDetailViewController alloc] init];
-    [detailView setTravelMap:[[MKMapView alloc] init]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accountUpdated) name:@"RecordedFlight" object:nil];
     
