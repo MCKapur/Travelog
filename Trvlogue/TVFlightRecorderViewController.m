@@ -410,7 +410,7 @@
 - (void)insertTrvlogueFlight:(TVFlight *)trvlogueFlight {
     
     TVAccount *updatedAccount = [TVDatabase currentAccount];
-    [updatedAccount addFlight:trvlogueFlight];
+    [[updatedAccount person] addFlight:trvlogueFlight];
 
     [self updateAccount:updatedAccount];
     

@@ -12,8 +12,8 @@
 
 + (NSMutableArray *)getTidbitsFrom:(double)mileIndex {
         
-    int numberOfFlights = [[[TVDatabase currentAccount] flights] count];
-    int timeInAirports = [[[TVDatabase currentAccount] flights] count] * 2;
+    int numberOfFlights = [[[[TVDatabase currentAccount] person] flights] count];
+    int timeInAirports = [[[[TVDatabase currentAccount] person] flights] count] * 2;
     double kilometers = mileIndex * 1.609344;
     double meters = kilometers * 1000;
     double centimeters = meters * 100;

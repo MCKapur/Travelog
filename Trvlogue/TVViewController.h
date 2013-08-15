@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#import "TVNotificationCell.h"
-
 #import "TVSwipeBanner.h"
 
 #import "TVFlightDetailViewController.h"
@@ -26,14 +24,14 @@
 
 #import "CustomBadge.h"
 
-@interface TVViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, MCSwipeTableViewCellDelegate>
+#import <MessageUI/MFMailComposeViewController.h>
+
+@interface TVViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, MCSwipeTableViewCellDelegate, MFMailComposeViewControllerDelegate>
 {
     TVFlightDetailViewController *detailView;
     
     BOOL loading;
 }
-
-@property (strong, nonatomic) UITableView *notificationsTable;
 
 @property (weak, nonatomic) IBOutlet UITableView *flightsTable;
 

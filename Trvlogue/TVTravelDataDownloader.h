@@ -11,9 +11,10 @@
 #import <CoreLocation/CoreLocation.h>
 
 #import "TVRSSItem.h"
-#import "RSSChannel.h"
+#import "TVRSSChannel.h"
 
 #import "TVFlight.h"
+
 #import "TVPlacesQuerySuggestionsRetriever.h"
 
 typedef enum {
@@ -44,7 +45,7 @@ typedef enum {
     TVRSSItem *entry;
     NSURLConnection *connection;
     NSMutableData *xmlData;
-    RSSChannel *channel;
+    TVRSSChannel *channel;
     
     /**     **/
     

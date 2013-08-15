@@ -216,7 +216,7 @@ NSString *const EMAIL_TAKEN = @"202";
                 
                 [[[newAccount person] connections] removeObject:connection];
                 
-                TVNotification *notification = [[TVNotification alloc] initWithTitle:@"People want to connect with you" andType:kNotificationTypeConnectionRequest];
+                TVNotification *notification = [[TVNotification alloc] initWithType:kNotificationTypeConnectionRequest];
                 
                 [[[newAccount person] notifications] addObject:notification];
             }
@@ -366,7 +366,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     
     TVFlight *retVal = nil;
     
-    for (TVFlight *flight in [[TVDatabase currentAccount] flights]) {
+    for (TVFlight *flight in [[[TVDatabase currentAccount] person] flights]) {
         
         if ([flight.ID isEqualToString:_FlightID]) {
             
@@ -421,9 +421,9 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                 
                 dispatch_async(downloadQueue, ^{
                     
-                    for (int i = [TVDatabase currentAccount].flights.count - 1; i >= 0; i--) {
+                    for (int i = [[[[TVDatabase currentAccount] person] flights] count] - 1; i >= 0; i--) {
                         
-                        TVFlight *flight = [[TVDatabase currentAccount] flights][i];
+                        TVFlight *flight = [[[TVDatabase currentAccount] person] flights][i];
                         
                         [flight instantiateTravelData];
                     }
@@ -503,7 +503,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                 int self_dayArrives = [[flight date] timeIntervalSinceReferenceDate];
                 int self_dayLeaves;
                 
-                int indexOfOurFlight = [[[TVDatabase currentAccount] flights] indexOfFlight:[TVDatabase flightFromID:FlightID]];
+                int indexOfOurFlight = [[[[TVDatabase currentAccount] person] flights] indexOfFlight:[TVDatabase flightFromID:FlightID]];
                 
                 if (!indexOfOurFlight) {
                     
@@ -511,7 +511,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                 }
                 else {
                     
-                    TVFlight *flight = [[TVDatabase currentAccount] flights][indexOfOurFlight - 1];
+                    TVFlight *flight = [[[TVDatabase currentAccount] person] flights][indexOfOurFlight - 1];
                     
                     self_dayLeaves = [[flight date] timeIntervalSinceReferenceDate];
                 }
@@ -1065,7 +1065,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         
         if (!error && flights) {
             
-            [account setFlights:[NSKeyedUnarchiver unarchiveObjectWithData:flights[0][@"flights"]]];
+            [[account person] setFlights:[NSKeyedUnarchiver unarchiveObjectWithData:flights[0][@"flights"]]];
             
             operationCount++;
             
@@ -1083,7 +1083,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
             
             if (connection.status == kConnectRequestPending && [connection.receiverId isEqualToString:[[PFUser currentUser] objectId]]) {
                 
-                TVNotification *connectNotification = [[TVNotification alloc] initWithTitle:@"People want to connect with you" andType:kNotificationTypeConnectionRequest];
+                TVNotification *connectNotification = [[TVNotification alloc] initWithType:kNotificationTypeConnectionRequest];
                 
                 [notifications addObject:connectNotification];
             }
@@ -1306,7 +1306,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         
         if (!error && succeeded) {
             
-            [TVDatabase updateFlights:accountObj.flights withObjectId:[[PFUser currentUser] objectId]];
+            [TVDatabase updateFlights:[[accountObj person] flights] withObjectId:[[PFUser currentUser] objectId]];
             [TVDatabase updatePushNotificationsSetup];
         }
         
@@ -1339,7 +1339,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
             [PFUser currentUser].ACL = ACL;
             [[PFUser currentUser] saveInBackground];
                         
-            [TVDatabase uploadFlights:trvlogueAccount.flights withObjectId:[[PFUser currentUser] objectId]];
+            [TVDatabase uploadFlights:[[trvlogueAccount person] flights] withObjectId:[[PFUser currentUser] objectId]];
             [TVDatabase uploadProfilePicture:profilePicture withObjectId:[[PFUser currentUser] objectId]];
             
             [TVDatabase updatePushNotificationsSetup];

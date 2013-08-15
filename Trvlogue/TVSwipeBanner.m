@@ -81,8 +81,6 @@
 
             if ([tidbitLabel.accessibilityIdentifier isEqualToString:_tidbit[@"ID"]]) {
                
-                NSLog(@"change");
-                
                 [tidbitLabel setText:_tidbit[@"body"]];
             }
         }
@@ -98,7 +96,7 @@
         UILabel *tidbitLabel = [[UILabel alloc] initWithFrame:CGRectMake((320 * (self.tidbits.count - 1)) + 8, 0, 305, 50)];
         tidbitLabel.backgroundColor = [UIColor clearColor];
         tidbitLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15.0];
-        tidbitLabel.textColor = [UIColor darkGrayColor];
+        tidbitLabel.textColor = [UIColor blackColor];
         tidbitLabel.textAlignment = NSTextAlignmentLeft;
         tidbitLabel.userInteractionEnabled = YES;
         tidbitLabel.numberOfLines = 2;

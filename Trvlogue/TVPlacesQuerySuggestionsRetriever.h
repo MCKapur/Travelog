@@ -8,11 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+#import "TVGooglePlace.h"
+
 @interface TVPlacesQuerySuggestionsRetriever : NSObject
 {
     NSOperationQueue *operationQueue;
 }
 
-- (void)findPlacesAutocompletionSuggestionsBasedOnInput:(NSString *)input withCompletionHandler:(void (^)(NSError *error, BOOL success, NSMutableArray *places))callback;
+- (void)findPlacesBasedOnInput:(NSString *)input withCompletionHandler:(void (^)(NSError *error, NSMutableArray *places))callback;
 
 @end

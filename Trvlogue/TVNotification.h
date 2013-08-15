@@ -18,8 +18,7 @@ typedef enum {
 @interface TVNotification : NSObject <NSCoding>
 
 @property (nonatomic) NotificationType *type;
-@property (nonatomic, strong) NSString *title;
 
-- (id)initWithTitle:(NSString *)_title andType:(NotificationType *)_type;
+- (id)initWithType:(NotificationType *)_type;
 
 @end

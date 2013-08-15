@@ -16,8 +16,6 @@
 
 #import "Reachability.h"
 
-#import "TestFlight.h"
-
 @implementation TVAppDelegate
 @synthesize randomNumber, backgroundColor;
 

@@ -80,6 +80,99 @@
     [self.headerView setFrame:CGRectMake(self.headerView.frame.origin.x, self.headerView.frame.origin.y, 320, 80)];
     
     self.flightsTable.tableHeaderView = self.headerView;
+        
+    int numberOfUnreadMessagesNotifications = 0;
+    int numberOfConnectRequestNotifications = 0;
+    
+    for (TVNotification *notification in [[[TVDatabase currentAccount] person] notifications]) {
+        
+        if (notification.type == (NotificationType *)kNotificationTypeUnreadMessages) {
+            
+            numberOfUnreadMessagesNotifications++;
+        }
+        else {
+            
+            numberOfConnectRequestNotifications++;
+        }
+    }
+
+    CustomBadge *unreadMessagesBadge = nil;
+    
+    for (UIView *view in self.headerView.subviews) {
+        
+        if ([[view accessibilityIdentifier] isEqualToString:@"MessagesBadge"]) {
+            
+            unreadMessagesBadge = (CustomBadge *)view;
+        }
+    }
+
+    if (numberOfUnreadMessagesNotifications) {
+        
+        if (!unreadMessagesBadge) {
+            
+            unreadMessagesBadge = [CustomBadge customiOS7BadgeWithString:[NSString stringWithFormat:@"%i", numberOfUnreadMessagesNotifications]];
+            
+            [unreadMessagesBadge setFrame:CGRectMake(85, 33, unreadMessagesBadge.frame.size.width, unreadMessagesBadge.frame.size.height)];
+            
+            unreadMessagesBadge.userInteractionEnabled = NO;
+            
+            unreadMessagesBadge.accessibilityIdentifier = @"MessagesBadge";
+            
+            [self.headerView addSubview:unreadMessagesBadge];
+        }
+        else {
+            
+            [unreadMessagesBadge autoBadgeSizeWithString:[NSString stringWithFormat:@"%i", numberOfUnreadMessagesNotifications]];
+            
+            unreadMessagesBadge.badgeText = [NSString stringWithFormat:@"%i", numberOfUnreadMessagesNotifications];
+        }
+    }
+    else {
+        
+        if (unreadMessagesBadge) {
+            
+            [unreadMessagesBadge removeFromSuperview];
+        }
+    }
+    
+    CustomBadge *connectBadge = nil;
+
+    for (UIView *view in self.headerView.subviews) {
+        
+        if ([[view accessibilityIdentifier] isEqualToString:@"ConnectBadge"]) {
+            
+            connectBadge = (CustomBadge *)view;
+        }
+    }
+
+    if (numberOfConnectRequestNotifications) {
+        
+        if (!connectBadge) {
+            
+            connectBadge = [CustomBadge customiOS7BadgeWithString:[NSString stringWithFormat:@"%i", numberOfConnectRequestNotifications]];
+            
+            [connectBadge setFrame:CGRectMake(133, 33, connectBadge.frame.size.width, connectBadge.frame.size.height)];
+            
+            connectBadge.userInteractionEnabled = NO;
+            
+            connectBadge.accessibilityIdentifier = @"ConnectBadge";
+            
+            [self.headerView addSubview:connectBadge];
+        }
+        else {
+            
+            [connectBadge autoBadgeSizeWithString:[NSString stringWithFormat:@"%i", numberOfConnectRequestNotifications]];
+
+            connectBadge.badgeText = [NSString stringWithFormat:@"%i", numberOfConnectRequestNotifications];
+        }
+    }
+    else {
+        
+        if (connectBadge) {
+            
+            [connectBadge removeFromSuperview];
+        }
+    }
 }
 
 - (void)updateFlights {
@@ -188,11 +281,7 @@
     
     if (tableView == self.flightsTable) {
         
-        retVal = [[[TVDatabase currentAccount] sortedFlights] count];
-    }
-    else if (tableView == self.notificationsTable) {
-        
-        retVal = [[[[[TVDatabase currentAccount] person] notifications] collectiveNotifications] count];
+        retVal = [[[[TVDatabase currentAccount] person] sortedFlights] count];
     }
     
     return retVal;
@@ -220,7 +309,7 @@
     
     if (tableView == self.flightsTable) {
         
-        [detailView setFlightID:[((TVFlight *)[[TVDatabase currentAccount] sortedFlights][indexPath.row]) ID]];
+        [detailView setFlightID:[((TVFlight *)[[[TVDatabase currentAccount] person] sortedFlights][indexPath.row]) ID]];
         
         [self.navigationController pushViewController:detailView animated:YES];
     }
@@ -288,7 +377,7 @@
             [(TVFlightCell *)cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         }
         
-        TVFlight *flight = [[TVDatabase currentAccount] sortedFlights][indexPath.row];
+        TVFlight *flight = [[[TVDatabase currentAccount] person] sortedFlights][indexPath.row];
         
         ((TVFlightCell *)cell).flight.text = [NSString stringWithFormat:@"%@ to %@", flight.originCity, flight.destinationCity];
         
@@ -307,32 +396,6 @@
             [(TVFlightCell *)cell setShouldDrag:YES];
         }
     }
-    else {
-        
-        if (!cell) {
-            
-            NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"TVNotificationCell" owner:self options:nil];
-            
-            for (UIView *view in views) {
-                
-                if ([view isKindOfClass:[UITableViewCell class]])
-                {
-                    cell = (TVNotificationCell *)view;
-                }
-            }
-            
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            
-            cell.backgroundColor = [UIColor clearColor];
-        }
-        
-        if ([[[[TVDatabase currentAccount] person] notifications] collectiveNotifications].count) {
-            
-            ((TVNotificationCell *)cell).titleLabel.text = ((TVNotification *)[[[[TVDatabase currentAccount] person] notifications] collectiveNotifications][indexPath.row]).title;
-            
-            ((TVNotificationCell *)cell).titleLabel.textColor = [UIColor blueColor];
-        }
-    }
     
     return cell;
 }
@@ -344,7 +407,7 @@
         int row = [[self.flightsTable indexPathForCell:(TVFlightCell *)cell] row];
         
         TVAccount *account = [TVDatabase currentAccount];
-        [account deleteFlight:[account sortedFlights][row]];
+        [[account person] deleteFlight:[[account person] sortedFlights][row]];
         
         [TVDatabase updateMyAccount:account withCompletionHandler:^(BOOL succeeded, NSError *error, NSString *callCode) {
         }];
@@ -469,7 +532,7 @@
     
     double miles = 0.0f;
     
-    for (TVFlight *flight in [[TVDatabase currentAccount] flights]) {
+    for (TVFlight *flight in [[[TVDatabase currentAccount] person] flights]) {
         
         miles += flight.miles;
     }
@@ -542,7 +605,59 @@
 }
 
 - (void)exportFlights {
+        
+    NSMutableString *csv = [NSMutableString stringWithString:@"Name,Date,Miles"];
     
+    for (int i = 0; i <= [[[[TVDatabase currentAccount] person] flights] count] - 1; i++ ) {
+
+        TVFlight *flight = [[[TVDatabase currentAccount] person] flights][i];
+        
+        [csv appendFormat:@"\n\"%@\",%@,\"%g\"", flight.originCity, flight.destinationCity, flight.miles];
+    }
+    
+    NSString *fileName = [NSString stringWithFormat:@"%@_%@_Flights", [[[[TVDatabase currentAccount] person] name] componentsSeparatedByString:@" "][0], [[[[[TVDatabase currentAccount] person] name] componentsSeparatedByString:@" "] lastObject]];
+    
+    NSError *error;
+    BOOL res = [csv writeToFile:[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@", fileName]] atomically:YES encoding:NSUTF8StringEncoding error:&error];
+    
+    if (!res) {
+        
+        [TVErrorHandler handleError:[NSError errorWithDomain:@"Could not export" code:200 userInfo:@{NSLocalizedDescriptionKey: @"Could not export flights"}]];
+    }
+    else {
+        
+        if ([MFMailComposeViewController canSendMail]) {
+            
+            MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] init];
+            [composeViewController setSubject:@"My Flights"];
+            [composeViewController addAttachmentData:[NSData dataWithContentsOfFile:fileName] mimeType:@"text/csv" fileName:fileName];
+            
+            composeViewController.mailComposeDelegate = self;
+            
+            [self presentViewController:composeViewController animated:YES completion:nil];
+        }
+        else {
+            
+            [TVErrorHandler handleError:[NSError errorWithDomain:@"Ensure you have added a mail account in Settings" code:200 userInfo:@{NSLocalizedDescriptionKey: @"Ensure you have added a mail account in Settings"}]];
+        }
+    }
+}
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    
+    if (result == MFMailComposeResultSent) {
+        
+        [TVNotificationSignifier signifyNotification:@"Exported flights and sent email" forDuration:3];
+    }
+    else if ((result == MFMailComposeResultSaved) || (result == MFMailComposeResultCancelled)) {
+        
+    }
+    else {
+        
+        [TVErrorHandler handleError:[NSError errorWithDomain:@"Couldn't send email" code:200 userInfo:@{NSLocalizedDescriptionKey: @"Could not send email"}]];
+    }
+    
+    [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)showSettingsPage {
@@ -577,26 +692,26 @@
     
     UIButton *messages = [[UIButton alloc] init];
     [messages setImage:[UIImage imageNamed:@"messages.png"] forState:UIControlStateNormal];
-    [messages setFrame:CGRectMake(70, 40, 24, 22)];
+    [messages setFrame:CGRectMake(75, 42, 22, 19)];
     [messages addTarget:self action:@selector(showMessagesPage) forControlEvents:UIControlEventTouchUpInside];
     [self.headerView addSubview:messages];
     
     UIButton *findPeople = [[UIButton alloc] init];
-    [findPeople setImage:[UIImage imageNamed:@"person.png"] forState:UIControlStateNormal];
-    [findPeople setFrame:CGRectMake(120, 40, 22, 22)];
+    [findPeople setImage:[UIImage imageNamed:@"people.png"] forState:UIControlStateNormal];
+    [findPeople setFrame:CGRectMake(125, 40, 21, 23)];
     [findPeople addTarget:self action:@selector(showFindPeoplePage) forControlEvents:UIControlEventTouchUpInside];
     [self.headerView addSubview:findPeople];
     
     UIButton *exportFlights = [[UIButton alloc] init];
-    [exportFlights setImage:[UIImage imageNamed:@"download.png"] forState:UIControlStateNormal];
-    [exportFlights setFrame:CGRectMake(164.5, 40, 18.5, 22)];
-    [exportFlights addTarget:self action:@selector(showFindPeoplePage) forControlEvents:UIControlEventTouchUpInside];
+    [exportFlights setImage:[UIImage imageNamed:@"export.png"] forState:UIControlStateNormal];
+    [exportFlights setFrame:CGRectMake(168, 40, 24, 24)];
+    [exportFlights addTarget:self action:@selector(exportFlights) forControlEvents:UIControlEventTouchUpInside];
     [self.headerView addSubview:exportFlights];
 
     UIButton *settings = [[UIButton alloc] init];
     [settings setImage:[UIImage imageNamed:@"settings.png"] forState:UIControlStateNormal];
-    [settings setFrame:CGRectMake(214.5, 40, 22, 22)];
-    [settings addTarget:self action:@selector(showFindPeoplePage) forControlEvents:UIControlEventTouchUpInside];
+    [settings setFrame:CGRectMake(211, 40, 24, 24)];
+    [settings addTarget:self action:@selector(showSettingsPage) forControlEvents:UIControlEventTouchUpInside];
     [self.headerView addSubview:settings];
 }
 
@@ -629,15 +744,6 @@
     [self refreshAccount:refreshControl];
     
     detailView = [[TVFlightDetailViewController alloc] init];
-    
-    /*	CustomBadge *badge = [CustomBadge customBadgeWithString:@"2"
-     withStringColor:[UIColor whiteColor]
-     withInsetColor:[UIColor redColor]
-     withBadgeFrame:NO
-     withBadgeFrameColor:[UIColor clearColor]
-     withScale:1.0
-     withShining:NO];
-     */
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accountUpdated) name:@"RecordedFlight" object:nil];
     

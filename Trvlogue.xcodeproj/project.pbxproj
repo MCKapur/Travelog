@@ -29,10 +29,8 @@
 		460329DC175B8BDC000F820F /* TVPersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 460329DA175B8BDB000F820F /* TVPersonCell.m */; };
 		460329DD175B8BDC000F820F /* TVPersonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 460329DB175B8BDC000F820F /* TVPersonCell.xib */; };
 		4605838A17BB4ED900AA604E /* CustomBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4605838917BB4ED900AA604E /* CustomBadge.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		460583B117BB5AE100AA604E /* person.png in Resources */ = {isa = PBXBuildFile; fileRef = 460583B017BB5AE100AA604E /* person.png */; };
 		460583B317BB5AE700AA604E /* messages.png in Resources */ = {isa = PBXBuildFile; fileRef = 460583B217BB5AE700AA604E /* messages.png */; };
 		460583B517BB5AED00AA604E /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 460583B417BB5AED00AA604E /* settings.png */; };
-		460583B717BB5AF600AA604E /* download.png in Resources */ = {isa = PBXBuildFile; fileRef = 460583B617BB5AF600AA604E /* download.png */; };
 		460A9E8916F98C5A00FFBF2A /* TVErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 460A9E8816F98C5A00FFBF2A /* TVErrorHandler.m */; };
 		460A9E8C16F9920500FFBF2A /* TVConversions.m in Sources */ = {isa = PBXBuildFile; fileRef = 460A9E8B16F9920400FFBF2A /* TVConversions.m */; };
 		460A9E8F16F99B1500FFBF2A /* TVLoadingSignifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 460A9E8E16F99B1500FFBF2A /* TVLoadingSignifier.m */; };
@@ -53,7 +51,6 @@
 		460B0D31175309E300A1229C /* LinkedInDataRetriever.m in Sources */ = {isa = PBXBuildFile; fileRef = 460B0D30175309E200A1229C /* LinkedInDataRetriever.m */; };
 		460B0D341753ACBB00A1229C /* LinkedInAuthorizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 460B0D331753ACBA00A1229C /* LinkedInAuthorizer.m */; };
 		4629DF9417BA8FF50057AB0B /* TVMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4629DF9317BA8FF50057AB0B /* TVMessage.m */; };
-		4629DFBC17BB2C5D0057AB0B /* KxMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 4629DFBB17BB2C5D0057AB0B /* KxMenu.m */; };
 		462E441817B9FB0D00BDE403 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 462E440617B9FB0D00BDE403 /* AFHTTPClient.m */; };
 		462E441917B9FB0D00BDE403 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 462E440817B9FB0D00BDE403 /* AFHTTPRequestOperation.m */; };
 		462E441A17B9FB0D00BDE403 /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 462E440A17B9FB0D00BDE403 /* AFImageRequestOperation.m */; };
@@ -63,9 +60,6 @@
 		462E441E17B9FB0D00BDE403 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 462E441317B9FB0D00BDE403 /* AFURLConnectionOperation.m */; };
 		462E441F17B9FB0D00BDE403 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 462E441517B9FB0D00BDE403 /* AFXMLRequestOperation.m */; };
 		462E442017B9FB0D00BDE403 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 462E441717B9FB0D00BDE403 /* UIImageView+AFNetworking.m */; };
-		462E443217BA1E5000BDE403 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 462E442C17BA1E5000BDE403 /* libTestFlight.a */; };
-		462E443317BA1E5000BDE403 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 462E442D17BA1E5000BDE403 /* README.md */; };
-		462E443417BA1E5000BDE403 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 462E442E17BA1E5000BDE403 /* release_notes.md */; };
 		462E443617BA1E6600BDE403 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 462E443517BA1E6600BDE403 /* libz.dylib */; };
 		463CED1317707DFA00051E9D /* TVMessageHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 463CED1217707DFA00051E9D /* TVMessageHistory.m */; };
 		463F80F3173CF21D00D485C0 /* Gotham-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 463F80EE173CF21D00D485C0 /* Gotham-Bold.ttf */; };
@@ -93,6 +87,10 @@
 		4697882F1723F20400D4E899 /* TVUnderlinedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4697882B1723F20100D4E899 /* TVUnderlinedLabel.m */; };
 		469788301723F20400D4E899 /* TVWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4697882D1723F20200D4E899 /* TVWebViewController.m */; };
 		469788311723F20400D4E899 /* TVWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4697882E1723F20300D4E899 /* TVWebViewController.xib */; };
+		4698814217BCD4C400EB6AC7 /* TVPlaceDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4698814017BCD4C400EB6AC7 /* TVPlaceDetailViewController.m */; };
+		4698814317BCD4C400EB6AC7 /* TVPlaceDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4698814117BCD4C400EB6AC7 /* TVPlaceDetailViewController.xib */; };
+		46A30D0D17BBA8650095E727 /* export.png in Resources */ = {isa = PBXBuildFile; fileRef = 46A30D0B17BBA8650095E727 /* export.png */; };
+		46A30D0E17BBA8650095E727 /* people.png in Resources */ = {isa = PBXBuildFile; fileRef = 46A30D0C17BBA8650095E727 /* people.png */; };
 		46A4BDBB1770184500A71EFA /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 46FFBB1C173F455C00E44A13 /* libz.1.1.3.dylib */; };
 		46A4BDBD1770185100A71EFA /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46A4BDBC1770185100A71EFA /* CFNetwork.framework */; };
 		46A4BDBF1770186000A71EFA /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46A4BDBE1770186000A71EFA /* Security.framework */; };
@@ -115,12 +113,10 @@
 		46A4BDF117701D0E00A71EFA /* TVFlexTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 46A4BDF017701D0D00A71EFA /* TVFlexTableViewCell.m */; };
 		46A4BDF517701D3000A71EFA /* TVSwipeBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 46A4BDF317701D3000A71EFA /* TVSwipeBanner.m */; };
 		46A4BE1517701DF100A71EFA /* TVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 46A4BE1417701DF100A71EFA /* TVNotification.m */; };
-		46A4BE1A17701E0200A71EFA /* TVNotificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 46A4BE1817701E0200A71EFA /* TVNotificationCell.m */; };
 		46A4BE251770225A00A71EFA /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46A4BE241770225A00A71EFA /* Parse.framework */; };
 		46A9F264175ACF4A000E7539 /* TVPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 46A9F263175ACF4A000E7539 /* TVPerson.m */; };
 		46ADED1A177EF4960074ACC9 /* TVFlightRecorderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46ADED18177EF4960074ACC9 /* TVFlightRecorderViewController.m */; };
 		46ADED1B177EF4960074ACC9 /* TVFlightRecorderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46ADED19177EF4960074ACC9 /* TVFlightRecorderViewController.xib */; };
-		46ADED1E177F047F0074ACC9 /* TVNotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46ADED1D177F047F0074ACC9 /* TVNotificationCell.xib */; };
 		46B15A2116F5D94F00566578 /* TVAutocompleteSuggestionsRetriever.m in Sources */ = {isa = PBXBuildFile; fileRef = 46B15A2016F5D94E00566578 /* TVAutocompleteSuggestionsRetriever.m */; };
 		46B32F25174CEA2600484A1B /* 3.gif in Resources */ = {isa = PBXBuildFile; fileRef = 46B32F24174CEA2600484A1B /* 3.gif */; };
 		46B32F36174CEDF600484A1B /* 10.gif in Resources */ = {isa = PBXBuildFile; fileRef = 46B32F29174CEDF300484A1B /* 10.gif */; };
@@ -197,7 +193,7 @@
 		46C290C416EDEA2A00399BDE /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = 46C290BA16EDEA2A00399BDE /* iTunesArtwork.png */; };
 		46C290C516EDEA2A00399BDE /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 46C290BB16EDEA2A00399BDE /* iTunesArtwork@2x.png */; };
 		46C290CB16EDEA6F00399BDE /* TVRSSItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 46C290C816EDEA6E00399BDE /* TVRSSItem.m */; };
-		46C290CC16EDEA6F00399BDE /* RSSChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 46C290CA16EDEA6F00399BDE /* RSSChannel.m */; };
+		46C290CC16EDEA6F00399BDE /* TVRSSChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 46C290CA16EDEA6F00399BDE /* TVRSSChannel.m */; };
 		46C290DB16EDEB1300399BDE /* emptyStar.png in Resources */ = {isa = PBXBuildFile; fileRef = 46C290D716EDEB1300399BDE /* emptyStar.png */; };
 		46C290DC16EDEB1300399BDE /* fullStar.png in Resources */ = {isa = PBXBuildFile; fileRef = 46C290D816EDEB1300399BDE /* fullStar.png */; };
 		46C290DD16EDEB1300399BDE /* halfStar.png in Resources */ = {isa = PBXBuildFile; fileRef = 46C290D916EDEB1300399BDE /* halfStar.png */; };
@@ -215,7 +211,6 @@
 		46C2916816EE1B8A00399BDE /* Futura-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 46C2916716EE1B8A00399BDE /* Futura-Bold.ttf */; };
 		46C694A217005A180078E453 /* overlayinversed.png in Resources */ = {isa = PBXBuildFile; fileRef = 46C694A117005A180078E453 /* overlayinversed.png */; };
 		46C917AD1775A82F00CD505B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 46C917AC1775A82E00CD505B /* Reachability.m */; };
-		46F7E15617729E2B007B5D1C /* person.png in Resources */ = {isa = PBXBuildFile; fileRef = 46F7E15417729E2B007B5D1C /* person.png */; };
 		46F80F5B175E235D005EA59E /* anonymous_person.png in Resources */ = {isa = PBXBuildFile; fileRef = 46F80F5A175E235D005EA59E /* anonymous_person.png */; };
 		46FE4B23170C2223007E4856 /* airplane.png in Resources */ = {isa = PBXBuildFile; fileRef = 46FE4B22170C2223007E4856 /* airplane.png */; };
 		46FE4B26170C4C38007E4856 /* TVTextFileLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 46FE4B25170C4C36007E4856 /* TVTextFileLoader.m */; };
@@ -5241,10 +5236,8 @@
 		460329DB175B8BDC000F820F /* TVPersonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TVPersonCell.xib; sourceTree = "<group>"; };
 		4605838817BB4ED900AA604E /* CustomBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomBadge.h; sourceTree = "<group>"; };
 		4605838917BB4ED900AA604E /* CustomBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomBadge.m; sourceTree = "<group>"; };
-		460583B017BB5AE100AA604E /* person.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = person.png; sourceTree = "<group>"; };
 		460583B217BB5AE700AA604E /* messages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = messages.png; sourceTree = "<group>"; };
 		460583B417BB5AED00AA604E /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
-		460583B617BB5AF600AA604E /* download.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = download.png; sourceTree = "<group>"; };
 		460A9E8716F98C5900FFBF2A /* TVErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVErrorHandler.h; sourceTree = "<group>"; };
 		460A9E8816F98C5A00FFBF2A /* TVErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVErrorHandler.m; sourceTree = "<group>"; };
 		460A9E8A16F9920400FFBF2A /* TVConversions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVConversions.h; sourceTree = "<group>"; };
@@ -5275,8 +5268,6 @@
 		460B0D331753ACBA00A1229C /* LinkedInAuthorizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkedInAuthorizer.m; sourceTree = "<group>"; };
 		4629DF9217BA8FF50057AB0B /* TVMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVMessage.h; sourceTree = "<group>"; };
 		4629DF9317BA8FF50057AB0B /* TVMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVMessage.m; sourceTree = "<group>"; };
-		4629DFBA17BB2C5D0057AB0B /* KxMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KxMenu.h; sourceTree = "<group>"; };
-		4629DFBB17BB2C5D0057AB0B /* KxMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KxMenu.m; sourceTree = "<group>"; };
 		462E440517B9FB0D00BDE403 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		462E440617B9FB0D00BDE403 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		462E440717B9FB0D00BDE403 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -5296,12 +5287,6 @@
 		462E441517B9FB0D00BDE403 /* AFXMLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFXMLRequestOperation.m; sourceTree = "<group>"; };
 		462E441617B9FB0D00BDE403 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
 		462E441717B9FB0D00BDE403 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
-		462E442C17BA1E5000BDE403 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
-		462E442D17BA1E5000BDE403 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		462E442E17BA1E5000BDE403 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
-		462E442F17BA1E5000BDE403 /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
-		462E443017BA1E5000BDE403 /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
-		462E443117BA1E5000BDE403 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		462E443517BA1E6600BDE403 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		463CED1117707DFA00051E9D /* TVMessageHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVMessageHistory.h; sourceTree = "<group>"; };
 		463CED1217707DFA00051E9D /* TVMessageHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVMessageHistory.m; sourceTree = "<group>"; };
@@ -5336,6 +5321,11 @@
 		4697882C1723F20200D4E899 /* TVWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVWebViewController.h; sourceTree = "<group>"; };
 		4697882D1723F20200D4E899 /* TVWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVWebViewController.m; sourceTree = "<group>"; };
 		4697882E1723F20300D4E899 /* TVWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TVWebViewController.xib; sourceTree = "<group>"; };
+		4698813F17BCD4C400EB6AC7 /* TVPlaceDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TVPlaceDetailViewController.h; path = ../TVPlaceDetailViewController.h; sourceTree = "<group>"; };
+		4698814017BCD4C400EB6AC7 /* TVPlaceDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TVPlaceDetailViewController.m; path = ../TVPlaceDetailViewController.m; sourceTree = "<group>"; };
+		4698814117BCD4C400EB6AC7 /* TVPlaceDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TVPlaceDetailViewController.xib; path = ../TVPlaceDetailViewController.xib; sourceTree = "<group>"; };
+		46A30D0B17BBA8650095E727 /* export.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = export.png; sourceTree = "<group>"; };
+		46A30D0C17BBA8650095E727 /* people.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = people.png; sourceTree = "<group>"; };
 		46A4BDBC1770185100A71EFA /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		46A4BDBE1770186000A71EFA /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		46A4BDC01770186700A71EFA /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -5363,15 +5353,12 @@
 		46A4BDF317701D3000A71EFA /* TVSwipeBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVSwipeBanner.m; sourceTree = "<group>"; };
 		46A4BE1317701DF100A71EFA /* TVNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVNotification.h; sourceTree = "<group>"; };
 		46A4BE1417701DF100A71EFA /* TVNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVNotification.m; sourceTree = "<group>"; };
-		46A4BE1717701E0200A71EFA /* TVNotificationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVNotificationCell.h; sourceTree = "<group>"; };
-		46A4BE1817701E0200A71EFA /* TVNotificationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVNotificationCell.m; sourceTree = "<group>"; };
 		46A4BE241770225A00A71EFA /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = Trvlogue/Parse.framework; sourceTree = "<group>"; };
 		46A9F262175ACF4A000E7539 /* TVPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVPerson.h; sourceTree = "<group>"; };
 		46A9F263175ACF4A000E7539 /* TVPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVPerson.m; sourceTree = "<group>"; };
 		46ADED17177EF4960074ACC9 /* TVFlightRecorderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVFlightRecorderViewController.h; sourceTree = "<group>"; };
 		46ADED18177EF4960074ACC9 /* TVFlightRecorderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVFlightRecorderViewController.m; sourceTree = "<group>"; };
 		46ADED19177EF4960074ACC9 /* TVFlightRecorderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TVFlightRecorderViewController.xib; sourceTree = "<group>"; };
-		46ADED1D177F047F0074ACC9 /* TVNotificationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TVNotificationCell.xib; sourceTree = "<group>"; };
 		46B15A1F16F5D94E00566578 /* TVAutocompleteSuggestionsRetriever.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVAutocompleteSuggestionsRetriever.h; sourceTree = "<group>"; };
 		46B15A2016F5D94E00566578 /* TVAutocompleteSuggestionsRetriever.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVAutocompleteSuggestionsRetriever.m; sourceTree = "<group>"; };
 		46B32F24174CEA2600484A1B /* 3.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = 3.gif; sourceTree = "<group>"; };
@@ -5470,8 +5457,8 @@
 		46C290BB16EDEA2A00399BDE /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		46C290C716EDEA6D00399BDE /* TVRSSItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVRSSItem.h; sourceTree = "<group>"; };
 		46C290C816EDEA6E00399BDE /* TVRSSItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVRSSItem.m; sourceTree = "<group>"; };
-		46C290C916EDEA6E00399BDE /* RSSChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSChannel.h; sourceTree = "<group>"; };
-		46C290CA16EDEA6F00399BDE /* RSSChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSChannel.m; sourceTree = "<group>"; };
+		46C290C916EDEA6E00399BDE /* TVRSSChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVRSSChannel.h; sourceTree = "<group>"; };
+		46C290CA16EDEA6F00399BDE /* TVRSSChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVRSSChannel.m; sourceTree = "<group>"; };
 		46C290D716EDEB1300399BDE /* emptyStar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emptyStar.png; sourceTree = "<group>"; };
 		46C290D816EDEB1300399BDE /* fullStar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fullStar.png; sourceTree = "<group>"; };
 		46C290D916EDEB1300399BDE /* halfStar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = halfStar.png; sourceTree = "<group>"; };
@@ -5494,7 +5481,6 @@
 		46C694A117005A180078E453 /* overlayinversed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = overlayinversed.png; sourceTree = "<group>"; };
 		46C917AB1775A82E00CD505B /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		46C917AC1775A82E00CD505B /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		46F7E15417729E2B007B5D1C /* person.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = person.png; path = ../person.png; sourceTree = "<group>"; };
 		46F80F5A175E235D005EA59E /* anonymous_person.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = anonymous_person.png; path = ../anonymous_person.png; sourceTree = "<group>"; };
 		46FE4B22170C2223007E4856 /* airplane.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = airplane.png; sourceTree = "<group>"; };
 		46FE4B24170C4C36007E4856 /* TVTextFileLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVTextFileLoader.h; sourceTree = "<group>"; };
@@ -5533,7 +5519,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				462E443617BA1E6600BDE403 /* libz.dylib in Frameworks */,
+				46A4BDD517701AB900A71EFA /* MessageUI.framework in Frameworks */,
 				43D46DC817913B940061C41E /* AWSiOSSDK.framework in Frameworks */,
 				46A4BE251770225A00A71EFA /* Parse.framework in Frameworks */,
 				46A4BDDF17701B3F00A71EFA /* CoreGraphics.framework in Frameworks */,
@@ -5541,7 +5527,6 @@
 				46A4BDDB17701AF300A71EFA /* UIKit.framework in Frameworks */,
 				46A4BDD917701AEE00A71EFA /* Social.framework in Frameworks */,
 				46A4BDD717701AE200A71EFA /* QuartzCore.framework in Frameworks */,
-				46A4BDD517701AB900A71EFA /* MessageUI.framework in Frameworks */,
 				46A4BDD317701A8700A71EFA /* CoreLocation.framework in Frameworks */,
 				46A4BDD117701A8200A71EFA /* AddressBook.framework in Frameworks */,
 				46A4BDCF17701A7C00A71EFA /* MapKit.framework in Frameworks */,
@@ -5552,8 +5537,8 @@
 				46A4BDC11770186700A71EFA /* MobileCoreServices.framework in Frameworks */,
 				46A4BDBF1770186000A71EFA /* Security.framework in Frameworks */,
 				46A4BDBD1770185100A71EFA /* CFNetwork.framework in Frameworks */,
+				462E443617BA1E6600BDE403 /* libz.dylib in Frameworks */,
 				46A4BDBB1770184500A71EFA /* libz.1.1.3.dylib in Frameworks */,
-				462E443217BA1E5000BDE403 /* libTestFlight.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5571,13 +5556,9 @@
 			name = HTAutocompleteTextField;
 			sourceTree = "<group>";
 		};
-		439EBC78179A297300B81584 /* Places Autocomplete */ = {
+		439EBC78179A297300B81584 /* Places */ = {
 			isa = PBXGroup;
 			children = (
-				46B15A1F16F5D94E00566578 /* TVAutocompleteSuggestionsRetriever.h */,
-				46B15A2016F5D94E00566578 /* TVAutocompleteSuggestionsRetriever.m */,
-				439EBC7C179A30C700B81584 /* TVPlacesQuerySuggestionsRetriever.h */,
-				439EBC7D179A30C700B81584 /* TVPlacesQuerySuggestionsRetriever.m */,
 				433B97F117ACD5D300BA8C53 /* TVGooglePlace.h */,
 				433B97F217ACD5D300BA8C53 /* TVGooglePlace.m */,
 				4317462317A2584100FBA3D9 /* TVGooglePlaceReview.h */,
@@ -5585,7 +5566,7 @@
 				4317462017A2523F00FBA3D9 /* TVGooglePlacePhoto.h */,
 				4317462117A2523F00FBA3D9 /* TVGooglePlacePhoto.m */,
 			);
-			name = "Places Autocomplete";
+			name = Places;
 			sourceTree = "<group>";
 		};
 		43A89D201791B95A00C039F3 /* NSDate-Extensions */ = {
@@ -11340,6 +11321,17 @@
 			path = IOSLinkedInAPI;
 			sourceTree = "<group>";
 		};
+		461F3E6617BCC7CA0055C29F /* Autocomplete */ = {
+			isa = PBXGroup;
+			children = (
+				46B15A1F16F5D94E00566578 /* TVAutocompleteSuggestionsRetriever.h */,
+				46B15A2016F5D94E00566578 /* TVAutocompleteSuggestionsRetriever.m */,
+				439EBC7C179A30C700B81584 /* TVPlacesQuerySuggestionsRetriever.h */,
+				439EBC7D179A30C700B81584 /* TVPlacesQuerySuggestionsRetriever.m */,
+			);
+			name = Autocomplete;
+			sourceTree = "<group>";
+		};
 		462E440417B9FB0C00BDE403 /* AFNetworking */ = {
 			isa = PBXGroup;
 			children = (
@@ -11364,19 +11356,6 @@
 				462E441717B9FB0D00BDE403 /* UIImageView+AFNetworking.m */,
 			);
 			path = AFNetworking;
-			sourceTree = "<group>";
-		};
-		462E442B17BA1E5000BDE403 /* TestFlightSDK2 */ = {
-			isa = PBXGroup;
-			children = (
-				462E442C17BA1E5000BDE403 /* libTestFlight.a */,
-				462E442D17BA1E5000BDE403 /* README.md */,
-				462E442E17BA1E5000BDE403 /* release_notes.md */,
-				462E442F17BA1E5000BDE403 /* TestFlight+AsyncLogging.h */,
-				462E443017BA1E5000BDE403 /* TestFlight+ManualSessions.h */,
-				462E443117BA1E5000BDE403 /* TestFlight.h */,
-			);
-			path = TestFlightSDK2;
 			sourceTree = "<group>";
 		};
 		463F80F9173CF22200D485C0 /* Gotham */ = {
@@ -11453,8 +11432,8 @@
 			children = (
 				46C290C716EDEA6D00399BDE /* TVRSSItem.h */,
 				46C290C816EDEA6E00399BDE /* TVRSSItem.m */,
-				46C290C916EDEA6E00399BDE /* RSSChannel.h */,
-				46C290CA16EDEA6F00399BDE /* RSSChannel.m */,
+				46C290C916EDEA6E00399BDE /* TVRSSChannel.h */,
+				46C290CA16EDEA6F00399BDE /* TVRSSChannel.m */,
 			);
 			name = RSS;
 			sourceTree = "<group>";
@@ -11507,7 +11486,6 @@
 				460A9E8B16F9920400FFBF2A /* TVConversions.m */,
 				46C917AB1775A82E00CD505B /* Reachability.h */,
 				46C917AC1775A82E00CD505B /* Reachability.m */,
-				462E442B17BA1E5000BDE403 /* TestFlightSDK2 */,
 				462E440417B9FB0C00BDE403 /* AFNetworking */,
 				43D45A1D17913B310061C41E /* aws-ios-sdk-1.6.0 */,
 				460329CE175B897F000F820F /* UIGridView */,
@@ -11530,8 +11508,6 @@
 			children = (
 				4605838817BB4ED900AA604E /* CustomBadge.h */,
 				4605838917BB4ED900AA604E /* CustomBadge.m */,
-				4629DFBA17BB2C5D0057AB0B /* KxMenu.h */,
-				4629DFBB17BB2C5D0057AB0B /* KxMenu.m */,
 				46B47EED16FF044500ACBD64 /* TVAnnotation.h */,
 				46B47EEE16FF044500ACBD64 /* TVAnnotation.m */,
 				46A4BDF217701D3000A71EFA /* TVSwipeBanner.h */,
@@ -11619,8 +11595,6 @@
 			children = (
 				46C28F8E16EDE9AB00399BDE /* TVDatabase.h */,
 				46C28F8F16EDE9AB00399BDE /* TVDatabase.m */,
-				46C28F0C16EDD6F900399BDE /* TVAppDelegate.h */,
-				46C28F0D16EDD6F900399BDE /* TVAppDelegate.m */,
 				46A2D5F816EEA15800C886CB /* Plugins + Extensions */,
 				46A2D5F916EEA22100C886CB /* UI */,
 				46F8491F17094E2C00A9F0BB /* Data */,
@@ -11634,6 +11608,8 @@
 		46C28F0416EDD6F800399BDE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				46C28F0C16EDD6F900399BDE /* TVAppDelegate.h */,
+				46C28F0D16EDD6F900399BDE /* TVAppDelegate.m */,
 				46A4BDE717701C3900A71EFA /* Trvlogue-Info.plist */,
 				46A4BDE817701C3900A71EFA /* Trvlogue-Prefix.pch */,
 				46C28F0616EDD6F900399BDE /* InfoPlist.strings */,
@@ -11645,13 +11621,12 @@
 		46C28FA916EDE9E900399BDE /* slices */ = {
 			isa = PBXGroup;
 			children = (
-				460583B617BB5AF600AA604E /* download.png */,
+				46A30D0B17BBA8650095E727 /* export.png */,
+				46A30D0C17BBA8650095E727 /* people.png */,
 				460583B417BB5AED00AA604E /* settings.png */,
 				460583B217BB5AE700AA604E /* messages.png */,
-				460583B017BB5AE100AA604E /* person.png */,
 				43A8FF2E17B35F5800BCC5C0 /* cross.png */,
 				43A8FF2F17B35F5800BCC5C0 /* cross@2x.png */,
-				46F7E15417729E2B007B5D1C /* person.png */,
 				46F80F5A175E235D005EA59E /* anonymous_person.png */,
 				469788281723AFE300D4E899 /* BackgroundBlueBlur.png */,
 				460B0BE2174F52AC00A1229C /* iconTick.png */,
@@ -11764,9 +11739,6 @@
 				46A4BDEC17701D0200A71EFA /* TVNewsCell.xib */,
 				46A4BDEF17701D0D00A71EFA /* TVFlexTableViewCell.h */,
 				46A4BDF017701D0D00A71EFA /* TVFlexTableViewCell.m */,
-				46A4BE1717701E0200A71EFA /* TVNotificationCell.h */,
-				46A4BE1817701E0200A71EFA /* TVNotificationCell.m */,
-				46ADED1D177F047F0074ACC9 /* TVNotificationCell.xib */,
 			);
 			name = "Table View Cells";
 			sourceTree = "<group>";
@@ -11805,6 +11777,9 @@
 				46B47ECC16FD73F100ACBD64 /* TVFlightDetailViewController.h */,
 				46B47ECD16FD73F200ACBD64 /* TVFlightDetailViewController.m */,
 				46B47ECE16FD73F400ACBD64 /* TVFlightDetailViewController.xib */,
+				4698813F17BCD4C400EB6AC7 /* TVPlaceDetailViewController.h */,
+				4698814017BCD4C400EB6AC7 /* TVPlaceDetailViewController.m */,
+				4698814117BCD4C400EB6AC7 /* TVPlaceDetailViewController.xib */,
 				46ADED17177EF4960074ACC9 /* TVFlightRecorderViewController.h */,
 				46ADED18177EF4960074ACC9 /* TVFlightRecorderViewController.m */,
 				46ADED19177EF4960074ACC9 /* TVFlightRecorderViewController.xib */,
@@ -11830,7 +11805,8 @@
 		46F8492117094E9A00A9F0BB /* Google APIs */ = {
 			isa = PBXGroup;
 			children = (
-				439EBC78179A297300B81584 /* Places Autocomplete */,
+				461F3E6617BCC7CA0055C29F /* Autocomplete */,
+				439EBC78179A297300B81584 /* Places */,
 			);
 			name = "Google APIs";
 			sourceTree = "<group>";
@@ -12283,7 +12259,6 @@
 				463F80F3173CF21D00D485C0 /* Gotham-Bold.ttf in Resources */,
 				463F80F4173CF21D00D485C0 /* Gotham-Book.ttf in Resources */,
 				463F80F5173CF21D00D485C0 /* Gotham-Light.ttf in Resources */,
-				46F7E15617729E2B007B5D1C /* person.png in Resources */,
 				463F80F6173CF21D00D485C0 /* Gotham-Medium.ttf in Resources */,
 				463F80F7173CF21D00D485C0 /* Gotham-XLight.ttf in Resources */,
 				463F810F173D45DC00D485C0 /* 2.gif in Resources */,
@@ -12316,19 +12291,17 @@
 				46F80F5B175E235D005EA59E /* anonymous_person.png in Resources */,
 				467054A9177EC8A300D8B740 /* TVViewController.xib in Resources */,
 				46ADED1B177EF4960074ACC9 /* TVFlightRecorderViewController.xib in Resources */,
-				46ADED1E177F047F0074ACC9 /* TVNotificationCell.xib in Resources */,
 				43D46DCA17913CF00061C41E /* Airplane.ttf in Resources */,
 				43A8FF3017B35F5800BCC5C0 /* cross.png in Resources */,
 				43A8FF3117B35F5800BCC5C0 /* cross@2x.png in Resources */,
 				4652BAE117B8B46E009A0C04 /* 7.gif in Resources */,
 				4652BAE217B8B46E009A0C04 /* 8.gif in Resources */,
 				4652BAE317B8B46E009A0C04 /* 9.gif in Resources */,
-				462E443317BA1E5000BDE403 /* README.md in Resources */,
-				462E443417BA1E5000BDE403 /* release_notes.md in Resources */,
-				460583B117BB5AE100AA604E /* person.png in Resources */,
 				460583B317BB5AE700AA604E /* messages.png in Resources */,
 				460583B517BB5AED00AA604E /* settings.png in Resources */,
-				460583B717BB5AF600AA604E /* download.png in Resources */,
+				46A30D0D17BBA8650095E727 /* export.png in Resources */,
+				46A30D0E17BBA8650095E727 /* people.png in Resources */,
+				4698814317BCD4C400EB6AC7 /* TVPlaceDetailViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -12351,12 +12324,11 @@
 				46C28F9A16EDE9AB00399BDE /* TVLoginViewController.m in Sources */,
 				46C28F9C16EDE9AB00399BDE /* TVCreateAccountViewController.m in Sources */,
 				46C290CB16EDEA6F00399BDE /* TVRSSItem.m in Sources */,
-				46C290CC16EDEA6F00399BDE /* RSSChannel.m in Sources */,
+				46C290CC16EDEA6F00399BDE /* TVRSSChannel.m in Sources */,
 				46A4BE1517701DF100A71EFA /* TVNotification.m in Sources */,
 				46C290F216EDEC7500399BDE /* DDUnitConverter.m in Sources */,
 				46C290F316EDEC7500399BDE /* DDCurrencyUnitConverter.m in Sources */,
 				46C2916216EE19D200399BDE /* TVCustomUINavigationBar.m in Sources */,
-				46A4BE1A17701E0200A71EFA /* TVNotificationCell.m in Sources */,
 				46C2916316EE19D200399BDE /* TVAccount.m in Sources */,
 				46BB55EF16F1B36A0076BCEB /* TVFlightCell.m in Sources */,
 				468FBC7916F47C1100418582 /* GIFBackground.m in Sources */,
@@ -12419,8 +12391,8 @@
 				462E441F17B9FB0D00BDE403 /* AFXMLRequestOperation.m in Sources */,
 				462E442017B9FB0D00BDE403 /* UIImageView+AFNetworking.m in Sources */,
 				4629DF9417BA8FF50057AB0B /* TVMessage.m in Sources */,
-				4629DFBC17BB2C5D0057AB0B /* KxMenu.m in Sources */,
 				4605838A17BB4ED900AA604E /* CustomBadge.m in Sources */,
+				4698814217BCD4C400EB6AC7 /* TVPlaceDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -12671,8 +12643,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../Downloads/TestFlightSDK2\"",
-					"\"$(SRCROOT)/Trvlogue/TestFlightSDK2\"",
+					"\"$(SRCROOT)/../../../Downloads/TestFlightSDK\"",
+					"\"$(SRCROOT)/Trvlogue/TestFlightSDK\"",
 				);
 				OTHER_CFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -12701,8 +12673,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../Downloads/TestFlightSDK2\"",
-					"\"$(SRCROOT)/Trvlogue/TestFlightSDK2\"",
+					"\"$(SRCROOT)/../../../Downloads/TestFlightSDK\"",
+					"\"$(SRCROOT)/Trvlogue/TestFlightSDK\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "B8E2D6DE-574C-4B88-9C95-90E6786C574D";

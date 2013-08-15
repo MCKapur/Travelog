@@ -8,40 +8,13 @@
 
 #import "TVAccount.h"
 
-@interface NSArray (Indexing)
-
-- (int)indexOfFlight:(TVFlight *)flight;
-
-@end
-
-@implementation NSArray (Indexing)
-
-- (int)indexOfFlight:(TVFlight *)flight {
-    
-    int retVal = NSNotFound;
-    
-    for (int i = 0; i <= self.count - 1; i++) {
-        
-        if ([((TVFlight *)self[i]).ID isEqualToString:flight.ID]) {
-            
-            retVal = i;
-        }
-    }
-    
-    return retVal;
-}
-
-@end
-
 @implementation TVAccount
-@synthesize email, password, flights, isUsingLinkedIn, linkedInAccessKey, linkedInId, person;
+@synthesize email, password, isUsingLinkedIn, linkedInAccessKey, linkedInId, person;
 
 - (void)encodeWithCoder:(NSCoder *)coder {
         
     [coder encodeObject:[self email] forKey:@"email"];
     [coder encodeObject:[self password] forKey:@"password"];
-
-    [coder encodeObject:[self flights] forKey:@"flights"];
     
     [coder encodeObject:[self person] forKey:@"person"];
     
@@ -55,9 +28,7 @@
     self = [super init];
     
     if (self) {
-        
-        self.flights = [aDecoder decodeObjectForKey:@"flights"];
-        
+                
         self.email = [aDecoder decodeObjectForKey:@"email"];
         self.password = [aDecoder decodeObjectForKey:@"password"];
                 
@@ -100,7 +71,7 @@
                                                 
         self.person.miles = [profileDictionary[@"miles"] doubleValue];
         
-        self.flights = profileDictionary[@"flights"];
+        self.person.flights = profileDictionary[@"flights"];
         
         self.person.knownDestinationPreferences = profileDictionary[@"knownDestinationPreferences"];
                 
@@ -114,57 +85,6 @@
     }
     
     return self;
-}
-
-- (NSMutableArray *)sortedFlights {
-    
-    NSSortDescriptor *sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO];
-
-    NSMutableArray *_flights = [flights mutableCopy];
-    [_flights sortUsingDescriptors:@[sortByDate]];
-    
-    return _flights;
-}
-
-- (void)addFlight:(TVFlight *)flight {
-    
-    [self.flights addObject:flight];
-
-    double miles = 0.0;
-    
-    for (TVFlight *flight in self.flights) {
-        
-        miles += flight.miles;
-    }
-    
-    self.person.miles = miles;
-}
-
-- (void)deleteFlight:(TVFlight *)_flight {
-    
-    NSMutableIndexSet *indexesToRemove = [[NSMutableIndexSet alloc] init];
-    
-    for (int i = 0; i <= self.flights.count - 1; i++) {
-        
-        TVFlight *flight = self.flights[i];
-        
-        if ([flight.ID isEqualToString:_flight.ID]) {
-
-            [TVDatabase removeTravelDataPacketWithID:flight.ID];
-            [indexesToRemove addIndex:i];
-        }
-    }
-    
-    [self.flights removeObjectsAtIndexes:indexesToRemove];
-    
-    double miles = 0.0;
-    
-    for (TVFlight *flight in self.flights) {
-        
-        miles += flight.miles;
-    }
-    
-    self.person.miles = miles;
 }
 
 - (NSString *)description {

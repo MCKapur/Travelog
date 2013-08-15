@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@interface TVGooglePlaceReview : NSObject
+@interface TVGooglePlaceReview : NSObject <NSCoding>
+
+@property (nonatomic, strong) NSMutableArray *aspects;
+@property (nonatomic, strong) NSString *authorName;
+@property (nonatomic, strong) NSString *authorURL;
+@property (nonatomic, strong) NSString *body;
+@property (nonatomic) int time;
 
 @end

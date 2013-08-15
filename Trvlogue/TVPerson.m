@@ -8,13 +8,93 @@
 
 #import "TVPerson.h"
 
+@interface NSArray (Indexing)
+
+- (int)indexOfFlight:(TVFlight *)flight;
+
+@end
+
+@implementation NSArray (Indexing)
+
+- (int)indexOfFlight:(TVFlight *)flight {
+    
+    int retVal = NSNotFound;
+    
+    for (int i = 0; i <= self.count - 1; i++) {
+        
+        if ([((TVFlight *)self[i]).ID isEqualToString:flight.ID]) {
+            
+            retVal = i;
+        }
+    }
+    
+    return retVal;
+}
+
+@end
+
 @implementation TVPerson
-@synthesize name, email, position, miles, originCity, connections, notifications;
+@synthesize name, email, position, miles, originCity, connections, notifications, flights;
+
+#pragma mark Flight Operations
+
+- (NSMutableArray *)sortedFlights {
+    
+    NSSortDescriptor *sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO];
+    
+    NSMutableArray *_flights = [flights mutableCopy];
+    [_flights sortUsingDescriptors:@[sortByDate]];
+    
+    return _flights;
+}
+
+- (void)addFlight:(TVFlight *)flight {
+    
+    [self.flights addObject:flight];
+    
+    double _miles = 0.0;
+    
+    for (TVFlight *flight in self.flights) {
+        
+        _miles += flight.miles;
+    }
+    
+    self.miles = _miles;
+}
+
+- (void)deleteFlight:(TVFlight *)_flight {
+    
+    NSMutableIndexSet *indexesToRemove = [[NSMutableIndexSet alloc] init];
+    
+    for (int i = 0; i <= self.flights.count - 1; i++) {
+        
+        TVFlight *flight = self.flights[i];
+        
+        if ([flight.ID isEqualToString:_flight.ID]) {
+            
+            [TVDatabase removeTravelDataPacketWithID:flight.ID];
+            [indexesToRemove addIndex:i];
+        }
+    }
+    
+    [self.flights removeObjectsAtIndexes:indexesToRemove];
+    
+    double _miles = 0.0;
+    
+    for (TVFlight *flight in self.flights) {
+        
+        _miles += flight.miles;
+    }
+    
+    self.miles = _miles;
+}
 
 - (NSMutableArray *)mileTidbits {
     
     return [TVMileTidbits getTidbitsFrom:self.miles];
 }
+
+#pragma mark Profile Picture
 
 - (UIImage *)getProfilePic {
     
@@ -30,6 +110,8 @@
     [UIImageJPEGRepresentation(profilePicture, 1.0) writeToFile:pngPath atomically:NO];
 }
 
+#pragma mark Initialization
+
 - (void)encodeWithCoder:(NSCoder *)coder {
     
     [coder encodeObject:[self name] forKey:@"name"];
@@ -44,6 +126,8 @@
     [coder encodeObject:[self connections] forKey:@"connections"];
     
     [coder encodeObject:[self notifications] forKey:@"notifications"];
+    
+    [coder encodeObject:[self flights] forKey:@"flights"];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -64,6 +148,8 @@
         self.connections = [aDecoder decodeObjectForKey:@"connections"];
         
         self.notifications = [aDecoder decodeObjectForKey:@"notifications"];
+        
+        self.flights = [aDecoder decodeObjectForKey:@"flights"];
     }
     
     return self;
@@ -94,7 +180,7 @@
 
 - (NSString *)description {
     
-    return [NSString stringWithFormat:@"Name:%@\rEmail:%@\rMiles:%f\r\r%@\r\r%@", self.name, self.email, self.miles, self.position, self.originCity];
+    return [NSString stringWithFormat:@"Name:%@\rEmail:%@\rMiles:%f\r\r%@\r\r%@\r\rFlights:\r%@", self.name, self.email, self.miles, self.position, self.originCity, self.flights];
 }
 
 @end

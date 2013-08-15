@@ -9,11 +9,10 @@
 #import "TVNotification.h"
 
 @implementation TVNotification
-@synthesize title, type;
+@synthesize type;
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
  
-    [aCoder encodeObject:[self title] forKey:@"title"];
     [aCoder encodeInt:(int)[self type] forKey:@"type"];
 }
 
@@ -23,7 +22,6 @@
     
     if (self) {
         
-        self.title = [aDecoder decodeObjectForKey:@"title"];
         self.type = (NotificationType *)[aDecoder decodeIntForKey:@"type"];
     }
     
@@ -39,11 +37,10 @@
     return self;
 }
 
-- (id)initWithTitle:(NSString *)_title andType:(NotificationType *)_type {
+- (id)initWithType:(NotificationType *)_type {
     
     if (self = [self init]) {
         
-        self.title = _title;
         self.type = _type;
     }
     
@@ -52,7 +49,7 @@
 
 - (NSString *)description {
     
-    return [NSString stringWithFormat:@"\rTitle: %@\rType: %i", self.title, (int)self.type];
+    return [NSString stringWithFormat:@"Type: %i", (int)self.type];
 }
 
 @end

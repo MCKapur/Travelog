@@ -39,7 +39,7 @@ typedef enum {
     
 } SegmentedControlSelected;
 
-@interface TVFlightDetailViewController : UIViewController <MKMapViewDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIGridViewDelegate>
+@interface TVFlightDetailViewController : UIViewController <MKMapViewDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIGridViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
 {
     __weak IBOutlet UIScrollView *infoScrollView;
     __weak IBOutlet UIView *infoView;
@@ -52,10 +52,15 @@ typedef enum {
     
     int gridNumber;
     NSMutableDictionary *gridConvert;
+    
+    TVPlacesQuerySuggestionsRetriever *placeFinder;
 }
+
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @property (strong, nonatomic) IBOutlet UIGridView *peopleTableView;
 @property (weak, nonatomic) IBOutlet UITableView *newsTableView;
+@property (weak, nonatomic) IBOutlet UITableView *placesTableView;
 
 @property (weak, nonatomic) IBOutlet UITableView *weatherTableView;
 @property (weak, nonatomic) IBOutlet UILabel *weatherTimestamp;

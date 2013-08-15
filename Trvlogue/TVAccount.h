@@ -25,13 +25,6 @@
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSString *password;
 
-@property (nonatomic, strong) NSMutableArray *flights;
-
-- (void)addFlight: (TVFlight *)flight;
-- (void)deleteFlight: (TVFlight *)flight;
-
 - (id)initWithProfile:(NSDictionary *)profileDictionary;
-
-- (NSMutableArray *)sortedFlights;
 
 @end

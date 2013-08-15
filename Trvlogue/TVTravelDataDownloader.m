@@ -116,7 +116,13 @@
         [self downloadTimezone];
         [self downloadFacts];
         [self downloadWeather];
+        [self downloadPlaces];
     });
+}
+
+#pragma mark Places
+
+- (void)downloadPlaces {
 }
 
 #pragma mark People
@@ -1034,7 +1040,7 @@
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
 
-    channel = [[RSSChannel alloc] init];
+    channel = [[TVRSSChannel alloc] init];
     
     [channel setParentParserDelegate:self];
     
@@ -1082,7 +1088,7 @@
 
 - (void)downloadWeather {
 
-    NSMutableArray *filteredWeather = [[NSMutableArray alloc] init];
+    __block NSMutableArray *filteredWeather = [[NSMutableArray alloc] init];
 
     NSString *urlFormattedDestination = [self.flight.destinationCity stringByReplacingOccurrencesOfString:@" " withString:@"+"];
     
@@ -1102,10 +1108,10 @@
             if (responseData != nil) {
                 
                 NSError *error = nil;
-                
+
                 weatherForecast = [self deserialize:responseData];
                 
-                if (!error && !weatherForecast[@"data"][@"error"]) {
+                if (!error && !weatherForecast[@"data"][@"error"] && weatherForecast[@"data"][@"weather"]) {
                     
                     for (int i = 0; i <= [weatherForecast[@"data"][@"weather"] count] - 1; i++) {
 

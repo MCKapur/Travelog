@@ -10,13 +10,10 @@
 
 @implementation TVPlacesQuerySuggestionsRetriever
 
-- (void)findPlacesAutocompletionSuggestionsBasedOnInput:(NSString *)input withCompletionHandler:(void (^)(NSError *error, BOOL success, NSMutableArray *places))callback {
-    
+- (void)findPlacesBasedOnInput:(NSString *)input withCompletionHandler:(void (^)(NSError *error, NSMutableArray *places))callback {
+
     [self terminateRequests];
     
-    __block NSMutableArray *places = nil;
-    __block BOOL success;
-
     NSString *request = [TVPlacesQuerySuggestionsRetriever SearchAPIRequest:input];
     NSURLRequest *URLRequest = [self getURLRequest:request];
     
@@ -24,30 +21,61 @@
         
         if (!responseError && responseData) {
             
-            success = NO;
+            NSMutableArray *results = [[self deserialize:responseData][@"results"] mutableCopy];
             
-//            if ([self handleData:responseData].count) {
+            if (results.count) {
                 
-                NSLog(@"%@", [self deserialize:responseData]);
-                
-//                success = YES;
-//            }
-//            else {
-//                
-//                success = NO;
-//            }
+                for (NSMutableDictionary *result in results) {
+                    
+                    NSString *request = [TVPlacesQuerySuggestionsRetriever GetDetailsAPIRequest:result[@"reference"]];
+                    NSURLRequest *URLRequest = [self getURLRequest:request];
+                    
+                    [NSURLConnection sendAsynchronousRequest:URLRequest queue:operationQueue completionHandler:^(NSURLResponse *URLResponse, NSData *responseData, NSError *responseError) {
+                        
+                        if (!responseError && URLResponse) {
+                            
+                            NSMutableDictionary *placeDetails = [self deserialize:responseData][@"result"];
+
+                            TVGooglePlace *place = [[TVGooglePlace alloc] init];
+                            [place setID:placeDetails[@"id"]];
+                            [place setReference:placeDetails[@"reference"]];
+                            [place setName:placeDetails[@"name"]];
+                            [place setAddress:placeDetails[@"formatted_address"]];
+                            [place setCoordinate:CLLocationCoordinate2DMake([placeDetails[@"geometry"][@"location"][@"lat"] doubleValue], [placeDetails[@"geometry"][@"location"][@"lng"] doubleValue])];
+                            [place setPhoneNumber:placeDetails[@"formatted_phone_number"]];
+                            [place setWebsite:placeDetails[@"website"]];
+                            [place setRating:[placeDetails[@"rating"] doubleValue]];
+                            
+                            NSMutableArray *reviews = [[NSMutableArray alloc] init];
+                            
+                            for (NSMutableDictionary *placeReview in placeDetails[@"reviews"]) {
+                                
+                                TVGooglePlaceReview *review = [[TVGooglePlaceReview alloc] init];
+                                
+                                [review setAspects:placeReview[@"aspects"]];
+                                [review setAuthorName:placeReview[@"author_name"]];
+                                [review setAuthorURL:placeReview[@"author_url"]];
+                                [review setBody:placeReview[@"text"]];
+                                [review setTime:[placeReview[@"time"] intValue]];
+                                
+                                [reviews addObject:review];
+                            }
+                            
+                            [place setReviews:reviews];
+                            [place setPriceLevel:[placeDetails[@"price_level"] intValue]];
+                            [place writeIconLocally:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:placeDetails[@"icon"]]]]];
+                            
+                            callback(nil, [NSArray arrayWithObject:place]);
+                        }
+                    }];
+                }
+            }
         }
-        else {
-            
-            success = NO;
-        }
-        
-//        callback(responseError, success, location);
     }];
 }
 
 - (void)terminateRequests {
-        
+    
     operationQueue = [[NSOperationQueue alloc] init];
 }
 
@@ -68,8 +96,13 @@
 #pragma mark API Request Generating
 
 + (NSString *)SearchAPIRequest:(NSString *)input {
-
+    
     return [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/textsearch/json?&sensor=false&query=%@&key=%@", [input stringByReplacingOccurrencesOfString:@" " withString:@"%20"], GOOGLE_API_KEY];
+}
+
++ (NSString *)GetDetailsAPIRequest:(NSString *)reference {
+    
+    return [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/details/json?reference=%@&key=%@&sensor=false", reference, GOOGLE_API_KEY];
 }
 
 - (NSURLRequest *)getURLRequest:(NSString *)request {
@@ -81,12 +114,6 @@
 }
 
 #pragma mark Data Handling
-
-- (NSMutableArray *)handleData:(NSData *)responseData {
-    
-    #define key objectForKey:
-    #define index objectAtIndex:
-}
 
 - (NSMutableDictionary *)deserialize:(NSData *)data {
     

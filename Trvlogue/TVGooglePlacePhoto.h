@@ -10,4 +10,9 @@
 
 @interface TVGooglePlacePhoto : NSObject
 
+@property (nonatomic, strong) NSString *appendingPath;
+
+- (UIImage *)getPhoto;
+- (void)writePhotoLocally:(UIImage *)photo atAppendingPath:(NSString *)path;
+
 @end

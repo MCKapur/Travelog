@@ -27,6 +27,13 @@
 
 @property (nonatomic, strong) NSMutableDictionary *knownDestinationPreferences;
 
+@property (nonatomic, strong) NSMutableArray *flights;
+
+- (void)addFlight: (TVFlight *)flight;
+- (void)deleteFlight: (TVFlight *)flight;
+
+- (NSMutableArray *)sortedFlights;
+
 - (NSMutableArray *)mileTidbits;
 
 - (UIImage *)getProfilePic;

@@ -113,7 +113,17 @@
 	return [[[self alloc] initWithString:badgeString withStringColor:stringColor withInsetColor:insetColor withBadgeFrame:badgeFrameYesNo withBadgeFrameColor:frameColor withScale:scale withShining:shining] autorelease];
 }
 
++  (CustomBadge *)customiOS7BadgeWithString:(NSString *)badgeString {
+    
+    return [CustomBadge customBadgeWithString:badgeString
+                              withStringColor:[UIColor whiteColor]
+                              withInsetColor:[UIColor redColor]
+                              withBadgeFrame:NO
+                              withBadgeFrameColor:[UIColor clearColor]
+                              withScale:1.0
+                              withShining:NO];
 
+}
 
  
 
@@ -230,7 +240,7 @@
 		if ([self.badgeText length]<2) {
 			sizeOfFont += sizeOfFont*0.20;
 		}
-		UIFont *textFont = [UIFont fontWithName:@"HelveticaNeue" size:15.0f];
+		UIFont *textFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15.0f];
 		CGSize textSize = [self.badgeText sizeWithFont:textFont];
 		[self.badgeText drawAtPoint:CGPointMake((rect.size.width/1.92-textSize.width/2), (rect.size.height/1.99-textSize.height/2)) withFont:textFont];
 	}
