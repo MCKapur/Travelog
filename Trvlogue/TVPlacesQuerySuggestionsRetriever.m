@@ -15,6 +15,7 @@
     [self terminateRequests];
     
     NSString *request = [TVPlacesQuerySuggestionsRetriever SearchAPIRequest:input];
+    NSLog(@"%@", request);
     NSURLRequest *URLRequest = [self getURLRequest:request];
     
     [NSURLConnection sendAsynchronousRequest:URLRequest queue:operationQueue completionHandler:^(NSURLResponse *URLResponse, NSData *responseData, NSError *responseError) {
@@ -22,12 +23,13 @@
         if (!responseError && responseData) {
             
             NSMutableArray *results = [[self deserialize:responseData][@"results"] mutableCopy];
-            
+
             if (results.count) {
                 
                 for (NSMutableDictionary *result in results) {
                     
                     NSString *request = [TVPlacesQuerySuggestionsRetriever GetDetailsAPIRequest:result[@"reference"]];
+
                     NSURLRequest *URLRequest = [self getURLRequest:request];
                     
                     [NSURLConnection sendAsynchronousRequest:URLRequest queue:operationQueue completionHandler:^(NSURLResponse *URLResponse, NSData *responseData, NSError *responseError) {

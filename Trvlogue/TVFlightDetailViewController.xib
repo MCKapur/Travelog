@@ -41,7 +41,7 @@
 				<reference key="NSNextKeyView"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
-					<bytes key="NSRGB">MC45MjI5NzExNDE2IDAuOTIyOTcxMTQxNiAwLjkyMjk3MTE0MTYAA</bytes>
+					<bytes key="NSRGB">MC45NTk1NDI0MTA3IDAuOTU5NTQyNDEwNyAwLjk1OTU0MjQxMDcAA</bytes>
 				</object>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 				<object class="IBUIScreenMetrics" key="IBUISimulatedDestinationMetrics">
@@ -206,7 +206,8 @@
 						<string key="infoView">UIView</string>
 						<string key="newsTableView">UITableView</string>
 						<string key="peopleTableView">UIGridView</string>
-						<string key="travelMap">MKMapView</string>
+						<string key="placesTableView">UITableView</string>
+						<string key="searchBar">UISearchBar</string>
 						<string key="weatherTableView">UITableView</string>
 						<string key="weatherTimestamp">UILabel</string>
 					</dictionary>
@@ -231,9 +232,13 @@
 							<string key="name">peopleTableView</string>
 							<string key="candidateClassName">UIGridView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="travelMap">
-							<string key="name">travelMap</string>
-							<string key="candidateClassName">MKMapView</string>
+						<object class="IBToOneOutletInfo" key="placesTableView">
+							<string key="name">placesTableView</string>
+							<string key="candidateClassName">UITableView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="searchBar">
+							<string key="name">searchBar</string>
+							<string key="candidateClassName">UISearchBar</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="weatherTableView">
 							<string key="name">weatherTableView</string>

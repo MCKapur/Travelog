@@ -323,10 +323,8 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 }
 
 + (void)refreshTravelDataPacketWithID:(NSString *)_FlightID andTravelDataObject:(TVTravelDataDownloader *)travelData {
-    
-    [TVDatabase removeTravelDataPacketWithID:_FlightID];
-    
-    [TVDatabase addTravelDataPacketWithID:_FlightID andTravelDataObject:travelData];
+        
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:[travelData downloadedData]] forKey:[NSString stringWithFormat:@"TravelDataPacket_%@", _FlightID]];
 }
 
 + (NSMutableDictionary *)travelDataPacketWithID:(NSString *)_FlightID {

@@ -74,5 +74,9 @@
     return self;
 }
 
+- (NSString *)description {
+    
+    return [NSString stringWithFormat:@"%@ located at %@, call them at %@ and check out their site at %@. Rated %.1f/5.", self.name, self.address, self.phoneNumber, self.website, self.rating];
+}
 
 @end

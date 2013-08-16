@@ -959,7 +959,7 @@
                             
                             phrase = [phrase stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
                             
-                            NSString *URLFormattedString = [NSString stringWithFormat:@"https://www.googleapis.com/language/translate/v2?key=AIzaSyCAAHk_bBKs0XuatKDMTTQ030muQEA4jdI&q=%@&source=en&target=%@&format=text&prettyprint=true", phrase, code];
+                            NSString *URLFormattedString = [NSString stringWithFormat:@"https://www.googleapis.com/language/translate/v2?key=%@&q=%@&source=en&target=%@&format=text&prettyprint=true", GOOGLE_API_KEY, phrase, code];
                             
                             NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:URLFormattedString]];
                             

@@ -28,6 +28,8 @@
 
 #import "TVSwipeBanner.h"
 
+#import "TVPlaceDetailViewController.h"
+
 typedef enum {
     
     kSegmentedControlPeople = 0,
@@ -44,6 +46,8 @@ typedef enum {
     __weak IBOutlet UIScrollView *infoScrollView;
     __weak IBOutlet UIView *infoView;
     __weak IBOutlet UISegmentedControl *infoSegControl;
+    
+    NSMutableArray *places;
         
     NSMutableDictionary *info;
         
@@ -54,6 +58,8 @@ typedef enum {
     NSMutableDictionary *gridConvert;
     
     TVPlacesQuerySuggestionsRetriever *placeFinder;
+    
+    TVPlaceDetailViewController *placeDetailViewController;
 }
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;

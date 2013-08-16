@@ -89,6 +89,8 @@
 		469788311723F20400D4E899 /* TVWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4697882E1723F20300D4E899 /* TVWebViewController.xib */; };
 		4698814217BCD4C400EB6AC7 /* TVPlaceDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4698814017BCD4C400EB6AC7 /* TVPlaceDetailViewController.m */; };
 		4698814317BCD4C400EB6AC7 /* TVPlaceDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4698814117BCD4C400EB6AC7 /* TVPlaceDetailViewController.xib */; };
+		4698814817BDDBCB00EB6AC7 /* TVTranslationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4698814617BDDBCB00EB6AC7 /* TVTranslationsViewController.m */; };
+		4698814917BDDBCB00EB6AC7 /* TVTranslationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4698814717BDDBCB00EB6AC7 /* TVTranslationsViewController.xib */; };
 		46A30D0D17BBA8650095E727 /* export.png in Resources */ = {isa = PBXBuildFile; fileRef = 46A30D0B17BBA8650095E727 /* export.png */; };
 		46A30D0E17BBA8650095E727 /* people.png in Resources */ = {isa = PBXBuildFile; fileRef = 46A30D0C17BBA8650095E727 /* people.png */; };
 		46A4BDBB1770184500A71EFA /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 46FFBB1C173F455C00E44A13 /* libz.1.1.3.dylib */; };
@@ -5324,6 +5326,9 @@
 		4698813F17BCD4C400EB6AC7 /* TVPlaceDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TVPlaceDetailViewController.h; path = ../TVPlaceDetailViewController.h; sourceTree = "<group>"; };
 		4698814017BCD4C400EB6AC7 /* TVPlaceDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TVPlaceDetailViewController.m; path = ../TVPlaceDetailViewController.m; sourceTree = "<group>"; };
 		4698814117BCD4C400EB6AC7 /* TVPlaceDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TVPlaceDetailViewController.xib; path = ../TVPlaceDetailViewController.xib; sourceTree = "<group>"; };
+		4698814517BDDBCB00EB6AC7 /* TVTranslationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVTranslationsViewController.h; sourceTree = "<group>"; };
+		4698814617BDDBCB00EB6AC7 /* TVTranslationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVTranslationsViewController.m; sourceTree = "<group>"; };
+		4698814717BDDBCB00EB6AC7 /* TVTranslationsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TVTranslationsViewController.xib; sourceTree = "<group>"; };
 		46A30D0B17BBA8650095E727 /* export.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = export.png; sourceTree = "<group>"; };
 		46A30D0C17BBA8650095E727 /* people.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = people.png; sourceTree = "<group>"; };
 		46A4BDBC1770185100A71EFA /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -11270,8 +11275,8 @@
 			children = (
 				460329C0175B4FCE000F820F /* People.xib */,
 				460329C5175B4FEE000F820F /* News.xib */,
-				460329C9175B5061000F820F /* Places.xib */,
 				460329C3175B4FDC000F820F /* Weather.xib */,
+				460329C9175B5061000F820F /* Places.xib */,
 			);
 			name = "Info Screens";
 			sourceTree = "<group>";
@@ -11493,7 +11498,6 @@
 				43A89D201791B95A00C039F3 /* NSDate-Extensions */,
 				460B0BE817511DAC00A1229C /* IOSLinkedInAPI */,
 				CECA8C111737ADE5008D3F48 /* MBAlertView */,
-				46F8492117094E9A00A9F0BB /* Google APIs */,
 				466CD12E1709494C00994578 /* Status Overlay */,
 				46A2D5F316EEA0D300C886CB /* RSS */,
 				46C290F416EDEC7900399BDE /* DDUnit */,
@@ -11746,6 +11750,7 @@
 		46F8491F17094E2C00A9F0BB /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				46F8492117094E9A00A9F0BB /* Google APIs */,
 				46B47ED216FE7D2F00ACBD64 /* TVTravelDataDownloader.h */,
 				46B47ED316FE7D2F00ACBD64 /* TVTravelDataDownloader.m */,
 				46C28F2E16EDE66D00399BDE /* TVMileTidbits.h */,
@@ -11780,6 +11785,9 @@
 				4698813F17BCD4C400EB6AC7 /* TVPlaceDetailViewController.h */,
 				4698814017BCD4C400EB6AC7 /* TVPlaceDetailViewController.m */,
 				4698814117BCD4C400EB6AC7 /* TVPlaceDetailViewController.xib */,
+				4698814517BDDBCB00EB6AC7 /* TVTranslationsViewController.h */,
+				4698814617BDDBCB00EB6AC7 /* TVTranslationsViewController.m */,
+				4698814717BDDBCB00EB6AC7 /* TVTranslationsViewController.xib */,
 				46ADED17177EF4960074ACC9 /* TVFlightRecorderViewController.h */,
 				46ADED18177EF4960074ACC9 /* TVFlightRecorderViewController.m */,
 				46ADED19177EF4960074ACC9 /* TVFlightRecorderViewController.xib */,
@@ -12302,6 +12310,7 @@
 				46A30D0D17BBA8650095E727 /* export.png in Resources */,
 				46A30D0E17BBA8650095E727 /* people.png in Resources */,
 				4698814317BCD4C400EB6AC7 /* TVPlaceDetailViewController.xib in Resources */,
+				4698814917BDDBCB00EB6AC7 /* TVTranslationsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -12393,6 +12402,7 @@
 				4629DF9417BA8FF50057AB0B /* TVMessage.m in Sources */,
 				4605838A17BB4ED900AA604E /* CustomBadge.m in Sources */,
 				4698814217BCD4C400EB6AC7 /* TVPlaceDetailViewController.m in Sources */,
+				4698814817BDDBCB00EB6AC7 /* TVTranslationsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

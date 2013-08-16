@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1552</int>
-		<string key="IBDocument.SystemVersion">12E55</string>
+		<string key="IBDocument.SystemVersion">13A538g</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.39</string>
-		<string key="IBDocument.HIToolboxVersion">626.00</string>
+		<string key="IBDocument.AppKitVersion">1246.11</string>
+		<string key="IBDocument.HIToolboxVersion">688.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			<string key="NS.object.0">2083</string>
@@ -39,10 +39,9 @@
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">274</int>
 						<array class="NSMutableArray" key="NSSubviews"/>
-						<string key="NSFrame">{{9, 6}, {302, 442}}</string>
+						<string key="NSFrame">{{9, 11}, {302, 437}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor" id="701518932">
 							<int key="NSColorSpace">3</int>
@@ -171,6 +170,8 @@
 						<string key="infoView">UIView</string>
 						<string key="newsTableView">UITableView</string>
 						<string key="peopleTableView">UIGridView</string>
+						<string key="placesTableView">UITableView</string>
+						<string key="searchBar">UISearchBar</string>
 						<string key="travelMap">MKMapView</string>
 						<string key="weatherTableView">UITableView</string>
 						<string key="weatherTimestamp">UILabel</string>
@@ -195,6 +196,14 @@
 						<object class="IBToOneOutletInfo" key="peopleTableView">
 							<string key="name">peopleTableView</string>
 							<string key="candidateClassName">UIGridView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="placesTableView">
+							<string key="name">placesTableView</string>
+							<string key="candidateClassName">UITableView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="searchBar">
+							<string key="name">searchBar</string>
+							<string key="candidateClassName">UISearchBar</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="travelMap">
 							<string key="name">travelMap</string>

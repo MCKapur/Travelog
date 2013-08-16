@@ -15,8 +15,7 @@
 @end
 
 @implementation TVFlightDetailViewController
-
-@synthesize FlightID, travelInfoBanner, newsTableView, weatherTableView, peopleTableView, weatherTimestamp;
+@synthesize FlightID, travelInfoBanner, peopleTableView;
 
 - (void)handleError:(NSError *)error andType:(NSString *)type {
     
@@ -69,20 +68,13 @@
     [self pollForTravelInfoBanner];
 }
 
-#pragma mark UISearchDisplayController Delegate Methods
+#pragma mark UISearchBar Delegate Methods
 
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
-
-    [self reloadPlacesData];
-
-    return YES;
-}
-
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    
+    [searchBar resignFirstResponder];
     
     [self reloadPlacesData];
-    
-    return YES;
 }
 
 #pragma mark Places Methods
@@ -90,12 +82,23 @@
 - (void)reloadPlacesData {
     
     if ([[[self.searchBar text] stringByReplacingOccurrencesOfString:@" " withString:@""] length]) {
-                
-        [placeFinder findPlacesBasedOnInput:self.searchBar.text withCompletionHandler:^(NSError *error, NSMutableArray *places) {
+
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, NULL), ^{
             
-            NSLog(@"%@", places);
-        }];
-    }     
+            [places removeAllObjects];
+            
+            [placeFinder findPlacesBasedOnInput:self.searchBar.text withCompletionHandler:^(NSError *error, NSMutableArray *_places) {
+
+                [places addObjectsFromArray:_places];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+
+                    [self.placesTableView reloadData];
+                    [self.placesTableView setNeedsDisplay];
+                });
+            }];
+        });
+    }
 }
 
 #pragma mark Table View Methods
@@ -174,7 +177,7 @@
         
         retVal = [[self travelData][@"news"] count];
     }
-    else {
+    else if (tableView == self.weatherTableView) {
         
         self.weatherTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
@@ -184,6 +187,10 @@
         NSString *dateEnd = [[self travelData][@"weather"] lastObject][@"date"];
         
         self.weatherTimestamp.text = [NSString stringWithFormat:@"%@ - %@", [TVConversions convertDateToString:[TVConversions convertStringToDate:dateStart withFormat:YEAR_MONTH_DAY] withFormat:DAY_MONTH], [TVConversions convertDateToString:[TVConversions convertStringToDate:dateEnd withFormat:YEAR_MONTH_DAY] withFormat:DAY_MONTH]];
+    }
+    else if (tableView == self.placesTableView) {
+        
+        retVal = places.count;
     }
     
     return retVal;
@@ -197,13 +204,19 @@
     
     NSString *WEATHER_CELL_ID = @"WeatherCell";
     
+    NSString *PLACES_CELL_ID = @"PlacesCell";
+
     if (tableView == self.newsTableView) {
         
         CELL_ID = NEWS_CELL_ID;
     }
-    else {
+    else if (tableView == self.weatherTableView) {
                 
         CELL_ID = WEATHER_CELL_ID;
+    }
+    else {
+
+        CELL_ID = PLACES_CELL_ID;
     }
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CELL_ID];
@@ -225,7 +238,7 @@
             ((TVNewsCell *)cell).title.text = ((TVRSSItem *)[self travelData][@"news"][indexPath.row]).title;
         }
     }
-    else {
+    else if ([CELL_ID isEqualToString:WEATHER_CELL_ID]) {
                         
         if (!cell) {
             
@@ -265,6 +278,54 @@
             cell.imageView.image = [UIImage imageWithContentsOfFile:[self travelData][@"weather"][indexPath.row][@"imageFilePath"]];
         }
     }
+    else {
+
+        if (!cell) {
+
+            TVGooglePlace *place = places[indexPath.row];
+                    
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CELL_ID];
+            
+            cell.textLabel.text = nil;
+            cell.detailTextLabel.text = nil;
+            cell.imageView.image = nil;
+            
+            cell.textLabel.adjustsFontSizeToFitWidth = YES;
+            cell.textLabel.font = [UIFont systemFontOfSize:15.0];
+            cell.textLabel.minimumFontSize = 10;
+            cell.textLabel.numberOfLines = 4;
+            cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
+            cell.textLabel.textColor = [UIColor colorWithRed:0.0 green:128.0/255.0 blue:0.0 alpha:1.0];
+            cell.textLabel.textAlignment = UITextAlignmentLeft;
+            
+            cell.detailTextLabel.textColor = [UIColor darkGrayColor];
+            cell.detailTextLabel.font = [UIFont systemFontOfSize:13.0];
+
+            cell.backgroundColor = [UIColor clearColor];
+                        
+            cell.selectionStyle = UITableViewCellSelectionStyleGray;
+            
+            cell.textLabel.text = [NSString stringWithFormat:@"%@", place.name];
+            
+            NSMutableString *detail = [NSMutableString stringWithFormat:@"%@ · %.1f/5 · ", place.address, place.rating];
+            
+            if (!place.priceLevel) {
+                
+                [detail appendString:@"Free"];
+            }
+            else {
+            
+                for (int i = 1; i <= place.priceLevel; i++) {
+                    
+                    [detail appendString:@"$"];
+                }
+            }
+            
+            cell.detailTextLabel.text = detail;
+            
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+    }
     
     return cell;
 }
@@ -279,13 +340,19 @@
     
     NSString *WEATHER_CELL_ID = @"WeatherCell";
     
+    NSString *PLACES_CELL_ID = @"PlacesCell";
+    
     if (tableView == self.newsTableView) {
         
         CELL_ID = NEWS_CELL_ID;
     }
-    else {
+    else if (tableView == self.weatherTableView) {
         
         CELL_ID = WEATHER_CELL_ID;
+    }
+    else {
+        
+        CELL_ID = PLACES_CELL_ID;
     }
     
     if ([CELL_ID isEqualToString:NEWS_CELL_ID]) {
@@ -293,7 +360,7 @@
         TVWebViewController *webViewController = [[TVWebViewController alloc] initWithLink:[NSString stringWithFormat:@"http://www.readability.com/m?url=%@",((TVRSSItem *)[self travelData][@"news"][indexPath.row]).link] andTitle:((TVRSSItem *)[self travelData][@"news"][indexPath.row]).title];
         [self.navigationController pushViewController:webViewController animated:YES];
     }
-    else {
+    else if ([CELL_ID isEqualToString:WEATHER_CELL_ID]) {
         
         if ([[tableView cellForRowAtIndexPath:indexPath].detailTextLabel.accessibilityLabel isEqualToString: @"F"]) {
             
@@ -308,17 +375,23 @@
             [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.accessibilityLabel = @"F";
         }
     }
+    else {
+        
+        [placeDetailViewController setPlace:places[indexPath.row]];
+        
+        [self.navigationController pushViewController:placeDetailViewController animated:YES];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    CGFloat retVal = 0;
+    CGFloat retVal = 44;
     
     if (tableView == self.newsTableView) {
         
         retVal = 65;
     }
-    else {
+    else if (tableView == self.weatherTableView) {
         
         retVal = 90;
     }
@@ -528,8 +601,8 @@
         slideNames = [[NSMutableArray alloc] init];
         [slideNames addObject:@"People"];
         [slideNames addObject:@"News"];
-        [slideNames addObject:@"Places"];
         [slideNames addObject:@"Weather"];
+        [slideNames addObject:@"Places"];
  
         slideCount = 1;
     }
@@ -671,22 +744,27 @@
     self.navigationItem.rightBarButtonItem = barButtonItem;
     
     infoSegControl.selectedSegmentIndex = slideCount - 1;
+    
+    for (UIView * subview in self.searchBar.subviews)
+    {
+        if ([subview isKindOfClass:NSClassFromString(@"UISearchBarBackground")])
+            subview.alpha = 0.0;
+        
+        if ([subview isKindOfClass:NSClassFromString(@"UISegmentedControl")])
+            subview.alpha = 0.0;
+    }
 
     [self addBanner];
 }
 
 - (void)viewDidLoad
 {
+    placeDetailViewController = [[TVPlaceDetailViewController alloc] init];
+    
     placeFinder = [[TVPlacesQuerySuggestionsRetriever alloc] init];
-
-    for (UIView * v in self.searchBar.subviews) {
-        if ([v isKindOfClass:NSClassFromString(@"UISearchBarTextField")]) {
-            v.superview.alpha = 0;
-            UIView *containerView = [[UIView alloc] initWithFrame:self.searchBar.frame];
-            [containerView addSubview:v];
-            [self.view addSubview:containerView];
-        }
-    }
+    
+    places = [[NSMutableArray alloc] init];
+    
     [self UIBuffer];
 
     [super viewDidLoad];
