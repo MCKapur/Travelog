@@ -83,11 +83,11 @@
     
     if ([[[self.searchBar text] stringByReplacingOccurrencesOfString:@" " withString:@""] length]) {
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, NULL), ^{
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, (unsigned long)NULL), ^{
             
             [places removeAllObjects];
             
-            [placeFinder findPlacesBasedOnInput:self.searchBar.text withCompletionHandler:^(NSError *error, NSMutableArray *_places) {
+            [placeFinder findPlacesBasedOnInput:[NSString stringWithFormat:@"%@ in %@, %@", self.searchBar.text, [TVDatabase flightFromID:self.FlightID].destinationCity, [TVDatabase flightFromID:self.FlightID].destinationCountry] withCompletionHandler:^(NSError *error, NSMutableArray *_places) {
 
                 [places addObjectsFromArray:_places];
                 
@@ -281,8 +281,6 @@
     else {
 
         if (!cell) {
-
-            TVGooglePlace *place = places[indexPath.row];
                     
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CELL_ID];
             
@@ -292,11 +290,11 @@
             
             cell.textLabel.adjustsFontSizeToFitWidth = YES;
             cell.textLabel.font = [UIFont systemFontOfSize:15.0];
-            cell.textLabel.minimumFontSize = 10;
+            cell.textLabel.minimumScaleFactor = 10.0f;
             cell.textLabel.numberOfLines = 4;
-            cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
+            cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
             cell.textLabel.textColor = [UIColor colorWithRed:0.0 green:128.0/255.0 blue:0.0 alpha:1.0];
-            cell.textLabel.textAlignment = UITextAlignmentLeft;
+            cell.textLabel.textAlignment = NSTextAlignmentLeft;
             
             cell.detailTextLabel.textColor = [UIColor darkGrayColor];
             cell.detailTextLabel.font = [UIFont systemFontOfSize:13.0];
@@ -304,27 +302,34 @@
             cell.backgroundColor = [UIColor clearColor];
                         
             cell.selectionStyle = UITableViewCellSelectionStyleGray;
-            
-            cell.textLabel.text = [NSString stringWithFormat:@"%@", place.name];
-            
-            NSMutableString *detail = [NSMutableString stringWithFormat:@"%@ · %.1f/5 · ", place.address, place.rating];
-            
-            if (!place.priceLevel) {
-                
-                [detail appendString:@"Free"];
-            }
-            else {
-            
-                for (int i = 1; i <= place.priceLevel; i++) {
                     
-                    [detail appendString:@"$"];
-                }
-            }
-            
-            cell.detailTextLabel.text = detail;
-            
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
+        
+        TVGooglePlace *place = places[indexPath.row];
+
+        cell.textLabel.text = [NSString stringWithFormat:@"%@", place.name];
+        
+        NSMutableString *detail = [[NSMutableString alloc] init];
+        
+        if (place.rating) {
+            
+            [detail appendFormat:@"%.1f/5 · ", place.rating];
+        }
+        
+        if (place.priceLevel) {
+            
+            for (int i = 1; i <= place.priceLevel; i++) {
+                
+                [detail appendString:@"$"];
+            }
+            
+            [detail appendString:@" · "];
+        }
+        
+        [detail appendString:place.address];
+        
+        cell.detailTextLabel.text = detail;
     }
     
     return cell;
@@ -627,7 +632,12 @@
 
 - (void)setFlightID:(NSString *)_FlightID {
     
-    FlightID = _FlightID;
+    if (![self.FlightID isEqualToString:_FlightID]) {
+        
+        FlightID = _FlightID;
+        
+        places = [[NSMutableArray alloc] init];
+    }
     
     [self initializeInfoWithType:200];
     
@@ -686,6 +696,9 @@
     
     [self.weatherTableView reloadData];
     [self.weatherTableView setNeedsDisplay];
+    
+    [self.placesTableView reloadData];
+    [self.placesTableView setNeedsDisplay];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -693,6 +706,8 @@
     [super viewWillDisappear:animated];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:[NSString stringWithFormat:@"TravelDataUpdated_%@", self.FlightID] object:nil];
+    
+    [self.searchBar resignFirstResponder];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

@@ -15,7 +15,7 @@
     [self terminateRequests];
     
     NSString *request = [TVPlacesQuerySuggestionsRetriever SearchAPIRequest:input];
-    NSLog(@"%@", request);
+
     NSURLRequest *URLRequest = [self getURLRequest:request];
     
     [NSURLConnection sendAsynchronousRequest:URLRequest queue:operationQueue completionHandler:^(NSURLResponse *URLResponse, NSData *responseData, NSError *responseError) {

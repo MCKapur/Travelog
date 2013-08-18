@@ -717,9 +717,9 @@
 
 #pragma mark Funky, Dirty, Native :)
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     
-    [super viewDidAppear:YES];
+    [super viewWillAppear:YES];
     
     [self updateNotifications];
     [self updateMilesLabel];
@@ -727,6 +727,8 @@
 }
 
 - (void)viewDidLoad {
+    
+//    [self logout];
     
     loading = YES;
     

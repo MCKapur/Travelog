@@ -9,7 +9,6 @@
 #import "TVAnnotation.h"
 
 @implementation TVAnnotation
-
 @synthesize title, coordinate;
 
 @end
