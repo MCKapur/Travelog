@@ -9,11 +9,13 @@
 #import "TVMessageHistory.h"
 
 @implementation TVMessageHistory
-@synthesize senderId, receiverId, messages;
+@synthesize senderId, receiverId, messages, ID;
 
 #pragma mark NSCoding Methods
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
+    
+    [aCoder encodeObject:self.ID forKey:@"ID"];
     
     [aCoder encodeObject:self.senderId forKey:@"senderId"];
     [aCoder encodeObject:self.receiverId forKey:@"receiverId"];
@@ -24,6 +26,8 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     
     if (self = [self init]) {
+        
+        self.ID = [aDecoder decodeObjectForKey:@"ID"];
         
         self.senderId = [aDecoder decodeObjectForKey:@"senderId"];
         self.receiverId = [aDecoder decodeObjectForKey:@"receiverId"];
@@ -40,6 +44,7 @@
     
     if (self = [self init]) {
         
+        self.ID = [TVDatabase generateRandomKeyWithLength:15];
     }
     
     return self;

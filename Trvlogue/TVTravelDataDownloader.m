@@ -974,7 +974,7 @@
                                         NSString *translatedText = json[@"data"][@"translations"][0][@"translatedText"];
                                         
                                         if (translatedText.length) {
-                                            
+
                                             [translations addObject:@{@"phrase":phrase, @"translation":translatedText}];
                                         }
                                     }
@@ -1121,7 +1121,7 @@
                         
                         if (image) {
                             
-                            NSString *pngPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/WeatherIcon_%i.png", i]];
+                            NSString *pngPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/WeatherIcon_%@_%i.png", self.FlightID, i]];
                             [UIImagePNGRepresentation(image) writeToFile:pngPath atomically:YES];
                             
                             day[@"imageFilePath"] = pngPath;

@@ -34,7 +34,7 @@
 @end
 
 @implementation TVPerson
-@synthesize name, email, position, miles, originCity, connections, notifications, flights;
+@synthesize name, email, position, miles, originCity, connections, notifications, flights, messageHistories;
 
 #pragma mark Flight Operations
 
@@ -128,6 +128,8 @@
     [coder encodeObject:[self notifications] forKey:@"notifications"];
     
     [coder encodeObject:[self flights] forKey:@"flights"];
+    
+    [coder encodeObject:[self messageHistories] forKey:@"messageHistories"];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -150,6 +152,8 @@
         self.notifications = [aDecoder decodeObjectForKey:@"notifications"];
         
         self.flights = [aDecoder decodeObjectForKey:@"flights"];
+        
+        self.messageHistories = [aDecoder decodeObjectForKey:@"messageHistories"];
     }
     
     return self;
@@ -173,6 +177,8 @@
         self.connections = profileDictionary[@"connections"];
         
         self.notifications = [[NSMutableArray alloc] init];
+        
+        self.messageHistories = [[NSMutableArray alloc] init];
     }
     
     return self;
@@ -180,7 +186,7 @@
 
 - (NSString *)description {
     
-    return [NSString stringWithFormat:@"Name:%@\rEmail:%@\rMiles:%f\r\r%@\r\r%@\r\rFlights:\r%@", self.name, self.email, self.miles, self.position, self.originCity, self.flights];
+    return [NSString stringWithFormat:@"Name:%@\rEmail:%@\rMiles:%f\r\r%@\r\r%@\r\rFlights:\r%@\r\rMessage Histories:\r%@", self.name, self.email, self.miles, self.position, self.originCity, self.flights, self.messageHistories];
 }
 
 @end

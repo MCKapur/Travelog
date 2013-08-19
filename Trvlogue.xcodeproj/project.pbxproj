@@ -259,6 +259,10 @@
 		46C2916816EE1B8A00399BDE /* Futura-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 46C2916716EE1B8A00399BDE /* Futura-Bold.ttf */; };
 		46C694A217005A180078E453 /* overlayinversed.png in Resources */ = {isa = PBXBuildFile; fileRef = 46C694A117005A180078E453 /* overlayinversed.png */; };
 		46C917AD1775A82F00CD505B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 46C917AC1775A82E00CD505B /* Reachability.m */; };
+		46E8672A17C0E5370024B911 /* TVMessageListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E8672817C0E5360024B911 /* TVMessageListViewController.m */; };
+		46E8672B17C0E5370024B911 /* TVMessageListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46E8672917C0E5360024B911 /* TVMessageListViewController.xib */; };
+		46E8672F17C0E6740024B911 /* TVMessageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E8672D17C0E6740024B911 /* TVMessageDetailViewController.m */; };
+		46E8673017C0E6740024B911 /* TVMessageDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46E8672E17C0E6740024B911 /* TVMessageDetailViewController.xib */; };
 		46EC7AB317BFE63A00184A3F /* TVPlaceDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 467827B617BF0B200014A2B5 /* TVPlaceDetailViewController.m */; };
 		46F80F5B175E235D005EA59E /* anonymous_person.png in Resources */ = {isa = PBXBuildFile; fileRef = 46F80F5A175E235D005EA59E /* anonymous_person.png */; };
 		46FE4B23170C2223007E4856 /* airplane.png in Resources */ = {isa = PBXBuildFile; fileRef = 46FE4B22170C2223007E4856 /* airplane.png */; };
@@ -5594,6 +5598,12 @@
 		46C694A117005A180078E453 /* overlayinversed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = overlayinversed.png; sourceTree = "<group>"; };
 		46C917AB1775A82E00CD505B /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		46C917AC1775A82E00CD505B /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		46E8672717C0E5360024B911 /* TVMessageListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TVMessageListViewController.h; path = ../TVMessageListViewController.h; sourceTree = "<group>"; };
+		46E8672817C0E5360024B911 /* TVMessageListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TVMessageListViewController.m; path = ../TVMessageListViewController.m; sourceTree = "<group>"; };
+		46E8672917C0E5360024B911 /* TVMessageListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TVMessageListViewController.xib; path = ../TVMessageListViewController.xib; sourceTree = "<group>"; };
+		46E8672C17C0E6740024B911 /* TVMessageDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TVMessageDetailViewController.h; path = ../TVMessageDetailViewController.h; sourceTree = "<group>"; };
+		46E8672D17C0E6740024B911 /* TVMessageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TVMessageDetailViewController.m; path = ../TVMessageDetailViewController.m; sourceTree = "<group>"; };
+		46E8672E17C0E6740024B911 /* TVMessageDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TVMessageDetailViewController.xib; path = ../TVMessageDetailViewController.xib; sourceTree = "<group>"; };
 		46F80F5A175E235D005EA59E /* anonymous_person.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = anonymous_person.png; path = ../anonymous_person.png; sourceTree = "<group>"; };
 		46FE4B22170C2223007E4856 /* airplane.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = airplane.png; sourceTree = "<group>"; };
 		46FE4B24170C4C36007E4856 /* TVTextFileLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVTextFileLoader.h; sourceTree = "<group>"; };
@@ -11997,6 +12007,12 @@
 				4698814517BDDBCB00EB6AC7 /* TVTranslationsViewController.h */,
 				4698814617BDDBCB00EB6AC7 /* TVTranslationsViewController.m */,
 				4698814717BDDBCB00EB6AC7 /* TVTranslationsViewController.xib */,
+				46E8672717C0E5360024B911 /* TVMessageListViewController.h */,
+				46E8672817C0E5360024B911 /* TVMessageListViewController.m */,
+				46E8672917C0E5360024B911 /* TVMessageListViewController.xib */,
+				46E8672C17C0E6740024B911 /* TVMessageDetailViewController.h */,
+				46E8672D17C0E6740024B911 /* TVMessageDetailViewController.m */,
+				46E8672E17C0E6740024B911 /* TVMessageDetailViewController.xib */,
 				46ADED17177EF4960074ACC9 /* TVFlightRecorderViewController.h */,
 				46ADED18177EF4960074ACC9 /* TVFlightRecorderViewController.m */,
 				46ADED19177EF4960074ACC9 /* TVFlightRecorderViewController.xib */,
@@ -12553,6 +12569,8 @@
 				46448D7117BF4F1500C491F5 /* messageReceived.aiff in Resources */,
 				46448D7217BF4F1500C491F5 /* messageSent.aiff in Resources */,
 				46162B8117BFCB7C001CA756 /* TVReviewCell.xib in Resources */,
+				46E8672B17C0E5370024B911 /* TVMessageListViewController.xib in Resources */,
+				46E8673017C0E6740024B911 /* TVMessageDetailViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -12659,6 +12677,8 @@
 				46162B5A17BFCB69001CA756 /* TVReviewCell.m in Sources */,
 				4649391D17C075D8005B49E7 /* NSString+HTML.m in Sources */,
 				4649394517C076DA005B49E7 /* GTMNSString+HTML.m in Sources */,
+				46E8672A17C0E5370024B911 /* TVMessageListViewController.m in Sources */,
+				46E8672F17C0E6740024B911 /* TVMessageDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

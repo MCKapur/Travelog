@@ -56,7 +56,8 @@ typedef enum {
 typedef enum {
     
     kPushNotificationWantsToConnect = 0,
-    kPushNotificationAcceptedConnection
+    kPushNotificationAcceptedConnection,
+    kPushNotificationReceivedMessage
 
 } PushNotificationType;
 
@@ -75,6 +76,8 @@ typedef enum {
 #import "TVConnection.h"
 
 #import "TVFindPeopleViewController.h"
+
+#import "TVMessageDetailViewController.h"
  
 @class TVCreateAccountViewController;
 
@@ -82,7 +85,9 @@ typedef enum {
 
 + (void)setCurrentAccount:(TVAccount *)account;
 
++ (TVMessageHistory *)messageHistoryFromID:(NSString *)ID;
 + (void)createMessageHistory:(TVMessageHistory *)messageHistory withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;
++ (void)sendMessage:(TVMessage *)message toHistoryWithID:(NSString *)messageHistoryID withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;
 + (void)confirmReceiverHasReadNewMessages:(NSMutableArray *)messages inMessageHistory:(TVMessageHistory *)messageHistory withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;
 + (void)downloadMessageHistoriesWithUserId:(NSString *)userId withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode, NSMutableArray *messageHistories))callback;
 + (void)downloadMessageHistoryBetweenRecipients:(NSMutableArray *)userIds withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode, NSMutableArray *messageHistories))callback;

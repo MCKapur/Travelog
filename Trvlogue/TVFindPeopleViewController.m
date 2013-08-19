@@ -487,4 +487,6 @@ static int expectedOperations;
     [super viewDidLoad];
 }
 
+- (IBAction)changedSegment:(UISegmentedControl *)sender {
+}
 @end

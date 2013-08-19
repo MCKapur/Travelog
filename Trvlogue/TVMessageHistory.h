@@ -12,6 +12,8 @@
 
 @interface TVMessageHistory : NSObject <NSCoding>
 
+@property (nonatomic, strong) NSString *ID;
+
 @property (nonatomic, strong) NSString *senderId;
 @property (nonatomic, strong) NSString *receiverId;
 

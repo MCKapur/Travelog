@@ -16,8 +16,10 @@
 
 @property (nonatomic, strong) NSDate *publishDate;
 
-@property (nonatomic) BOOL recieverRead;
+@property (nonatomic, strong) NSString *senderId;
 
-- (id)initWithBody:(NSString *)_body andPublishDate:(NSDate *)_publishDate;
+@property (nonatomic) BOOL receiverRead;
+
+- (id)initWithBody:(NSString *)_body publishDate:(NSDate *)_publishDate andSenderId:(NSString *)_senderId;
 
 @end

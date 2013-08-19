@@ -266,6 +266,7 @@
     [self.inputToolBarView.textView setText:nil];
     [self textViewDidChange:self.inputToolBarView.textView];
     [self.tableView reloadData];
+    [self.tableView setNeedsDisplay];
     [self scrollToBottomAnimated:YES];
 }
 

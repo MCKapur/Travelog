@@ -25,7 +25,7 @@
 #pragma mark TravelData
 
 - (NSMutableDictionary *)travelData {
-    
+
     return [TVDatabase travelDataPacketWithID:self.FlightID];
 }
 
@@ -259,24 +259,23 @@
             
             cell.backgroundColor = [UIColor clearColor];
             
-            NSDateFormatter *dayFormatter = [[NSDateFormatter alloc] init];
-            [dayFormatter setDateFormat:@"EEEE"];
-            
-            NSString *date = [self travelData][@"weather"][indexPath.row][@"date"];
-            
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            
-            cell.textLabel.text = [NSString stringWithFormat:@"%@ will be %@", [dayFormatter stringFromDate:[TVConversions convertStringToDate:date withFormat:YEAR_MONTH_DAY]], [[self travelData][@"weather"][indexPath.row][@"weatherDesc"][0][@"value"] lowercaseString]];
+
             cell.textLabel.numberOfLines = 2;
-            
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%i°F - %i°F", (int)([[self travelData][@"weather"][indexPath.row][@"tempMinF"] doubleValue] + 0.5), (int)([[self travelData][@"weather"][indexPath.row][@"tempMaxF"] doubleValue] + 0.5)];
-            
+                        
             cell.detailTextLabel.accessibilityLabel = @"F";
             
             cell.imageView.layer.masksToBounds = YES;
             cell.imageView.layer.cornerRadius = 5.0;
-            cell.imageView.image = [UIImage imageWithContentsOfFile:[self travelData][@"weather"][indexPath.row][@"imageFilePath"]];
         }
+        
+        NSDateFormatter *dayFormatter = [[NSDateFormatter alloc] init];
+        [dayFormatter setDateFormat:@"EEEE"];
+        NSString *date = [self travelData][@"weather"][indexPath.row][@"date"];
+        
+        cell.textLabel.text = [NSString stringWithFormat:@"%@ will be %@", [dayFormatter stringFromDate:[TVConversions convertStringToDate:date withFormat:YEAR_MONTH_DAY]], [[self travelData][@"weather"][indexPath.row][@"weatherDesc"][0][@"value"] lowercaseString]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%i°F - %i°F", (int)([[self travelData][@"weather"][indexPath.row][@"tempMinF"] doubleValue] + 0.5), (int)([[self travelData][@"weather"][indexPath.row][@"tempMaxF"] doubleValue] + 0.5)];
+        cell.imageView.image = [UIImage imageWithContentsOfFile:[self travelData][@"weather"][indexPath.row][@"imageFilePath"]];
     }
     else {
 
@@ -346,13 +345,13 @@
     NSString *WEATHER_CELL_ID = @"WeatherCell";
     
     NSString *PLACES_CELL_ID = @"PlacesCell";
-    
+
     if (tableView == self.newsTableView) {
         
         CELL_ID = NEWS_CELL_ID;
     }
     else if (tableView == self.weatherTableView) {
-        
+
         CELL_ID = WEATHER_CELL_ID;
     }
     else {
@@ -366,15 +365,15 @@
         [self.navigationController pushViewController:webViewController animated:YES];
     }
     else if ([CELL_ID isEqualToString:WEATHER_CELL_ID]) {
-        
+    
         if ([[tableView cellForRowAtIndexPath:indexPath].detailTextLabel.accessibilityLabel isEqualToString: @"F"]) {
-            
+
             [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text = [NSString stringWithFormat:@"%i°C - %i°C", (int)([[self travelData][@"weather"][indexPath.row][@"tempMinC"] doubleValue] + 0.5), (int)([[self travelData][@"weather"][indexPath.row][@"tempMaxC"] doubleValue] + 0.5)];
             
             [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.accessibilityLabel = @"C";
         }
         else {
-            
+
             [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text = [NSString stringWithFormat:@"%i°F - %i°F", (int)([[self travelData][@"weather"][indexPath.row][@"tempMinF"] doubleValue] + 0.5), (int)([[self travelData][@"weather"][indexPath.row][@"tempMaxF"] doubleValue] + 0.5)];
             
             [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.accessibilityLabel = @"F";
@@ -633,12 +632,12 @@
 - (void)setFlightID:(NSString *)_FlightID {
     
     if (![self.FlightID isEqualToString:_FlightID]) {
-        
+
         FlightID = _FlightID;
         
         places = [[NSMutableArray alloc] init];
     }
-    
+        
     [self initializeInfoWithType:200];
     
     [self pollForTravelInfoBanner];
@@ -684,7 +683,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     
-    [super viewWillAppear:YES];
+    [super viewWillAppear:animated];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(travelDataUpdated:) name:[NSString stringWithFormat:@"TravelDataUpdated_%@", self.FlightID] object:nil];
         
@@ -693,7 +692,7 @@
     
     [self.peopleTableView reloadData];
     [self.peopleTableView setNeedsDisplay];
-    
+
     [self.weatherTableView reloadData];
     [self.weatherTableView setNeedsDisplay];
     

@@ -38,4 +38,10 @@ typedef enum {
 
 @property (nonatomic, weak) IBOutlet UITableView *table;
 
+@property (weak, nonatomic) IBOutlet UIView *headerView;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+
+- (IBAction)changedSegment:(UISegmentedControl *)sender;
+
 @end

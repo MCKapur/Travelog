@@ -10,6 +10,8 @@
 
 #import "TVMileTidbits.h"
 
+#import "TVMessageHistory.h"
+
 @interface TVPerson : NSObject <NSCoding>
 
 @property (nonatomic, strong) NSMutableArray *notifications;
@@ -28,6 +30,8 @@
 @property (nonatomic, strong) NSMutableDictionary *knownDestinationPreferences;
 
 @property (nonatomic, strong) NSMutableArray *flights;
+
+@property (nonatomic, strong) NSMutableArray *messageHistories;
 
 - (void)addFlight: (TVFlight *)flight;
 - (void)deleteFlight: (TVFlight *)flight;

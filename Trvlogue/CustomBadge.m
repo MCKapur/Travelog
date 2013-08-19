@@ -89,9 +89,10 @@
 	CGFloat flexSpace;
 	if ([badgeString length]>=2) {
 		flexSpace = [badgeString length];
-		rectWidth = 25 + (stringSize.width + flexSpace); rectHeight = 25;
+		rectWidth = 15 + (stringSize.width + flexSpace); rectHeight = 25;
 		retValue = CGSizeMake(rectWidth*badgeScaleFactor, rectHeight*badgeScaleFactor);
 	} else {
+
 		retValue = CGSizeMake(25*badgeScaleFactor, 25*badgeScaleFactor);
 	}
 	self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, retValue.width, retValue.height);

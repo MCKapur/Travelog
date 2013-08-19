@@ -9,7 +9,7 @@
 #import "TVMessage.h"
 
 @implementation TVMessage
-@synthesize body, publishDate, recieverRead;
+@synthesize body, publishDate, receiverRead, senderId;
 
 #pragma mark NSCoding Methods
 
@@ -17,7 +17,8 @@
     
     [aCoder encodeObject:self.body forKey:@"body"];
     [aCoder encodeObject:self.publishDate forKey:@"publishDate"];
-    [aCoder encodeBool:self.recieverRead forKey:@"receiverRead"];
+    [aCoder encodeBool:self.receiverRead forKey:@"receiverRead"];
+    [aCoder encodeObject:self.senderId forKey:@"senderId"];
     [aCoder encodeObject:self.ID forKey:@"ID"];
 }
 
@@ -27,8 +28,9 @@
         
         self.body = [aDecoder decodeObjectForKey:@"body"];
         self.publishDate = [aDecoder decodeObjectForKey:@"publishDate"];
-        self.recieverRead = [aDecoder decodeBoolForKey:@"receiverRead"];
+        self.receiverRead = [aDecoder decodeBoolForKey:@"receiverRead"];
         self.ID = [aDecoder decodeObjectForKey:@"ID"];
+        self.senderId = [aDecoder decodeObjectForKey:@"senderId"];
     }
     
     return self;
@@ -46,12 +48,13 @@
     return self;
 }
 
-- (id)initWithBody:(NSString *)_body andPublishDate:(NSDate *)_publishDate {
+- (id)initWithBody:(NSString *)_body publishDate:(NSDate *)_publishDate andSenderId:(NSString *)_senderId {
     
     if (self = [self init]) {
         
         self.body = _body;
         self.publishDate = _publishDate;
+        self.senderId = _senderId;
     }
 
     return self;
