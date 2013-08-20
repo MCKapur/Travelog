@@ -16,6 +16,8 @@
 
 #import "Reachability.h"
 
+#import "TestFlightSDK/TestFlight.h"
+
 @implementation TVAppDelegate
 @synthesize randomNumber, backgroundColor;
 
@@ -28,6 +30,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [TestFlight setDeviceIdentifier:[[UIDevice currentDevice] uniqueIdentifier]];
+    [TestFlight takeOff:@"6c9526c1-d130-4ffe-95b7-898c408d014a"];
+
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
      UIRemoteNotificationTypeBadge |
      UIRemoteNotificationTypeAlert |

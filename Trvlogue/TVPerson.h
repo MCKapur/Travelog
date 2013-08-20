@@ -17,7 +17,7 @@
 @interface NSMutableArray (Notifications)
 
 - (int)indexOfNotification:(TVNotification *)_notification;
-- (void)clearNotificationOfType:(NotificationType *)NotificationType;
+- (void)clearNotificationOfType:(int)notificationType;
 
 - (void)addNotification:(TVNotification *)notification;
 - (void)removeNotification:(TVNotification *)notification;
@@ -28,8 +28,8 @@
 
 - (void)addNotification:(TVNotification *)notification {
         
-    if ([self indexOfNotification:notification] != NSNotFound) {
-        
+    if ([self indexOfNotification:notification] == NSNotFound) {
+
         [self addObject:notification];
     }
 }
@@ -46,26 +46,29 @@
     
     int retVal = NSNotFound;
     
-    for (int i = 0; i <= self.count - 1; i++) {
+    if (self.count) {
         
-        TVNotification *_notification = self[i];
-        NSLog(@"%@ %@", notification.ID, _notification.ID);
-        if ([notification.ID isEqualToString:_notification.ID]) {
+        for (int i = 0; i <= self.count - 1; i++) {
             
-            retVal = i;
+            TVNotification *_notification = self[i];
+            
+            if ([notification.ID isEqualToString:_notification.ID]) {
+                
+                retVal = i;
+            }
         }
     }
     
     return retVal;
 }
 
-- (void)clearNotificationOfType:(NotificationType *)NotificationType {
+- (void)clearNotificationOfType:(int)notificationType {
 
     NSMutableIndexSet *indexSet = [[NSMutableIndexSet alloc] init];
     
     for (TVNotification *notification in self) {
-        
-        if (notification.type == NotificationType) {
+
+        if ((int)notification.type == notificationType) {
             
             [indexSet addIndex:[self indexOfNotification:notification]];
         }

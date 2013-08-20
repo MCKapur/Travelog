@@ -1131,7 +1131,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     }];
     
     [TVDatabase findMyConnections:^(NSMutableArray *objects, NSError *error, NSString *callCode) {
-        
+
         [account.person.notifications clearNotificationOfType:kNotificationTypeConnectionRequest];
         
         for (TVConnection *connection in objects) {
@@ -1156,8 +1156,8 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         if (success && !error) {
             
             [account.person setMessageHistories:messageHistories];
-            
-            [account.person.notifications clearNotificationOfType:(NotificationType *)kNotificationTypeUnreadMessages];
+
+            [account.person.notifications clearNotificationOfType:kNotificationTypeUnreadMessages];
 
             for (TVMessageHistory *messageHistory in messageHistories) {
                 
