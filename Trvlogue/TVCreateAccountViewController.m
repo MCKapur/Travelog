@@ -9,29 +9,6 @@
 
 #import <CoreLocation/CoreLocation.h>
 
-@interface UIImage (Thumbnail)
-
-- (UIImage *)makeThumbnailOfSize:(CGSize)size;
-
-@end
-
-@implementation UIImage (Thumbnail)
-
-- (UIImage *)makeThumbnailOfSize:(CGSize)size;
-{
-    UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
-    
-    [self drawInRect:CGRectMake(0, 0, size.width, size.height)];
-    
-    UIImage *newThumbnail = UIGraphicsGetImageFromCurrentImageContext();
-    
-    UIGraphicsEndImageContext();
-    
-    return newThumbnail;
-}
-
-@end
-
 @interface TVCreateAccountViewController ()
 {
     BOOL isUsingLinkedIn;
@@ -255,15 +232,13 @@
 
 - (void)registerAccount {
         
-    [account.person writeProfilePictureLocally:[profileImageView.image makeThumbnailOfSize:CGSizeMake(100, 100)]];
-
     [TVLoadingSignifier signifyLoading:@"Uploading your account" duration:-1];
 
     dispatch_queue_t downloadQueue = dispatch_queue_create("Upload account", NULL);
     dispatch_async(downloadQueue, ^{
         
-        [TVDatabase uploadAccount:account withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
-            
+        [TVDatabase uploadAccount:account withProfilePicture:[profileImageView.image makeThumbnailOfSize:CGSizeMake(100, 100)] andCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
+
             if (success && !error) {
                 
                 [self successfullyRegister];
@@ -491,8 +466,10 @@
     
     for (UIView *view in self.view.subviews) {
         
-        if ([view isKindOfClass:[UIImageView class]]) {
+        if ([view isKindOfClass:[UIImageView class]] && view.tag != 200) {
             
+            view.layer.masksToBounds = YES;
+            view.clipsToBounds = YES;
             view.layer.cornerRadius = 7.0f;
         }
         else if ([view isKindOfClass:[UITextField class]]) {

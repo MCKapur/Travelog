@@ -11,6 +11,16 @@
 @implementation TVMessageHistory
 @synthesize senderId, receiverId, messages, ID;
 
+- (NSMutableArray *)sortedMessages {
+    
+    NSSortDescriptor *sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"publishDate" ascending:NO];
+    
+    NSMutableArray *_messages = [messages mutableCopy];
+    [_messages sortUsingDescriptors:@[sortByDate]];
+    
+    return _messages;
+}
+
 #pragma mark NSCoding Methods
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {

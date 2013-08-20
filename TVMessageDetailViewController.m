@@ -19,7 +19,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
    
-    return [TVDatabase messageHistoryFromID:self.messageHistoryID].messages.count;
+    return [TVDatabase messageHistoryFromID:self.messageHistoryID].sortedMessages.count;
 }
 
 #pragma mark Messages View Delegate
@@ -36,7 +36,7 @@
 
 - (JSBubbleMessageType)messageTypeForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [((TVMessage *)[TVDatabase messageHistoryFromID:self.messageHistoryID].messages[indexPath.row]).senderId isEqualToString:[[PFUser currentUser] objectId]] ? JSBubbleMessageTypeOutgoing : JSBubbleMessageTypeIncoming;
+    return [((TVMessage *)[TVDatabase messageHistoryFromID:self.messageHistoryID].sortedMessages[indexPath.row]).senderId isEqualToString:[[PFUser currentUser] objectId]] ? JSBubbleMessageTypeOutgoing : JSBubbleMessageTypeIncoming;
 }
 
 - (JSBubbleMessageStyle)messageStyleForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -69,29 +69,24 @@
 
 - (NSString *)textForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return ((TVMessage *)[TVDatabase messageHistoryFromID:self.messageHistoryID].messages[indexPath.row]).body;
+    return ((TVMessage *)[TVDatabase messageHistoryFromID:self.messageHistoryID].sortedMessages[indexPath.row]).body;
 }
 
 - (NSDate *)timestampForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return ((TVMessage *)[TVDatabase messageHistoryFromID:self.messageHistoryID].messages[indexPath.row]).publishDate;
+    return ((TVMessage *)[TVDatabase messageHistoryFromID:self.messageHistoryID].sortedMessages[indexPath.row]).publishDate;
 }
 
 - (UIImage *)avatarImageForIncomingMessage
 {
-    UIImage *profilePicture = [UIImage imageWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/ProfilePicture_%@.png", ![[TVDatabase messageHistoryFromID:self.messageHistoryID].senderId isEqualToString:[[PFUser currentUser] objectId]] ? [TVDatabase messageHistoryFromID:self.messageHistoryID].senderId : [TVDatabase messageHistoryFromID:self.messageHistoryID].receiverId]]];
+    NSString *userId = [[[TVDatabase messageHistoryFromID:self.messageHistoryID] senderId] isEqualToString:[[PFUser currentUser] objectId]] ? [[TVDatabase messageHistoryFromID:self.messageHistoryID] receiverId] : [[TVDatabase messageHistoryFromID:self.messageHistoryID] senderId];
     
-    if (!profilePicture) {
-        
-        profilePicture = [UIImage imageNamed:@"anonymous_person.png"];
-    }
-                               
-    return profilePicture; 
+    return [TVDatabase locateProfilePictureOnDiskWithUserId:userId];
 }
 
 - (UIImage *)avatarImageForOutgoingMessage
 {
-    return [[[TVDatabase currentAccount] person] getProfilePic];
+    return [TVDatabase locateProfilePictureOnDiskWithUserId:[[PFUser currentUser] objectId]];
 }
 
 - (void)incomingMessage
@@ -108,6 +103,25 @@
     // Override to use a custom send button
     // The button's frame is set automatically for you
     return [UIButton defaultSendButton];
+}
+
+- (id)init {
+    
+    if (self = [super init]) {
+        
+    }
+    
+    return self;
+}
+
+- (id)initWithMessageHistoryID:(NSString *)_messageHistoryID {
+    
+    if (self = [self init]) {
+        
+        self.messageHistoryID = _messageHistoryID;
+    }
+    
+    return self;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -133,7 +147,7 @@
     self.dataSource = self;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incomingMessage) name:@"IncomingMessage" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:@"ProfilePictureDownloaded" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:@"ProfilePictureWritten" object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {

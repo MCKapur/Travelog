@@ -21,4 +21,6 @@
 
 - (id)initWithSenderId:(NSString *)_senderId andReceiverId:(NSString *)_receiverId andMessages:(NSMutableArray *)_messages;
 
+- (NSMutableArray *)sortedMessages;
+
 @end

@@ -24,7 +24,26 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    static NSString *CELL_ID = @"CELL_ID";
     
+    TVMessageHistory *messageHistory = [[[TVDatabase currentAccount] person] messageHistories][indexPath.row];
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CELL_ID];
+    
+    if (!cell) {
+        
+        UIImage *image = [TVDatabase locateProfilePictureOnDiskWithUserId:[messageHistory.senderId isEqualToString:[[PFUser currentUser] objectId]] ? messageHistory.receiverId : messageHistory.senderId];
+        
+        cell.imageView.image = image;
+    }
+    
+    return cell;
+}
+
+- (void)reload {
+    
+    [self.messageListTableView reloadData];
+    [self.messageListTableView setNeedsDisplay];
 }
 
 #pragma mark Initialization
@@ -40,6 +59,9 @@
 
 - (void)viewDidLoad
 {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:@"RefreshedAccount" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:@"IncomingMessage" object:nil];
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 }

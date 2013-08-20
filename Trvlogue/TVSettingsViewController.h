@@ -10,6 +10,8 @@
 
 #import "TVFindPeopleViewController.h"
 
+#import "TVCreateAccountViewController.h"
+
 @interface TVSettingsViewController : UIViewController <UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 {
     TVDatabase *databaseOperator;

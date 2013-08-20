@@ -1,5 +1,5 @@
 //
-//  Person.h
+//  TVPerson.h
 //  Trvlogue
 //
 //  Created by Rohan Kapur on 2/6/13.
@@ -11,6 +11,70 @@
 #import "TVMileTidbits.h"
 
 #import "TVMessageHistory.h"
+
+#import "TVNotification.h"
+
+@interface NSMutableArray (Notifications)
+
+- (int)indexOfNotification:(TVNotification *)_notification;
+- (void)clearNotificationOfType:(NotificationType *)NotificationType;
+
+- (void)addNotification:(TVNotification *)notification;
+- (void)removeNotification:(TVNotification *)notification;
+
+@end
+
+@implementation NSMutableArray (Notifications)
+
+- (void)addNotification:(TVNotification *)notification {
+        
+    if ([self indexOfNotification:notification] != NSNotFound) {
+        
+        [self addObject:notification];
+    }
+}
+
+- (void)removeNotification:(TVNotification *)notification {
+        
+    if ([self indexOfNotification:notification] != NSNotFound) {
+        
+        [self removeObjectAtIndex:[self indexOfNotification:notification]];
+    }
+}
+
+- (int)indexOfNotification:(TVNotification *)notification {
+    
+    int retVal = NSNotFound;
+    
+    for (int i = 0; i <= self.count - 1; i++) {
+        
+        TVNotification *_notification = self[i];
+        
+        if ([notification.ID isEqualToString:_notification.ID]) {
+            
+            retVal = i;
+        }
+    }
+    
+    return retVal;
+}
+
+- (void)clearNotificationOfType:(NotificationType *)NotificationType {
+
+    NSMutableIndexSet *indexSet = [[NSMutableIndexSet alloc] init];
+    
+    for (TVNotification *notification in self) {
+        
+        if (notification.type == NotificationType) {
+            
+            [indexSet addIndex:[self indexOfNotification:notification]];
+        }
+    }
+    
+    [self removeObjectsAtIndexes:indexSet];
+}
+
+@end
 
 @interface TVPerson : NSObject <NSCoding>
 
@@ -39,8 +103,5 @@
 - (NSMutableArray *)sortedFlights;
 
 - (NSMutableArray *)mileTidbits;
-
-- (UIImage *)getProfilePic;
-- (void)writeProfilePictureLocally:(UIImage *)profilePicture;
 
 @end

@@ -550,48 +550,6 @@
 
 #pragma mark Actions
 
-//- (void)showPopover:(UIBarButtonItem *)barButtonItem {
-//
-//    if ([[barButtonItem accessibilityValue] isEqualToString:@"Show"]) {
-//
-//        barButtonItem.image = [UIImage imageNamed:@"carrot_up.png"];
-//    }
-//    else {
-//
-//        barButtonItem.image = [UIImage imageNamed:@"carrow_down.png"];
-//    }
-//
-//    NSArray *menuItems =
-//    @[
-//      [KxMenuItem menuItem:@"Messages"
-//                     image:[UIImage imageNamed:@"messages.png"]
-//                    target:self
-//                    action:@selector(showMessagesPage)],
-//
-//      [KxMenuItem menuItem:@"Connect"
-//                     image:[UIImage imageNamed:@"person.png"]
-//                    target:self
-//                    action:@selector(showFindPeoplePage)],
-//
-//      [KxMenuItem menuItem:@"Export"
-//                     image:[UIImage imageNamed:@"export.png"]
-//                    target:self
-//                    action:@selector(exportFlights)],
-//
-//      [KxMenuItem menuItem:@"Settings"
-//                     image:[UIImage imageNamed:@"settings.png"]
-//                    target:self
-//                    action:@selector(showSettingsPage)],
-//      ];
-//
-//    [KxMenu setTintColor:[UIColor whiteColor]];
-//    [KxMenu setTitleFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0]];
-//
-//    [KxMenu showMenuInView:self.view
-//                  fromRect:CGRectMake(-50, -200, 100, 200)
-//                 menuItems:menuItems];
-//}
-
 - (void)showMessagesPage {
     
 }
@@ -662,6 +620,7 @@
 
 - (void)showSettingsPage {
     
+    [self logout];
 }
 
 - (void)logout {
@@ -728,8 +687,6 @@
 
 - (void)viewDidLoad {
     
-//    [self logout];
-    
     loading = YES;
     
     [self UIBuffer];
@@ -753,8 +710,15 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshedFlights) name:@"RefreshedFlights" object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(manuallyRefreshAccount) name:@"ManuallyRefreshAccount" object:nil];
+
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+}
+
+- (void)manuallyRefreshAccount {
+    
+    [self refreshAccount:nil];
 }
 
 - (void)didReceiveMemoryWarning

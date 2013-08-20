@@ -11819,8 +11819,8 @@
 				46A2D5F916EEA22100C886CB /* UI */,
 				46F8491F17094E2C00A9F0BB /* Data */,
 				46F8492017094E6800A9F0BB /* View Controllers */,
-				460B0BE1174F524100A1229C /* Resources */,
 				46C28F0416EDD6F800399BDE /* Supporting Files */,
+				460B0BE1174F524100A1229C /* Resources */,
 			);
 			path = Trvlogue;
 			sourceTree = "<group>";

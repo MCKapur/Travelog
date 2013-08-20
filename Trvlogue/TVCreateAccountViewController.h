@@ -22,6 +22,29 @@
 
 #import <QuartzCore/QuartzCore.h>
 
+@interface UIImage (Thumbnail)
+
+- (UIImage *)makeThumbnailOfSize:(CGSize)size;
+
+@end
+
+@implementation UIImage (Thumbnail)
+
+- (UIImage *)makeThumbnailOfSize:(CGSize)size;
+{
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
+    
+    [self drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    
+    UIImage *newThumbnail = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return newThumbnail;
+}
+
+@end
+
 @interface TVCreateAccountViewController : UIViewController <UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 {
     __weak IBOutlet UITextField *firstNameTextField;

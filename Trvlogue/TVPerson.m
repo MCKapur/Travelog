@@ -1,5 +1,5 @@
 //
-//  Person.m
+//  TVPerson.m
 //  Trvlogue
 //
 //  Created by Rohan Kapur on 2/6/13.
@@ -34,7 +34,19 @@
 @end
 
 @implementation TVPerson
-@synthesize name, email, position, miles, originCity, connections, notifications, flights, messageHistories;
+@synthesize name, email, position, miles, originCity, connections, notifications, flights, messageHistories, knownDestinationPreferences;
+
+#pragma mark Message Operations
+
+- (NSMutableArray *)messageHistories {
+    
+    NSSortDescriptor *sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"publishDate" ascending:NO];
+    
+    NSMutableArray *_messageHistories = [messageHistories mutableCopy];
+    [_messageHistories sortUsingDescriptors:@[sortByDate]];
+    
+    return _messageHistories;
+}
 
 #pragma mark Flight Operations
 
@@ -94,22 +106,6 @@
     return [TVMileTidbits getTidbitsFrom:self.miles];
 }
 
-#pragma mark Profile Picture
-
-- (UIImage *)getProfilePic {
-    
-    NSString *pngPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/ProfilePicture_%@.png", self.email]];
-        
-    return [UIImage imageWithContentsOfFile:pngPath];
-}
-
-- (void)writeProfilePictureLocally:(UIImage *)profilePicture {
-    
-    NSString *pngPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/ProfilePicture_%@.png", self.email]];
-        
-    [UIImageJPEGRepresentation(profilePicture, 1.0) writeToFile:pngPath atomically:NO];
-}
-
 #pragma mark Initialization
 
 - (void)encodeWithCoder:(NSCoder *)coder {
@@ -130,6 +126,8 @@
     [coder encodeObject:[self flights] forKey:@"flights"];
     
     [coder encodeObject:[self messageHistories] forKey:@"messageHistories"];
+    
+    [coder encodeObject:[self knownDestinationPreferences] forKey:@"knownDestinationPreferences"];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -154,16 +152,27 @@
         self.flights = [aDecoder decodeObjectForKey:@"flights"];
         
         self.messageHistories = [aDecoder decodeObjectForKey:@"messageHistories"];
+        
+        self.knownDestinationPreferences = [aDecoder decodeObjectForKey:@"knownDestinationPreferences"];
+    }
+    
+    return self;
+}
+
+- (id)init {
+    
+    if (self = [super init]) {
+        
+        self.notifications = [[NSMutableArray alloc] init];
+        self.messageHistories = [[NSMutableArray alloc] init];
     }
     
     return self;
 }
 
 - (id)initWithProfile:(NSDictionary *)profileDictionary {
-    
-    self = [super init];
-    
-    if (self) {
+        
+    if (self = [self init]) {
         
         self.name = profileDictionary[@"name"];
         self.email = profileDictionary[@"email"];
@@ -175,10 +184,6 @@
         self.position = profileDictionary[@"position"];
         
         self.connections = profileDictionary[@"connections"];
-        
-        self.notifications = [[NSMutableArray alloc] init];
-        
-        self.messageHistories = [[NSMutableArray alloc] init];
     }
     
     return self;

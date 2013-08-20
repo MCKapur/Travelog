@@ -95,6 +95,8 @@ typedef enum {
 + (void)downloadProfilePicturesWithObjectIds:(NSArray *)objectIds withCompletionHandler:(void (^)(NSError *error, UIImage *profilePic))callback;
 + (void)uploadProfilePicture:(UIImage *)profilePicture withObjectId:(NSString *)objectId; // Doesn't really need a callback/completion handler but I guess I should add it...
 + (void)updateProfilePicture:(UIImage *)profilePicture withObjectId:(NSString *)objectId withCompletionHandler:(void (^)(BOOL succeeded, NSError *error, NSString *callCode))callback; // Doesn't really need a callback/completion handler but I guess I should add it...
++ (void)writeProfilePictureToDisk:(UIImage *)image withUserId:(NSString *)userId;
++ (UIImage *)locateProfilePictureOnDiskWithUserId:(NSString *)userId;
 
 + (void)downloadFlightsWithObjectIds:(NSArray *)objectIds withCompletionHandler:(void (^)(NSError *error, NSMutableArray *flights))callback;
 + (void)uploadFlights:(NSArray *)flights withObjectId:(NSString *)objectId; // Doesn't really need a callback/completion handler but I guess I should add it...
@@ -139,7 +141,7 @@ typedef enum {
 + (void)getAccountFromUser:(PFUser *)object withCompletionHandler:(void (^)(TVAccount *account, BOOL allOperationsComplete, BOOL hasWrittenProfilePicture))callback;
 + (void)refreshAccountWithCompletionHandler:(void (^)(BOOL completed))callback;
 
-+ (void)uploadAccount:(TVAccount *)trvlogueAccount withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;
++ (void)uploadAccount:(TVAccount *)trvlogueAccount withProfilePicture:(UIImage *)profilePicture andCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;
 + (void)updateMyAccount:(TVAccount *)accountObj withCompletionHandler:(void (^)(BOOL succeeded, NSError *error, NSString *callCode))callback;
 + (void)updateMyCache:(TVAccount *)accountObj;
 

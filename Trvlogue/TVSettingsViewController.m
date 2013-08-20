@@ -193,7 +193,7 @@
     
     TVAccount *updatedTrvlogueAccount = [TVDatabase currentAccount];
     
-    [updatedTrvlogueAccount.person writeProfilePictureLocally:profilePicture.image];//still need to reupload profilepicture ONLY if its changed
+    [TVDatabase writeProfilePictureToDisk:[profilePicture.image makeThumbnailOfSize:CGSizeMake(100, 100)] withUserId:[[PFUser currentUser] objectId]]; //still need to reupload profilepicture ONLY if its changed
     [TVDatabase uploadProfilePicture:profilePicture.image withObjectId:[[PFUser currentUser] objectId]];
     
     [updatedTrvlogueAccount setEmail:[emailTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""]];
@@ -253,7 +253,7 @@
     
     BOOL retVal = YES;
     
-    if ([[emailTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:[TVDatabase currentAccount].email] && [[nameTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:[TVDatabase currentAccount].person.name] && [profilePicture.image isEqual:[[TVDatabase currentAccount].person getProfilePic]] && [passwordTextField.text isEqualToString:[[TVDatabase currentAccount] password]]) {
+    if ([[emailTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:[TVDatabase currentAccount].email] && [[nameTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:[TVDatabase currentAccount].person.name] && [profilePicture.image isEqual:[TVDatabase locateProfilePictureOnDiskWithUserId:[[PFUser currentUser] objectId]]] && [passwordTextField.text isEqualToString:[[TVDatabase currentAccount] password]]) {
         
         retVal = NO;
     }
@@ -355,7 +355,7 @@
     
     [nameTextField setText:[[TVDatabase currentAccount].person name]];
     [emailTextField setText:[[TVDatabase currentAccount] email]];
-    [profilePicture setImage:[[TVDatabase currentAccount].person getProfilePic]];
+    [profilePicture setImage:[TVDatabase locateProfilePictureOnDiskWithUserId:[[PFUser currentUser] objectId]]];
     [passwordTextField setText:[[TVDatabase currentAccount] password]];
 }
 

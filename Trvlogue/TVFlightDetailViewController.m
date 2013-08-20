@@ -145,7 +145,7 @@
             
             TVPerson *person = [self travelData][@"people"][gridNumber];
             
-            cell.profilePicture.image = [person getProfilePic];
+            cell.profilePicture.image = [TVDatabase locateProfilePictureOnDiskWithUserId:person.accessibilityValue];
             cell.name.text = person.name;
             
             gridConvert[[NSString stringWithFormat:@"(%i,%i)", rowIndex, columnIndex]] = @(gridNumber);

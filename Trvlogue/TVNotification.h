@@ -15,10 +15,14 @@ typedef enum {
     
 } NotificationType;
 
+#define PENDING_CONNECTION_REQUEST @"PENDING_CONNECTION_REQUEST"
+#define UNREAD_MESSAGE @"UNREAD_MESSAGE"
+
 @interface TVNotification : NSObject <NSCoding>
 
 @property (nonatomic) NotificationType *type;
+@property (nonatomic, strong) NSString *ID;
 
-- (id)initWithType:(NotificationType *)_type;
+- (id)initWithType:(NotificationType *)_type withUserId:(NSString *)userId;
 
 @end

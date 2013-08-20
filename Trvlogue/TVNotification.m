@@ -9,7 +9,7 @@
 #import "TVNotification.h"
 
 @implementation TVNotification
-@synthesize type;
+@synthesize type, ID;
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
  
@@ -37,11 +37,12 @@
     return self;
 }
 
-- (id)initWithType:(NotificationType *)_type {
-    
+- (id)initWithType:(NotificationType *)_type withUserId:(NSString *)userId {
+
     if (self = [self init]) {
         
         self.type = _type;
+        self.ID = [NSString stringWithFormat:@"%@-%@", _type == kNotificationTypeConnectionRequest ? PENDING_CONNECTION_REQUEST : UNREAD_MESSAGE, userId];
     }
     
     return self;

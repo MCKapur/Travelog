@@ -96,7 +96,7 @@
     formattedMiles = [formattedMiles stringByReplacingOccurrencesOfString:@"," withString:@", "];
 
     // Configure the cell
-    [avatarImageView setImage:[person getProfilePic]];
+    [avatarImageView setImage:[TVDatabase locateProfilePictureOnDiskWithUserId:aUser.objectId]];
     
     self.avatarImageView.layer.cornerRadius = 7.0f;
     self.avatarImageView.layer.masksToBounds = YES;
