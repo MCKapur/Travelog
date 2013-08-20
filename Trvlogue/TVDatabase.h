@@ -112,6 +112,11 @@ typedef enum {
 + (void)acceptConnection:(TVConnection *)connection withCompletionHandler:(void (^)(NSError *error, NSString *callCode, BOOL success))callback;
 + (void)declineConnection:(TVConnection *)connection withCompletionHandler:(void (^)(NSError *error, NSString *callCode, BOOL success))callback;
 
++ (NSMutableArray *)cachedPeople;
++ (void)cachePeople:(TVAccount *)account;
++ (TVAccount *)cachedPersonWithId:(NSString *)userId;
++ (void)refreshCachedPeople;
+
 + (void)removeTravelDataPacketWithID:(NSString *)_FlightID;
 + (void)addTravelDataPacketWithID:(NSString *)_FlightID andTravelDataObject:(TVTravelDataDownloader *)travelData;
 + (void)refreshTravelDataPacketWithID:(NSString *)_FlightID andTravelDataObject:(TVTravelDataDownloader *)travelData;

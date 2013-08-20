@@ -651,25 +651,25 @@
     
     UIButton *messages = [[UIButton alloc] init];
     [messages setImage:[UIImage imageNamed:@"messages.png"] forState:UIControlStateNormal];
-    [messages setFrame:CGRectMake(75, 42, 22, 19)];
+    [messages setFrame:CGRectMake(80, 42, 22, 19)];
     [messages addTarget:self action:@selector(showMessagesPage) forControlEvents:UIControlEventTouchUpInside];
     [self.headerView addSubview:messages];
     
     UIButton *findPeople = [[UIButton alloc] init];
     [findPeople setImage:[UIImage imageNamed:@"people.png"] forState:UIControlStateNormal];
-    [findPeople setFrame:CGRectMake(125, 40, 21, 23)];
+    [findPeople setFrame:CGRectMake(130, 40, 21, 23)];
     [findPeople addTarget:self action:@selector(showFindPeoplePage) forControlEvents:UIControlEventTouchUpInside];
     [self.headerView addSubview:findPeople];
     
     UIButton *exportFlights = [[UIButton alloc] init];
     [exportFlights setImage:[UIImage imageNamed:@"export.png"] forState:UIControlStateNormal];
-    [exportFlights setFrame:CGRectMake(168, 40, 24, 24)];
+    [exportFlights setFrame:CGRectMake(173, 40, 24, 24)];
     [exportFlights addTarget:self action:@selector(exportFlights) forControlEvents:UIControlEventTouchUpInside];
     [self.headerView addSubview:exportFlights];
 
     UIButton *settings = [[UIButton alloc] init];
     [settings setImage:[UIImage imageNamed:@"settings.png"] forState:UIControlStateNormal];
-    [settings setFrame:CGRectMake(211, 40, 24, 24)];
+    [settings setFrame:CGRectMake(216, 40, 24, 24)];
     [settings addTarget:self action:@selector(showSettingsPage) forControlEvents:UIControlEventTouchUpInside];
     [self.headerView addSubview:settings];
 }

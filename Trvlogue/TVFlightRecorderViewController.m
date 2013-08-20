@@ -144,10 +144,20 @@
     
     UIBarButtonItem *submitFlight = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(submitFlight)];
     self.navigationItem.rightBarButtonItem = submitFlight;
-    
-    self.datePicker.clipsToBounds = YES;
-    self.datePicker.layer.masksToBounds = YES;
-    self.datePicker.layer.cornerRadius = 7.0f;
+        
+    for (UIView *view in self.view.subviews) {
+        
+        if ([view isKindOfClass:[UITextField class]]) {
+            
+            view.layer.cornerRadius = 7.0f;
+        }
+        else if ([view isKindOfClass:[UIDatePicker class]]) {
+            
+            view.clipsToBounds = YES;
+            view.layer.masksToBounds = YES;
+            view.layer.cornerRadius = 7.0f;
+        }
+    }    
 }
 
 #pragma mark Dirty, Funky, Native :D

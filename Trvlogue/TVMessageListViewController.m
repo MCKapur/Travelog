@@ -32,10 +32,26 @@
     
     if (!cell) {
         
-        UIImage *image = [TVDatabase locateProfilePictureOnDiskWithUserId:[messageHistory.senderId isEqualToString:[[PFUser currentUser] objectId]] ? messageHistory.receiverId : messageHistory.senderId];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CELL_ID];
         
-        cell.imageView.image = image;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
+    
+    UIImage *image = [TVDatabase locateProfilePictureOnDiskWithUserId:[messageHistory.senderId isEqualToString:[[PFUser currentUser] objectId]] ? messageHistory.receiverId : messageHistory.senderId];
+    
+    if (!image) {
+        
+        image = [UIImage imageNamed:@"anonymous_person.png"];
+    }
+    
+    cell.imageView.image = image;
+    
+    if (![[PFUser currentUser].objectId isEqualToString:[[messageHistory.sortedMessages lastObject] senderId]]) {
+        
+        cell.backgroundColor = [UIColor colorWithRed:197.0f/255.0f green:219.0f/255.0f blue:250.0f/255.0f alpha:1.0f];
+    }
+    
+//    cell.textLabel.text = 
     
     return cell;
 }

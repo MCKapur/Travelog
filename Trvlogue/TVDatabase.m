@@ -287,7 +287,11 @@ NSString *const EMAIL_TAKEN = @"202";
     }
     else if ([userInfo[@"type"] intValue] == kPushNotificationReceivedMessage) {
         
-        TVMessage *message = [NSKeyedUnarchiver unarchi userInfo[@"messageData"]];
+        TVMessage *message = [NSKeyedUnarchiver unarchiveObjectWithData:userInfo[@"messageData"]];
+        
+        TVNotification *notification = [[TVNotification alloc] initWithType:(NotificationType *)kNotificationTypeUnreadMessages withUserId:message.senderId];
+        
+        [newAccount.person.notifications addNotification:notification];
         
         if (![((UINavigationController *)((TVAppDelegate *)[UIApplication sharedApplication].delegate).window.rootViewController).topViewController isKindOfClass:[TVMessageDetailViewController class]]) {
                         
@@ -298,6 +302,8 @@ NSString *const EMAIL_TAKEN = @"202";
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ManuallyRefreshAccount" object:nil userInfo:nil];
+    
+    [TVDatabase updateMyCache:newAccount];
 }
 
 + (void)updatePushNotificationsSetup {
@@ -824,27 +830,9 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         [[account person] connections][index] = connection;
     }
     
-    int notificationIndex = NSNotFound;
-    
-    if (account.person.notifications.count) {
-        
-        for (int i = 0; i <= account.person.notifications.count - 1; i++) {
-            
-            TVNotification *notification = account.person.notifications[i];
-            
-            if (notification.type == kNotificationTypeConnectionRequest && [notification.ID isEqualToString:[NSString stringWithFormat:@"PENDING_CONNECTION_REQUEST-%@", connection.senderId]]) {
-                
-                notificationIndex = i;
-            }
-        }
-    }
-    
-    if (notificationIndex != NSNotFound) {
-        
-        [[[account person] notifications] removeObjectAtIndex:notificationIndex];
-    }
-    
-    [[[account person] notifications] removeObjectAtIndex:notificationIndex];
+
+    TVNotification *notification = [[TVNotification alloc] initWithType:kNotificationTypeConnectionRequest withUserId:connection.senderId];
+    [account.person.notifications removeNotification:notification];
     
     [TVDatabase updateMyCache:account];
     
@@ -907,26 +895,9 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         [[[account person] connections] removeObjectAtIndex:index];
     }
     
-    int notificationIndex = NSNotFound;
-    
-    if (account.person.notifications.count) {
-        
-        for (int i = 0; i <= account.person.notifications.count - 1; i++) {
-            
-            TVNotification *notification = account.person.notifications[i];
-            
-            if (notification.type == kNotificationTypeConnectionRequest && [notification.ID isEqualToString:[NSString stringWithFormat:@"PENDING_CONNECTION_REQUEST-%@", connection.senderId]]) {
-                
-                notificationIndex = i;
-            }
-        }
-    }
-    
-    if (notificationIndex != NSNotFound) {
-        
-        [[[account person] notifications] removeObjectAtIndex:notificationIndex];
-    }
-            
+    TVNotification *notification = [[TVNotification alloc] initWithType:kNotificationTypeConnectionRequest withUserId:connection.senderId];
+    [account.person.notifications removeNotification:notification];
+
     [TVDatabase updateMyCache:account];
 
     [TVDatabase disconnectWithUserId:connection.senderId withCompletionHandler:^(NSError *error, NSString *callCode, BOOL success) {
@@ -1242,6 +1213,23 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         
         }
     }];
+}
+
++ (NSMutableArray *)cachedPeople {
+    
+    return ![[NSUserDefaults standardUserDefaults] objectForKey:@"cachedPeople"] ? [[NSMutableArray alloc] init] : [[NSUserDefaults standardUserDefaults] objectForKey:@"cachedPeople"];
+}
+
++ (void)cachePeople:(TVAccount *)account {
+    
+}
+
++ (TVAccount *)cachedPersonWithId:(NSString *)userId {
+    
+}
+
++ (void)refreshCachedPeople {
+    
 }
 
 #pragma mark Email
