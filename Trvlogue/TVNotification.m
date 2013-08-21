@@ -13,7 +13,8 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
  
-    [aCoder encodeInt:(int)[self type] forKey:@"type"];
+    [aCoder encodeInt:(int)self.type forKey:@"type"];
+    [aCoder encodeObject:self.ID forKey:@"ID"];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -23,6 +24,7 @@
     if (self) {
         
         self.type = (NotificationType *)[aDecoder decodeIntForKey:@"type"];
+        self.ID = [aDecoder decodeObjectForKey:@"ID"];
     }
     
     return self;

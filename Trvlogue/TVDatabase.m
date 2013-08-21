@@ -310,6 +310,7 @@ NSString *const EMAIL_TAKEN = @"202";
     
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     currentInstallation[@"objectId"] = [[PFUser currentUser] objectId];
+    NSLog(@"updating push notifications");
     [currentInstallation saveEventually];
 }
 
@@ -934,8 +935,12 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                     UIImage *profilePicture = nil;
 
                     if (!error && data) {
-                        
+
                         profilePicture = [[UIImage alloc] initWithData:data];
+                    }
+                    else {
+                        
+                        profilePicture = [UIImage imageNamed:@"anonymous_person.png"];
                     }
                     
                     [TVDatabase writeProfilePictureToDisk:profilePicture withUserId:[object objectId]];
@@ -1012,17 +1017,17 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 
 + (void)writeProfilePictureToDisk:(UIImage *)image withUserId:(NSString *)userId {
     
-    NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/ProfilePicture_%@.png", userId]];
+    NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/ProfilePicture_%@.jpg", userId]];
     
     [UIImageJPEGRepresentation(image, 1.0) writeToFile:path atomically:NO];
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ProfilePictureWritten" object:nil userInfo:nil];
 }
 
 + (UIImage *)locateProfilePictureOnDiskWithUserId:(NSString *)userId {
     
-    UIImage *profilePicture = [UIImage imageWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/ProfilePicture_%@.png", userId]]];
-    
+    UIImage *profilePicture = [UIImage imageWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/ProfilePicture_%@.jpg", userId]]];
+
     if (!profilePicture) {
         
         profilePicture = [UIImage imageNamed:@"anonymous_person.png"];

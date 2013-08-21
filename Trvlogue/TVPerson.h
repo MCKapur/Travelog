@@ -51,7 +51,7 @@
         for (int i = 0; i <= self.count - 1; i++) {
             
             TVNotification *_notification = self[i];
-            
+
             if ([notification.ID isEqualToString:_notification.ID]) {
                 
                 retVal = i;
