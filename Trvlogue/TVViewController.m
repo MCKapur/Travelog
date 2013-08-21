@@ -313,16 +313,6 @@
         
         [self.navigationController pushViewController:detailView animated:YES];
     }
-    else {
-        
-        if (((TVNotification *)[[[[TVDatabase currentAccount] person] notifications] collectiveNotifications][indexPath.row]).type == kNotificationTypeConnectionRequest) {
-            
-            TVFindPeopleViewController *findPeopleViewController = [[TVFindPeopleViewController alloc] init];
-            [findPeopleViewController setFilter:(FindPeopleFilter *)kFindPeopleOnlyConnectRequests];
-            
-            [[self navigationController] pushViewController:findPeopleViewController animated:YES];
-        }
-    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -555,17 +545,15 @@
 }
 
 - (void)showFindPeoplePage {
-    
-    TVFindPeopleViewController *findPeople = [[TVFindPeopleViewController alloc] init];
+ 
     [findPeople setFilter:kFindPeopleFilterAllPeople];
-    
     [[self navigationController] pushViewController:findPeople animated:YES];
 }
 
 - (void)exportFlights {
-        
+ 
     NSMutableString *csv = [NSMutableString stringWithString:@"Name,Date,Miles"];
-    
+ 
     for (int i = 0; i <= [[[[TVDatabase currentAccount] person] flights] count] - 1; i++ ) {
 
         TVFlight *flight = [[[TVDatabase currentAccount] person] flights][i];
@@ -692,6 +680,8 @@
     [self UIBuffer];
     
     [self updateFlights];
+    
+    findPeople = [[TVFindPeopleViewController alloc] init];
     
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refreshAccount:) forControlEvents:UIControlEventValueChanged];

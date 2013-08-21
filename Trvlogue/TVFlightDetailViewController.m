@@ -325,8 +325,11 @@
             
             [detail appendString:@" · "];
         }
-        
-        [detail appendString:place.address];
+
+        if (place.address) {
+
+            [detail appendString:place.address];
+        }
         
         cell.detailTextLabel.text = detail;
     }

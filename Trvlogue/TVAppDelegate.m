@@ -115,7 +115,7 @@
     // Store the deviceToken in the current installation and save it to Parse.
     
     if ([TVDatabase staysLoggedIn]) {
-        
+        NSLog(@"setting up token");
         [TVDatabase setupPushNotifications:deviceToken];
     }
 }

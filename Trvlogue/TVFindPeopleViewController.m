@@ -313,6 +313,11 @@ static int expectedOperations;
                             [self.people addObject:account.person];
                             [self.users addObject:objects[i]];
                         }
+                        else {
+                            
+                            [self.users replaceObjectAtIndex:[self.users indexOfUser:objects[i]] withObject:objects[i]];
+                            [self.people replaceObjectAtIndex:[self.people indexOfUser:objects[i]] withObject:account.person];
+                        }
                         
                         dispatch_async(dispatch_get_main_queue(), ^{
                             
@@ -475,11 +480,16 @@ static int expectedOperations;
         
         self.people = [[NSMutableArray alloc] init];
         self.users = [[NSMutableArray alloc] init];
-        
-        [self findPeople];
     }
     
     return self;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    [self findPeople];
 }
 
 - (void)viewDidLoad {
@@ -489,4 +499,5 @@ static int expectedOperations;
 
 - (IBAction)changedSegment:(UISegmentedControl *)sender {
 }
+
 @end

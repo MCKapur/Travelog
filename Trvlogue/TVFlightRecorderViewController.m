@@ -147,7 +147,7 @@
         
     for (UIView *view in self.view.subviews) {
         
-        if ([view isKindOfClass:[UITextField class]]) {
+        if ([view isKindOfClass:[UITextField class]] || [view isKindOfClass:[UITextView class]]) {
             
             view.layer.cornerRadius = 7.0f;
         }

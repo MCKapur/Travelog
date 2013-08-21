@@ -30,6 +30,8 @@
 {
     TVFlightDetailViewController *detailView;
     
+    TVFindPeopleViewController *findPeople;
+    
     BOOL loading;
 }
 
