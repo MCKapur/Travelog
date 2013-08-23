@@ -26,6 +26,7 @@
 
 #import <MessageUI/MFMailComposeViewController.h>
 
+@class TVFindPeopleViewController;
 @interface TVViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, MCSwipeTableViewCellDelegate, MFMailComposeViewControllerDelegate>
 {
     TVFlightDetailViewController *detailView;

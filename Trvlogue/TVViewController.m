@@ -632,6 +632,32 @@
     
     self.navigationItem.hidesBackButton = YES;
     
+    int height = self.navigationController.navigationBar.frame.size.height;
+    int width = self.navigationController.navigationBar.frame.size.width;
+    
+    UILabel *navLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+    navLabel.backgroundColor = [UIColor clearColor];
+    navLabel.textColor = [UIColor blackColor];
+    navLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.0f];
+    navLabel.font = [UIFont fontWithName:@"HelveticaNeue-Regular" size:22.0f];
+    navLabel.textAlignment = NSTextAlignmentCenter;
+    navLabel.text = @"Flights";
+    self.navigationItem.titleView = navLabel;
+    
+//    [[UINavigationBar appearance] setTitleTextAttributes:
+//     [NSDictionary dictionaryWithObjectsAndKeys:
+//      [UIColor darkGrayColor],
+//      UITextAttributeTextColor,
+//      [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],
+//      UITextAttributeTextShadowColor,
+//      [NSValue valueWithUIOffset:UIOffsetMake(0, 1)],
+//      UITextAttributeTextShadowOffset,
+//      [UIFont fontWithName:@"Futura-Bold" size:25.0],
+//      UITextAttributeFont,
+//      nil]];
+//    
+//    self.navigationController.navigationItem.title = @"Flights";
+
     UIBarButtonItem *recordFlightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(recordAFlight)];
     self.navigationItem.leftBarButtonItem = recordFlightItem;
             
@@ -643,11 +669,11 @@
     [messages addTarget:self action:@selector(showMessagesPage) forControlEvents:UIControlEventTouchUpInside];
     [self.headerView addSubview:messages];
     
-    UIButton *findPeople = [[UIButton alloc] init];
-    [findPeople setImage:[UIImage imageNamed:@"people.png"] forState:UIControlStateNormal];
-    [findPeople setFrame:CGRectMake(130, 40, 21, 23)];
-    [findPeople addTarget:self action:@selector(showFindPeoplePage) forControlEvents:UIControlEventTouchUpInside];
-    [self.headerView addSubview:findPeople];
+    UIButton *_findPeople = [[UIButton alloc] init];
+    [_findPeople setImage:[UIImage imageNamed:@"people.png"] forState:UIControlStateNormal];
+    [_findPeople setFrame:CGRectMake(130, 40, 21, 23)];
+    [_findPeople addTarget:self action:@selector(showFindPeoplePage) forControlEvents:UIControlEventTouchUpInside];
+    [self.headerView addSubview:_findPeople];
     
     UIButton *exportFlights = [[UIButton alloc] init];
     [exportFlights setImage:[UIImage imageNamed:@"export.png"] forState:UIControlStateNormal];

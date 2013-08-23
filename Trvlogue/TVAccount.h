@@ -23,7 +23,8 @@
 @property (nonatomic, strong) NSString *linkedInId;
 
 @property (nonatomic, strong) NSString *email;
-@property (nonatomic, strong) NSString *password;
+
+@property (nonatomic, strong) NSString *userId;
 
 - (id)initWithProfile:(NSDictionary *)profileDictionary;
 

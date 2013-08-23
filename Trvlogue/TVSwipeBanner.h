@@ -12,6 +12,8 @@
 
 #import "TVAppDelegate.h"
 
+#import "UIColor+MLPFlatColors/UIColor+MLPFlatColors.h"
+
 typedef enum {
     
     kTVSwipeBannerModeMileTidbits = 0,

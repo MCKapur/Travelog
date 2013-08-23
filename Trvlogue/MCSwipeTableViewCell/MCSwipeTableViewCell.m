@@ -179,12 +179,17 @@ secondStateIconName:(NSString *)secondIconName
     if (state == UIGestureRecognizerStateBegan || state == UIGestureRecognizerStateChanged) {
         _isDragging = YES;
         
+        [self viewWithTag:200].alpha = 1.0f;
+        
         CGPoint center = {self.contentView.center.x + translation.x, self.contentView.center.y};
         [self.contentView setCenter:center];
         [self animateWithOffset:CGRectGetMinX(self.contentView.frame)];
         [gesture setTranslation:CGPointZero inView:self];
     }
     else if (state == UIGestureRecognizerStateEnded || state == UIGestureRecognizerStateCancelled) {
+        
+        [self viewWithTag:200].alpha = 0.600000023841858f;
+        
         _isDragging = NO;
         
         _currentImageName = [self imageNameWithPercentage:percentage];
@@ -500,6 +505,9 @@ secondStateIconName:(NSString *)secondIconName
 
     if (state != MCSwipeTableViewCellStateNone) {
         if (_delegate != nil && [_delegate respondsToSelector:@selector(swipeTableViewCell:didTriggerState:withMode:)]) {
+            if (_mode == MCSwipeTableViewCellModeExit) {
+                [self viewWithTag:200].alpha = 1.0f;
+            }
             [_delegate swipeTableViewCell:self didTriggerState:state withMode:_mode];
         }
     }

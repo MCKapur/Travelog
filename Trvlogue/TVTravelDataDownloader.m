@@ -493,7 +493,7 @@
     NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"PlugList" ofType:@"plist"];
     NSArray *plugArray = [[NSArray alloc] initWithContentsOfFile:plistPath];
     
-    for (NSDictionary *plug in plugArray) {
+    for (NSDictionary *plug in [plugArray mutableCopy]) {
         
         NSString *comments = plug[@"Comments"];
         
@@ -575,7 +575,7 @@
     
     NSMutableArray *arr = [[NSMutableArray alloc] init];
     
-    for (NSDictionary *d in plugsAlgorithmed) {
+    for (NSDictionary *d in [plugsAlgorithmed mutableCopy]) {
         
         NSMutableDictionary *bigD = [[NSMutableDictionary alloc] init];
         
@@ -876,7 +876,7 @@
     URLFormattedCity = [URLFormattedCity lowercaseString];
     
     NSString *string = [NSString stringWithFormat:@"https://www.googleapis.com/freebase/v1/mqlread?query=%%7B%%22type%%22:%%22/location/country%%22,%%22id%%22:%%22/en/%@%%22,%%22official_language%%22:%%5B%%5D%%7D", URLFormattedCity];
-    
+
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:string]];
     
     __block NSMutableArray *languagesTemporaryArray;
@@ -920,7 +920,7 @@
     
     if ([languages count]) {
         
-        for (int i = 0; i <= languages.count - 1; i++) {
+        for (int i = 0; i <= [[languages mutableCopy] count] - 1; i++) {
             
             NSMutableDictionary *language = languages[i];
             
@@ -932,7 +932,7 @@
             
             NSDictionary *codesArray = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
             
-            for (NSString *code_lang in [codesArray allKeys]) {
+            for (NSString *code_lang in [[codesArray allKeys] mutableCopy]) {
                 
                 NSString *code = codesArray[code_lang];
                 
@@ -944,7 +944,7 @@
                         
                         NSMutableArray *allPhrases = [[NSMutableArray alloc] init];
                         
-                        for (NSString *key in [phrases allKeys]) {
+                        for (NSString *key in [[phrases allKeys] mutableCopy]) {
                             
                             [allPhrases addObjectsFromArray:phrases[key]];
                         }
@@ -953,7 +953,7 @@
                         
                         int phraseNumber = 0;
                         
-                        for (__strong NSString *phrase in allPhrases) {
+                        for (__strong NSString *phrase in [allPhrases mutableCopy]) {
                             
                             phraseNumber++;
                             
@@ -1113,7 +1113,7 @@
                 
                 if (!error && !weatherForecast[@"data"][@"error"] && weatherForecast[@"data"][@"weather"]) {
                     
-                    for (int i = 0; i <= [weatherForecast[@"data"][@"weather"] count] - 1; i++) {
+                    for (int i = 0; i <= [[weatherForecast[@"data"][@"weather"] mutableCopy] count] - 1; i++) {
 
                         NSMutableDictionary *day = [weatherForecast[@"data"][@"weather"][i] mutableCopy];
 

@@ -78,6 +78,9 @@ typedef enum {
 #import "TVFindPeopleViewController.h"
 
 #import "TVMessageDetailViewController.h"
+
+#import "TestFlight.h"
+#import "TestFlight+AsyncLogging.h"
  
 @class TVCreateAccountViewController;
 
@@ -133,17 +136,15 @@ typedef enum {
 + (void)trackAnalytics:(NSDictionary *)launchOptions;
 
 + (void)receivedLocalNotification:(NSDictionary *)userInfo;
-+ (void)setupPushNotifications:(NSData *)deviceToken;
++ (void)updatePushNotificationsSetup:(NSData *)deviceTokenData;
 + (void)pushNotificationToObjectId:(NSString *)objectId withData:(NSDictionary *)data;
 + (void)removePushNotificationsSetup;
-
-+ (BOOL)staysLoggedIn;
 
 + (TVAccount *)nativeAccount;
 + (TVAccount *)currentAccount;
 
 + (void)downloadUsersFromUserIds:(NSArray *)userIds withCompletionHandler:(void (^)(NSMutableArray *users, NSError *error, NSString *callCode))callback;
-+ (void)getAccountFromUser:(PFUser *)object withCompletionHandler:(void (^)(TVAccount *account, BOOL allOperationsComplete, BOOL hasWrittenProfilePicture))callback;
++ (void)getAccountFromUser:(PFUser *)object withCompletionHandler:(void (^)(TVAccount *account, BOOL allOperationsComplete, BOOL hasWrittenProfilePicture))callback isPerformingCacheRefresh:(BOOL)isPerformingCacheRefresh;
 + (void)refreshAccountWithCompletionHandler:(void (^)(BOOL completed))callback;
 
 + (void)uploadAccount:(TVAccount *)trvlogueAccount withProfilePicture:(UIImage *)profilePicture andCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;

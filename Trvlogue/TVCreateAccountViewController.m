@@ -200,9 +200,11 @@
         
         if ([location length] && !error) {
                         
-            self.accountDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%@ %@", firstNameTextField.text, lastNameTextField.text], @"name", email, @"email", /*needs to be fixed*/password, @"password", followingArray, @"connections", milesNumber, @"miles", flightsArray, @"flights", [[NSMutableDictionary alloc] init], @"knownDestinationPreferences", location, @"originCity", [[NSMutableArray alloc] init], @"notifications", jobTextField.text, @"position", @(isUsingLinkedIn), @"isUsingLinkedIn", accessToken, @"linkedInAccessKey", linkedInId, @"linkedInId", nil];
+            self.accountDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%@ %@", firstNameTextField.text, lastNameTextField.text], @"name", email, @"email", followingArray, @"connections", milesNumber, @"miles", flightsArray, @"flights", [[NSMutableDictionary alloc] init], @"knownDestinationPreferences", location, @"originCity", [[NSMutableArray alloc] init], @"notifications", jobTextField.text, @"position", @(isUsingLinkedIn), @"isUsingLinkedIn", accessToken, @"linkedInAccessKey", linkedInId, @"linkedInId", nil];
             
             account = [[TVAccount alloc] initWithProfile:self.accountDict];
+            
+            account.accessibilityValue = password;
             
             [self registerAccount];
         }

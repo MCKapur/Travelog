@@ -35,7 +35,7 @@
 
 - (int)indexOfUser:(PFUser *)user {
     
-    int retVal = 2147483647;
+    int retVal = NSNotFound;
     
     for (int i = 0; i <= self.count - 1; i++) {
         
@@ -315,8 +315,13 @@ static int expectedOperations;
                         }
                         else {
                             
-                            [self.users replaceObjectAtIndex:[self.users indexOfUser:objects[i]] withObject:objects[i]];
-                            [self.people replaceObjectAtIndex:[self.people indexOfUser:objects[i]] withObject:account.person];
+                            int index = [self.users indexOfUser:objects[i]];
+                            
+                            if (index != NSNotFound) {
+                                
+                                [self.users replaceObjectAtIndex:index withObject:objects[i]];
+                                [self.people replaceObjectAtIndex:index withObject:account.person];
+                            }
                         }
                         
                         dispatch_async(dispatch_get_main_queue(), ^{
@@ -325,7 +330,7 @@ static int expectedOperations;
                             [self.table setNeedsDisplay];
                         });
                     }
-                }];
+                } isPerformingCacheRefresh:YES];
             }
         }
     }
@@ -376,7 +381,7 @@ static int expectedOperations;
         else if (self.filter == kFindPeopleFilterAllPeople) {
             
             expectedOperations = 3;
-                        
+            
             [TVDatabase findUsersWithEmails:[self peopleEmails] withCompletionHandler:^(NSMutableArray *objects, NSError *error, NSString *callCode) {
                 
                 operationNumber++;

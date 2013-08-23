@@ -31,7 +31,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Should remove in production
-    [TestFlight setDeviceIdentifier:[[UIDevice currentDevice] uniqueIdentifier]];
     [TestFlight takeOff:@"6c9526c1-d130-4ffe-95b7-898c408d014a"];
 
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
@@ -54,7 +53,7 @@
     
     UINavigationController *controller;
     
-    if ([TVDatabase staysLoggedIn]) {
+    if ([[PFUser currentUser] objectId]) {
         
         controller = [[UINavigationController alloc] initWithRootViewController:self.trvlogueViewController];
     }
@@ -74,8 +73,6 @@
         [TVDatabase receivedLocalNotification:launchOptions];
     }
     
-//    [TestFlight takeOff:@"6c9526c1-d130-4ffe-95b7-898c408d014a"];
-
     return YES;
 }
 
@@ -114,9 +111,9 @@
 {
     // Store the deviceToken in the current installation and save it to Parse.
     
-    if ([TVDatabase staysLoggedIn]) {
-        NSLog(@"setting up token");
-        [TVDatabase setupPushNotifications:deviceToken];
+    if ([[PFUser currentUser] objectId]) {
+
+        [TVDatabase updatePushNotificationsSetup:deviceToken];
     }
 }
 

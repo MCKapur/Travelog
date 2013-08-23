@@ -199,7 +199,6 @@
     [updatedTrvlogueAccount setEmail:[emailTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""]];
     [updatedTrvlogueAccount.person setEmail:[emailTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""]];
     [updatedTrvlogueAccount.person setName:nameTextField.text];
-    [updatedTrvlogueAccount setPassword:passwordTextField.text];
     
     [self updateMyAccount:updatedTrvlogueAccount];
 }
@@ -253,7 +252,7 @@
     
     BOOL retVal = YES;
     
-    if ([[emailTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:[TVDatabase currentAccount].email] && [[nameTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:[TVDatabase currentAccount].person.name] && [profilePicture.image isEqual:[TVDatabase locateProfilePictureOnDiskWithUserId:[[PFUser currentUser] objectId]]] && [passwordTextField.text isEqualToString:[[TVDatabase currentAccount] password]]) {
+    if ([[emailTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:[TVDatabase currentAccount].email] && [[nameTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:[TVDatabase currentAccount].person.name] && [profilePicture.image isEqual:[TVDatabase locateProfilePictureOnDiskWithUserId:[[PFUser currentUser] objectId]]]) {
         
         retVal = NO;
     }
@@ -356,7 +355,6 @@
     [nameTextField setText:[[TVDatabase currentAccount].person name]];
     [emailTextField setText:[[TVDatabase currentAccount] email]];
     [profilePicture setImage:[TVDatabase locateProfilePictureOnDiskWithUserId:[[PFUser currentUser] objectId]]];
-    [passwordTextField setText:[[TVDatabase currentAccount] password]];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

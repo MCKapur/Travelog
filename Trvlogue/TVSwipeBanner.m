@@ -165,7 +165,7 @@
     
     if (self) {
         
-        self.backgroundColor = ((TVAppDelegate *)[[UIApplication sharedApplication] delegate]).backgroundColor;
+        self.backgroundColor = [UIColor randomFlatColor];
         
         self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         self.scrollView.backgroundColor = [UIColor clearColor];

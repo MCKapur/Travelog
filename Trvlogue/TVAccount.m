@@ -9,12 +9,12 @@
 #import "TVAccount.h"
 
 @implementation TVAccount
-@synthesize email, password, isUsingLinkedIn, linkedInAccessKey, linkedInId, person;
+@synthesize email, userId, isUsingLinkedIn, linkedInAccessKey, linkedInId, person;
 
 - (void)encodeWithCoder:(NSCoder *)coder {
         
     [coder encodeObject:[self email] forKey:@"email"];
-    [coder encodeObject:[self password] forKey:@"password"];
+    [coder encodeObject:[self userId] forKey:@"userId"];
     
     [coder encodeObject:[self person] forKey:@"person"];
     
@@ -30,7 +30,7 @@
     if (self) {
                 
         self.email = [aDecoder decodeObjectForKey:@"email"];
-        self.password = [aDecoder decodeObjectForKey:@"password"];
+        self.userId = [aDecoder decodeObjectForKey:@"userId"];
                 
         self.isUsingLinkedIn = [aDecoder decodeBoolForKey:@"isUsingLinkedIn"];
         self.linkedInAccessKey = [aDecoder decodeObjectForKey:@"linkedInAccessKey"];
@@ -65,7 +65,7 @@
         self.person.email = profileDictionary[@"email"];
         self.email = profileDictionary[@"email"];
                 
-        self.password = profileDictionary[@"password"];
+        self.userId = profileDictionary[@"userId"];
         
         self.person.connections = profileDictionary[@"connections"];
                                                 
