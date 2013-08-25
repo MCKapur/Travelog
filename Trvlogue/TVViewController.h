@@ -36,6 +36,8 @@
     BOOL loading;
 }
 
+@property (nonatomic) BOOL shouldRefresh;
+
 @property (weak, nonatomic) IBOutlet UITableView *flightsTable;
 
 @property (weak, nonatomic) IBOutlet UIView *headerView;

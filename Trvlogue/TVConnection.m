@@ -55,7 +55,7 @@
 
 - (NSString *)description {
     
-    return [NSString stringWithFormat:@"I %@ and the status is %@", [[[PFUser currentUser] objectId] isEqualToString:self.senderId] ? [NSString stringWithFormat:@"sent to %@", self.receiverId] : [NSString stringWithFormat:@"received from %@", self.senderId], (int)self.status == kConnectRequestPending ? @"pending" : @"accepted"];
+    return [NSString stringWithFormat:@"I %@ and the status is %@", [[[TVDatabase currentAccount] userId] isEqualToString:self.senderId] ? [NSString stringWithFormat:@"sent to %@", self.receiverId] : [NSString stringWithFormat:@"received from %@", self.senderId], (int)self.status == kConnectRequestPending ? @"pending" : @"accepted"];
 }
 
 @end

@@ -59,6 +59,7 @@
 @end
 
 @implementation TVViewController
+@synthesize shouldRefresh, mileTidbitsSwipeView;
 
 - (void)accountUpdated {
     
@@ -183,25 +184,42 @@
 
 - (void)refreshAccount:(UIRefreshControl *)refreshControl {
     
-    dispatch_queue_t downloadQueue = dispatch_queue_create("Refresh", NULL);
-    
-    dispatch_async(downloadQueue, ^{
+    if (shouldRefresh) {
         
-        Reachability *reach = [Reachability reachabilityWithHostname:@"google.com"];
+        dispatch_queue_t downloadQueue = dispatch_queue_create("Refresh", NULL);
         
-        if ([reach isReachable] && ([reach isReachableViaWiFi] || [reach isReachableViaWWAN])) {
+        dispatch_async(downloadQueue, ^{
             
-            loading = YES;
+            Reachability *reach = [Reachability reachabilityWithHostname:@"google.com"];
             
-            [self.flightsTable reloadData];
-            [self.flightsTable setNeedsDisplay];
-            
-            [TVDatabase refreshAccountWithCompletionHandler:^(BOOL completed) {
+            if ([reach isReachable] && ([reach isReachableViaWiFi] || [reach isReachableViaWWAN])) {
                 
-                if (completed) {
+                loading = YES;
+                
+                [TVDatabase refreshAccountWithCompletionHandler:^(BOOL completed) {
                     
-                    loading = NO;
-                }
+                    if (completed) {
+                        
+                        loading = NO;
+                    }
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        if (refreshControl) {
+                            
+                            [refreshControl endRefreshing];
+                        }
+                        
+                        [self updateFlights];
+                        [self updateMilesLabel];
+                        [self updateNotifications];
+                        
+                    });
+                }];
+            }
+            else {
+                
+                loading = NO;
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     
@@ -213,27 +231,10 @@
                     [self updateFlights];
                     [self updateMilesLabel];
                     [self updateNotifications];
-                    
                 });
-            }];
-        }
-        else {
-            
-            loading = NO;
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                if (refreshControl) {
-                    
-                    [refreshControl endRefreshing];
-                }
-                
-                [self updateFlights];
-                [self updateMilesLabel];
-                [self updateNotifications];
-            });
-        }
-    });
+            }
+        });
+    }
 }
 
 - (NSString *)getLastUpdatedStringFromDate:(NSDate *)lastUpdated {
@@ -355,13 +356,13 @@
             [(TVFlightCell *)cell setDelegate:self];
             [(TVFlightCell *)cell
              setFirstStateIconName:@"cross.png"
-             firstColor:[UIColor redColor]
+             firstColor:[UIColor clearColor]
              secondStateIconName:@"cross.png"
-             secondColor:[UIColor redColor]
+             secondColor:[UIColor clearColor]
              thirdIconName:@"cross.png"
-             thirdColor:[UIColor redColor]
+             thirdColor:[UIColor clearColor]
              fourthIconName:@"cross.png"
-             fourthColor:[UIColor redColor]];
+             fourthColor:[UIColor clearColor]];
             [(TVFlightCell *)cell setMode:MCSwipeTableViewCellModeExit];
             
             [(TVFlightCell *)cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -572,7 +573,7 @@
     }
     else {
         
-        if ([MFMailComposeViewController canSendMail]) {
+        if ([MFMailComposeViewController canSendMail] && [[[TVDatabase currentAccount] person] flights].count) {
             
             MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] init];
             [composeViewController setSubject:@"My Flights"];
@@ -631,32 +632,6 @@
     [self.navigationController setNavigationBarHidden:NO];
     
     self.navigationItem.hidesBackButton = YES;
-    
-    int height = self.navigationController.navigationBar.frame.size.height;
-    int width = self.navigationController.navigationBar.frame.size.width;
-    
-    UILabel *navLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, width, height)];
-    navLabel.backgroundColor = [UIColor clearColor];
-    navLabel.textColor = [UIColor blackColor];
-    navLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.0f];
-    navLabel.font = [UIFont fontWithName:@"HelveticaNeue-Regular" size:22.0f];
-    navLabel.textAlignment = NSTextAlignmentCenter;
-    navLabel.text = @"Flights";
-    self.navigationItem.titleView = navLabel;
-    
-//    [[UINavigationBar appearance] setTitleTextAttributes:
-//     [NSDictionary dictionaryWithObjectsAndKeys:
-//      [UIColor darkGrayColor],
-//      UITextAttributeTextColor,
-//      [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],
-//      UITextAttributeTextShadowColor,
-//      [NSValue valueWithUIOffset:UIOffsetMake(0, 1)],
-//      UITextAttributeTextShadowOffset,
-//      [UIFont fontWithName:@"Futura-Bold" size:25.0],
-//      UITextAttributeFont,
-//      nil]];
-//    
-//    self.navigationController.navigationItem.title = @"Flights";
 
     UIBarButtonItem *recordFlightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(recordAFlight)];
     self.navigationItem.leftBarButtonItem = recordFlightItem;
@@ -699,6 +674,11 @@
     [self updateFlights];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    
+    self.shouldRefresh = NO;
+}
+
 - (void)viewDidLoad {
     
     loading = YES;
@@ -734,6 +714,7 @@
 
 - (void)manuallyRefreshAccount {
     
+    self.shouldRefresh = YES;
     [self refreshAccount:nil];
 }
 

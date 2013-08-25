@@ -26,7 +26,7 @@
 
 - (void)sendPressed:(UIButton *)sender withText:(NSString *)text
 {
-    TVMessage *message = [[TVMessage alloc] initWithBody:text publishDate:[NSDate date] andSenderId:[[PFUser currentUser] objectId]];
+    TVMessage *message = [[TVMessage alloc] initWithBody:text publishDate:[NSDate date] senderId:[[TVDatabase currentAccount] userId] andReceiverId:[[TVDatabase messageHistoryFromID:self.messageHistoryID].receiverId isEqualToString:[[TVDatabase currentAccount] userId]] ? [TVDatabase messageHistoryFromID:self.messageHistoryID].senderId : [TVDatabase messageHistoryFromID:self.messageHistoryID].receiverId];
 
     [TVDatabase sendMessage:message toHistoryWithID:self.messageHistoryID withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
     }];
@@ -36,7 +36,7 @@
 
 - (JSBubbleMessageType)messageTypeForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [((TVMessage *)[TVDatabase messageHistoryFromID:self.messageHistoryID].sortedMessages[indexPath.row]).senderId isEqualToString:[[PFUser currentUser] objectId]] ? JSBubbleMessageTypeOutgoing : JSBubbleMessageTypeIncoming;
+    return [((TVMessage *)[TVDatabase messageHistoryFromID:self.messageHistoryID].sortedMessages[indexPath.row]).senderId isEqualToString:[[TVDatabase currentAccount] userId]] ? JSBubbleMessageTypeOutgoing : JSBubbleMessageTypeIncoming;
 }
 
 - (JSBubbleMessageStyle)messageStyleForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -46,7 +46,7 @@
 
 - (JSMessagesViewTimestampPolicy)timestampPolicy
 {
-    return JSMessagesViewTimestampPolicyEveryThree;
+    return JSMessagesViewTimestampPolicyAlternating;
 }
 
 - (JSMessagesViewAvatarPolicy)avatarPolicy
@@ -79,14 +79,14 @@
 
 - (UIImage *)avatarImageForIncomingMessage
 {
-    NSString *userId = [[[TVDatabase messageHistoryFromID:self.messageHistoryID] senderId] isEqualToString:[[PFUser currentUser] objectId]] ? [[TVDatabase messageHistoryFromID:self.messageHistoryID] receiverId] : [[TVDatabase messageHistoryFromID:self.messageHistoryID] senderId];
+    NSString *userId = [[[TVDatabase messageHistoryFromID:self.messageHistoryID] senderId] isEqualToString:[[TVDatabase currentAccount] userId]] ? [[TVDatabase messageHistoryFromID:self.messageHistoryID] receiverId] : [[TVDatabase messageHistoryFromID:self.messageHistoryID] senderId];
     
     return [TVDatabase locateProfilePictureOnDiskWithUserId:userId];
 }
 
 - (UIImage *)avatarImageForOutgoingMessage
 {
-    return [TVDatabase locateProfilePictureOnDiskWithUserId:[[PFUser currentUser] objectId]];
+    return [TVDatabase locateProfilePictureOnDiskWithUserId:[[TVDatabase currentAccount] userId]];
 }
 
 - (void)incomingMessage
@@ -139,6 +139,35 @@
     [self.tableView setNeedsDisplay];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    
+    NSMutableArray *messages = [[NSMutableArray alloc] init];
+    
+    for (int i = [[TVDatabase messageHistoryFromID:self.messageHistoryID] messages].count - 1; i--;) {
+        
+        TVMessage *message = [[TVDatabase messageHistoryFromID:self.messageHistoryID] messages][i];
+        
+        if ([message.receiverId isEqualToString:[[TVDatabase currentAccount] userId]]) {
+            
+            if (!message.receiverRead) {
+                
+                [messages addObject:message];
+            }
+        }
+        else {
+            
+            break;
+        }
+    }
+    
+    if (messages.count) {
+        
+        [TVDatabase confirmReceiverHasReadNewMessages:messages inMessageHistory:[TVDatabase messageHistoryFromID:self.messageHistoryID] withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
+            
+        }];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -153,6 +182,11 @@
 - (void)viewDidDisappear:(BOOL)animated {
     
     [super viewDidDisappear:animated];
+    
+    if (![[TVDatabase messageHistoryFromID:self.messageHistoryID] messages].count) {
+        
+        [TVDatabase deleteMessageHistoryFromID:self.messageHistoryID];
+    }
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"IncomingMessage" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ProfilePictureDrawn" object:nil];

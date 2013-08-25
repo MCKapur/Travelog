@@ -193,8 +193,8 @@
     
     TVAccount *updatedTrvlogueAccount = [TVDatabase currentAccount];
     
-    [TVDatabase writeProfilePictureToDisk:[profilePicture.image makeThumbnailOfSize:CGSizeMake(100, 100)] withUserId:[[PFUser currentUser] objectId]]; //still need to reupload profilepicture ONLY if its changed
-    [TVDatabase uploadProfilePicture:profilePicture.image withObjectId:[[PFUser currentUser] objectId]];
+    [TVDatabase writeProfilePictureToDisk:[profilePicture.image makeThumbnailOfSize:CGSizeMake(200, 200)] withUserId:[[TVDatabase currentAccount] userId]]; //still need to reupload profilepicture ONLY if its changed
+    [TVDatabase uploadProfilePicture:profilePicture.image withObjectId:[[TVDatabase currentAccount] userId]];
     
     [updatedTrvlogueAccount setEmail:[emailTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""]];
     [updatedTrvlogueAccount.person setEmail:[emailTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""]];
@@ -252,7 +252,7 @@
     
     BOOL retVal = YES;
     
-    if ([[emailTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:[TVDatabase currentAccount].email] && [[nameTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:[TVDatabase currentAccount].person.name] && [profilePicture.image isEqual:[TVDatabase locateProfilePictureOnDiskWithUserId:[[PFUser currentUser] objectId]]]) {
+    if ([[emailTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:[TVDatabase currentAccount].email] && [[nameTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:[TVDatabase currentAccount].person.name] && [profilePicture.image isEqual:[TVDatabase locateProfilePictureOnDiskWithUserId:[[TVDatabase currentAccount] userId]]]) {
         
         retVal = NO;
     }
@@ -354,7 +354,7 @@
     
     [nameTextField setText:[[TVDatabase currentAccount].person name]];
     [emailTextField setText:[[TVDatabase currentAccount] email]];
-    [profilePicture setImage:[TVDatabase locateProfilePictureOnDiskWithUserId:[[PFUser currentUser] objectId]]];
+    [profilePicture setImage:[TVDatabase locateProfilePictureOnDiskWithUserId:[[TVDatabase currentAccount] userId]]];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

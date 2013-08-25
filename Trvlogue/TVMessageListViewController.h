@@ -13,6 +13,6 @@
     
 }
 
-@property (nonatomic, weak) UITableView *messageListTableView;
+@property (weak, nonatomic) IBOutlet UITableView *messageListTableView;
 
 @end

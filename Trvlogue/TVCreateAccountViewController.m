@@ -111,28 +111,6 @@
     }
 }
 
-- (void)successfullyRegister {
-    
-    [TVLoadingSignifier hideLoadingSignifier];
-    
-    [self loginCorrectCredentials];
-    
-    dispatch_queue_t downloadQueue = dispatch_queue_create("Send email", NULL);
-    
-    dispatch_async(downloadQueue, ^{
-        
-//        [Database sendEmail:[@{@"data":[[[TextFileLoader loadTextFile:@"registeredEmailText"] stringByReplacingOccurrencesOfString:@"name_here" withString:[account.person.name componentsSeparatedByString:@" "][0]] stringByReplacingOccurrencesOfString:@"email_here" withString:account.email], @"subject":@"Welcome To Trvlogue", @"toAddress":account.email} mutableCopy] withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
-//            
-//            if (success && !error) {
-//            }
-//            else {
-//                
-//                [self handleError:error andType:callCode];
-//            }
-//        }];
-    });
-}
-
 - (void)createAccount {
 
     [TVLoadingSignifier signifyLoading:@"Creating your account" duration:-1];
@@ -207,6 +185,7 @@
             account.accessibilityValue = password;
             
             [self registerAccount];
+            [self createdAccount];
         }
         else {
             
@@ -233,17 +212,28 @@
 }
 
 - (void)registerAccount {
-        
-    [TVLoadingSignifier signifyLoading:@"Uploading your account" duration:-1];
-
+    
     dispatch_queue_t downloadQueue = dispatch_queue_create("Upload account", NULL);
     dispatch_async(downloadQueue, ^{
         
-        [TVDatabase uploadAccount:account withProfilePicture:[profileImageView.image makeThumbnailOfSize:CGSizeMake(100, 100)] andCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
+        [TVDatabase uploadAccount:account withProfilePicture:[profileImageView.image makeThumbnailOfSize:CGSizeMake(200, 200)] andCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
 
             if (success && !error) {
                 
-                [self successfullyRegister];
+                dispatch_queue_t downloadQueue = dispatch_queue_create("Send email", NULL);
+                
+                dispatch_async(downloadQueue, ^{
+                    
+                    [TVDatabase sendEmail:[@{@"data":[[[TVTextFileLoader loadTextFile:@"registeredEmailText"] stringByReplacingOccurrencesOfString:@"name_here" withString:[account.person.name componentsSeparatedByString:@" "][0]] stringByReplacingOccurrencesOfString:@"email_here" withString:account.email], @"subject":@"Welcome To Trvlogue", @"toAddress":account.email} mutableCopy] withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
+                        
+                        if (success && !error) {
+                        }
+                        else {
+                            
+                            [self handleError:error andType:callCode];
+                        }
+                    }];
+                });
             }
             else {
 
@@ -272,13 +262,16 @@
                     });
                 }
             }
+            
+            [TVLoadingSignifier hideLoadingSignifier];
         }];
     });
 }
 
-- (void)loginCorrectCredentials {
+- (void)createdAccount {
     
     TVViewController *trvlogueViewController = [[TVViewController alloc] init];
+    trvlogueViewController.shouldRefresh = YES;
     [self.navigationController pushViewController:trvlogueViewController animated:YES];
 }
 

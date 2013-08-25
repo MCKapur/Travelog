@@ -79,8 +79,70 @@ typedef enum {
 
 #import "TVMessageDetailViewController.h"
 
+#import "TVPerson.h"
+
 #import "TestFlight.h"
 #import "TestFlight+AsyncLogging.h"
+
+#import "NSString+Soundex.h"
+
+@interface NSMutableArray (ContainsPerson)
+
+- (BOOL)containsUser:(PFUser *)user;
+- (int)indexOfUser:(PFUser *)user;
+
+- (BOOL)containsPerson:(TVPerson *)person;
+
+@end
+
+@implementation NSMutableArray (ContainsPerson)
+
+- (BOOL)containsPerson:(TVPerson *)_person {
+    
+    BOOL contains = NO;
+    
+    for (TVPerson *person in self) {
+        
+        if ([person.email isEqualToString:_person.email]) {
+            
+            contains = YES;
+        }
+    }
+    
+    return contains;
+}
+
+- (BOOL)containsUser:(PFUser *)userToSearch {
+    
+    BOOL contains = NO;
+    
+    for (PFUser *user in self) {
+        
+        if ([user.objectId isEqualToString:userToSearch.objectId]) {
+            
+            contains = YES;
+        }
+    }
+    
+    return contains;
+}
+
+- (int)indexOfUser:(PFUser *)user {
+    
+    int retVal = NSNotFound;
+    
+    for (int i = 0; i <= self.count - 1; i++) {
+        
+        if ([((PFUser *)self[i]).objectId isEqualToString:user.objectId]) {
+            
+            retVal = i;
+        }
+    }
+    
+    return retVal;
+}
+
+@end
  
 @class TVCreateAccountViewController;
 
@@ -89,6 +151,9 @@ typedef enum {
 + (void)setCurrentAccount:(TVAccount *)account;
 
 + (TVMessageHistory *)messageHistoryFromID:(NSString *)ID;
++ (NSString *)messageHistoryIDFromRecipients:(NSMutableArray *)recipients;
++ (void)deleteMessageHistoryFromID:(NSString *)ID;
+
 + (void)createMessageHistory:(TVMessageHistory *)messageHistory withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;
 + (void)sendMessage:(TVMessage *)message toHistoryWithID:(NSString *)messageHistoryID withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;
 + (void)confirmReceiverHasReadNewMessages:(NSMutableArray *)messages inMessageHistory:(TVMessageHistory *)messageHistory withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;
@@ -144,7 +209,7 @@ typedef enum {
 + (TVAccount *)currentAccount;
 
 + (void)downloadUsersFromUserIds:(NSArray *)userIds withCompletionHandler:(void (^)(NSMutableArray *users, NSError *error, NSString *callCode))callback;
-+ (void)getAccountFromUser:(PFUser *)object withCompletionHandler:(void (^)(TVAccount *account, BOOL allOperationsComplete, BOOL hasWrittenProfilePicture))callback isPerformingCacheRefresh:(BOOL)isPerformingCacheRefresh;
++ (void)getAccountFromUser:(PFUser *)object withCompletionHandler:(void (^)(TVAccount *account, BOOL allOperationsComplete, BOOL downloadedFlights, BOOL downloadedProfilePicture, BOOL downloadedConnections, BOOL downloadedMessages))callback isPerformingCacheRefresh:(BOOL)isPerformingCacheRefresh;
 + (void)refreshAccountWithCompletionHandler:(void (^)(BOOL completed))callback;
 
 + (void)uploadAccount:(TVAccount *)trvlogueAccount withProfilePicture:(UIImage *)profilePicture andCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;

@@ -35,9 +35,14 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CELL_ID];
         
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+        cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:15.0f];
+        
+        cell.detailTextLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:13.0f];
+        cell.detailTextLabel.textColor = [UIColor darkGrayColor];
     }
     
-    UIImage *image = [TVDatabase locateProfilePictureOnDiskWithUserId:[messageHistory.senderId isEqualToString:[[PFUser currentUser] objectId]] ? messageHistory.receiverId : messageHistory.senderId];
+    UIImage *image = [TVDatabase locateProfilePictureOnDiskWithUserId:[messageHistory.senderId isEqualToString:[[TVDatabase currentAccount] userId]] ? messageHistory.receiverId : messageHistory.senderId];
     
     if (!image) {
         
@@ -46,12 +51,13 @@
     
     cell.imageView.image = image;
     
-    if (![[PFUser currentUser].objectId isEqualToString:[[messageHistory.sortedMessages lastObject] senderId]]) {
+    if (![[[TVDatabase currentAccount] userId] isEqualToString:[[messageHistory.sortedMessages lastObject] senderId]] && [[messageHistory.sortedMessages lastObject] receiverRead] == NO) {
         
         cell.backgroundColor = [UIColor colorWithRed:197.0f/255.0f green:219.0f/255.0f blue:250.0f/255.0f alpha:1.0f];
     }
     
-//    cell.textLabel.text = 
+    cell.textLabel.text = [[[TVDatabase cachedPersonWithId:[messageHistory.senderId isEqualToString:[[TVDatabase currentAccount] userId]] ? messageHistory.receiverId : messageHistory.senderId] person] name];
+    cell.detailTextLabel.text = [[((TVMessage *)messageHistory.messages[0]) body] substringToIndex:[[((TVMessage *)messageHistory.messages[0]) body] length] >= 50 ? 50 : [[((TVMessage *)messageHistory.messages[0]) body] length]];
     
     return cell;
 }

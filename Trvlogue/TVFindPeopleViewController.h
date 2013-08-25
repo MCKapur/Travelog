@@ -20,6 +20,8 @@
 
 #import "TVFindPeopleCell.h"
 
+#import "TVDatabase.h"
+
 typedef enum {
     
     kFindPeopleFilterAllPeople = 0,

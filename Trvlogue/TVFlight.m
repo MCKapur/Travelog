@@ -143,7 +143,7 @@
 
 - (NSString *)generateRandomID {
     
-    return [TVDatabase generateRandomKeyWithLength:15];
+    return [NSString stringWithFormat:@"%@-%@-%@", self.originCity, self.destinationCity, self.date];
 }
 
 #pragma mark TravelData Delegate

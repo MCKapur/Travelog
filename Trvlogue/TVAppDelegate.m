@@ -50,10 +50,11 @@
     self.loginViewController = [[TVLoginViewController alloc] initWithNibName:@"TVLoginViewController" bundle:nil];
     
     self.trvlogueViewController = [[TVViewController alloc] initWithNibName:@"TVViewController" bundle:nil];
+    self.trvlogueViewController.shouldRefresh = YES;
     
     UINavigationController *controller;
     
-    if ([[PFUser currentUser] objectId]) {
+    if ([[TVDatabase currentAccount] userId]) {
         
         controller = [[UINavigationController alloc] initWithRootViewController:self.trvlogueViewController];
     }
@@ -61,7 +62,7 @@
         
         controller = [[UINavigationController alloc] initWithRootViewController:self.loginViewController];
     }
-        
+    
     [controller.navigationBar setBackgroundImage:[UIImage imageNamed:TRVLOGUE_NAVIGATION_BAR] forBarMetrics:UIBarMetricsDefault];
     
     self.window.rootViewController = controller;
@@ -111,7 +112,7 @@
 {
     // Store the deviceToken in the current installation and save it to Parse.
     
-    if ([[PFUser currentUser] objectId]) {
+    if ([[TVDatabase currentAccount] userId]) {
 
         [TVDatabase updatePushNotificationsSetup:deviceToken];
     }

@@ -67,7 +67,7 @@
                             [place setPriceLevel:[placeDetails[@"price_level"] intValue]];
                             [place writeIconLocally:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:placeDetails[@"icon"]]]]];
                             
-                            callback(nil, [NSArray arrayWithObject:place]);
+                            callback(nil, [[NSArray arrayWithObject:place] mutableCopy]);
                         }
                     }];
                 }

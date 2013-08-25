@@ -135,7 +135,7 @@
         
         if (!error) {
 
-            if (![self.downloadedData[@"people"] containsObject:objects[0]]) {
+            if (![self.downloadedData[@"people"] containsPerson:objects[0]]) {
                 
                 [self.downloadedData[@"people"] addObject:objects[0]];
                 

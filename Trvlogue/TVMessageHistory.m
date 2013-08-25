@@ -13,7 +13,7 @@
 
 - (NSMutableArray *)sortedMessages {
     
-    NSSortDescriptor *sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"publishDate" ascending:NO];
+    NSSortDescriptor *sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"publishDate" ascending:YES];
     
     NSMutableArray *_messages = [messages mutableCopy];
     [_messages sortUsingDescriptors:@[sortByDate]];
@@ -54,7 +54,6 @@
     
     if (self = [self init]) {
         
-        self.ID = [TVDatabase generateRandomKeyWithLength:15];
     }
     
     return self;
@@ -68,6 +67,10 @@
         self.receiverId = _receiverId;
         
         self.messages = _messages;
+        
+        NSArray *sortedArray = [[NSArray arrayWithObjects:self.senderId, self.receiverId, nil] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+
+        self.ID = [NSString stringWithFormat:@"%@-%@", sortedArray[0], sortedArray[1]];
     }
     
     return self;

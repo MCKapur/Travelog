@@ -13,6 +13,26 @@
 @end
 
 @implementation TVTranslationsViewController
+@synthesize translations;
+
+- (id)initWithTranslations:(NSMutableArray *)_translations {
+    
+    if (self = [self init]) {
+        
+        self.translations = _translations;
+    }
+    
+    return self;
+}
+
+- (id)init {
+    
+    if (self = [super init]) {
+        
+    }
+    
+    return self;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

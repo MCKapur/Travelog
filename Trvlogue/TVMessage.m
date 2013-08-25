@@ -9,7 +9,7 @@
 #import "TVMessage.h"
 
 @implementation TVMessage
-@synthesize body, publishDate, receiverRead, senderId;
+@synthesize body, publishDate, receiverRead, senderId, receiverId;
 
 #pragma mark NSCoding Methods
 
@@ -19,6 +19,7 @@
     [aCoder encodeObject:self.publishDate forKey:@"publishDate"];
     [aCoder encodeBool:self.receiverRead forKey:@"receiverRead"];
     [aCoder encodeObject:self.senderId forKey:@"senderId"];
+    [aCoder encodeObject:self.receiverId forKey:@"receiverId"];
     [aCoder encodeObject:self.ID forKey:@"ID"];
 }
 
@@ -31,6 +32,7 @@
         self.receiverRead = [aDecoder decodeBoolForKey:@"receiverRead"];
         self.ID = [aDecoder decodeObjectForKey:@"ID"];
         self.senderId = [aDecoder decodeObjectForKey:@"senderId"];
+        self.receiverId = [aDecoder decodeObjectForKey:@"receiverId"];
     }
     
     return self;
@@ -42,19 +44,23 @@
     
     if (self = [super init]) {
         
-        self.ID = [TVDatabase generateRandomKeyWithLength:15];
     }
     
     return self;
 }
 
-- (id)initWithBody:(NSString *)_body publishDate:(NSDate *)_publishDate andSenderId:(NSString *)_senderId {
+- (id)initWithBody:(NSString *)_body publishDate:(NSDate *)_publishDate senderId:(NSString *)_senderId andReceiverId:(NSString *)_receiverId {
     
     if (self = [self init]) {
         
         self.body = _body;
         self.publishDate = _publishDate;
         self.senderId = _senderId;
+        self.receiverId = _receiverId;
+        
+        NSArray *sortedArray = [[NSArray arrayWithObjects:self.senderId, self.receiverId, nil] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+        
+        self.ID = [NSString stringWithFormat:@"%@-%@-%@", sortedArray[0], sortedArray[1], self.publishDate];
     }
 
     return self;

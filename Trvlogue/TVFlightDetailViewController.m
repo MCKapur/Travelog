@@ -143,10 +143,10 @@
         
         if (cell) {
             
-            TVPerson *person = [self travelData][@"people"][gridNumber];
+            TVAccount *account = [self travelData][@"people"][gridNumber];
             
-            cell.profilePicture.image = [TVDatabase locateProfilePictureOnDiskWithUserId:person.accessibilityValue];
-            cell.name.text = person.name;
+            cell.profilePicture.image = [TVDatabase locateProfilePictureOnDiskWithUserId:account.userId];
+            cell.name.text = account.person.name;
             
             gridConvert[[NSString stringWithFormat:@"(%i,%i)", rowIndex, columnIndex]] = @(gridNumber);
             gridNumber++;
@@ -162,7 +162,27 @@
     
     int index = [gridConvert[coordinate] intValue];
     
-    NSLog(@"%i", index);
+    TVAccount *account = [self travelData][@"people"][index];
+    
+    TVMessageDetailViewController *messageDetailViewController;
+    
+    if ([TVDatabase messageHistoryIDFromRecipients:[[NSMutableArray alloc] initWithObjects:account.userId, [TVDatabase currentAccount].userId, nil]]) {
+        
+        messageDetailViewController = [[TVMessageDetailViewController alloc] initWithMessageHistoryID:[TVDatabase messageHistoryIDFromRecipients:[[NSMutableArray alloc] initWithObjects:account.userId, [TVDatabase currentAccount].userId, nil]]];
+    }
+    else {
+        
+        TVMessageHistory *messageHistory = [[TVMessageHistory alloc] initWithSenderId:[[TVDatabase currentAccount] userId] andReceiverId:account.userId andMessages:[[NSMutableArray alloc] init]];
+        
+        TVAccount *account = [TVDatabase currentAccount];
+        [account.person.messageHistories addObject:messageHistory];
+        
+        [TVDatabase updateMyCache:account];
+        
+        messageDetailViewController = [[TVMessageDetailViewController alloc] initWithMessageHistoryID:messageHistory.ID];
+    }
+    
+    [self.navigationController pushViewController:messageDetailViewController animated:YES];
 }
 
 #pragma mark (SUBMARK) UITableView
@@ -770,6 +790,8 @@
         if ([subview isKindOfClass:NSClassFromString(@"UISegmentedControl")])
             subview.alpha = 0.0;
     }
+    
+    self.peopleTableView.backgroundColor = [UIColor clearColor];
 
     [self addBanner];
 }

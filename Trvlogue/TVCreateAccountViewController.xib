@@ -174,7 +174,7 @@
 						<reference key="IBUIBackgroundColor" ref="792596747"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
-						<int key="IBUITag">3</int>
+						<int key="IBUITag">1</int>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<string key="IBUIText"/>
@@ -319,7 +319,7 @@
 						<reference key="IBUIBackgroundColor" ref="792596747"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
-						<int key="IBUITag">3</int>
+						<int key="IBUITag">2</int>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<string key="IBUIText"/>
@@ -369,7 +369,6 @@
 				<string key="NSFrame">{{0, 20}, {320, 548}}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
 					<bytes key="NSRGB">MC45MjI5NzExNDE2IDAuOTIyOTcxMTQxNiAwLjkyMjk3MTE0MTYAA</bytes>
@@ -502,7 +501,6 @@
 							<reference ref="686726472"/>
 							<reference ref="944866328"/>
 							<reference ref="1047239148"/>
-							<reference ref="561877591"/>
 							<reference ref="263711727"/>
 							<reference ref="767508782"/>
 							<reference ref="63070849"/>
@@ -511,6 +509,7 @@
 							<reference ref="26121985"/>
 							<reference ref="897940650"/>
 							<reference ref="906902997"/>
+							<reference ref="561877591"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>

@@ -13,6 +13,7 @@
 @end
 
 @implementation TVLoginViewController
+@synthesize trvlogueLabel = _trvlogueLabel;
 
 - (void)handleError:(NSError *)error andType:(NSString *)type {
     
@@ -27,12 +28,6 @@
 }
 
 #pragma mark Login
-
-- (void)loginWithAccount {
-    
-    TVViewController *viewController = [[TVViewController alloc] init];
-    [self.navigationController pushViewController:viewController animated:YES];
-}
 
 - (void)loginIncorrectCredentials:(NSString *)callCode {
     
@@ -60,8 +55,10 @@
 
 - (void)loginCorrectCredentials {
         
-    [self loginWithAccount];
-    
+    TVViewController *viewController = [[TVViewController alloc] init];
+    viewController.shouldRefresh = NO;
+    [self.navigationController pushViewController:viewController animated:YES];
+
     [TVLoadingSignifier hideLoadingSignifier];
 }
 

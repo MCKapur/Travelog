@@ -8,48 +8,6 @@
 
 #import "TVFindPeopleViewController.h"
 
-@interface NSMutableArray (ContainsPerson)
-
-- (BOOL)containsUser:(PFUser *)user;
-
-- (int)indexOfUser:(PFUser *)user;
-
-@end
-
-@implementation NSMutableArray (ContainsPerson)
-
-- (BOOL)containsUser:(PFUser *)userToSearch {
-    
-    BOOL contains = NO;
-    
-    for (PFUser *user in self) {
-        
-        if ([user.objectId isEqualToString:userToSearch.objectId]) {
-            
-            contains = YES;
-        }
-    }
-    
-    return contains;
-}
-
-- (int)indexOfUser:(PFUser *)user {
-    
-    int retVal = NSNotFound;
-    
-    for (int i = 0; i <= self.count - 1; i++) {
-        
-        if ([((PFUser *)self[i]).objectId isEqualToString:user.objectId]) {
-            
-            retVal = i;
-        }
-    }
-    
-    return retVal;
-}
-
-@end
-
 static int expectedOperations;
 
 @implementation TVFindPeopleViewController
@@ -151,7 +109,7 @@ static int expectedOperations;
                     
                     ((TVFindPeopleCell *)[table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:actionSheet.tag inSection:0]]).followButton.userInteractionEnabled = NO;
                     
-                    [TVLoadingSignifier signifyLoading:@"Decline connection" duration:-1];
+                    [TVLoadingSignifier signifyLoading:@"Declining connection" duration:-1];
                     
                     [TVDatabase declineConnection:connection withCompletionHandler:^(NSError *error, NSString *callCode, BOOL success) {
 
@@ -272,7 +230,7 @@ static int expectedOperations;
             
             dispatch_async(downloadQueue, ^{
                 
-                [TVLoadingSignifier signifyLoading:@"Connect with user" duration:-1];
+                [TVLoadingSignifier signifyLoading:@"Connecting with user" duration:-1];
                 
                 [TVDatabase connectWithUser:aUser withCompletionHandler:^(NSString *callCode, BOOL success) {
                     
@@ -302,12 +260,12 @@ static int expectedOperations;
                 
         for (int i = 0; i <= objects.count - 1; i++) {
             
-            if (![((PFUser *)objects[i]).objectId isEqualToString:[PFUser currentUser].objectId]) {
-
-                [TVDatabase getAccountFromUser:objects[i] withCompletionHandler:^(TVAccount *account, BOOL allOperationsComplete, BOOL hasWrittenProfilePicture) {
+            if (![((PFUser *)objects[i]).objectId isEqualToString:[[TVDatabase currentAccount] userId]]) {
+                
+                [TVDatabase getAccountFromUser:objects[i] withCompletionHandler:^(TVAccount *account, BOOL allOperationsComplete, BOOL downloadedFlights, BOOL downloadedProfilePicture, BOOL downloadedConnections, BOOL downloadedMessages) {
                     
-                    if (hasWrittenProfilePicture) {
-                        
+                    if (downloadedProfilePicture) {
+                        NSLog(@"FPS STUFF");
                         if (![self.users containsUser:objects[i]]) {
                             
                             [self.people addObject:account.person];
@@ -329,15 +287,15 @@ static int expectedOperations;
                             [self.table reloadData];
                             [self.table setNeedsDisplay];
                         });
+                        
+                        if (operationNumber == expectedOperations) {
+                            
+                            [TVLoadingSignifier hideLoadingSignifier];
+                        }
                     }
                 } isPerformingCacheRefresh:YES];
             }
         }
-    }
-    
-    if (operationNumber == expectedOperations) {
-        
-        [TVLoadingSignifier hideLoadingSignifier];
     }
 }
 
@@ -357,7 +315,7 @@ static int expectedOperations;
             
             for (TVConnection *connection in [[[TVDatabase currentAccount] person] connections]) {
                 
-                if ([connection.receiverId isEqualToString:[PFUser currentUser].objectId] && connection.status == kConnectRequestPending) {
+                if ([connection.receiverId isEqualToString:[[TVDatabase currentAccount] userId]] && connection.status == kConnectRequestPending) {
                     
                     [IDs addObject:connection.senderId];
                 }
@@ -381,7 +339,7 @@ static int expectedOperations;
         else if (self.filter == kFindPeopleFilterAllPeople) {
             
             expectedOperations = 3;
-            
+
             [TVDatabase findUsersWithEmails:[self peopleEmails] withCompletionHandler:^(NSMutableArray *objects, NSError *error, NSString *callCode) {
                 
                 operationNumber++;
@@ -431,48 +389,51 @@ static int expectedOperations;
 
 - (NSMutableArray *)peopleEmails {
     
-    NSMutableArray *emails = [[NSMutableArray alloc] init];
+    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, NULL);
     
-    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(nil, nil);
+    __block NSMutableArray *peopleEmails = [[NSMutableArray alloc] init];
     
-    if (addressBook) {
+    __block BOOL accessGranted = NO;
+    
+    if (ABAddressBookRequestAccessWithCompletion != NULL) { // we're on iOS 6
+        dispatch_semaphore_t sema = dispatch_semaphore_create(0);
         
-        CFArrayRef contacts = ABAddressBookCopyArrayOfAllPeople(addressBook);
+        ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
+            accessGranted = granted;
+            dispatch_semaphore_signal(sema);
+        });
         
-        NSMutableArray *allEmails = [[NSMutableArray alloc] initWithCapacity:CFArrayGetCount(contacts)];
+        dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+    }
+    else { // we're on iOS 5 or older
+        accessGranted = YES;
+    }
+    
+    if (accessGranted) {
         
-        for (CFIndex i = 0; i < CFArrayGetCount(contacts); i++) {
-            
-            ABRecordRef person = CFArrayGetValueAtIndex(contacts, i);
+        CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople(addressBook);
+        CFIndex numberOfPeople = ABAddressBookGetPersonCount(addressBook);
+        
+        for (int i = 0; i < numberOfPeople; i++){
+           
+            ABRecordRef person = CFArrayGetValueAtIndex(allPeople, i);
             
             ABMultiValueRef emails = ABRecordCopyValue(person, kABPersonEmailProperty);
-            
+
             for (CFIndex j = 0; j < ABMultiValueGetCount(emails); j++) {
                 
                 NSString *email = (__bridge NSString *)ABMultiValueCopyValueAtIndex(emails, j);
-                [allEmails addObject:email];
-            }
-            
-            CFRelease(emails);
-        }
-        
-        NSMutableSet *existingNames = [NSMutableSet set];
-        
-        for (NSString *object in allEmails) {
-            
-            if (![existingNames containsObject:object] && ![object isEqualToString:[TVDatabase currentAccount].email]) {
-
-                [existingNames addObject:object];
-                
-                [emails addObject:object];
+                TFLog_async(@"%@", email);
+                if (![email isEqualToString:[[TVDatabase currentAccount] email]]) {
+                    
+                    [peopleEmails addObject:email];
+                }
             }
         }
-        
-        CFRelease(contacts);
-        CFRelease(addressBook);
     }
+    TFLog_async(@"%@", peopleEmails);
     
-    return emails;
+    return peopleEmails;
 }
 
 #pragma mark Dirty, Funky, Native ^_^
