@@ -24,6 +24,8 @@
 
 #import "CustomBadge.h"
 
+#import "TVMessageListViewController.h"
+
 #import <MessageUI/MFMailComposeViewController.h>
 
 @class TVFindPeopleViewController;

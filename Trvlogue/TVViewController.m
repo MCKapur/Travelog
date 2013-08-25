@@ -543,6 +543,8 @@
 
 - (void)showMessagesPage {
     
+    TVMessageListViewController *messageListViewController = [[TVMessageListViewController alloc] init];
+    [self.navigationController pushViewController:messageListViewController animated:YES];
 }
 
 - (void)showFindPeoplePage {

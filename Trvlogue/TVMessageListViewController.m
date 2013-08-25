@@ -62,6 +62,15 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    TVMessageHistory *messageHistory = [[[TVDatabase currentAccount] person] messageHistories][indexPath.row];
+    
+    TVMessageDetailViewController *messageDetailViewController = [[TVMessageDetailViewController alloc] initWithMessageHistoryID:messageHistory.ID];
+    
+    [self.navigationController pushViewController:messageDetailViewController animated:YES];
+}
+
 - (void)reload {
     
     [self.messageListTableView reloadData];
