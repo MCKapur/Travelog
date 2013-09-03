@@ -11,9 +11,6 @@
 @interface TVRSSChannel : NSObject <NSXMLParserDelegate>
 {    
     NSMutableString *currentString;
-    NSString *title;
-    NSString *shortDescription;
-    NSMutableArray *items;
 }
 
 @property (nonatomic, weak) id parentParserDelegate;

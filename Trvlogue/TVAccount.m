@@ -53,13 +53,9 @@
 }
 
 - (id)initWithProfile:(NSDictionary *)profileDictionary {
-    
-    self = [super init];
-    
-    if (self) {
         
-        self.person = [[TVPerson alloc] init];
-        
+    if (self = [self init]) {
+                
         self.person.name = profileDictionary[@"name"];
         
         self.person.email = profileDictionary[@"email"];

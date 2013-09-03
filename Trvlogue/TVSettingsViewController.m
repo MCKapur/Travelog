@@ -193,7 +193,7 @@
     
     TVAccount *updatedTrvlogueAccount = [TVDatabase currentAccount];
     
-    [TVDatabase writeProfilePictureToDisk:[profilePicture.image makeThumbnailOfSize:CGSizeMake(200, 200)] withUserId:[[TVDatabase currentAccount] userId]]; //still need to reupload profilepicture ONLY if its changed
+    [TVDatabase writeProfilePictureToDisk:[profilePicture.image makeThumbnailOfSize:CGSizeMake(500, 500)] withUserId:[[TVDatabase currentAccount] userId]]; //still need to reupload profilepicture ONLY if its changed
     [TVDatabase uploadProfilePicture:profilePicture.image withObjectId:[[TVDatabase currentAccount] userId]];
     
     [updatedTrvlogueAccount setEmail:[emailTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""]];

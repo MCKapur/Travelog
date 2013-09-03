@@ -19,14 +19,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return [[[[TVDatabase currentAccount] person] messageHistories] count];
+    return [[[[TVDatabase currentAccount] person] sortedMessageHistories] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CELL_ID = @"CELL_ID";
     
-    TVMessageHistory *messageHistory = [[[TVDatabase currentAccount] person] messageHistories][indexPath.row];
+    TVMessageHistory *messageHistory = [[[TVDatabase currentAccount] person] sortedMessageHistories][indexPath.row];
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CELL_ID];
     
@@ -51,20 +51,32 @@
     
     cell.imageView.image = image;
     
+    cell.backgroundView = nil;
+    
+    [[cell textLabel] setBackgroundColor:[UIColor clearColor]];
+    [[cell detailTextLabel] setBackgroundColor:[UIColor clearColor]];
+
     if (![[[TVDatabase currentAccount] userId] isEqualToString:[[messageHistory.sortedMessages lastObject] senderId]] && [[messageHistory.sortedMessages lastObject] receiverRead] == NO) {
         
-        cell.backgroundColor = [UIColor colorWithRed:197.0f/255.0f green:219.0f/255.0f blue:250.0f/255.0f alpha:1.0f];
+        UIView * myBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
+        myBackgroundView.backgroundColor =  [UIColor colorWithRed:197.0f/255.0f green:209.0f/255.0f blue:255.0f/255.0f alpha:1.0f];
+        cell.backgroundView = myBackgroundView;
     }
     
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;
+    
     cell.textLabel.text = [[[TVDatabase cachedPersonWithId:[messageHistory.senderId isEqualToString:[[TVDatabase currentAccount] userId]] ? messageHistory.receiverId : messageHistory.senderId] person] name];
-    cell.detailTextLabel.text = [[((TVMessage *)messageHistory.messages[0]) body] substringToIndex:[[((TVMessage *)messageHistory.messages[0]) body] length] >= 50 ? 50 : [[((TVMessage *)messageHistory.messages[0]) body] length]];
+
+    cell.detailTextLabel.text = [[((TVMessage *)messageHistory.sortedMessages[messageHistory.sortedMessages.count - 1]) body] substringToIndex:[[((TVMessage *)messageHistory.sortedMessages[messageHistory.sortedMessages.count - 1]) body] length] >= 50 ? 50 : [[((TVMessage *)messageHistory.sortedMessages[messageHistory.sortedMessages.count - 1]) body] length]];
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    TVMessageHistory *messageHistory = [[[TVDatabase currentAccount] person] messageHistories][indexPath.row];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    TVMessageHistory *messageHistory = [[[TVDatabase currentAccount] person] sortedMessageHistories][indexPath.row];
     
     TVMessageDetailViewController *messageDetailViewController = [[TVMessageDetailViewController alloc] initWithMessageHistoryID:messageHistory.ID];
     
@@ -86,6 +98,13 @@
         // Custom initialization
     }
     return self;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
+    [self reload];
 }
 
 - (void)viewDidLoad

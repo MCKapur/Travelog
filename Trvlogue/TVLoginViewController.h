@@ -28,13 +28,13 @@
 
 @interface TVLoginViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate, UIActionSheetDelegate>
 {
-    IBOutlet UITextField *emailTextField;
-    IBOutlet UITextField *passwordTextField;
+    __weak IBOutlet UITextField *emailTextField;
+    __weak IBOutlet UITextField *passwordTextField;
     
-    IBOutlet UILabel *trvlogueLabel;
+    __weak IBOutlet UIButton *loginButton;
+
+    __weak IBOutlet UILabel *trvlogueLabel;
     
-    IBOutlet GIFBackground *gifImage;
-            
     UIAlertView *loadingAlert;
     UIActivityIndicatorView *indicatorView;
 }

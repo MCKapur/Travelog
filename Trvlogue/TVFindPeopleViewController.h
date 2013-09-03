@@ -24,19 +24,21 @@
 
 typedef enum {
     
-    kFindPeopleFilterAllPeople = 0,
-    kFindPeopleOnlyConnectRequests
+    kFindPeopleFilterSuggestions = 0,
+    kFindPeopleFilterConnections,
+    kFindPeopleFilterPending
     
 } FindPeopleFilter;
 
-@interface TVFindPeopleViewController : UIViewController <TrvlogueFindPeopleCellDelegate, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate>
+@interface TVFindPeopleViewController : UIViewController <TrvlogueFindPeopleCellDelegate, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UISearchBarDelegate>
 {
 }
 
+@property (nonatomic) BOOL isSearching;
 @property (nonatomic) FindPeopleFilter *filter;
 
-@property (nonatomic, strong) NSMutableArray *people;
-@property (nonatomic, strong) NSMutableArray *users;
+@property (nonatomic, strong) NSMutableArray *accounts;
+@property (nonatomic, strong) NSMutableArray *searchedAccounts;
 
 @property (nonatomic, weak) IBOutlet UITableView *table;
 

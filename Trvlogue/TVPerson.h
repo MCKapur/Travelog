@@ -14,6 +14,8 @@
 
 #import "TVNotification.h"
 
+#import "TVAppDelegate.h"
+
 @interface NSMutableArray (Notifications)
 
 - (int)indexOfNotification:(TVNotification *)_notification;
@@ -104,7 +106,7 @@
 - (void)deleteFlight: (TVFlight *)flight;
 
 - (NSMutableArray *)sortedFlights;
-
+- (NSMutableArray *)sortedMessageHistories;
 - (NSMutableArray *)mileTidbits;
 
 @end

@@ -14,6 +14,7 @@
 
 @implementation TVLoginViewController
 @synthesize trvlogueLabel = _trvlogueLabel;
+@synthesize loginButton = _loginButton;
 
 - (void)handleError:(NSError *)error andType:(NSString *)type {
     
@@ -56,7 +57,7 @@
 - (void)loginCorrectCredentials {
         
     TVViewController *viewController = [[TVViewController alloc] init];
-    viewController.shouldRefresh = NO;
+    viewController.shouldRefresh = YES;
     [self.navigationController pushViewController:viewController animated:YES];
 
     [TVLoadingSignifier hideLoadingSignifier];
@@ -77,6 +78,13 @@
         
         [passwordTextField becomeFirstResponder];
     }
+    else {
+        
+        if ([[[passwordTextField text] stringByReplacingOccurrencesOfString:@" " withString:@""] length] && [[[emailTextField text] stringByReplacingOccurrencesOfString:@" " withString:@""] length]) {
+            
+            [self loginAccount];
+        }
+    }
     
     return YES;
 }
@@ -85,29 +93,20 @@
 
 - (void)UIBuffer {
     
+    [loginButton setShowsTouchWhenHighlighted:YES];
+    
     [emailTextField setBorderStyle:UITextBorderStyleNone];
     [emailTextField setNeedsDisplay];
     
     [passwordTextField setBorderStyle:UITextBorderStyleNone];
     [passwordTextField setNeedsDisplay];
     
-    for (UITextView *textView in self.view.subviews) {
-        
-        if ([textView isKindOfClass:[UITextView class]]) {
-            
-            [textView.layer setCornerRadius:7.0f];
-            [textView.layer setMasksToBounds:YES];
-        }
-    }
-    
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:TRVLOGUE_NAVIGATION_BAR] forBarMetrics:UIBarMetricsDefault];
     
     [[self loginButton] setImage:[UIImage imageNamed:@"button-pressed@2x.png"] forState:UIControlStateHighlighted];
     
-    [[self trvlogueLabel] setFont:[UIFont fontWithName:@"Futura-Bold" size:47.0]];
-    [[self trvlogueLabel] setTextColor:[UIColor whiteColor]];
-    
-    [gifImage animateGIF];
+    [[self trvlogueLabel] setFont:[UIFont fontWithName:@"Futura-Bold" size:30.0]];
+    [[self trvlogueLabel] setTextColor:[UIColor darkTextColor]];
 }
 
 #pragma mark Funky, Dirty, Native :P
@@ -162,66 +161,50 @@
 #pragma mark Account Registration and Logging In
 
 - (IBAction)registerAccount {
-    
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Email", @"LinkedIn", nil];
-    
-    [actionSheet showInView:self.view];
+ 
+    TVCreateAccountViewController *registerAccountVC = [[TVCreateAccountViewController alloc] init];
+    [self.navigationController pushViewController:registerAccountVC animated:YES];
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Email"]) {
-        
-        if ([self validateEmailWithString:[emailTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""]]) {
-            
-            TVCreateAccountViewController *registerAccountVC = [[TVCreateAccountViewController alloc] initWithEmail:[emailTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""] andPassword:passwordTextField.text];
-            [self.navigationController pushViewController:registerAccountVC animated:YES];
-        }
-        else {
-            
-            [self handleError:[NSError errorWithDomain:@"Invalid email" code:200 userInfo:@{NSLocalizedDescriptionKey: @"Please enter a valid email"}] andType:nil];
-        }
-    }
-    else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"LinkedIn"]) {
-        
-        [TVLoadingSignifier signifyLoading:@"Getting LinkedIn Info" duration:-1];
-        
-        [LinkedInAuthorizer authorizeWithCompletionHandler:^(BOOL succeeded, BOOL cancelled, NSError *error, NSString *accessToken) {
-            
-            if (!error && succeeded) {
-                
-                [LinkedInDataRetriever downloadProfileWithAccessToken:accessToken andCompletionHandler:^(NSDictionary *profile, BOOL success, NSError *error) {
-
-                    if (!error && succeeded && profile.count) {
-                        
-                        [TVLoadingSignifier hideLoadingSignifier];
-                        
-                        TVCreateAccountViewController *registerAccountVC = [[TVCreateAccountViewController alloc] initWithPresetData:profile withAccessToken:accessToken andLinkedInId:profile[@"id"]];
-                        [self.navigationController pushViewController:registerAccountVC animated:YES];
-                    }
-                    else {
-                        
-                        if (!cancelled && [error code] != 102) {
-                            
-                            [TVLoadingSignifier hideLoadingSignifier];
-                            
-                            [self handleError:error andType:GET_LINKEDIN];
-                        }
-                    }
-                }];
-            }
-            else {
-                
-                if (!cancelled && [error code] != 102) {
-                    
-                    [TVLoadingSignifier hideLoadingSignifier];
-                    
-                    [self handleError:error andType:GET_LINKEDIN];
-                }
-            }
-        }];
-    }
-}
+//- (void)registerWithLinkedIn {
+//    
+//    [TVLoadingSignifier signifyLoading:@"Getting LinkedIn Info" duration:-1];
+//    
+//    [LinkedInAuthorizer authorizeWithCompletionHandler:^(BOOL succeeded, BOOL cancelled, NSError *error, NSString *accessToken) {
+//        
+//        if (!error && succeeded) {
+//            
+//            [LinkedInDataRetriever downloadProfileWithAccessToken:accessToken andCompletionHandler:^(NSDictionary *profile, BOOL success, NSError *error) {
+//                
+//                if (!error && succeeded && profile.count) {
+//                    
+//                    [TVLoadingSignifier hideLoadingSignifier];
+//                    
+//                    TVCreateAccountViewController *registerAccountVC = [[TVCreateAccountViewController alloc] initWithPresetData:profile withAccessToken:accessToken andLinkedInId:profile[@"id"]];
+//                    [self.navigationController pushViewController:registerAccountVC animated:YES];
+//                }
+//                else {
+//                    
+//                    if (!cancelled && [error code] != 102) {
+//                        
+//                        [TVLoadingSignifier hideLoadingSignifier];
+//                        
+//                        [self handleError:error andType:GET_LINKEDIN];
+//                    }
+//                }
+//            }];
+//        }
+//        else {
+//            
+//            if (!cancelled && [error code] != 102) {
+//                
+//                [TVLoadingSignifier hideLoadingSignifier];
+//                
+//                [self handleError:error andType:GET_LINKEDIN];
+//            }
+//        }
+//    }];
+//}
 
 - (IBAction)loginAccount {
 
@@ -234,21 +217,24 @@
     
     [TVDatabase loginToAccountWithEmail:[[emailTextField text] stringByReplacingOccurrencesOfString:@" " withString:@""] andPassword:[passwordTextField text] withCompletionHandler:^(BOOL success, BOOL correctCredentials, NSError *error, NSString *callCode) {
         
-        if (!error && success) {
+        dispatch_async(dispatch_get_main_queue(), ^{
             
-            if (correctCredentials) {
+            if (!error && success) {
                 
-                [self loginCorrectCredentials];
+                if (correctCredentials) {
+                    
+                    [self loginCorrectCredentials];
+                }
+                else {
+                    
+                    [self loginIncorrectCredentials:callCode];
+                }
             }
             else {
                 
-                [self loginIncorrectCredentials:callCode];
+                [self handleError:error andType:callCode];
             }
-        }
-        else {
-            
-            [self handleError:error andType:callCode];
-        }
+        });
     }];
 }
 

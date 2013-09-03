@@ -9,17 +9,6 @@
 
 #import <CoreLocation/CoreLocation.h>
 
-@interface TVCreateAccountViewController ()
-{
-    BOOL isUsingLinkedIn;
-    NSString *accessToken;
-    NSString *linkedInId;
-    
-    NSString *email;
-    NSString *password;
-}
-@end
-
 @implementation TVCreateAccountViewController
 @synthesize accountDict;
 
@@ -178,11 +167,11 @@
         
         if ([location length] && !error) {
                         
-            self.accountDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%@ %@", firstNameTextField.text, lastNameTextField.text], @"name", email, @"email", followingArray, @"connections", milesNumber, @"miles", flightsArray, @"flights", [[NSMutableDictionary alloc] init], @"knownDestinationPreferences", location, @"originCity", [[NSMutableArray alloc] init], @"notifications", jobTextField.text, @"position", @(isUsingLinkedIn), @"isUsingLinkedIn", accessToken, @"linkedInAccessKey", linkedInId, @"linkedInId", nil];
+            self.accountDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%@ %@", firstNameTextField.text, lastNameTextField.text], @"name", emailTextField.text, @"email", followingArray, @"connections", milesNumber, @"miles", flightsArray, @"flights", [[NSMutableDictionary alloc] init], @"knownDestinationPreferences", location, @"originCity", [[NSMutableArray alloc] init], @"notifications", jobTextField.text, @"position", @(NO), @"isUsingLinkedIn", nil, @"linkedInAccessKey", nil, @"linkedInId", nil];
             
             account = [[TVAccount alloc] initWithProfile:self.accountDict];
             
-            account.accessibilityValue = password;
+            account.accessibilityValue = passwordTextField.text;
             
             [self registerAccount];
             [self createdAccount];
@@ -216,24 +205,24 @@
     dispatch_queue_t downloadQueue = dispatch_queue_create("Upload account", NULL);
     dispatch_async(downloadQueue, ^{
         
-        [TVDatabase uploadAccount:account withProfilePicture:[profileImageView.image makeThumbnailOfSize:CGSizeMake(200, 200)] andCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
+        [TVDatabase uploadAccount:account withProfilePicture:[profileImageView.image makeThumbnailOfSize:CGSizeMake(500, 500)] andCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
 
             if (success && !error) {
                 
-                dispatch_queue_t downloadQueue = dispatch_queue_create("Send email", NULL);
-                
-                dispatch_async(downloadQueue, ^{
-                    
-                    [TVDatabase sendEmail:[@{@"data":[[[TVTextFileLoader loadTextFile:@"registeredEmailText"] stringByReplacingOccurrencesOfString:@"name_here" withString:[account.person.name componentsSeparatedByString:@" "][0]] stringByReplacingOccurrencesOfString:@"email_here" withString:account.email], @"subject":@"Welcome To Trvlogue", @"toAddress":account.email} mutableCopy] withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
-                        
-                        if (success && !error) {
-                        }
-                        else {
-                            
-                            [self handleError:error andType:callCode];
-                        }
-                    }];
-                });
+//                dispatch_queue_t downloadQueue = dispatch_queue_create("Send email", NULL);
+//                
+//                dispatch_async(downloadQueue, ^{
+//                
+//                    [TVDatabase sendEmail:[@{@"data":[[[TVTextFileLoader loadTextFile:@"registeredEmailText"] stringByReplacingOccurrencesOfString:@"name_here" withString:[account.person.name componentsSeparatedByString:@" "][0]] stringByReplacingOccurrencesOfString:@"email_here" withString:account.email], @"subject":@"Welcome To Trvlogue", @"toAddress":account.email} mutableCopy] withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
+//                        
+//                        if (success && !error) {
+//                        }
+//                        else {
+//                            
+//                            [self handleError:error andType:callCode];
+//                        }
+//                    }];
+//                });
             }
             else {
 
@@ -271,7 +260,7 @@
 - (void)createdAccount {
     
     TVViewController *trvlogueViewController = [[TVViewController alloc] init];
-    trvlogueViewController.shouldRefresh = YES;
+    trvlogueViewController.shouldRefresh = NO;
     [self.navigationController pushViewController:trvlogueViewController animated:YES];
 }
 
@@ -306,6 +295,7 @@
     
     errorsMade += [self checkEmailIsValid];
     errorsMade += [self missingFields];
+    errorsMade += [self checkIfPasswordsAreIdentical];
     
     if (errorsMade) {
         
@@ -319,7 +309,7 @@
     
     int retVal = 0;
     
-    if (![self validateEmailWithString:email]) {
+    if (![self validateEmailWithString:emailTextField.text]) {
         
         retVal = 1;
         
@@ -335,13 +325,23 @@
     return retVal;
 }
 
+- (int)checkIfPasswordsAreIdentical {
+    
+    int retVal = 0;
+    
+    if (![passwordTextField.text isEqualToString:confirmPasswordTextField.text])
+        retVal++;
+    
+    return retVal;
+}
+
 - (NSMutableArray *)checkIfValuesAreFilled {
     
     NSMutableArray *arrayOfValuesNotFilled = [[NSMutableArray alloc] init];
     
-    for (int i = 0; i <= 4; i++) {
+    for (int i = 1; i <= 7; i++) {
         
-        for (UIView *view in self.view.subviews) {
+        for (UIView *view in self.scrollView.subviews) {
             
             if ([view isKindOfClass:[UITextField class]] && view.tag == i) {
                 
@@ -369,13 +369,15 @@
     
     [tf resignFirstResponder];
     
-    if (tf.tag != 4) {
+    if (tf.tag != 7) {
         
         int i = tf.tag;
         
         UITextField *nextTf = (UITextField *)[self.view viewWithTag:i + 1];
         
         [nextTf becomeFirstResponder];
+        
+        [self.scrollView scrollRectToVisible:CGRectMake(0, 380/(8-i), self.scrollView.frame.size.width, self.scrollView.frame.size.width) animated:YES];
     }
     else {
         
@@ -390,11 +392,6 @@
     
     if (self) {
         
-        isUsingLinkedIn = NO;
-        accessToken = nil;
-        linkedInId = nil;
-        
-        presetData = nil;
     }
     
     return self;
@@ -404,24 +401,6 @@
     
     if (self = [self init]) {
         
-        email = _email;
-        password = _password;
-    }
-    
-    return self;
-}
-
-- (id)initWithPresetData:(NSDictionary *)data withAccessToken:(NSString *)_accessToken andLinkedInId:(NSString *)_linkedInId {
-    
-    self = [super init];
-    
-    if (self) {
-        
-        presetData = data;
-        
-        isUsingLinkedIn = YES;
-        accessToken = _accessToken;
-        linkedInId = _linkedInId;
     }
     
     return self;
@@ -443,23 +422,23 @@
 
 - (void)viewDidLoad
 {
-    if (isUsingLinkedIn) {
-        
-        email = presetData[@"emailAddress"];
-        password = presetData[@"formattedName"];
-        originCityTextField.text = presetData[@"location"][@"name"];
-        jobTextField.text = presetData[@"headline"];
-        profileImageView.image = presetData[@"profilePic"];
-    }
+    CGRect screenRect = [[UIScreen mainScreen] applicationFrame];
     
-    [gifImage animateGIF];
+    if (screenRect.size.height == 568) {
+        
+        self.scrollView.contentSize = CGSizeMake(320, self.view.frame.size.height + 94);
+    }
+    else {
+        
+        self.scrollView.contentSize = CGSizeMake(320, self.view.frame.size.height + 134);
+    }
     
     [self.navigationController setNavigationBarHidden:NO];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(registerAction)]];
-        
+    
     followingArray = [[NSMutableArray alloc] init];
     
-    for (UIView *view in self.view.subviews) {
+    for (UIView *view in self.scrollView.subviews) {
         
         if ([view isKindOfClass:[UIImageView class]] && view.tag != 200) {
             

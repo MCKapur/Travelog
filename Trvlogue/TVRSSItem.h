@@ -8,18 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@class Application;
 @interface TVRSSItem : NSObject <NSXMLParserDelegate, NSCoding> {
     
     BOOL processingInfo;
-    NSString *title;
-    NSString *link;
-    NSString *date;
     NSMutableString *currentString;
     BOOL isTitle;
     BOOL isLink;
-    id __weak parentParserDelegate;
-    NSString *source;
 }
 
 @property (nonatomic, weak) id parentParserDelegate;

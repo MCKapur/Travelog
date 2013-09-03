@@ -37,8 +37,6 @@
     if ([notification.userInfo[@"ID"] isEqualToString:@"Plugs"]) {
         
     }
-    
-    NSLog(@"%@", notification.userInfo);
 }
 
 #pragma mark TrvlogueFlight-TravelData Delegate
@@ -161,27 +159,27 @@
 	NSString *coordinate = [NSString stringWithFormat:@"(%i,%i)", rowIndex, colIndex];
     
     int index = [gridConvert[coordinate] intValue];
-    
+
     TVAccount *account = [self travelData][@"people"][index];
     
     TVMessageDetailViewController *messageDetailViewController;
     
     if ([TVDatabase messageHistoryIDFromRecipients:[[NSMutableArray alloc] initWithObjects:account.userId, [TVDatabase currentAccount].userId, nil]]) {
-        
+
         messageDetailViewController = [[TVMessageDetailViewController alloc] initWithMessageHistoryID:[TVDatabase messageHistoryIDFromRecipients:[[NSMutableArray alloc] initWithObjects:account.userId, [TVDatabase currentAccount].userId, nil]]];
     }
     else {
         
         TVMessageHistory *messageHistory = [[TVMessageHistory alloc] initWithSenderId:[[TVDatabase currentAccount] userId] andReceiverId:account.userId andMessages:[[NSMutableArray alloc] init]];
         
-        TVAccount *account = [TVDatabase currentAccount];
-        [account.person.messageHistories addObject:messageHistory];
-        
-        [TVDatabase updateMyCache:account];
-        
+        TVAccount *newAccount = [TVDatabase currentAccount];
+        [newAccount.person.messageHistories addObject:messageHistory];
+
+        [TVDatabase updateMyCache:newAccount];
+
         messageDetailViewController = [[TVMessageDetailViewController alloc] initWithMessageHistoryID:messageHistory.ID];
     }
-    
+
     [self.navigationController pushViewController:messageDetailViewController animated:YES];
 }
 
@@ -651,7 +649,6 @@
     return self;
 }
 
-
 - (void)setFlightID:(NSString *)_FlightID {
     
     if (![self.FlightID isEqualToString:_FlightID]) {
@@ -662,6 +659,8 @@
     }
         
     [self initializeInfoWithType:200];
+    
+    [self.travelInfoBanner removeTravelInfoTidbits];
     
     [self pollForTravelInfoBanner];
 }

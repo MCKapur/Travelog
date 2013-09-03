@@ -9,7 +9,7 @@
 #import "TVMessage.h"
 
 @implementation TVMessage
-@synthesize body, publishDate, receiverRead, senderId, receiverId;
+@synthesize body, publishDate, receiverRead, senderId, receiverId, ID;
 
 #pragma mark NSCoding Methods
 
@@ -57,13 +57,16 @@
         self.publishDate = _publishDate;
         self.senderId = _senderId;
         self.receiverId = _receiverId;
-        
-        NSArray *sortedArray = [[NSArray arrayWithObjects:self.senderId, self.receiverId, nil] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-        
-        self.ID = [NSString stringWithFormat:@"%@-%@-%@", sortedArray[0], sortedArray[1], self.publishDate];
+                
+        self.ID = [NSString stringWithFormat:@"%@->%@-%@", self.senderId, self.receiverId, self.publishDate];
     }
 
     return self;
+}
+
+- (NSString *)description {
+    
+    return self.body;
 }
 
 @end

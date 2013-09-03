@@ -18,13 +18,12 @@
 
 @implementation TVFindPeopleCell
 @synthesize delegate;
-@synthesize user;
+@synthesize account;
 @synthesize avatarImageView;
 @synthesize avatarImageButton;
 @synthesize nameButton;
 @synthesize milesLabel;
 @synthesize followButton;
-@synthesize person;
 @synthesize hasConnection;
 
 #pragma mark - NSObject
@@ -84,9 +83,11 @@
 
 #pragma mark - TrvlogueFindFriendsCell
 
-- (void)setUser:(PFUser *)aUser {
+- (void)setAccount:(TVAccount *)_account {
     
-    user = aUser;
+    account = _account;
+    
+    TVPerson *person = [self.account person];
 
     NSNumberFormatter *milesFormatter = [[NSNumberFormatter alloc] init];
     [milesFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
@@ -96,7 +97,7 @@
     formattedMiles = [formattedMiles stringByReplacingOccurrencesOfString:@"," withString:@", "];
 
     // Configure the cell
-    [avatarImageView setImage:[TVDatabase locateProfilePictureOnDiskWithUserId:aUser.objectId]];
+    [avatarImageView setImage:[TVDatabase locateProfilePictureOnDiskWithUserId:self.account.userId]];
     
     self.avatarImageView.layer.cornerRadius = 7.0f;
     self.avatarImageView.layer.masksToBounds = YES;
@@ -118,7 +119,7 @@
 
     for (TVConnection *connection in [TVDatabase currentAccount].person.connections) {
         
-        if ([connection.senderId isEqualToString:user.objectId]) {
+        if ([connection.senderId isEqualToString:self.account.userId]) {
             
             self.hasConnection = YES;
             
@@ -138,7 +139,7 @@
                 [self.followButton setAccessibilityIdentifier:@"Connect"];
             }
         }
-        else if ([connection.receiverId isEqualToString:user.objectId]) {
+        else if ([connection.receiverId isEqualToString:self.account.userId]) {
 
             if (connection.status == (ConnectRequestStatus *)kConnectRequestPending) {
 
@@ -187,7 +188,7 @@
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(cell:didTapUserButton:)]) {
     
-        [self.delegate cell:self didTapUserButton:self.user];
+        [self.delegate cell:self didTapUserButton:self.account];
     }    
 }
 
@@ -196,7 +197,7 @@
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(cell:didTapFollowButton:)]) {
         
-        [self.delegate cell:self didTapFollowButton:self.user];
+        [self.delegate cell:self didTapFollowButton:self.account];
     }        
 }
 

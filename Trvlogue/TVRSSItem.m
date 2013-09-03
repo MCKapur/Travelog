@@ -8,7 +8,6 @@
 
 #import "TVRSSItem.h"
 
-NSString *type;
 @implementation TVRSSItem
 @synthesize title, link, parentParserDelegate, source, date;
 
@@ -40,20 +39,23 @@ NSString *type;
     if ([elementName isEqual: @"title"]) {
         
         currentString = [[NSMutableString alloc] init];
-        [self setTitle: currentString];
         
-        
+        [self setTitle:currentString];
     }
     else if ([elementName isEqual:@"link"]) {
         
         currentString = [[NSMutableString alloc] init];
-        [self setLink: currentString];
+        
+        [self setLink:currentString];
     }
 }
 
 - (id)init {
     
-    self = [super init];
+    if (self = [super init]) {
+        
+    }
+    
     return self;
 }
 
@@ -65,11 +67,12 @@ NSString *type;
     }
 }
 
-
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
     
     currentString = nil;
+    
     if ([elementName isEqual:@"item"]) {
+        
         [parser setDelegate:parentParserDelegate];
     }
 }

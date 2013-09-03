@@ -15,9 +15,6 @@ extern NSString *const EMAIL_TAKEN;
 #define DAY_MONTH @"dd/MM"
 #define YEAR_MONTH_DAY @"yyyy-MM-dd"
 
-#define AWS_ACCESS_KEY_ID                @"AKIAIYCWHUXQQVXGTGLA"
-#define AWS_SECRET_KEY                   @"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"
-
 #define GOOGLE_API_KEY @"AIzaSyCMCS9TGb5Xr06cW611vnaZea_Rzcxxnqc"
 
 #define TRVLOGUE_NAVIGATION_BAR @"TrvlogueNavigationBar.png"
@@ -67,7 +64,7 @@ typedef enum {
 
 #import <Parse/Parse.h>
 
-#import <AWSiOSSDK/SES/AmazonSESClient.h>
+#import <AWSSES/AWSSES.h>
 
 #import "TVMessageHistory.h"
 
@@ -86,12 +83,17 @@ typedef enum {
 
 #import "NSString+Soundex.h"
 
+#import "AmazonClientManager.h"
+
 @interface NSMutableArray (ContainsPerson)
 
 - (BOOL)containsUser:(PFUser *)user;
 - (int)indexOfUser:(PFUser *)user;
 
-- (BOOL)containsPerson:(TVPerson *)person;
+- (BOOL)containsAccount:(TVAccount *)account;
+- (int)indexOfAccount:(TVAccount *)account;
+
+- (BOOL)containsPerson:(TVPerson *)_person;
 
 @end
 
@@ -112,30 +114,60 @@ typedef enum {
     return contains;
 }
 
-- (BOOL)containsUser:(PFUser *)userToSearch {
+- (BOOL)containsAccount:(TVAccount *)account {
     
-    BOOL contains = NO;
+    BOOL retVal = NO;
     
-    for (PFUser *user in self) {
+    if ([self indexOfAccount:account] != NSNotFound) {
         
-        if ([user.objectId isEqualToString:userToSearch.objectId]) {
+        retVal = YES;
+    }
+    
+    return retVal;
+}
+
+- (int)indexOfAccount:(TVAccount *)account {
+    
+    int retVal = NSNotFound;
+    
+    if (self.count) {
+        
+        for (int i = 0; i <= self.count - 1; i++) {
             
-            contains = YES;
+            if ([((TVAccount *)self[i]).userId isEqualToString:account.userId]) {
+                
+                retVal = i;
+            }
         }
     }
     
-    return contains;
+    return retVal;
+}
+
+- (BOOL)containsUser:(PFUser *)userToSearch {
+    
+    BOOL retVal = NO;
+    
+    if ([self indexOfUser:userToSearch] != NSNotFound) {
+        
+        retVal = YES;
+    }
+    
+    return retVal;
 }
 
 - (int)indexOfUser:(PFUser *)user {
     
     int retVal = NSNotFound;
     
-    for (int i = 0; i <= self.count - 1; i++) {
+    if (self.count) {
         
-        if ([((PFUser *)self[i]).objectId isEqualToString:user.objectId]) {
+        for (int i = 0; i <= self.count - 1; i++) {
             
-            retVal = i;
+            if ([((PFUser *)self[i]).objectId isEqualToString:user.objectId]) {
+                
+                retVal = i;
+            }
         }
     }
     
@@ -156,7 +188,7 @@ typedef enum {
 
 + (void)createMessageHistory:(TVMessageHistory *)messageHistory withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;
 + (void)sendMessage:(TVMessage *)message toHistoryWithID:(NSString *)messageHistoryID withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;
-+ (void)confirmReceiverHasReadNewMessages:(NSMutableArray *)messages inMessageHistory:(TVMessageHistory *)messageHistory withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;
++ (void)confirmReceiverHasReadMessagesinMessageHistory:(TVMessageHistory *)messageHistory withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;
 + (void)downloadMessageHistoriesWithUserId:(NSString *)userId withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode, NSMutableArray *messageHistories))callback;
 + (void)downloadMessageHistoryBetweenRecipients:(NSMutableArray *)userIds withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode, NSMutableArray *messageHistories))callback;
 
@@ -171,14 +203,18 @@ typedef enum {
 + (void)updateFlights:(NSArray *)flights withObjectId:(NSString *)objectId; // Doesn't really need a callback/completion handler but I guess I should add it...
 
 + (void)findUsersWithEmails:(NSMutableArray *)emails withCompletionHandler:(void (^)(NSMutableArray *objects, NSError *error, NSString *callCode))callback;
++ (void)findUsersWithName:(NSString *)name withCompletionHandler:(void (^)(NSMutableArray *objects, NSError *error, NSString *callCode))callback;
 + (void)findUsersWithLinkedInIds:(NSMutableArray *)linkedInIds withCompletionHandler:(void (^)(NSMutableArray *objects, NSError *error, NSString *callCode))callback;
 + (void)downloadMyConnectionsWithCompletionHandler:(void (^)(NSMutableArray *objects, NSError *error, NSString *callCode))callback;
-+ (void)connectWithUser:(PFUser *)user withCompletionHandler:(void (^)(NSString *callCode, BOOL success))callback;
++ (void)connectWithUserId:(NSString *)userId withCompletionHandler:(void (^)(NSString *callCode, BOOL success))callback;
 + (void)disconnectWithUserId:(NSString *)userId withCompletionHandler:(void (^)(NSError *error, NSString *callCode, BOOL success))callback;
 + (void)findConnectionsFromId:(NSString *)userId withCompletionHandler:(void (^)(NSMutableArray *objects, NSError *error, NSString *callCode))callback;
 + (void)downloadConnectionsInTheSameCity:(NSString *)FlightID withCompletionHandler:(void (^)(NSMutableArray *objects, NSError *error, NSString *callCode))callback;
 + (void)acceptConnection:(TVConnection *)connection withCompletionHandler:(void (^)(NSError *error, NSString *callCode, BOOL success))callback;
 + (void)declineConnection:(TVConnection *)connection withCompletionHandler:(void (^)(NSError *error, NSString *callCode, BOOL success))callback;
++ (NSMutableArray *)pendingUserConnections;
++ (NSMutableArray *)confirmedUserConnections;
++ (NSMutableArray *)allUserConnections;
 
 + (NSMutableArray *)cachedPeople;
 + (void)cachePerson:(TVAccount *)account;
@@ -201,7 +237,7 @@ typedef enum {
 + (void)trackAnalytics:(NSDictionary *)launchOptions;
 
 + (void)receivedLocalNotification:(NSDictionary *)userInfo;
-+ (void)updatePushNotificationsSetup:(NSData *)deviceTokenData;
++ (void)updatePushNotificationsSetup;
 + (void)pushNotificationToObjectId:(NSString *)objectId withData:(NSDictionary *)data;
 + (void)removePushNotificationsSetup;
 
@@ -209,7 +245,7 @@ typedef enum {
 + (TVAccount *)currentAccount;
 
 + (void)downloadUsersFromUserIds:(NSArray *)userIds withCompletionHandler:(void (^)(NSMutableArray *users, NSError *error, NSString *callCode))callback;
-+ (void)getAccountFromUser:(PFUser *)object withCompletionHandler:(void (^)(TVAccount *account, BOOL allOperationsComplete, BOOL downloadedFlights, BOOL downloadedProfilePicture, BOOL downloadedConnections, BOOL downloadedMessages))callback isPerformingCacheRefresh:(BOOL)isPerformingCacheRefresh;
++ (void)getAccountFromUser:(PFUser *)object isPerformingCacheRefresh:(BOOL)isPerformingCacheRefresh withCompletionHandler:(void (^)(TVAccount *account, BOOL allOperationsComplete, BOOL downloadedFlights, BOOL downloadedProfilePicture, BOOL downloadedConnections, BOOL downloadedMessages))callback;
 + (void)refreshAccountWithCompletionHandler:(void (^)(BOOL completed))callback;
 
 + (void)uploadAccount:(TVAccount *)trvlogueAccount withProfilePicture:(UIImage *)profilePicture andCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;

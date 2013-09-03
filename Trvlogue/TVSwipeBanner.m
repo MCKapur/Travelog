@@ -63,6 +63,16 @@
     }
 }
 
+- (void)removeTravelInfoTidbits {
+    
+    for (UIView *view in self.scrollView.subviews) {
+        
+        [view removeFromSuperview];
+    }
+    
+    [self.tidbits removeAllObjects];
+}
+
 - (void)addTravelInfoTidbit:(NSDictionary *)_tidbit {
     
     BOOL isDrawn = NO;

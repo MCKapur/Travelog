@@ -52,7 +52,7 @@
 
 - (id)init {
     
-    if (self = [self init]) {
+    if (self = [super init]) {
         
     }
     
@@ -68,9 +68,7 @@
         
         self.messages = _messages;
         
-        NSArray *sortedArray = [[NSArray arrayWithObjects:self.senderId, self.receiverId, nil] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-
-        self.ID = [NSString stringWithFormat:@"%@-%@", sortedArray[0], sortedArray[1]];
+        self.ID = [NSString stringWithFormat:@"%@->%@", self.senderId, self.receiverId];
     }
     
     return self;

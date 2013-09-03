@@ -91,9 +91,7 @@
 
 - (void)incomingMessage
 {
-    [self.tableView reloadData];
-    [self.tableView setNeedsDisplay];
-    [self scrollToBottomAnimated:YES];
+    [self reload];
 }
 
 #pragma mark Initialization
@@ -139,33 +137,38 @@
     [self.tableView setNeedsDisplay];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    
+- (void)viewWillAppear:(BOOL)animated {
+
     NSMutableArray *messages = [[NSMutableArray alloc] init];
-    
-    for (int i = [[TVDatabase messageHistoryFromID:self.messageHistoryID] messages].count - 1; i--;) {
+
+    if ([[TVDatabase messageHistoryFromID:self.messageHistoryID] messages].count) {
         
-        TVMessage *message = [[TVDatabase messageHistoryFromID:self.messageHistoryID] messages][i];
-        
-        if ([message.receiverId isEqualToString:[[TVDatabase currentAccount] userId]]) {
+        for (int i = [[TVDatabase messageHistoryFromID:self.messageHistoryID] messages].count; i--;) {
             
-            if (!message.receiverRead) {
+            TVMessage *message = [[TVDatabase messageHistoryFromID:self.messageHistoryID] messages][i];
+
+            if ([message.receiverId isEqualToString:[[TVDatabase currentAccount] userId]]) {
+
+                if (!message.receiverRead) {
+                    
+                    [messages addObject:message];
+                }
+            }
+            else {
                 
-                [messages addObject:message];
+                break;
             }
         }
-        else {
+
+        if (messages.count) {
             
-            break;
+            [TVDatabase confirmReceiverHasReadMessagesinMessageHistory:[TVDatabase messageHistoryFromID:self.messageHistoryID] withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
+                
+            }];
         }
     }
     
-    if (messages.count) {
-        
-        [TVDatabase confirmReceiverHasReadNewMessages:messages inMessageHistory:[TVDatabase messageHistoryFromID:self.messageHistoryID] withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
-            
-        }];
-    }
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidLoad
@@ -179,15 +182,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:@"ProfilePictureWritten" object:nil];
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated {
     
-    [super viewDidDisappear:animated];
-    
-    if (![[TVDatabase messageHistoryFromID:self.messageHistoryID] messages].count) {
+    [super viewWillDisappear:animated];
         
-        [TVDatabase deleteMessageHistoryFromID:self.messageHistoryID];
-    }
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"IncomingMessage" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ProfilePictureDrawn" object:nil];
 }

@@ -33,7 +33,7 @@
 - (UIImage *)makeThumbnailOfSize:(CGSize)size;
 {
     UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
-    
+
     [self drawInRect:CGRectMake(0, 0, size.width, size.height)];
     
     UIImage *newThumbnail = UIGraphicsGetImageFromCurrentImageContext();
@@ -51,23 +51,20 @@
     __weak IBOutlet UITextField *lastNameTextField;
     __weak IBOutlet UITextField *originCityTextField;
     __weak IBOutlet UITextField *jobTextField;
+    __weak IBOutlet UITextField *emailTextField;
+    __weak IBOutlet UITextField *passwordTextField;
+    __weak IBOutlet UITextField *confirmPasswordTextField;
     
     TVAccount *account;
     NSMutableArray *followingArray;
         
-    __strong IBOutlet GIFBackground *gifImage;
-
     __weak IBOutlet UIImageView *profileImageView;
-    
-    NSDictionary *presetData;
 }
 
 - (IBAction)openCameraOptions;
 
 @property (nonatomic, strong) NSMutableDictionary *accountDict;
 
-- (id)initWithPresetData:(NSDictionary *)data withAccessToken:(NSString *)accessToken andLinkedInId:(NSString *)linkedInId;
-
-- (id)initWithEmail:(NSString *)email andPassword:(NSString *)password;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end

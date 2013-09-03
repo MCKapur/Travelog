@@ -16,16 +16,14 @@
 @property (nonatomic, strong) id<TrvlogueFindPeopleCellDelegate> delegate;
 
 /*! The user represented in the cell */
-@property (nonatomic, strong) PFUser *user;
+@property (nonatomic, strong) TVAccount *account;
 @property (nonatomic, strong) UILabel *milesLabel;
 @property (nonatomic, strong) UIButton *followButton;
 
 @property (nonatomic) BOOL hasConnection;
 
-@property (nonatomic, strong) TVPerson *person;
-
 /*! Setters for the cell's content */
-- (void)setUser:(PFUser *)user;
+- (void)setAccount:(TVAccount *)account;
 
 - (void)didTapUserButtonAction:(id)sender;
 - (void)didTapFollowButtonAction:(id)sender;
@@ -45,7 +43,7 @@
  Sent to the delegate when a user button is tapped
  @param aUser the PFUser of the user that was tapped
  */
-- (void)cell:(TVFindPeopleCell *)cellView didTapUserButton:(PFUser *)aUser;
-- (void)cell:(TVFindPeopleCell *)cellView didTapFollowButton:(PFUser *)aUser;
+- (void)cell:(TVFindPeopleCell *)cellView didTapUserButton:(TVAccount *)account;
+- (void)cell:(TVFindPeopleCell *)cellView didTapFollowButton:(TVAccount *)account;
 
 @end

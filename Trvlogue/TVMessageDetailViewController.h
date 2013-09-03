@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "JSMessagesViewController.h"
+#import "JSMessagesTableViewController/JSMessagesViewController.h"
 
 #import "TVDatabase.h"
 

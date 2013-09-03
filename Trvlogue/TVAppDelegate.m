@@ -35,8 +35,7 @@
 
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
      UIRemoteNotificationTypeBadge |
-     UIRemoteNotificationTypeAlert |
-     UIRemoteNotificationTypeSound];
+     UIRemoteNotificationTypeAlert];
     
     self.backgroundColor = [TVAppDelegate generateRandomColor];
 
@@ -110,11 +109,17 @@
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    // Store the deviceToken in the current installation and save it to Parse.
+    NSString *_deviceToken = [[[[deviceToken description]
+                                stringByReplacingOccurrencesOfString: @"<" withString: @""]
+                               stringByReplacingOccurrencesOfString: @">" withString: @""]
+                              stringByReplacingOccurrencesOfString: @" " withString: @""];
     
-    if ([[TVDatabase currentAccount] userId]) {
+    [[NSUserDefaults standardUserDefaults] setObject:_deviceToken forKey:@"deviceToken"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 
-        [TVDatabase updatePushNotificationsSetup:deviceToken];
+    if ([[TVDatabase currentAccount] userId]) {
+        
+        [TVDatabase updatePushNotificationsSetup];
     }
 }
 

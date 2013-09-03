@@ -77,7 +77,7 @@
 #pragma mark UITableView Methods
 
 - (void)updateNotifications {
-    
+    NSLog(@"%@", [TVDatabase currentAccount].person.notifications);
     [self.headerView setFrame:CGRectMake(self.headerView.frame.origin.x, self.headerView.frame.origin.y, 320, 80)];
     
     self.flightsTable.tableHeaderView = self.headerView;
@@ -113,7 +113,7 @@
             
             unreadMessagesBadge = [CustomBadge customiOS7BadgeWithString:[NSString stringWithFormat:@"%i", numberOfUnreadMessagesNotifications]];
             
-            [unreadMessagesBadge setFrame:CGRectMake(85, 33, unreadMessagesBadge.frame.size.width, unreadMessagesBadge.frame.size.height)];
+            [unreadMessagesBadge setFrame:CGRectMake(70, 33, unreadMessagesBadge.frame.size.width, unreadMessagesBadge.frame.size.height)];
             
             unreadMessagesBadge.userInteractionEnabled = NO;
             
@@ -152,7 +152,7 @@
             
             connectBadge = [CustomBadge customiOS7BadgeWithString:[NSString stringWithFormat:@"%i", numberOfConnectRequestNotifications]];
             
-            [connectBadge setFrame:CGRectMake(133, 33, connectBadge.frame.size.width, connectBadge.frame.size.height)];
+            [connectBadge setFrame:CGRectMake(130, 33, connectBadge.frame.size.width, connectBadge.frame.size.height)];
             
             connectBadge.userInteractionEnabled = NO;
             
@@ -186,6 +186,9 @@
     
     if (shouldRefresh) {
         
+        [refreshControl beginRefreshing];
+        [self.flightsTable setContentOffset:CGPointMake(0, -refreshControl.frame.size.height) animated:YES];
+
         dispatch_queue_t downloadQueue = dispatch_queue_create("Refresh", NULL);
         
         dispatch_async(downloadQueue, ^{
@@ -204,7 +207,7 @@
                     }
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        
+
                         if (refreshControl) {
                             
                             [refreshControl endRefreshing];
@@ -222,7 +225,7 @@
                 loading = NO;
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    
+
                     if (refreshControl) {
                         
                         [refreshControl endRefreshing];
@@ -549,7 +552,7 @@
 
 - (void)showFindPeoplePage {
  
-    [findPeople setFilter:kFindPeopleFilterAllPeople];
+    [findPeople setFilter:(FindPeopleFilter *)kFindPeopleFilterSuggestions];
     [[self navigationController] pushViewController:findPeople animated:YES];
 }
 
@@ -642,25 +645,25 @@
     
     UIButton *messages = [[UIButton alloc] init];
     [messages setImage:[UIImage imageNamed:@"messages.png"] forState:UIControlStateNormal];
-    [messages setFrame:CGRectMake(80, 42, 22, 19)];
+    [messages setFrame:CGRectMake(55, 42, 28.94, 25)];
     [messages addTarget:self action:@selector(showMessagesPage) forControlEvents:UIControlEventTouchUpInside];
     [self.headerView addSubview:messages];
     
     UIButton *_findPeople = [[UIButton alloc] init];
     [_findPeople setImage:[UIImage imageNamed:@"people.png"] forState:UIControlStateNormal];
-    [_findPeople setFrame:CGRectMake(130, 40, 21, 23)];
+    [_findPeople setFrame:CGRectMake(120, 41, 25, 27.38)];
     [_findPeople addTarget:self action:@selector(showFindPeoplePage) forControlEvents:UIControlEventTouchUpInside];
     [self.headerView addSubview:_findPeople];
     
     UIButton *exportFlights = [[UIButton alloc] init];
     [exportFlights setImage:[UIImage imageNamed:@"export.png"] forState:UIControlStateNormal];
-    [exportFlights setFrame:CGRectMake(173, 40, 24, 24)];
+    [exportFlights setFrame:CGRectMake(174, 42, 28, 28)];
     [exportFlights addTarget:self action:@selector(exportFlights) forControlEvents:UIControlEventTouchUpInside];
     [self.headerView addSubview:exportFlights];
 
     UIButton *settings = [[UIButton alloc] init];
     [settings setImage:[UIImage imageNamed:@"settings.png"] forState:UIControlStateNormal];
-    [settings setFrame:CGRectMake(216, 40, 24, 24)];
+    [settings setFrame:CGRectMake(227, 42, 28, 28)];
     [settings addTarget:self action:@selector(showSettingsPage) forControlEvents:UIControlEventTouchUpInside];
     [self.headerView addSubview:settings];
 }
@@ -681,6 +684,13 @@
     self.shouldRefresh = NO;
 }
 
+- (void)refreshAccountWithControl:(UIRefreshControl *)refreshControl {
+    
+    self.shouldRefresh = YES;
+
+    [self refreshAccount:refreshControl];
+}
+
 - (void)viewDidLoad {
     
     loading = YES;
@@ -692,11 +702,8 @@
     findPeople = [[TVFindPeopleViewController alloc] init];
     
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(refreshAccount:) forControlEvents:UIControlEventValueChanged];
+    [refreshControl addTarget:self action:@selector(refreshAccountWithControl:) forControlEvents:UIControlEventValueChanged];
     [self.flightsTable addSubview:refreshControl];
-    
-    [refreshControl beginRefreshing];
-    [self.flightsTable setContentOffset:CGPointMake(0, -refreshControl.frame.size.height) animated:YES];
     
     [self refreshAccount:refreshControl];
     
