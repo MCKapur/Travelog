@@ -368,51 +368,69 @@ static int expectedOperations;
 #pragma mark Finding Friends
 
 - (void)finishedOperation:(int)operationNumber withObjects:(NSMutableArray *)objects {
-    
+
     if (objects.count) {
                 
         for (int i = 0; i <= objects.count - 1; i++) {
             
             if (![((PFUser *)objects[i]).objectId isEqualToString:[[TVDatabase currentAccount] userId]]) {
-                
-                [TVDatabase getAccountFromUser:objects[i] isPerformingCacheRefresh:NO withCompletionHandler:^(TVAccount *account, BOOL allOperationsComplete, BOOL downloadedFlights, BOOL downloadedProfilePicture, BOOL downloadedConnections, BOOL downloadedMessages) {
-                    
-                    if (self.isSearching) {
-                        
-                        int index = [self.searchedAccounts indexOfAccount:self.accounts[i]];
-                        
-                        if (index != NSNotFound) {
-                            
-                            (self.searchedAccounts)[index] = account;
+
+                [TVDatabase getAccountFromUser:objects[i] isPerformingCacheRefresh:NO withCompletionHandler:^(TVAccount *account, BOOL downloadedFlights, BOOL downloadedProfilePicture, BOOL downloadedConnections, BOOL downloadedMessages) {
+
+                    dispatch_async(dispatch_get_main_queue(), ^{
+
+                        if (self.isSearching) {
+
+                            if (self.searchedAccounts.count) {
+                                                                    
+                                int index = [self.searchedAccounts indexOfAccount:account];
+                                
+                                if (index != NSNotFound) {
+                                    
+                                    (self.searchedAccounts)[index] = account;
+                                }
+                                else {
+                                    
+                                    [self.searchedAccounts addObject:account];
+                                }
+                            }
+                            else {
+                                
+                                [self.searchedAccounts addObject:account];
+                            }
                         }
                         else {
-                            
-                            [self.searchedAccounts addObject:account];
+
+                            if (self.accounts.count) {
+                                
+                                int index = [self.accounts indexOfAccount:account];
+                                
+                                if (index != NSNotFound) {
+                                    
+                                    (self.accounts)[index] = account;
+                                }
+                                else {
+                                    
+                                    [self.accounts addObject:account];
+                                }
+                            }
+                            else {
+                                
+                                [self.accounts addObject:account];
+                            }
                         }
-                    }
-                    else {
                         
-                        int index = [self.accounts indexOfAccount:self.accounts[i]];
-                        
-                        if (index != NSNotFound) {
-                            
-                            (self.accounts)[index] = account;
-                        }
-                        else {
-                            
-                            [self.accounts addObject:account];
-                        }
-                    }
+                        [self.table reloadData];
+                        [self.table setNeedsDisplay];
+                    });
                 }];
             }
         }
     }
+}
+
+- (void)refreshAccountData:(NSObject *)obj{
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        [self.table reloadData];
-        [self.table setNeedsDisplay];
-    });
 }
 
 - (void)findPeople {
@@ -560,6 +578,16 @@ static int expectedOperations;
     
     self.accounts = [[NSMutableArray alloc] init];
   
+    for (UIView *v in [[[self.segmentedControl subviews] objectAtIndex:0] subviews]) {
+        
+        if ([v isKindOfClass:[UILabel class]]) {
+            
+            UILabel *label = (UILabel *)v;
+            
+            label.textColor = [UIColor blackColor];
+        }
+    }
+
     self.segmentedControl.selectedSegmentIndex = 0;
     self.filter = (FindPeopleFilter *)self.segmentedControl.selectedSegmentIndex;
 

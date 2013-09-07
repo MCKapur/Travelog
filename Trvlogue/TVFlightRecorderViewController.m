@@ -102,8 +102,8 @@
     NSString *retVal = @"";
     
     if (autocompletionSuggestion) {
-        
-        retVal = [autocompletionSuggestion[@"short_city_name"] substringFromIndex:[((NSString *)autocompletionSuggestion[@"short_city_name"]) rangeOfString:textField.text options:NSCaseInsensitiveSearch].length];
+
+        retVal = [autocompletionSuggestion[@"short_city_name"] substringFromIndex:[((NSString *)autocompletionSuggestion[@"short_city_name"]) rangeOfString:prefix options:NSCaseInsensitiveSearch].length];
     }
             
     return retVal;

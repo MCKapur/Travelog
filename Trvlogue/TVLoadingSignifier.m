@@ -18,7 +18,7 @@
         [MTStatusBarOverlay sharedInstance].detailViewMode = MTDetailViewModeHistory;
         
         [MTStatusBarOverlay sharedInstance].progress = 0.0;
-        [[MTStatusBarOverlay sharedInstance] postImmediateMessage:signiferString duration:duration animated: YES];
+        [[MTStatusBarOverlay sharedInstance] postImmediateMessage:signiferString duration:duration animated:YES];
         [MTStatusBarOverlay sharedInstance].progress = 1.0;
         
         [[MTStatusBarOverlay sharedInstance] setHidden: NO];

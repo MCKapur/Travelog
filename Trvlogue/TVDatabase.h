@@ -127,13 +127,13 @@ typedef enum {
 }
 
 - (int)indexOfAccount:(TVAccount *)account {
-    
+
     int retVal = NSNotFound;
     
     if (self.count) {
         
         for (int i = 0; i <= self.count - 1; i++) {
-            
+
             if ([((TVAccount *)self[i]).userId isEqualToString:account.userId]) {
                 
                 retVal = i;
@@ -245,7 +245,7 @@ typedef enum {
 + (TVAccount *)currentAccount;
 
 + (void)downloadUsersFromUserIds:(NSArray *)userIds withCompletionHandler:(void (^)(NSMutableArray *users, NSError *error, NSString *callCode))callback;
-+ (void)getAccountFromUser:(PFUser *)object isPerformingCacheRefresh:(BOOL)isPerformingCacheRefresh withCompletionHandler:(void (^)(TVAccount *account, BOOL allOperationsComplete, BOOL downloadedFlights, BOOL downloadedProfilePicture, BOOL downloadedConnections, BOOL downloadedMessages))callback;
++ (void)getAccountFromUser:(PFUser *)object isPerformingCacheRefresh:(BOOL)isPerformingCacheRefresh withCompletionHandler:(void (^)(TVAccount *account, BOOL downloadedFlights, BOOL downloadedProfilePicture, BOOL downloadedConnections, BOOL downloadedMessages))callback;
 + (void)refreshAccountWithCompletionHandler:(void (^)(BOOL completed))callback;
 
 + (void)uploadAccount:(TVAccount *)trvlogueAccount withProfilePicture:(UIImage *)profilePicture andCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;

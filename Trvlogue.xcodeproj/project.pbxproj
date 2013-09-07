@@ -11785,6 +11785,8 @@
 		46C28F0316EDD6F800399BDE /* Trvlogue */ = {
 			isa = PBXGroup;
 			children = (
+				46C28F0C16EDD6F900399BDE /* TVAppDelegate.h */,
+				46C28F0D16EDD6F900399BDE /* TVAppDelegate.m */,
 				46B47ED216FE7D2F00ACBD64 /* TVTravelDataDownloader.h */,
 				46B47ED316FE7D2F00ACBD64 /* TVTravelDataDownloader.m */,
 				46C28F2E16EDE66D00399BDE /* TVMileTidbits.h */,
@@ -11804,8 +11806,6 @@
 		46C28F0416EDD6F800399BDE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				46C28F0C16EDD6F900399BDE /* TVAppDelegate.h */,
-				46C28F0D16EDD6F900399BDE /* TVAppDelegate.m */,
 				46A4BDE717701C3900A71EFA /* Trvlogue-Info.plist */,
 				46A4BDE817701C3900A71EFA /* Trvlogue-Prefix.pch */,
 				46C28F0616EDD6F900399BDE /* InfoPlist.strings */,

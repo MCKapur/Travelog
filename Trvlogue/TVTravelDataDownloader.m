@@ -58,10 +58,8 @@
     if (self) {
                 
         self.downloadedData = [[NSMutableDictionary alloc] init];
-        
-        dispatch_queue_t downloadQueue = dispatch_queue_create("OperationQueue", NULL);
-        
-        dispatch_async(downloadQueue, ^{
+                
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             
             self.operationQueue = [[NSOperationQueue alloc] init];
         });
@@ -104,10 +102,8 @@
 - (void)chainDataDownloads {
     
     [self downloadNews];
-
-    dispatch_queue_t downloadQueue = dispatch_queue_create("Download data", NULL);
     
-    dispatch_async(downloadQueue, ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
         [self downloadPeople];
         [self downloadLanguages];
