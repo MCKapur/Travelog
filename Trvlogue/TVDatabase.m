@@ -583,48 +583,50 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 }
 
 + (void)refreshAccountWithCompletionHandler:(void (^)(BOOL completed))callback {
-    NSLog(@"refreshing");
+
     [TVDatabase refreshCachedPeople];
     [TVDatabase refreshFlights];
     
+    NSLog(@"User: %@", [PFUser currentUser]);
+    
     [[PFUser currentUser] refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        NSLog(@"refreshed");
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            [TVDatabase getAccountFromUser:object isPerformingCacheRefresh:YES withCompletionHandler:^(TVAccount *account, BOOL downloadedFlights, BOOL downloadedProfilePicture, BOOL downloadedConnections, BOOL downloadedMessages) {
-                NSLog(@"callback");
-                dispatch_async(dispatch_get_main_queue(), ^{
+            if (!error) {
+                
+                [TVDatabase getAccountFromUser:(PFUser *)object isPerformingCacheRefresh:YES withCompletionHandler:^(TVAccount *account, BOOL downloadedFlights, BOOL downloadedProfilePicture, BOOL downloadedConnections, BOOL downloadedMessages) {
                     
-                    [TVDatabase updateMyCache:account];
-                    
-                    [TVDatabase updatePushNotificationsSetup];
-                    
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshedAccount" object:nil];
-                    
-                    if (downloadedFlights) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
                         
-                        [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshedFlights" object:nil];
-                    }
-                    
-                    if (downloadedFlights && downloadedProfilePicture && downloadedConnections && downloadedMessages && account) {
+                        [TVDatabase updateMyCache:account];
                         
-                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-              
-                            if ([[[[TVDatabase currentAccount] person] flights] count]) {
-                                
-                                for (int i = [[[[TVDatabase currentAccount] person] flights] count] - 1; i >= 0; i--) {
-                                    
-                                    TVFlight *flight = [[[TVDatabase currentAccount] person] flights][i];
-                                    
-                                    [flight instantiateTravelData];
-                                }
-                            }
-                        });
+                        [TVDatabase updatePushNotificationsSetup];
                         
-                        callback(YES);
-                    }
-                });
-            }];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshedAccount" object:nil];
+                        
+                        if (downloadedFlights) {
+                            
+                            [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshedFlights" object:nil];
+                        }
+                        
+                        if (downloadedFlights && downloadedProfilePicture && downloadedConnections && downloadedMessages && account) {
+                            
+                            [TVDatabase refreshFlights];
+                            
+                            callback(YES);
+                        }
+                        else {
+                            
+                            callback(NO);
+                        }
+                    });
+                }];
+            }
+            else {
+                
+                callback(YES);
+            }
         });
     }];
 }
@@ -1763,7 +1765,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 + (void)loginToAccountWithEmail:(NSString *)email andPassword:(NSString *)password withCompletionHandler:(void (^)(BOOL success, BOOL correctCredentials, NSError *error, NSString *callCode))callback {
     
     [PFUser logInWithUsernameInBackground:email password:password block:^(PFUser *user, NSError *error) {
-        
+
         __block BOOL success = NO;
         __block BOOL correctCredentials = NO;
         

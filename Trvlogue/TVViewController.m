@@ -77,7 +77,7 @@
 #pragma mark UITableView Methods
 
 - (void)updateNotifications {
-    NSLog(@"%@", [TVDatabase currentAccount].person.notifications);
+
     [self.headerView setFrame:CGRectMake(self.headerView.frame.origin.x, self.headerView.frame.origin.y, 320, 80)];
     
     self.flightsTable.tableHeaderView = self.headerView;
@@ -188,55 +188,23 @@
         
         [refreshControl beginRefreshing];
         [self.flightsTable setContentOffset:CGPointMake(0, -refreshControl.frame.size.height) animated:YES];
-
-        dispatch_queue_t downloadQueue = dispatch_queue_create("Refresh", NULL);
         
-        dispatch_async(downloadQueue, ^{
+        [TVDatabase refreshAccountWithCompletionHandler:^(BOOL completed) {
             
-            Reachability *reach = [Reachability reachabilityWithHostname:@"google.com"];
-            
-            if ([reach isReachable] && ([reach isReachableViaWiFi] || [reach isReachableViaWWAN])) {
-                
-                loading = YES;
-                
-                [TVDatabase refreshAccountWithCompletionHandler:^(BOOL completed) {
-                    
-                    if (completed) {
-                        
-                        loading = NO;
-                    }
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
+            [self updateFlights];
+            [self updateMilesLabel];
+            [self updateNotifications];
 
-                        if (refreshControl) {
-                            
-                            [refreshControl endRefreshing];
-                        }
-                        
-                        [self updateFlights];
-                        [self updateMilesLabel];
-                        [self updateNotifications];
-                        
-                    });
-                }];
-            }
-            else {
+            if (completed) {
                 
                 loading = NO;
                 
-                dispatch_async(dispatch_get_main_queue(), ^{
-
-                    if (refreshControl) {
-                        
-                        [refreshControl endRefreshing];
-                    }
+                if (refreshControl) {
                     
-                    [self updateFlights];
-                    [self updateMilesLabel];
-                    [self updateNotifications];
-                });
+                    [refreshControl endRefreshing];
+                }
             }
-        });
+        }];
     }
 }
 
