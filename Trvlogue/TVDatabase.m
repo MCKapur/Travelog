@@ -584,14 +584,12 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 
 + (void)refreshAccountWithCompletionHandler:(void (^)(BOOL completed))callback {
 
-    [TVDatabase refreshCachedPeople];
-    [TVDatabase refreshFlights];
-    
-    NSLog(@"User: %@", [PFUser currentUser]);
-    
-    [[PFUser currentUser] refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        dispatch_async(dispatch_get_main_queue(), ^{
+        [TVDatabase refreshCachedPeople];
+        [TVDatabase refreshFlights];
+        
+        [[PFUser currentUser] refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
             
             if (!error) {
                 
@@ -627,8 +625,8 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                 
                 callback(YES);
             }
-        });
-    }];
+        }];
+    });
 }
 
 #pragma mark Connect
@@ -1371,17 +1369,25 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                 
         TVAccount *account;
         
-        if ([object.objectId isEqualToString:[[TVDatabase currentAccount] userId]]) {
+        if ([[TVDatabase currentAccount] userId]) {
             
-            account = ![TVDatabase currentAccount] ? [[TVAccount alloc] init] : [TVDatabase currentAccount];
+            if ([object.objectId isEqualToString:[[TVDatabase currentAccount] userId]]) {
+                
+                account = ![TVDatabase currentAccount] ? [[TVAccount alloc] init] : [TVDatabase currentAccount];
+            }
+            else {
+                
+                account = [[TVAccount alloc] init];
+            }
         }
         else {
             
             account = [[TVAccount alloc] init];
         }
         
-        [account setEmail:object[@"email"]];
+
         [account setUserId:[object objectId]];
+        [account setEmail:object[@"email"]];
         [account setIsUsingLinkedIn:[object[@"isUsingLinkedIn"] boolValue]];
         [account setLinkedInAccessKey:object[@"linkedInAccessKey"]];
         [account setLinkedInId:object[@"linkedInId"]];
@@ -1395,7 +1401,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         [TVDatabase cachePerson:account];
         
         callback(account, downloadedFlights, downloadedProfilePicture, downloadedConnections, downloadedMessages);
-        
+
         [TVDatabase downloadFlightsWithObjectIds:@[[object objectId]] withCompletionHandler:^(NSError *error, NSMutableArray *flights) {
             
             if (!error && flights) {
@@ -1435,7 +1441,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
             callback(account, downloadedFlights, downloadedProfilePicture, downloadedConnections, downloadedMessages);
         }];
         
-        [TVDatabase downloadMessageHistoriesWithUserId:[[TVDatabase currentAccount] userId] withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode, NSMutableArray *messageHistories) {
+        [TVDatabase downloadMessageHistoriesWithUserId:[object objectId] withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode, NSMutableArray *messageHistories) {
             
             if (success && !error) {
                 
@@ -1557,7 +1563,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 + (int)indexOfCachedPersonWithUserId:(NSString *)userId {
 
     int index = NSNotFound;
-    
+
     if ([TVDatabase cachedPeople].count) {
         
         for (int i = 0; i <= [TVDatabase cachedPeople].count - 1; i++) {
@@ -1583,9 +1589,9 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         for (int i = 0; i <= [TVDatabase cachedPeople].count - 1; i++) {
             
             TVAccount *_account = [NSKeyedUnarchiver unarchiveObjectWithData:[TVDatabase cachedPeople][i]];
-            
-            if (([_account.person.name rangeOfString:name].location != NSNotFound) || (([_account.person.name soundsLikeString:name]))) {
-                
+
+            if ([_account.person.name rangeOfString:name options:NSCaseInsensitiveSearch].location != NSNotFound || [_account.person.name soundsLikeString:name]) {
+
                 index = i;
             }
         }
@@ -1604,7 +1610,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
             
             TVAccount *_account = [NSKeyedUnarchiver unarchiveObjectWithData:[TVDatabase cachedPeople][i]];
             
-            if ([_account.person.email isEqualToString:email]) {
+            if ([[_account.person.email lowercaseString] isEqualToString:[email lowercaseString]]) {
 
                 index = i;
             }

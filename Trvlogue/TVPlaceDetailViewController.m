@@ -340,6 +340,8 @@
 
 - (void)viewDidLoad
 {
+    self.navigationItem.title = self.place.name;
+    
     [self centerMap];
     [self drawAnnotations];
     

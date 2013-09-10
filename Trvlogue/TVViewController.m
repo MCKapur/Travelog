@@ -78,7 +78,7 @@
 
 - (void)updateNotifications {
 
-    [self.headerView setFrame:CGRectMake(self.headerView.frame.origin.x, self.headerView.frame.origin.y, 320, 80)];
+    [self.headerView setFrame:CGRectMake(self.headerView.frame.origin.x, self.headerView.frame.origin.y, 320, 31)];
     
     self.flightsTable.tableHeaderView = self.headerView;
         
@@ -113,13 +113,13 @@
             
             unreadMessagesBadge = [CustomBadge customiOS7BadgeWithString:[NSString stringWithFormat:@"%i", numberOfUnreadMessagesNotifications]];
             
-            [unreadMessagesBadge setFrame:CGRectMake(70, 33, unreadMessagesBadge.frame.size.width, unreadMessagesBadge.frame.size.height)];
+            [unreadMessagesBadge setFrame:CGRectMake(95, 519, unreadMessagesBadge.frame.size.width, unreadMessagesBadge.frame.size.height)];
             
             unreadMessagesBadge.userInteractionEnabled = NO;
             
             unreadMessagesBadge.accessibilityIdentifier = @"MessagesBadge";
             
-            [self.headerView addSubview:unreadMessagesBadge];
+            [self.tabBarController.view addSubview:unreadMessagesBadge];
         }
         else {
             
@@ -152,13 +152,13 @@
             
             connectBadge = [CustomBadge customiOS7BadgeWithString:[NSString stringWithFormat:@"%i", numberOfConnectRequestNotifications]];
             
-            [connectBadge setFrame:CGRectMake(130, 33, connectBadge.frame.size.width, connectBadge.frame.size.height)];
+            [connectBadge setFrame:CGRectMake(223, 520, connectBadge.frame.size.width, connectBadge.frame.size.height)];
             
             connectBadge.userInteractionEnabled = NO;
             
             connectBadge.accessibilityIdentifier = @"ConnectBadge";
             
-            [self.headerView addSubview:connectBadge];
+            [self.tabBarController.view addSubview:connectBadge];
         }
         else {
             
@@ -520,7 +520,6 @@
 
 - (void)showFindPeoplePage {
  
-    [findPeople setFilter:(FindPeopleFilter *)kFindPeopleFilterSuggestions];
     [[self navigationController] pushViewController:findPeople animated:YES];
 }
 
@@ -605,38 +604,22 @@
     [self.navigationController setNavigationBarHidden:NO];
     
     self.navigationItem.hidesBackButton = YES;
-
-    UIBarButtonItem *recordFlightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(recordAFlight)];
-    self.navigationItem.leftBarButtonItem = recordFlightItem;
-            
-    [self.headerView setFrame:CGRectMake(self.headerView.frame.origin.x, self.headerView.frame.origin.y, 320, 80)];
     
-    UIButton *messages = [[UIButton alloc] init];
-    [messages setImage:[UIImage imageNamed:@"messages.png"] forState:UIControlStateNormal];
-    [messages setFrame:CGRectMake(55, 42, 28.94, 25)];
-    [messages addTarget:self action:@selector(showMessagesPage) forControlEvents:UIControlEventTouchUpInside];
-    [self.headerView addSubview:messages];
-    
-    UIButton *_findPeople = [[UIButton alloc] init];
-    [_findPeople setImage:[UIImage imageNamed:@"people.png"] forState:UIControlStateNormal];
-    [_findPeople setFrame:CGRectMake(120, 41, 25, 27.38)];
-    [_findPeople addTarget:self action:@selector(showFindPeoplePage) forControlEvents:UIControlEventTouchUpInside];
-    [self.headerView addSubview:_findPeople];
-    
-    UIButton *exportFlights = [[UIButton alloc] init];
-    [exportFlights setImage:[UIImage imageNamed:@"export.png"] forState:UIControlStateNormal];
-    [exportFlights setFrame:CGRectMake(174, 42, 28, 28)];
-    [exportFlights addTarget:self action:@selector(exportFlights) forControlEvents:UIControlEventTouchUpInside];
-    [self.headerView addSubview:exportFlights];
-
-    UIButton *settings = [[UIButton alloc] init];
-    [settings setImage:[UIImage imageNamed:@"settings.png"] forState:UIControlStateNormal];
-    [settings setFrame:CGRectMake(227, 42, 28, 28)];
-    [settings addTarget:self action:@selector(showSettingsPage) forControlEvents:UIControlEventTouchUpInside];
-    [self.headerView addSubview:settings];
+    [self.headerView setFrame:CGRectMake(self.headerView.frame.origin.x, self.headerView.frame.origin.y, 320, 31)];
 }
 
 #pragma mark Funky, Dirty, Native :)
+
+- (id)init {
+    
+    if (self = [super init]) {
+        
+        self.navigationItem.title = @"Flights";
+        self.tabBarItem.image = [UIImage imageNamed:@"airplane.png"];
+    }
+    
+    return self;
+}
 
 - (void)viewWillAppear:(BOOL)animated {
     

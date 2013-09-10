@@ -134,14 +134,21 @@
 
 #pragma mark Startup
 
-/*
- Where we put our startup methods
- */
+- (id)init {
+    
+    if (self = [super init]) {
+
+        self.tabBarItem.image = [UIImage imageNamed:@"record.png"];
+        self.navigationItem.title = @"Record Flight";
+    }
+    
+    return self;
+}
 
 #pragma mark UI
 
 - (void)UIBuffer {
-    
+        
     UIBarButtonItem *submitFlight = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(submitFlight)];
     self.navigationItem.rightBarButtonItem = submitFlight;
         
@@ -282,17 +289,20 @@
 
 - (void)retrieveLocationsWithResponseCallback:(void (^)(NSMutableArray *locations))callback {
     
+    NSString *origin = [self.originTextField.text copy];
+    NSString *destination = [self.destinationTextField.text copy];
+    
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     
     NSMutableArray *locations = [[NSMutableArray alloc] init];
         
-    [geocoder geocodeAddressString:[self originTextField].text completionHandler:^(NSArray *placemarks, NSError *error) {
+    [geocoder geocodeAddressString:origin completionHandler:^(NSArray *placemarks, NSError *error) {
         
         if (!error) {
             
             [locations addObject:placemarks[0]];
             
-            [geocoder geocodeAddressString:[self destinationTextField].text completionHandler:^(NSArray *placemarks, NSError *error) {
+            [geocoder geocodeAddressString:destination completionHandler:^(NSArray *placemarks, NSError *error) {
                 
                 [locations addObject:placemarks[0]];
                 
@@ -307,6 +317,8 @@
 }
 
 - (void)calculateMiles {
+    
+    NSDate *date = [[self datePicker].date copy];
     
     __block double calculatedMiles = 0.0;
     
@@ -334,7 +346,7 @@
                 destinationCountry = @"Netherlands";
             }
             
-            flightParameters[@"date"] = [self datePicker].date;
+            flightParameters[@"date"] = date;
 
             flightParameters[@"originCity"] = !originLocation.locality ? originLocation.administrativeArea : originLocation.locality;
             flightParameters[@"destinationCity"] = !destinationLocation.locality ? destinationLocation.administrativeArea : destinationLocation.locality;
@@ -405,6 +417,10 @@
 
 - (void)submitFlight {
 
+    self.originTextField.text = [NSString string];
+    self.destinationTextField.text = [NSString string];
+    self.datePicker.date = [NSDate date];
+    
     [self calculateMiles];
     
     [TVLoadingSignifier signifyLoading:@"Recording your flight" duration:-1];

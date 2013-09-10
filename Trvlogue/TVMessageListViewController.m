@@ -52,13 +52,14 @@
     cell.imageView.image = image;
     
     cell.backgroundView = nil;
+    cell.backgroundColor = [UIColor clearColor];
     
     [[cell textLabel] setBackgroundColor:[UIColor clearColor]];
     [[cell detailTextLabel] setBackgroundColor:[UIColor clearColor]];
 
     if (![[[TVDatabase currentAccount] userId] isEqualToString:[[messageHistory.sortedMessages lastObject] senderId]] && [[messageHistory.sortedMessages lastObject] receiverRead] == NO) {
         
-        UIView * myBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
+        UIView *myBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
         myBackgroundView.backgroundColor =  [UIColor colorWithRed:197.0f/255.0f green:209.0f/255.0f blue:255.0f/255.0f alpha:1.0f];
         cell.backgroundView = myBackgroundView;
     }
@@ -105,6 +106,17 @@
     [super viewDidAppear:animated];
     
     [self reload];
+}
+
+- (id)init {
+    
+    if (self = [super init]) {
+        
+        self.navigationItem.title = @"Messages";
+        self.tabBarItem.image = [UIImage imageNamed:@"messages.png"];
+    }
+    
+    return self;
 }
 
 - (void)viewDidLoad

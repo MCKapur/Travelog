@@ -193,7 +193,7 @@
     
     TVAccount *updatedTrvlogueAccount = [TVDatabase currentAccount];
     
-    [TVDatabase writeProfilePictureToDisk:[profilePicture.image makeThumbnailOfSize:CGSizeMake(500, 500)] withUserId:[[TVDatabase currentAccount] userId]]; //still need to reupload profilepicture ONLY if its changed
+    [TVDatabase writeProfilePictureToDisk:[profilePicture.image makeThumbnailOfSize:CGSizeMake(800, 800)] withUserId:[[TVDatabase currentAccount] userId]]; //still need to reupload profilepicture ONLY if its changed
     [TVDatabase uploadProfilePicture:profilePicture.image withObjectId:[[TVDatabase currentAccount] userId]];
     
     [updatedTrvlogueAccount setEmail:[emailTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""]];
@@ -366,14 +366,20 @@
     return self;
 }
 
+- (id)init {
+    
+    if (self = [super init]) {
+        
+        self.navigationItem.title = @"Settings";
+        self.tabBarItem.image = [UIImage imageNamed:@"settings.png"];
+    }
+    
+    return self;
+}
+
 - (void)viewDidLoad
 {
-    [self loadInAccountData];
-    
-    UIBarButtonItem *tickItem;
-    tickItem = [[UIBarButtonItem alloc] initWithTitle:@"✓" style:UIBarButtonItemStyleDone target:self action:@selector(saveData)];
-    [tickItem setTitleTextAttributes:@{UITextAttributeFont:[UIFont boldSystemFontOfSize:22]} forState:UIControlStateNormal];
-    [self.navigationItem setRightBarButtonItem:tickItem];
+//    [self loadInAccountData];
     
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.

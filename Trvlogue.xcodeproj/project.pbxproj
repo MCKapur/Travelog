@@ -27,8 +27,6 @@
 		460329D8175B8980000F820F /* UIGridViewRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 460329D5175B8980000F820F /* UIGridViewRow.m */; };
 		460329DC175B8BDC000F820F /* TVPersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 460329DA175B8BDB000F820F /* TVPersonCell.m */; };
 		4605838A17BB4ED900AA604E /* CustomBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4605838917BB4ED900AA604E /* CustomBadge.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		460583B317BB5AE700AA604E /* messages.png in Resources */ = {isa = PBXBuildFile; fileRef = 460583B217BB5AE700AA604E /* messages.png */; };
-		460583B517BB5AED00AA604E /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 460583B417BB5AED00AA604E /* settings.png */; };
 		460A9E8916F98C5A00FFBF2A /* TVErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 460A9E8816F98C5A00FFBF2A /* TVErrorHandler.m */; };
 		460A9E8C16F9920500FFBF2A /* TVConversions.m in Sources */ = {isa = PBXBuildFile; fileRef = 460A9E8B16F9920400FFBF2A /* TVConversions.m */; };
 		460A9E8F16F99B1500FFBF2A /* TVLoadingSignifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 460A9E8E16F99B1500FFBF2A /* TVLoadingSignifier.m */; };
@@ -131,6 +129,14 @@
 		4657E56D17C8CAB300878288 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4657E56117C8CAB300878288 /* Icon@2x.png */; };
 		4657E56E17C8CAB300878288 /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = 4657E56217C8CAB300878288 /* iTunesArtwork.png */; };
 		4657E56F17C8CAB300878288 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4657E56317C8CAB300878288 /* iTunesArtwork@2x.png */; };
+		465A637917DE0A1000E02C84 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 465A636F17DE0A1000E02C84 /* settings.png */; };
+		465A637A17DE0A1000E02C84 /* settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 465A637017DE0A1000E02C84 /* settings@2x.png */; };
+		465A637B17DE0A1000E02C84 /* record.png in Resources */ = {isa = PBXBuildFile; fileRef = 465A637117DE0A1000E02C84 /* record.png */; };
+		465A637C17DE0A1000E02C84 /* record@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 465A637217DE0A1000E02C84 /* record@2x.png */; };
+		465A637D17DE0A1000E02C84 /* people.png in Resources */ = {isa = PBXBuildFile; fileRef = 465A637317DE0A1000E02C84 /* people.png */; };
+		465A637E17DE0A1000E02C84 /* people@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 465A637417DE0A1000E02C84 /* people@2x.png */; };
+		465A638117DE0A1000E02C84 /* airplane.png in Resources */ = {isa = PBXBuildFile; fileRef = 465A637717DE0A1000E02C84 /* airplane.png */; };
+		465A638217DE0A1000E02C84 /* airplane@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 465A637817DE0A1000E02C84 /* airplane@2x.png */; };
 		465C67BC17D0E325000BEC38 /* TVPlugListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 465C67BA17D0E325000BEC38 /* TVPlugListViewController.m */; };
 		465C67BD17D0E325000BEC38 /* TVPlugListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 465C67BB17D0E325000BEC38 /* TVPlugListViewController.xib */; };
 		46609D0317CB9F87000F662F /* AWSRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46609D0217CB9F87000F662F /* AWSRuntime.framework */; };
@@ -140,7 +146,6 @@
 		467827BA17BF0B200014A2B5 /* TVPlaceDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 467827B717BF0B200014A2B5 /* TVPlaceDetailViewController.xib */; };
 		467C63CE178016BC00BD1F31 /* TVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 467C63CD178016BC00BD1F31 /* TVConnection.m */; };
 		4682AE0417CB987400CF3BBA /* AmazonClientManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4682AE0317CB987400CF3BBA /* AmazonClientManager.m */; };
-		468FBBC716F315B100418582 /* TrvlogueNavigationBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 468FBBC616F315B100418582 /* TrvlogueNavigationBar@2x.png */; };
 		468FBBC916F3184D00418582 /* TrvlogueNavigationBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 468FBBC816F3184C00418582 /* TrvlogueNavigationBar.png */; };
 		469060E217C9E6E6003AA59F /* TVPersonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 469060E117C9E6E6003AA59F /* TVPersonCell.xib */; };
 		469788291723AFE300D4E899 /* BackgroundBlueBlur.png in Resources */ = {isa = PBXBuildFile; fileRef = 469788281723AFE300D4E899 /* BackgroundBlueBlur.png */; };
@@ -149,8 +154,6 @@
 		469788311723F20400D4E899 /* TVWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4697882E1723F20300D4E899 /* TVWebViewController.xib */; };
 		4698814817BDDBCB00EB6AC7 /* TVTranslationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4698814617BDDBCB00EB6AC7 /* TVTranslationsViewController.m */; };
 		4698814917BDDBCB00EB6AC7 /* TVTranslationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4698814717BDDBCB00EB6AC7 /* TVTranslationsViewController.xib */; };
-		46A30D0D17BBA8650095E727 /* export.png in Resources */ = {isa = PBXBuildFile; fileRef = 46A30D0B17BBA8650095E727 /* export.png */; };
-		46A30D0E17BBA8650095E727 /* people.png in Resources */ = {isa = PBXBuildFile; fileRef = 46A30D0C17BBA8650095E727 /* people.png */; };
 		46A4BDBB1770184500A71EFA /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 46FFBB1C173F455C00E44A13 /* libz.1.1.3.dylib */; };
 		46A4BDBD1770185100A71EFA /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46A4BDBC1770185100A71EFA /* CFNetwork.framework */; };
 		46A4BDBF1770186000A71EFA /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46A4BDBE1770186000A71EFA /* Security.framework */; };
@@ -254,6 +257,8 @@
 		46C917AD1775A82F00CD505B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 46C917AC1775A82E00CD505B /* Reachability.m */; };
 		46EA533B17CB914800D99A8D /* AWSSES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46EA533A17CB914800D99A8D /* AWSSES.framework */; };
 		46EC7AB317BFE63A00184A3F /* TVPlaceDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 467827B617BF0B200014A2B5 /* TVPlaceDetailViewController.m */; };
+		46EEE29617DE17A90006322E /* messages.png in Resources */ = {isa = PBXBuildFile; fileRef = 46EEE29417DE17A90006322E /* messages.png */; };
+		46EEE29717DE17A90006322E /* messages@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 46EEE29517DE17A90006322E /* messages@2x.png */; };
 		46F80F5B175E235D005EA59E /* anonymous_person.png in Resources */ = {isa = PBXBuildFile; fileRef = 46F80F5A175E235D005EA59E /* anonymous_person.png */; };
 		46F93FA117C652B900F4BED4 /* UIColor+MLPFlatColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 46F93FA017C652B900F4BED4 /* UIColor+MLPFlatColors.m */; };
 		46FE4B23170C2223007E4856 /* airplane.png in Resources */ = {isa = PBXBuildFile; fileRef = 46FE4B22170C2223007E4856 /* airplane.png */; };
@@ -5279,8 +5284,6 @@
 		460329DA175B8BDB000F820F /* TVPersonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVPersonCell.m; sourceTree = "<group>"; };
 		4605838817BB4ED900AA604E /* CustomBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomBadge.h; sourceTree = "<group>"; };
 		4605838917BB4ED900AA604E /* CustomBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomBadge.m; sourceTree = "<group>"; };
-		460583B217BB5AE700AA604E /* messages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = messages.png; sourceTree = "<group>"; };
-		460583B417BB5AED00AA604E /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
 		460A9E8716F98C5900FFBF2A /* TVErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVErrorHandler.h; sourceTree = "<group>"; };
 		460A9E8816F98C5A00FFBF2A /* TVErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVErrorHandler.m; sourceTree = "<group>"; };
 		460A9E8A16F9920400FFBF2A /* TVConversions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVConversions.h; sourceTree = "<group>"; };
@@ -5423,6 +5426,14 @@
 		4657E56117C8CAB300878288 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		4657E56217C8CAB300878288 /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
 		4657E56317C8CAB300878288 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
+		465A636F17DE0A1000E02C84 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
+		465A637017DE0A1000E02C84 /* settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@2x.png"; sourceTree = "<group>"; };
+		465A637117DE0A1000E02C84 /* record.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = record.png; sourceTree = "<group>"; };
+		465A637217DE0A1000E02C84 /* record@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record@2x.png"; sourceTree = "<group>"; };
+		465A637317DE0A1000E02C84 /* people.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = people.png; sourceTree = "<group>"; };
+		465A637417DE0A1000E02C84 /* people@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "people@2x.png"; sourceTree = "<group>"; };
+		465A637717DE0A1000E02C84 /* airplane.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = airplane.png; sourceTree = "<group>"; };
+		465A637817DE0A1000E02C84 /* airplane@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "airplane@2x.png"; sourceTree = "<group>"; };
 		465C67B917D0E325000BEC38 /* TVPlugListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVPlugListViewController.h; sourceTree = "<group>"; };
 		465C67BA17D0E325000BEC38 /* TVPlugListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVPlugListViewController.m; sourceTree = "<group>"; };
 		465C67BB17D0E325000BEC38 /* TVPlugListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TVPlugListViewController.xib; sourceTree = "<group>"; };
@@ -5438,7 +5449,6 @@
 		467C63CD178016BC00BD1F31 /* TVConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVConnection.m; sourceTree = "<group>"; };
 		4682AE0217CB987400CF3BBA /* AmazonClientManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AmazonClientManager.h; sourceTree = "<group>"; };
 		4682AE0317CB987400CF3BBA /* AmazonClientManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AmazonClientManager.m; sourceTree = "<group>"; };
-		468FBBC616F315B100418582 /* TrvlogueNavigationBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TrvlogueNavigationBar@2x.png"; sourceTree = "<group>"; };
 		468FBBC816F3184C00418582 /* TrvlogueNavigationBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TrvlogueNavigationBar.png; sourceTree = "<group>"; };
 		469060E117C9E6E6003AA59F /* TVPersonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TVPersonCell.xib; sourceTree = "<group>"; };
 		469788281723AFE300D4E899 /* BackgroundBlueBlur.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BackgroundBlueBlur.png; path = ../BackgroundBlueBlur.png; sourceTree = "<group>"; };
@@ -5450,8 +5460,6 @@
 		4698814517BDDBCB00EB6AC7 /* TVTranslationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVTranslationsViewController.h; sourceTree = "<group>"; };
 		4698814617BDDBCB00EB6AC7 /* TVTranslationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVTranslationsViewController.m; sourceTree = "<group>"; };
 		4698814717BDDBCB00EB6AC7 /* TVTranslationsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TVTranslationsViewController.xib; sourceTree = "<group>"; };
-		46A30D0B17BBA8650095E727 /* export.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = export.png; sourceTree = "<group>"; };
-		46A30D0C17BBA8650095E727 /* people.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = people.png; sourceTree = "<group>"; };
 		46A4BDBC1770185100A71EFA /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		46A4BDBE1770186000A71EFA /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		46A4BDC01770186700A71EFA /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -5589,6 +5597,8 @@
 		46C917AB1775A82E00CD505B /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		46C917AC1775A82E00CD505B /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		46EA533A17CB914800D99A8D /* AWSSES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSSES.framework; path = "../../../Downloads/aws-ios-sdk-1.6.1/AWSSES.framework"; sourceTree = "<group>"; };
+		46EEE29417DE17A90006322E /* messages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = messages.png; sourceTree = "<group>"; };
+		46EEE29517DE17A90006322E /* messages@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "messages@2x.png"; sourceTree = "<group>"; };
 		46F80F5A175E235D005EA59E /* anonymous_person.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = anonymous_person.png; path = ../anonymous_person.png; sourceTree = "<group>"; };
 		46F93F9F17C652B900F4BED4 /* UIColor+MLPFlatColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+MLPFlatColors.h"; sourceTree = "<group>"; };
 		46F93FA017C652B900F4BED4 /* UIColor+MLPFlatColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+MLPFlatColors.m"; sourceTree = "<group>"; };
@@ -11598,6 +11608,60 @@
 			name = "HTML Decoding";
 			sourceTree = "<group>";
 		};
+		465A636C17DDDC5B00E02C84 /* Flights */ = {
+			isa = PBXGroup;
+			children = (
+				46C28F1516EDD6F900399BDE /* TVViewController.h */,
+				46C28F1616EDD6F900399BDE /* TVViewController.m */,
+				467054A8177EC8A300D8B740 /* TVViewController.xib */,
+				46ADED17177EF4960074ACC9 /* TVFlightRecorderViewController.h */,
+				46ADED18177EF4960074ACC9 /* TVFlightRecorderViewController.m */,
+				46ADED19177EF4960074ACC9 /* TVFlightRecorderViewController.xib */,
+				46B47ECC16FD73F100ACBD64 /* TVFlightDetailViewController.h */,
+				46B47ECD16FD73F200ACBD64 /* TVFlightDetailViewController.m */,
+				46B47ECE16FD73F400ACBD64 /* TVFlightDetailViewController.xib */,
+				467827B817BF0B200014A2B5 /* TVPlaceDetailViewController.h */,
+				467827B617BF0B200014A2B5 /* TVPlaceDetailViewController.m */,
+				467827B717BF0B200014A2B5 /* TVPlaceDetailViewController.xib */,
+				4698814517BDDBCB00EB6AC7 /* TVTranslationsViewController.h */,
+				4698814617BDDBCB00EB6AC7 /* TVTranslationsViewController.m */,
+				4698814717BDDBCB00EB6AC7 /* TVTranslationsViewController.xib */,
+				465C67B917D0E325000BEC38 /* TVPlugListViewController.h */,
+				465C67BA17D0E325000BEC38 /* TVPlugListViewController.m */,
+				465C67BB17D0E325000BEC38 /* TVPlugListViewController.xib */,
+				4697882C1723F20200D4E899 /* TVWebViewController.h */,
+				4697882D1723F20200D4E899 /* TVWebViewController.m */,
+				4697882E1723F20300D4E899 /* TVWebViewController.xib */,
+			);
+			name = Flights;
+			sourceTree = "<group>";
+		};
+		465A636D17DDDC6F00E02C84 /* Account Handling View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				46C28F9016EDE9AB00399BDE /* TVLoginViewController.h */,
+				46C28F9116EDE9AB00399BDE /* TVLoginViewController.m */,
+				46C28F9216EDE9AB00399BDE /* TVLoginViewController.xib */,
+				46C28F9316EDE9AB00399BDE /* TVCreateAccountViewController.h */,
+				46C28F9416EDE9AB00399BDE /* TVCreateAccountViewController.m */,
+				46C28F9516EDE9AB00399BDE /* TVCreateAccountViewController.xib */,
+			);
+			name = "Account Handling View Controller";
+			sourceTree = "<group>";
+		};
+		465A636E17DDDCB600E02C84 /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+				460DC4E217C3B4CB00F8867E /* TVMessageListViewController.h */,
+				460DC4E317C3B4CB00F8867E /* TVMessageListViewController.m */,
+				460DC4E417C3B4CB00F8867E /* TVMessageListViewController.xib */,
+				460DC50C17C3B4D800F8867E /* TVMessageDetailViewController.h */,
+				460DC50D17C3B4D800F8867E /* TVMessageDetailViewController.m */,
+				460DC50E17C3B4D800F8867E /* TVMessageDetailViewController.xib */,
+			);
+			name = Messages;
+			sourceTree = "<group>";
+		};
 		466CD12E1709494C00994578 /* Status Overlay */ = {
 			isa = PBXGroup;
 			children = (
@@ -11817,10 +11881,16 @@
 		46C28FA916EDE9E900399BDE /* slices */ = {
 			isa = PBXGroup;
 			children = (
-				46A30D0B17BBA8650095E727 /* export.png */,
-				46A30D0C17BBA8650095E727 /* people.png */,
-				460583B417BB5AED00AA604E /* settings.png */,
-				460583B217BB5AE700AA604E /* messages.png */,
+				465A636F17DE0A1000E02C84 /* settings.png */,
+				465A637017DE0A1000E02C84 /* settings@2x.png */,
+				46EEE29417DE17A90006322E /* messages.png */,
+				46EEE29517DE17A90006322E /* messages@2x.png */,
+				465A637117DE0A1000E02C84 /* record.png */,
+				465A637217DE0A1000E02C84 /* record@2x.png */,
+				465A637317DE0A1000E02C84 /* people.png */,
+				465A637417DE0A1000E02C84 /* people@2x.png */,
+				465A637717DE0A1000E02C84 /* airplane.png */,
+				465A637817DE0A1000E02C84 /* airplane@2x.png */,
 				43A8FF2E17B35F5800BCC5C0 /* cross.png */,
 				43A8FF2F17B35F5800BCC5C0 /* cross@2x.png */,
 				46F80F5A175E235D005EA59E /* anonymous_person.png */,
@@ -11837,7 +11907,6 @@
 				46C28FFC16EDE9E900399BDE /* overlay.png */,
 				46C694A117005A180078E453 /* overlayinversed.png */,
 				468FBBC816F3184C00418582 /* TrvlogueNavigationBar.png */,
-				468FBBC616F315B100418582 /* TrvlogueNavigationBar@2x.png */,
 				46C28FB016EDE9E900399BDE /* bg.png */,
 				46C28FB116EDE9E900399BDE /* bg@2x.png */,
 				46C28FB816EDE9E900399BDE /* Clock.png */,
@@ -11968,45 +12037,15 @@
 		46F8492017094E6800A9F0BB /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				46C28F1516EDD6F900399BDE /* TVViewController.h */,
-				46C28F1616EDD6F900399BDE /* TVViewController.m */,
-				467054A8177EC8A300D8B740 /* TVViewController.xib */,
-				46B47ECC16FD73F100ACBD64 /* TVFlightDetailViewController.h */,
-				46B47ECD16FD73F200ACBD64 /* TVFlightDetailViewController.m */,
-				46B47ECE16FD73F400ACBD64 /* TVFlightDetailViewController.xib */,
-				467827B817BF0B200014A2B5 /* TVPlaceDetailViewController.h */,
-				467827B617BF0B200014A2B5 /* TVPlaceDetailViewController.m */,
-				467827B717BF0B200014A2B5 /* TVPlaceDetailViewController.xib */,
-				4698814517BDDBCB00EB6AC7 /* TVTranslationsViewController.h */,
-				4698814617BDDBCB00EB6AC7 /* TVTranslationsViewController.m */,
-				4698814717BDDBCB00EB6AC7 /* TVTranslationsViewController.xib */,
-				465C67B917D0E325000BEC38 /* TVPlugListViewController.h */,
-				465C67BA17D0E325000BEC38 /* TVPlugListViewController.m */,
-				465C67BB17D0E325000BEC38 /* TVPlugListViewController.xib */,
-				460DC4E217C3B4CB00F8867E /* TVMessageListViewController.h */,
-				460DC4E317C3B4CB00F8867E /* TVMessageListViewController.m */,
-				460DC4E417C3B4CB00F8867E /* TVMessageListViewController.xib */,
-				460DC50C17C3B4D800F8867E /* TVMessageDetailViewController.h */,
-				460DC50D17C3B4D800F8867E /* TVMessageDetailViewController.m */,
-				460DC50E17C3B4D800F8867E /* TVMessageDetailViewController.xib */,
-				46ADED17177EF4960074ACC9 /* TVFlightRecorderViewController.h */,
-				46ADED18177EF4960074ACC9 /* TVFlightRecorderViewController.m */,
-				46ADED19177EF4960074ACC9 /* TVFlightRecorderViewController.xib */,
+				465A636C17DDDC5B00E02C84 /* Flights */,
+				465A636E17DDDCB600E02C84 /* Messages */,
+				465A636D17DDDC6F00E02C84 /* Account Handling View Controller */,
 				46C28F9616EDE9AB00399BDE /* TVFindPeopleViewController.h */,
 				460B0BD3174F394F00A1229C /* TVFindPeopleViewController.m */,
 				46C28F9816EDE9AB00399BDE /* TVFindPeopleViewController.xib */,
-				46C28F9016EDE9AB00399BDE /* TVLoginViewController.h */,
-				46C28F9116EDE9AB00399BDE /* TVLoginViewController.m */,
-				46C28F9216EDE9AB00399BDE /* TVLoginViewController.xib */,
-				46C28F9316EDE9AB00399BDE /* TVCreateAccountViewController.h */,
-				46C28F9416EDE9AB00399BDE /* TVCreateAccountViewController.m */,
-				46C28F9516EDE9AB00399BDE /* TVCreateAccountViewController.xib */,
 				466CD13017094CBB00994578 /* TVSettingsViewController.h */,
 				466CD13117094CBB00994578 /* TVSettingsViewController.m */,
 				466CD13217094CBB00994578 /* TVSettingsViewController.xib */,
-				4697882C1723F20200D4E899 /* TVWebViewController.h */,
-				4697882D1723F20200D4E899 /* TVWebViewController.m */,
-				4697882E1723F20300D4E899 /* TVWebViewController.xib */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -12416,6 +12455,7 @@
 				46C2902A16EDE9E900399BDE /* Clock.png in Resources */,
 				4657E56E17C8CAB300878288 /* iTunesArtwork.png in Resources */,
 				46C2902B16EDE9E900399BDE /* Clock@2x.png in Resources */,
+				465A638117DE0A1000E02C84 /* airplane.png in Resources */,
 				46C2903216EDE9E900399BDE /* details-map-gray.png in Resources */,
 				46C2903316EDE9E900399BDE /* details-map-gray@2x.png in Resources */,
 				46C2903516EDE9E900399BDE /* grey-titlebar.png in Resources */,
@@ -12428,6 +12468,7 @@
 				46C290A216EDE9FB00399BDE /* C--CEE+7:16.jpg in Resources */,
 				46C290A316EDE9FB00399BDE /* C--CEE+7:17.jpg in Resources */,
 				46C290A416EDE9FB00399BDE /* D.jpg in Resources */,
+				465A638217DE0A1000E02C84 /* airplane@2x.png in Resources */,
 				46C290A516EDE9FB00399BDE /* E+F.jpg in Resources */,
 				46C290A616EDE9FB00399BDE /* E.jpg in Resources */,
 				46A4BDEE17701D0300A71EFA /* TVNewsCell.xib in Resources */,
@@ -12448,6 +12489,7 @@
 				46C290DC16EDEB1300399BDE /* fullStar.png in Resources */,
 				46C290DD16EDEB1300399BDE /* halfStar.png in Resources */,
 				46C290DE16EDEB1400399BDE /* thinLine.png in Resources */,
+				465A637E17DE0A1000E02C84 /* people@2x.png in Resources */,
 				46C290E716EDEC2300399BDE /* PlugList.plist in Resources */,
 				46C290E816EDEC2300399BDE /* PreTranslation.plist in Resources */,
 				46C290E916EDEC2300399BDE /* TranslatingLanguageCodes.plist in Resources */,
@@ -12457,7 +12499,6 @@
 				46C2916816EE1B8A00399BDE /* Futura-Bold.ttf in Resources */,
 				46FF6DB416EF102E0060F66D /* registeredEmailText.txt in Resources */,
 				46BB55F116F1B3850076BCEB /* TVFlightCell.xib in Resources */,
-				468FBBC716F315B100418582 /* TrvlogueNavigationBar@2x.png in Resources */,
 				468FBBC916F3184D00418582 /* TrvlogueNavigationBar.png in Resources */,
 				46B47EC616FC5E3C00ACBD64 /* MTStatusBarOverlay.podspec in Resources */,
 				46B47EC716FC5E3C00ACBD64 /* Readme.mdown in Resources */,
@@ -12467,6 +12508,7 @@
 				466CD13417094CBB00994578 /* TVSettingsViewController.xib in Resources */,
 				4657E56717C8CAB300878288 /* Icon-72@2x.png in Resources */,
 				46FE4B23170C2223007E4856 /* airplane.png in Resources */,
+				465A637A17DE0A1000E02C84 /* settings@2x.png in Resources */,
 				46FE4B28170C4ED2007E4856 /* newPasswordHTMLEmail.txt in Resources */,
 				469788291723AFE300D4E899 /* BackgroundBlueBlur.png in Resources */,
 				469788311723F20400D4E899 /* TVWebViewController.xib in Resources */,
@@ -12477,6 +12519,7 @@
 				463F80F7173CF21D00D485C0 /* Gotham-XLight.ttf in Resources */,
 				4657E56C17C8CAB300878288 /* Icon.png in Resources */,
 				4657E56817C8CAB300878288 /* Icon-76.png in Resources */,
+				46EEE29617DE17A90006322E /* messages.png in Resources */,
 				4657E56A17C8CAB300878288 /* Icon-Small.png in Resources */,
 				460B0BD7174F51D200A1229C /* backgroundFindFriendsCell.png in Resources */,
 				460B0BD8174F51D200A1229C /* backgroundFindFriendsCell@2x.png in Resources */,
@@ -12499,10 +12542,6 @@
 				4657E56617C8CAB300878288 /* Icon-72.png in Resources */,
 				43A8FF3017B35F5800BCC5C0 /* cross.png in Resources */,
 				43A8FF3117B35F5800BCC5C0 /* cross@2x.png in Resources */,
-				460583B317BB5AE700AA604E /* messages.png in Resources */,
-				460583B517BB5AED00AA604E /* settings.png in Resources */,
-				46A30D0D17BBA8650095E727 /* export.png in Resources */,
-				46A30D0E17BBA8650095E727 /* people.png in Resources */,
 				4698814917BDDBCB00EB6AC7 /* TVTranslationsViewController.xib in Resources */,
 				467827BA17BF0B200014A2B5 /* TVPlaceDetailViewController.xib in Resources */,
 				46448D5317BF4F1500C491F5 /* bubble-default-incoming-green.png in Resources */,
@@ -12524,9 +12563,12 @@
 				46448D6317BF4F1500C491F5 /* bubble-square-outgoing-selected.png in Resources */,
 				46448D6417BF4F1500C491F5 /* bubble-square-outgoing-selected@2x.png in Resources */,
 				46448D6517BF4F1500C491F5 /* bubble-square-outgoing.png in Resources */,
+				465A637C17DE0A1000E02C84 /* record@2x.png in Resources */,
 				46448D6617BF4F1500C491F5 /* bubble-square-outgoing@2x.png in Resources */,
 				46448D6717BF4F1500C491F5 /* bubble-typing.png in Resources */,
+				465A637B17DE0A1000E02C84 /* record.png in Resources */,
 				46448D6817BF4F1500C491F5 /* bubble-typing@2x.png in Resources */,
+				465A637917DE0A1000E02C84 /* settings.png in Resources */,
 				46448D6917BF4F1500C491F5 /* input-bar.png in Resources */,
 				46448D6A17BF4F1500C491F5 /* input-bar@2x.png in Resources */,
 				46448D6B17BF4F1500C491F5 /* input-field.png in Resources */,
@@ -12538,10 +12580,12 @@
 				46448D7117BF4F1500C491F5 /* messageReceived.aiff in Resources */,
 				46448D7217BF4F1500C491F5 /* messageSent.aiff in Resources */,
 				460DC4E617C3B4CB00F8867E /* TVMessageListViewController.xib in Resources */,
+				46EEE29717DE17A90006322E /* messages@2x.png in Resources */,
 				460DC51017C3B4D800F8867E /* TVMessageDetailViewController.xib in Resources */,
 				460DC51B17C3BBB000F8867E /* README.md in Resources */,
 				460DC51C17C3BBB000F8867E /* release_notes.md in Resources */,
 				46174EE017C9E57300C82CE0 /* TVReviewCell.xib in Resources */,
+				465A637D17DE0A1000E02C84 /* people.png in Resources */,
 				469060E217C9E6E6003AA59F /* TVPersonCell.xib in Resources */,
 				465C67BD17D0E325000BEC38 /* TVPlugListViewController.xib in Resources */,
 			);

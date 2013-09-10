@@ -747,6 +747,8 @@
 
 - (void)UIBuffer {
     
+    self.navigationItem.title = [[TVDatabase flightFromID:self.FlightID] destinationCity];
+    
     infoScrollView.pagingEnabled = YES;
     infoScrollView.showsHorizontalScrollIndicator = NO;
     infoScrollView.showsVerticalScrollIndicator = NO;

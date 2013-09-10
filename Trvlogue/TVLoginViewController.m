@@ -100,9 +100,7 @@
     
     [passwordTextField setBorderStyle:UITextBorderStyleNone];
     [passwordTextField setNeedsDisplay];
-    
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:TRVLOGUE_NAVIGATION_BAR] forBarMetrics:UIBarMetricsDefault];
-    
+        
     [[self loginButton] setImage:[UIImage imageNamed:@"button-pressed@2x.png"] forState:UIControlStateHighlighted];
     
     [[self trvlogueLabel] setFont:[UIFont fontWithName:@"Futura-Bold" size:30.0]];

@@ -75,10 +75,8 @@ static int expectedOperations;
 #pragma mark Search Bar
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    
+
     [searchBar resignFirstResponder];
-    
-    [TVLoadingSignifier signifyLoading:@"Searching" duration:-1];
     
     if (searchBar.text.length) {
         
@@ -88,7 +86,7 @@ static int expectedOperations;
         
         if ([searchBar.text rangeOfString:@"@"].location != NSNotFound) {
             
-            [TVDatabase findUsersWithEmails:[NSArray arrayWithObject:[searchBar.text stringByReplacingOccurrencesOfString:@" " withString:@""]] withCompletionHandler:^(NSMutableArray *objects, NSError *error, NSString *callCode) {
+            [TVDatabase findUsersWithEmails:[[NSArray arrayWithObject:[searchBar.text stringByReplacingOccurrencesOfString:@" " withString:@""]] mutableCopy] withCompletionHandler:^(NSMutableArray *objects, NSError *error, NSString *callCode) {
                 
                 [self finishedOperation:200 withObjects:objects];
 
@@ -117,13 +115,15 @@ static int expectedOperations;
         [self.table reloadData];
         [self.table setNeedsDisplay];
     }
+    
+    [self.table reloadData];
+    [self.table setNeedsDisplay];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     
     if (self.isSearching) {
         
-        [TVLoadingSignifier hideLoadingSignifier];
     }
     
     self.isSearching = NO;
@@ -429,65 +429,57 @@ static int expectedOperations;
     }
 }
 
-- (void)refreshAccountData:(NSObject *)obj{
-    
-}
-
 - (void)findPeople {
-    
+
     __block int operationNumber = 0;
 
-    [TVLoadingSignifier signifyLoading:@"Finding people" duration:-1];
-    
-    dispatch_queue_t downloadQueue = dispatch_queue_create("Find people", NULL);
-    
-    dispatch_async(downloadQueue, ^{
-        
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+
         expectedOperations = 3;
         
-        [TVDatabase findUsersWithEmails:[self peopleEmails] withCompletionHandler:^(NSMutableArray *objects, NSError *error, NSString *callCode) {
-
-            operationNumber++;
-            [self finishedOperation:operationNumber withObjects:objects];
-        }];
-        
-        if ([[TVDatabase currentAccount] isUsingLinkedIn]) {
-            
-            [LinkedInDataRetriever downloadConnectionsWithAccessToken:[[TVDatabase currentAccount] linkedInAccessKey] andCompletionHandler:^(NSArray *connections, BOOL success, NSError *error) {
-                
-                if (!error && success && connections.count) {
-                    
-                    NSMutableArray *linkedInIds = [[NSMutableArray alloc] init];
-                    
-                    for (NSDictionary *connection in connections) {
-                        
-                        [linkedInIds addObject:connection[@"id"]];
-                    }
-                    
-                    [TVDatabase findUsersWithLinkedInIds:linkedInIds withCompletionHandler:^(NSMutableArray *objects, NSError *error, NSString *callCode) {
-                        
-                        operationNumber++;
-                        [self finishedOperation:operationNumber withObjects:objects];
-                    }];
-                }
-                else {
-                    
-                    operationNumber++;
-                    [self finishedOperation:operationNumber withObjects:nil];
-                }
-            }];
-        }
-        else {
-            
-            operationNumber++;
-            [self finishedOperation:operationNumber withObjects:nil];
-        }
+//        [TVDatabase findUsersWithEmails:[self peopleEmails] withCompletionHandler:^(NSMutableArray *objects, NSError *error, NSString *callCode) {
+//
+//            operationNumber++;
+//            [self finishedOperation:operationNumber withObjects:objects];
+//        }];
         
         [TVDatabase downloadUsersFromUserIds:[TVDatabase allUserConnections] withCompletionHandler:^(NSMutableArray *users, NSError *error, NSString *callCode) {
             
             operationNumber++;
             [self finishedOperation:operationNumber withObjects:users];
         }];
+        
+//        if ([[TVDatabase currentAccount] isUsingLinkedIn]) {
+//            
+//            [LinkedInDataRetriever downloadConnectionsWithAccessToken:[[TVDatabase currentAccount] linkedInAccessKey] andCompletionHandler:^(NSArray *connections, BOOL success, NSError *error) {
+//                
+//                if (!error && success && connections.count) {
+//                    
+//                    NSMutableArray *linkedInIds = [[NSMutableArray alloc] init];
+//                    
+//                    for (NSDictionary *connection in connections) {
+//                        
+//                        [linkedInIds addObject:connection[@"id"]];
+//                    }
+//                    
+//                    [TVDatabase findUsersWithLinkedInIds:linkedInIds withCompletionHandler:^(NSMutableArray *objects, NSError *error, NSString *callCode) {
+//                        
+//                        operationNumber++;
+//                        [self finishedOperation:operationNumber withObjects:objects];
+//                    }];
+//                }
+//                else {
+//                    
+//                    operationNumber++;
+//                    [self finishedOperation:operationNumber withObjects:nil];
+//                }
+//            }];
+//        }
+//        else {
+//            
+//            operationNumber++;
+//            [self finishedOperation:operationNumber withObjects:nil];
+//        }
     });
 }
 
@@ -549,6 +541,9 @@ static int expectedOperations;
     
     if (self) {
         
+        self.tabBarItem.image = [UIImage imageNamed:@"people.png"];
+        self.navigationItem.title = @"People";
+
         self.filter = (FindPeopleFilter *)self.segmentedControl.selectedSegmentIndex;
         self.searchedAccounts = [[NSMutableArray alloc] init];
     }
@@ -567,8 +562,6 @@ static int expectedOperations;
     
     [super viewWillDisappear:animated];
     
-    [TVLoadingSignifier hideLoadingSignifier];
-    
     [self.searchBar resignFirstResponder];
 }
 
@@ -577,7 +570,7 @@ static int expectedOperations;
     self.isSearching = NO;
     
     self.accounts = [[NSMutableArray alloc] init];
-  
+    
     for (UIView *v in [[[self.segmentedControl subviews] objectAtIndex:0] subviews]) {
         
         if ([v isKindOfClass:[UILabel class]]) {

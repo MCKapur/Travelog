@@ -18,12 +18,10 @@
 
 @property (nonatomic) int randomNumber;
 
-@property (nonatomic, strong) UIColor *backgroundColor;
+@property (nonatomic, strong) UIColor *swipeColor;
 
 @property (strong, nonatomic) TVLoginViewController *loginViewController;
 
 @property (strong, nonatomic) TVViewController *trvlogueViewController;
-
-+ (UIColor *)generateRandomColor;
 
 @end

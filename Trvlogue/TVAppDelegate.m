@@ -13,23 +13,22 @@
 #import "TVLoginViewController.h"
 
 #import "TVViewController.h"
+#import "TVMessageListViewController.h"
+#import "TVFlightRecorderViewController.h"
+#import "TVFindPeopleViewController.h"
+#import "TVSettingsViewController.h"
 
 #import "Reachability.h"
 
 #import "TestFlightSDK/TestFlight.h"
 
 @implementation TVAppDelegate
-@synthesize randomNumber, backgroundColor;
-
-+ (UIColor *)generateRandomColor {
-    
-    NSArray *colors = @[[UIColor colorWithRed:67.0f/255.0f green:180.0f/255.0f blue:227.0f/255.0f alpha:1.0], [UIColor orangeColor], [UIColor colorWithRed:82.0f/255.0f green:199.0f/255.0f blue:0.0f/255.0f alpha:1], [UIColor redColor], [UIColor purpleColor], [UIColor magentaColor], [UIColor brownColor]];
-    
-    return colors[arc4random() % [colors count]];
-}
+@synthesize randomNumber, swipeColor;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    self.swipeColor = [UIColor randomFlatColor];
+    
     // Should remove in production
     [TestFlight takeOff:@"6c9526c1-d130-4ffe-95b7-898c408d014a"];
 
@@ -37,8 +36,6 @@
      UIRemoteNotificationTypeBadge |
      UIRemoteNotificationTypeAlert];
     
-    self.backgroundColor = [TVAppDelegate generateRandomColor];
-
     [Parse setApplicationId:@"tuE6sOcRNK3YSUaIgDM7mp4PgkMrnxuKKrvciTFw" clientKey:@"oWXDlTXcbIFfoePaVSdh0ZlmxBd8uSGBjtIOSowk"];
     
     [TVDatabase trackAnalytics:launchOptions];
@@ -48,23 +45,23 @@
     
     self.loginViewController = [[TVLoginViewController alloc] initWithNibName:@"TVLoginViewController" bundle:nil];
     
-    self.trvlogueViewController = [[TVViewController alloc] initWithNibName:@"TVViewController" bundle:nil];
+    self.trvlogueViewController = [[TVViewController alloc] init];
     self.trvlogueViewController.shouldRefresh = YES;
     
-    UINavigationController *controller;
+    UITabBarController *tabBarController = [[UITabBarController alloc] init];
     
     if ([[TVDatabase currentAccount] userId]) {
         
-        controller = [[UINavigationController alloc] initWithRootViewController:self.trvlogueViewController];
+        [tabBarController setViewControllers:[NSArray arrayWithObjects:[[UINavigationController alloc] initWithRootViewController:self.trvlogueViewController], [[UINavigationController alloc] initWithRootViewController:[[TVMessageListViewController alloc] init]], [[UINavigationController alloc] initWithRootViewController:[[TVFlightRecorderViewController alloc] init]], [[UINavigationController alloc] initWithRootViewController:[[TVFindPeopleViewController alloc] init]], [[UINavigationController alloc] initWithRootViewController:[[TVSettingsViewController alloc] init]], nil]];
     }
     else {
         
-        controller = [[UINavigationController alloc] initWithRootViewController:self.loginViewController];
+        [tabBarController setViewControllers:[NSArray arrayWithObjects: [[UINavigationController alloc] initWithRootViewController:self.loginViewController], nil]];
     }
     
-    [controller.navigationBar setBackgroundImage:[UIImage imageNamed:TRVLOGUE_NAVIGATION_BAR] forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setTitleTextAttributes: @{UITextAttributeFont: [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0f]}];
     
-    self.window.rootViewController = controller;
+    self.window.rootViewController = tabBarController;
     
     [self.window makeKeyAndVisible];
     

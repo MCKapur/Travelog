@@ -178,6 +178,8 @@
     self.delegate = self;
     self.dataSource = self;
     
+    self.navigationItem.title = [[TVDatabase messageHistoryFromID:self.messageHistoryID].receiverId isEqualToString:[[TVDatabase currentAccount] userId]] ? [TVDatabase cachedPersonWithId:[TVDatabase messageHistoryFromID:self.messageHistoryID].senderId].person.name : [TVDatabase cachedPersonWithId:[TVDatabase messageHistoryFromID:self.messageHistoryID].receiverId].person.name;
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incomingMessage) name:@"IncomingMessage" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:@"ProfilePictureWritten" object:nil];
 }

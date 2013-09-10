@@ -29,13 +29,14 @@
         act.center = self.view.center;
         [act startAnimating];        
     }
-    
 }
 
 - (void)viewDidLoad {
     
     UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(share)];
     [self.navigationItem setRightBarButtonItem:rightBarButtonItem];
+    
+    self.navigationItem.title = self.title;
     
     [wv loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:link]]];
     [wv setSuppressesIncrementalRendering:YES];

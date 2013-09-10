@@ -205,7 +205,7 @@
     dispatch_queue_t downloadQueue = dispatch_queue_create("Upload account", NULL);
     dispatch_async(downloadQueue, ^{
         
-        [TVDatabase uploadAccount:account withProfilePicture:[profileImageView.image makeThumbnailOfSize:CGSizeMake(500, 500)] andCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
+        [TVDatabase uploadAccount:account withProfilePicture:[profileImageView.image makeThumbnailOfSize:CGSizeMake(700, 700)] andCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
 
             if (success && !error) {
                 
@@ -435,6 +435,8 @@
     
     [self.navigationController setNavigationBarHidden:NO];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(registerAction)]];
+    
+    self.navigationItem.title = @"Register";
     
     followingArray = [[NSMutableArray alloc] init];
     
