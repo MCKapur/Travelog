@@ -34,6 +34,8 @@
 
         [self addObject:notification];
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateNotifications" object:nil userInfo:nil];
 }
 
 - (void)removeNotification:(TVNotification *)notification {
@@ -42,6 +44,8 @@
         
         [self removeObjectAtIndex:[self indexOfNotification:notification]];
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateNotifications" object:nil userInfo:nil];
 }
 
 - (int)indexOfNotification:(TVNotification *)notification {

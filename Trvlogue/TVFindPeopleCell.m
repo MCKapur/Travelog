@@ -28,8 +28,6 @@
         [self setSelectionStyle:UITableViewCellSelectionStyleNone];
 
         self.hasConnection = NO;
-        
-        [self.followButton addTarget:self action:@selector(didTapFollowButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     return self;
@@ -39,6 +37,8 @@
 
 - (void)setAccount:(TVAccount *)_account {
     
+    [self.followButton addTarget:self action:@selector(didTapFollowButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+
     account = _account;
     
     TVPerson *person = [self.account person];
@@ -114,9 +114,9 @@
 
 /* Inform delegate that the follow button was tapped */
 - (void)didTapFollowButtonAction:(id)sender {
-    NSLog(@"in the flag");
+
     if (self.delegate && [self.delegate respondsToSelector:@selector(cell:didTapFollowButton:)]) {
-        NSLog(@"wheres the flag");
+
         [self.delegate cell:self didTapFollowButton:self.account];
     }        
 }

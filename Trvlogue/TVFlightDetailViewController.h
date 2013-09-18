@@ -44,7 +44,6 @@ typedef enum {
 @interface TVFlightDetailViewController : UIViewController <MKMapViewDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIGridViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
 {
     __weak IBOutlet UIScrollView *infoScrollView;
-    __weak IBOutlet UIView *infoView;
     __weak IBOutlet UISegmentedControl *infoSegControl;
     
     NSMutableArray *places;

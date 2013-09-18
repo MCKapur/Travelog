@@ -39,7 +39,7 @@
 #pragma mark Message Operations
 
 - (NSMutableArray *)sortedMessageHistories {
-    
+        
     NSSortDescriptor *sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"publishDate" ascending:NO];
     
     NSMutableArray *_messageHistories = [self.messageHistories mutableCopy];

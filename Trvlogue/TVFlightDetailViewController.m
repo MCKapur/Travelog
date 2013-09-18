@@ -773,10 +773,6 @@
         [infoScrollView addSubview:view];
     }
     
-    [self.view addSubview:infoView];
-    
-    [infoView setFrame:CGRectMake(0, 0, infoView.frame.size.width, infoView.frame.size.height)];
-    
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareFlight)];
     
     self.navigationItem.rightBarButtonItem = barButtonItem;
@@ -795,6 +791,12 @@
     self.peopleTableView.backgroundColor = [UIColor clearColor];
 
     [self addBanner];
+    
+    UIPageControl *flexiblePageControl = [[UIPageControl alloc] init];
+    [flexiblePageControl setNumberOfPages:NUMBER_OF_SLIDES];
+    [flexiblePageControl setPageIndicatorTintColor:[UIColor whiteColor]];
+    [flexiblePageControl setFrame:CGRectMake(self.view.center.x, self.view.frame.size.height - 20, flexiblePageControl.frame.size.width, flexiblePageControl.frame.size.height)];
+//    [self.view addSubview:flexiblePageControl];
 }
 
 - (void)viewDidLoad

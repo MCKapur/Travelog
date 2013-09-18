@@ -25,8 +25,106 @@
 @implementation TVAppDelegate
 @synthesize randomNumber, swipeColor;
 
+- (void)updateNotifications {
+
+    int numberOfUnreadMessagesNotifications = 0;
+    int numberOfConnectRequestNotifications = 0;
+    
+    for (TVNotification *notification in [[[TVDatabase currentAccount] person] notifications]) {
+        
+        if (notification.type == (NotificationType *)kNotificationTypeUnreadMessages) {
+            
+            numberOfUnreadMessagesNotifications++;
+        }
+        else {
+            
+            numberOfConnectRequestNotifications++;
+        }
+    }
+    
+    CustomBadge *unreadMessagesBadge = nil;
+    
+    for (UIView *view in self.window.subviews) {
+        
+        if ([[view accessibilityIdentifier] isEqualToString:@"MessagesBadge"]) {
+            
+            unreadMessagesBadge = (CustomBadge *)view;
+        }
+    }
+    
+    if (numberOfUnreadMessagesNotifications) {
+        
+        if (!unreadMessagesBadge) {
+            
+            unreadMessagesBadge = [CustomBadge customiOS7BadgeWithString:[NSString stringWithFormat:@"%i", numberOfUnreadMessagesNotifications]];
+            
+            [unreadMessagesBadge setFrame:CGRectMake(95, 519, unreadMessagesBadge.frame.size.width, unreadMessagesBadge.frame.size.height)];
+            
+            unreadMessagesBadge.userInteractionEnabled = NO;
+            
+            unreadMessagesBadge.accessibilityIdentifier = @"MessagesBadge";
+            
+            [self.window addSubview:unreadMessagesBadge];
+        }
+        else {
+            
+            [unreadMessagesBadge autoBadgeSizeWithString:[NSString stringWithFormat:@"%i", numberOfUnreadMessagesNotifications]];
+            
+            unreadMessagesBadge.badgeText = [NSString stringWithFormat:@"%i", numberOfUnreadMessagesNotifications];
+        }
+    }
+    else {
+        
+        if (unreadMessagesBadge) {
+            
+            [unreadMessagesBadge removeFromSuperview];
+        }
+    }
+    
+    CustomBadge *connectBadge = nil;
+    
+    for (UIView *view in self.window.subviews) {
+        
+        if ([[view accessibilityIdentifier] isEqualToString:@"ConnectBadge"]) {
+            
+            connectBadge = (CustomBadge *)view;
+        }
+    }
+    
+    if (numberOfConnectRequestNotifications) {
+        
+        if (!connectBadge) {
+            
+            connectBadge = [CustomBadge customiOS7BadgeWithString:[NSString stringWithFormat:@"%i", numberOfConnectRequestNotifications]];
+            
+            [connectBadge setFrame:CGRectMake(223, 520, connectBadge.frame.size.width, connectBadge.frame.size.height)];
+            
+            connectBadge.userInteractionEnabled = NO;
+            
+            connectBadge.accessibilityIdentifier = @"ConnectBadge";
+            
+            [self.window addSubview:connectBadge];
+        }
+        else {
+            
+            [connectBadge autoBadgeSizeWithString:[NSString stringWithFormat:@"%i", numberOfConnectRequestNotifications]];
+            
+            connectBadge.badgeText = [NSString stringWithFormat:@"%i", numberOfConnectRequestNotifications];
+        }
+    }
+    else {
+        
+        if (connectBadge) {
+            
+            [connectBadge removeFromSuperview];
+        }
+    }
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateNotifications) name:@"UpdateNotifications" object:nil];
+    
     self.swipeColor = [UIColor randomFlatColor];
     
     // Should remove in production

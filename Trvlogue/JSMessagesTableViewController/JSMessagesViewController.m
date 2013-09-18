@@ -47,8 +47,6 @@
 
 @end
 
-
-
 @implementation JSMessagesViewController
 
 #pragma mark - Initialization
@@ -60,7 +58,7 @@
     }
     
     CGSize size = self.view.frame.size;
-	
+
     CGRect tableFrame = CGRectMake(0.0f, 0.0f, size.width, size.height - INPUT_HEIGHT);
 	self.tableView = [[UITableView alloc] initWithFrame:tableFrame style:UITableViewStylePlain];
 	self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -68,15 +66,13 @@
 	self.tableView.delegate = self;
 	[self.view addSubview:self.tableView];
 	
-    [self setBackgroundColor:[UIColor messagesBackgroundColor]];
-    
-    CGRect inputFrame = CGRectMake(0.0f, size.height - INPUT_HEIGHT, size.width, INPUT_HEIGHT);
+    CGRect inputFrame = CGRectMake(0.0f, size.height - INPUT_HEIGHT - 49, size.width, INPUT_HEIGHT);
     self.inputToolBarView = [[JSMessageInputView alloc] initWithFrame:inputFrame delegate:self];
     
     // TODO: refactor
     self.inputToolBarView.textView.dismissivePanGestureRecognizer = self.tableView.panGestureRecognizer;
     self.inputToolBarView.textView.keyboardDelegate = self;
-
+    
     UIButton *sendButton = [self sendButton];
     sendButton.enabled = NO;
     sendButton.frame = CGRectMake(self.inputToolBarView.frame.size.width - 65.0f, 8.0f, 59.0f, 26.0f);
@@ -85,6 +81,8 @@
          forControlEvents:UIControlEventTouchUpInside];
     [self.inputToolBarView setSendButton:sendButton];
     [self.view addSubview:self.inputToolBarView];
+    
+    [self setBackgroundColor:[UIColor messagesBackgroundColor]];
 }
 
 - (UIButton *)sendButton
@@ -102,7 +100,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self scrollToBottomAnimated:NO];
-    
+
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(handleWillShowKeyboard:)
 												 name:UIKeyboardWillShowNotification
@@ -112,6 +110,13 @@
 											 selector:@selector(handleWillHideKeyboard:)
 												 name:UIKeyboardWillHideNotification
                                                object:nil];
+    
+    [super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -164,14 +169,9 @@
 }
 
 #pragma mark - Table view data source
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return [self.dataSource numberOfMessages];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -263,7 +263,7 @@
 
 - (void)finishSend
 {
-    [self.inputToolBarView.textView setText:nil];
+    [self.inputToolBarView.textView setText:@"Type your message here"];
     [self textViewDidChange:self.inputToolBarView.textView];
     [self.tableView reloadData];
     [self.tableView setNeedsDisplay];
@@ -279,24 +279,20 @@
 
 - (void)scrollToBottomAnimated:(BOOL)animated
 {
-    NSInteger rows = [self.tableView numberOfRowsInSection:0];
-    
-    if(rows > 0) {
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:rows - 1 inSection:0]
-                              atScrollPosition:UITableViewScrollPositionBottom
-                                      animated:animated];
-    }
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.dataSource numberOfMessages] - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 
 #pragma mark - Text view delegate
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    [textView becomeFirstResponder];
-	
+    [self scrollToBottomAnimated:YES];
+
     if(!self.previousTextViewContentHeight)
 		self.previousTextViewContentHeight = textView.contentSize.height;
     
-    [self scrollToBottomAnimated:YES];
+    if ([textView.text isEqualToString:@"Type your message here"]) {
+        textView.text = @"";
+    }
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
@@ -304,8 +300,8 @@
     [textView resignFirstResponder];
 }
 
-- (void)textViewDidChange:(UITextView *)textView
-{
+- (void)textViewDidChange:(UITextView *)textView {
+    
     CGFloat maxHeight = [JSMessageInputView maxHeight];
     CGFloat textViewContentHeight = textView.contentSize.height;
     BOOL isShrinking = textViewContentHeight < self.previousTextViewContentHeight;

@@ -164,8 +164,8 @@
                                  }];
             }
             break;
-        
-        // gesture is currently panning, match keyboard y to touch y
+            
+            // gesture is currently panning, match keyboard y to touch y
         default:
             if(location.y > self.keyboard.frame.origin.y || self.keyboard.frame.origin.y != self.originalKeyboardY) {
                 

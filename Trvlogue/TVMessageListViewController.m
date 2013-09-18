@@ -54,6 +54,10 @@
     cell.backgroundView = nil;
     cell.backgroundColor = [UIColor clearColor];
     
+    cell.imageView.layer.cornerRadius = 22.0f;
+    cell.imageView.clipsToBounds = YES;
+    cell.imageView.layer.masksToBounds = YES;
+    
     [[cell textLabel] setBackgroundColor:[UIColor clearColor]];
     [[cell detailTextLabel] setBackgroundColor:[UIColor clearColor]];
 
@@ -104,19 +108,25 @@
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
-    
-    [self reload];
 }
 
 - (id)init {
     
     if (self = [super init]) {
         
+        self.tabBarItem.title = @"Messages";
         self.navigationItem.title = @"Messages";
         self.tabBarItem.image = [UIImage imageNamed:@"messages.png"];
     }
     
     return self;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [self reload];
+    
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidLoad

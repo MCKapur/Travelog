@@ -63,7 +63,7 @@
 
 - (void)accountUpdated {
     
-    [self updateNotifications];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateNotifications" object:nil userInfo:nil];
 }
 
 - (void)refreshedFlights {
@@ -75,106 +75,6 @@
 }
 
 #pragma mark UITableView Methods
-
-- (void)updateNotifications {
-
-    [self.headerView setFrame:CGRectMake(self.headerView.frame.origin.x, self.headerView.frame.origin.y, 320, 31)];
-    
-    self.flightsTable.tableHeaderView = self.headerView;
-        
-    int numberOfUnreadMessagesNotifications = 0;
-    int numberOfConnectRequestNotifications = 0;
-    
-    for (TVNotification *notification in [[[TVDatabase currentAccount] person] notifications]) {
-        
-        if (notification.type == (NotificationType *)kNotificationTypeUnreadMessages) {
-            
-            numberOfUnreadMessagesNotifications++;
-        }
-        else {
-            
-            numberOfConnectRequestNotifications++;
-        }
-    }
-
-    CustomBadge *unreadMessagesBadge = nil;
-    
-    for (UIView *view in self.headerView.subviews) {
-        
-        if ([[view accessibilityIdentifier] isEqualToString:@"MessagesBadge"]) {
-            
-            unreadMessagesBadge = (CustomBadge *)view;
-        }
-    }
-
-    if (numberOfUnreadMessagesNotifications) {
-        
-        if (!unreadMessagesBadge) {
-            
-            unreadMessagesBadge = [CustomBadge customiOS7BadgeWithString:[NSString stringWithFormat:@"%i", numberOfUnreadMessagesNotifications]];
-            
-            [unreadMessagesBadge setFrame:CGRectMake(95, 519, unreadMessagesBadge.frame.size.width, unreadMessagesBadge.frame.size.height)];
-            
-            unreadMessagesBadge.userInteractionEnabled = NO;
-            
-            unreadMessagesBadge.accessibilityIdentifier = @"MessagesBadge";
-            
-            [self.tabBarController.view addSubview:unreadMessagesBadge];
-        }
-        else {
-            
-            [unreadMessagesBadge autoBadgeSizeWithString:[NSString stringWithFormat:@"%i", numberOfUnreadMessagesNotifications]];
-            
-            unreadMessagesBadge.badgeText = [NSString stringWithFormat:@"%i", numberOfUnreadMessagesNotifications];
-        }
-    }
-    else {
-        
-        if (unreadMessagesBadge) {
-            
-            [unreadMessagesBadge removeFromSuperview];
-        }
-    }
-    
-    CustomBadge *connectBadge = nil;
-
-    for (UIView *view in self.headerView.subviews) {
-        
-        if ([[view accessibilityIdentifier] isEqualToString:@"ConnectBadge"]) {
-            
-            connectBadge = (CustomBadge *)view;
-        }
-    }
-
-    if (numberOfConnectRequestNotifications) {
-        
-        if (!connectBadge) {
-            
-            connectBadge = [CustomBadge customiOS7BadgeWithString:[NSString stringWithFormat:@"%i", numberOfConnectRequestNotifications]];
-            
-            [connectBadge setFrame:CGRectMake(223, 520, connectBadge.frame.size.width, connectBadge.frame.size.height)];
-            
-            connectBadge.userInteractionEnabled = NO;
-            
-            connectBadge.accessibilityIdentifier = @"ConnectBadge";
-            
-            [self.tabBarController.view addSubview:connectBadge];
-        }
-        else {
-            
-            [connectBadge autoBadgeSizeWithString:[NSString stringWithFormat:@"%i", numberOfConnectRequestNotifications]];
-
-            connectBadge.badgeText = [NSString stringWithFormat:@"%i", numberOfConnectRequestNotifications];
-        }
-    }
-    else {
-        
-        if (connectBadge) {
-            
-            [connectBadge removeFromSuperview];
-        }
-    }
-}
 
 - (void)updateFlights {
     
@@ -193,7 +93,6 @@
             
             [self updateFlights];
             [self updateMilesLabel];
-            [self updateNotifications];
 
             if (completed) {
                 
@@ -600,12 +499,16 @@
     
     self.mileTidbitsSwipeView = [[TVSwipeBanner alloc] initWithFrame:CGRectMake(0, 0, 320, 21)];
     [self.headerView addSubview:self.mileTidbitsSwipeView];
-    
+        
     [self.navigationController setNavigationBarHidden:NO];
     
     self.navigationItem.hidesBackButton = YES;
     
     [self.headerView setFrame:CGRectMake(self.headerView.frame.origin.x, self.headerView.frame.origin.y, 320, 31)];
+    
+    UIImageView *background = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 64)];
+    [background setBackgroundColor:((TVAppDelegate *)[UIApplication sharedApplication].delegate).swipeColor];
+    [self.view addSubview:background];
 }
 
 #pragma mark Funky, Dirty, Native :)
@@ -615,6 +518,7 @@
     if (self = [super init]) {
         
         self.navigationItem.title = @"Flights";
+        self.tabBarItem.title = @"Flights";
         self.tabBarItem.image = [UIImage imageNamed:@"airplane.png"];
     }
     
@@ -625,7 +529,6 @@
     
     [super viewWillAppear:YES];
     
-    [self updateNotifications];
     [self updateMilesLabel];
     [self updateFlights];
 }

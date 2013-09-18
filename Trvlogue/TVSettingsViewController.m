@@ -321,11 +321,6 @@
     if (![self validateEmailWithString:[emailTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""]]) {
         
         retVal = 1;
-        
-        if (![self missingFields]) {
-            
-            [TVErrorHandler handleError:[NSError errorWithDomain:@"Email specified is invalid" code:200 userInfo:@{NSLocalizedDescriptionKey:@"Email specified is invalid"}]];
-        }
     }
     else {
         
@@ -371,6 +366,7 @@
     if (self = [super init]) {
         
         self.navigationItem.title = @"Settings";
+        self.tabBarItem.title = @"Settings";
         self.tabBarItem.image = [UIImage imageNamed:@"settings.png"];
     }
     

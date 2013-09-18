@@ -94,9 +94,21 @@
 
 - (void)registerAction {
     
-    if (![self checkForErrors]) {
+    if (![self incorrectFields].count) {
         
         [self createAccount];
+    }
+    
+    for (int i = 1; i <= 7; i++) {
+        
+        if ([[self incorrectFields] containsObject:@(i)]) {
+            
+            [[self.view viewWithTag:i] setTintColor:[UIColor yellowColor]];
+        }
+        else {
+            
+            [[self.view viewWithTag:i] setTintColor:[UIColor whiteColor]];
+        }
     }
 }
 
@@ -174,7 +186,6 @@
             account.accessibilityValue = passwordTextField.text;
             
             [self registerAccount];
-            [self createdAccount];
         }
         else {
             
@@ -202,6 +213,8 @@
 
 - (void)registerAccount {
     
+    [self createdAccount];
+
     dispatch_queue_t downloadQueue = dispatch_queue_create("Upload account", NULL);
     dispatch_async(downloadQueue, ^{
         
@@ -271,35 +284,25 @@
 
 #pragma mark Checker Methods
 
-- (int)missingFields {
+- (NSMutableArray *)missingFields {
     
-    int retVal = 0;
-    
-    NSArray *array = [self checkIfValuesAreFilled];
-    
-    if (array.count) {
-        
-        retVal = 1;
-        
-        [TVErrorHandler handleError:[NSError errorWithDomain:@"Please fill in all fields" code:200 userInfo:@{NSLocalizedDescriptionKey:@"Please fill in all fields"}]];
-    }
-    
-    return retVal;
+    return [self checkIfValuesAreFilled];
 }
 
-- (BOOL)checkForErrors {
+- (NSArray *)incorrectFields {
     
-    BOOL retVal = NO;
+    NSMutableArray *retVal = [[NSMutableArray alloc] init];
     
-    int errorsMade = 0;
+    [retVal addObject:@([self checkEmailIsValid])];
+    [retVal addObjectsFromArray:[self missingFields]];
+    [retVal addObject:@([self checkIfPasswordsAreIdentical])];
     
-    errorsMade += [self checkEmailIsValid];
-    errorsMade += [self missingFields];
-    errorsMade += [self checkIfPasswordsAreIdentical];
-    
-    if (errorsMade) {
+    for (int i = 0; i <= retVal.count - 1; i++) {
         
-        retVal = YES;
+        if ([[retVal objectAtIndex:i] intValue] == 0) {
+            
+            [retVal removeObjectAtIndex:i];
+        }
     }
     
     return retVal;
@@ -311,7 +314,7 @@
     
     if (![self validateEmailWithString:emailTextField.text]) {
         
-        retVal = 1;
+        retVal = emailTextField.tag;
         
         if (![self missingFields]) {
             
@@ -330,7 +333,7 @@
     int retVal = 0;
     
     if (![passwordTextField.text isEqualToString:confirmPasswordTextField.text])
-        retVal++;
+        retVal = confirmPasswordTextField.tag;
     
     return retVal;
 }
@@ -347,7 +350,7 @@
                 
                 if (![((UITextField *)view).text stringByReplacingOccurrencesOfString:@" " withString:@""].length) {
                     
-                    [arrayOfValuesNotFilled addObject:view];
+                    [arrayOfValuesNotFilled addObject:@(view.tag)];
                 }
             }
         }

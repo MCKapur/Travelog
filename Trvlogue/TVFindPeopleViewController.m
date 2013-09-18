@@ -437,49 +437,49 @@ static int expectedOperations;
 
         expectedOperations = 3;
         
-//        [TVDatabase findUsersWithEmails:[self peopleEmails] withCompletionHandler:^(NSMutableArray *objects, NSError *error, NSString *callCode) {
-//
-//            operationNumber++;
-//            [self finishedOperation:operationNumber withObjects:objects];
-//        }];
+        [TVDatabase findUsersWithEmails:[self peopleEmails] withCompletionHandler:^(NSMutableArray *objects, NSError *error, NSString *callCode) {
+
+            operationNumber++;
+            [self finishedOperation:operationNumber withObjects:objects];
+        }];
         
         [TVDatabase downloadUsersFromUserIds:[TVDatabase allUserConnections] withCompletionHandler:^(NSMutableArray *users, NSError *error, NSString *callCode) {
-            
+
             operationNumber++;
             [self finishedOperation:operationNumber withObjects:users];
         }];
         
-//        if ([[TVDatabase currentAccount] isUsingLinkedIn]) {
-//            
-//            [LinkedInDataRetriever downloadConnectionsWithAccessToken:[[TVDatabase currentAccount] linkedInAccessKey] andCompletionHandler:^(NSArray *connections, BOOL success, NSError *error) {
-//                
-//                if (!error && success && connections.count) {
-//                    
-//                    NSMutableArray *linkedInIds = [[NSMutableArray alloc] init];
-//                    
-//                    for (NSDictionary *connection in connections) {
-//                        
-//                        [linkedInIds addObject:connection[@"id"]];
-//                    }
-//                    
-//                    [TVDatabase findUsersWithLinkedInIds:linkedInIds withCompletionHandler:^(NSMutableArray *objects, NSError *error, NSString *callCode) {
-//                        
-//                        operationNumber++;
-//                        [self finishedOperation:operationNumber withObjects:objects];
-//                    }];
-//                }
-//                else {
-//                    
-//                    operationNumber++;
-//                    [self finishedOperation:operationNumber withObjects:nil];
-//                }
-//            }];
-//        }
-//        else {
-//            
-//            operationNumber++;
-//            [self finishedOperation:operationNumber withObjects:nil];
-//        }
+        if ([[TVDatabase currentAccount] isUsingLinkedIn]) {
+            
+            [LinkedInDataRetriever downloadConnectionsWithAccessToken:[[TVDatabase currentAccount] linkedInAccessKey] andCompletionHandler:^(NSArray *connections, BOOL success, NSError *error) {
+                
+                if (!error && success && connections.count) {
+                    
+                    NSMutableArray *linkedInIds = [[NSMutableArray alloc] init];
+                    
+                    for (NSDictionary *connection in connections) {
+                        
+                        [linkedInIds addObject:connection[@"id"]];
+                    }
+                    
+                    [TVDatabase findUsersWithLinkedInIds:linkedInIds withCompletionHandler:^(NSMutableArray *objects, NSError *error, NSString *callCode) {
+                        
+                        operationNumber++;
+                        [self finishedOperation:operationNumber withObjects:objects];
+                    }];
+                }
+                else {
+                    
+                    operationNumber++;
+                    [self finishedOperation:operationNumber withObjects:nil];
+                }
+            }];
+        }
+        else {
+            
+            operationNumber++;
+            [self finishedOperation:operationNumber withObjects:nil];
+        }
     });
 }
 
@@ -541,6 +541,7 @@ static int expectedOperations;
     
     if (self) {
         
+        self.tabBarItem.title = @"People";
         self.tabBarItem.image = [UIImage imageNamed:@"people.png"];
         self.navigationItem.title = @"People";
 

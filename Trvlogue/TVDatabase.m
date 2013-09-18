@@ -137,7 +137,7 @@ NSString *const EMAIL_TAKEN = @"202";
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         
         if (!error) {
-            
+
             if (objects.count) {
                 
                 PFObject *messageObject = objects[0];
@@ -215,7 +215,7 @@ NSString *const EMAIL_TAKEN = @"202";
 }
 
 + (void)confirmReceiverHasReadMessagesinMessageHistory:(TVMessageHistory *)messageHistory withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback {
-    
+
     PFQuery *query = [PFQuery queryWithClassName:@"Messages"];
     
     [query whereKey:@"senderId" equalTo:messageHistory.senderId];
@@ -246,7 +246,13 @@ NSString *const EMAIL_TAKEN = @"202";
         
         if (objects.count && !error) {
             
-            objects[0][@"messageHistory"] = [NSKeyedArchiver archivedDataWithRootObject:messageHistory];
+            for (int i = 0; i <= [messageHistories count] - 1; i++) {
+                
+                if ([((TVMessageHistory *)account.person.messageHistories[i]).ID isEqualToString:messageHistory.ID]) {
+                    
+                    objects[0][@"messageHistory"] = [NSKeyedArchiver archivedDataWithRootObject:account.person.messageHistories[i]];
+                }
+            }
             
             [objects[0] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
 

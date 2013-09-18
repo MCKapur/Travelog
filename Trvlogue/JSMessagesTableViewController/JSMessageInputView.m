@@ -40,6 +40,8 @@
 
 #define SEND_BUTTON_WIDTH 78.0f
 
+static id<JSMessageInputViewDelegate> __delegate;
+
 @interface JSMessageInputView ()
 
 - (void)setup;
@@ -47,18 +49,23 @@
 
 @end
 
+@interface JSMessageInputView ()
 
+- (void)setup;
+- (void)setupTextView;
+
+@end
 
 @implementation JSMessageInputView
-
 @synthesize sendButton;
 
 #pragma mark - Initialization
 - (id)initWithFrame:(CGRect)frame
-           delegate:(id<UITextViewDelegate>)delegate
+           delegate:(id<UITextViewDelegate, JSMessageInputViewDelegate>)delegate
 {
     self = [super initWithFrame:frame];
     if(self) {
+        __delegate = delegate;
         [self setup];
         self.textView.delegate = delegate;
     }
@@ -80,7 +87,7 @@
 - (void)setup
 {
     self.image = [UIImage inputBar];
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = [UIColor clearColor];
     self.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin);
     self.opaque = YES;
     self.userInteractionEnabled = YES;
@@ -92,9 +99,9 @@
     CGFloat width = self.frame.size.width - SEND_BUTTON_WIDTH;
     CGFloat height = [JSMessageInputView textViewLineHeight];
     
-    self.textView = [[JSDismissiveTextView  alloc] initWithFrame:CGRectMake(6.0f, 3.0f, width, height)];
+    self.textView = [[JSDismissiveTextView  alloc] initWithFrame:CGRectMake(6.0f, 4.5f, width, height)];
     self.textView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    self.textView.backgroundColor = [UIColor whiteColor];
+    self.textView.backgroundColor = [UIColor clearColor];
     self.textView.scrollIndicatorInsets = UIEdgeInsetsMake(10.0f, 0.0f, 10.0f, 8.0f);
     self.textView.contentInset = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
     self.textView.scrollEnabled = YES;
@@ -102,10 +109,11 @@
     self.textView.userInteractionEnabled = YES;
     self.textView.font = [JSBubbleView font];
     self.textView.textColor = [UIColor blackColor];
-    self.textView.backgroundColor = [UIColor whiteColor];
+    self.textView.backgroundColor = [UIColor clearColor];
     self.textView.keyboardAppearance = UIKeyboardAppearanceDefault;
     self.textView.keyboardType = UIKeyboardTypeDefault;
     self.textView.returnKeyType = UIReturnKeyDefault;
+    self.textView.text = @"Type your message here";
     [self addSubview:self.textView];
 	
     UIImageView *inputFieldBack = [[UIImageView alloc] initWithFrame:CGRectMake(self.textView.frame.origin.x - 1.0f,
@@ -167,6 +175,14 @@
 + (CGFloat)maxHeight
 {
     return ([JSMessageInputView maxLines] + 1.0f) * [JSMessageInputView textViewLineHeight];
+}
+
++ (JSInputBarStyle)inputBarStyle
+{
+    if ([__delegate respondsToSelector:@selector(inputBarStyle)])
+        return [__delegate inputBarStyle];
+    
+    return JSInputBarStyleDefault;
 }
 
 @end

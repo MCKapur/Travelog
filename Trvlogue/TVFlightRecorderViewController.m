@@ -138,6 +138,7 @@
     
     if (self = [super init]) {
 
+        self.tabBarItem.title = @"Record";
         self.tabBarItem.image = [UIImage imageNamed:@"record.png"];
         self.navigationItem.title = @"Record Flight";
     }
@@ -148,7 +149,7 @@
 #pragma mark UI
 
 - (void)UIBuffer {
-        
+    
     UIBarButtonItem *submitFlight = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(submitFlight)];
     self.navigationItem.rightBarButtonItem = submitFlight;
         
@@ -164,7 +165,7 @@
             view.layer.masksToBounds = YES;
             view.layer.cornerRadius = 7.0f;
         }
-    }    
+    }
 }
 
 #pragma mark Dirty, Funky, Native :D
@@ -180,6 +181,9 @@
 
 - (void)viewDidLoad
 {
+    self.originTextField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+    self.destinationTextField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+    
     self.originTextField.autocompleteDataSource = self;
     self.destinationTextField.autocompleteDataSource = self;
 
@@ -416,14 +420,14 @@
 }
 
 - (void)submitFlight {
-
-    self.originTextField.text = [NSString string];
-    self.destinationTextField.text = [NSString string];
-    self.datePicker.date = [NSDate date];
     
     [self calculateMiles];
     
     [TVLoadingSignifier signifyLoading:@"Recording your flight" duration:-1];
+    
+    self.originTextField.text = [NSString string];
+    self.destinationTextField.text = [NSString string];
+    self.datePicker.date = [NSDate date];
 }
 
 - (void)createTrvlogueFlight {
@@ -446,8 +450,6 @@
 - (void)updateAccount:(TVAccount *)updatedAccount {
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"RecordedFlight" object:nil];
-    
-    [TVLoadingSignifier signifyLoading:@"Uploading flight" duration:-1];
     
     [TVDatabase updateMyAccount:updatedAccount withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
         

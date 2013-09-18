@@ -41,7 +41,12 @@
 
 - (JSBubbleMessageStyle)messageStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return JSBubbleMessageStyleSquare;
+    return JSBubbleMessageStyleFlat;
+}
+
+- (JSInputBarStyle)inputBarStyle
+{
+    return JSInputBarStyleFlat;
 }
 
 - (JSMessagesViewTimestampPolicy)timestampPolicy
@@ -66,6 +71,11 @@
 //
 
 #pragma mark Messages View Data Source
+
+- (NSUInteger)numberOfMessages {
+    
+    return [TVDatabase messageHistoryFromID:self.messageHistoryID].sortedMessages.count;
+}
 
 - (NSString *)textForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -177,6 +187,8 @@
     
     self.delegate = self;
     self.dataSource = self;
+    
+    self.view.frame = CGRectMake(0, 0, 320, 500);
     
     self.navigationItem.title = [[TVDatabase messageHistoryFromID:self.messageHistoryID].receiverId isEqualToString:[[TVDatabase currentAccount] userId]] ? [TVDatabase cachedPersonWithId:[TVDatabase messageHistoryFromID:self.messageHistoryID].senderId].person.name : [TVDatabase cachedPersonWithId:[TVDatabase messageHistoryFromID:self.messageHistoryID].receiverId].person.name;
     
