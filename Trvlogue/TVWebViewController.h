@@ -17,10 +17,12 @@
     NSString *title;
     
     __weak IBOutlet UIWebView *wv;
+    
+    BOOL shouldBeReadable;
 }
 
 - (IBAction)back;
 
-- (id)initWithLink:(NSString *)_link andTitle: (NSString *)_title;
+- (id)initWithLink:(NSString *)_link andTitle: (NSString *)_title andMakeReadable:(BOOL)makeReadable;
 
 @end

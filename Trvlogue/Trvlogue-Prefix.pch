@@ -17,6 +17,8 @@
 #import "TVConversions.h"
 #import "TVLoadingSignifier.h"
 #import "TVNotificationSignifier.h"
+#import <MobileCoreServices/MobileCoreServices.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 #endif
 
 #define LINKEDIN_API_KEY @"6zuvtkqp11r4"
@@ -24,8 +26,6 @@
 #define LINKEDIN_UNIQUE_STATE @"smkfSDIOeoOOkoi43u4iusnjNSJNS"
 
 #define _AFNETWORKING_PIN_SSL_CERTIFICATES_
-
-#define NUMBER_OF_GIFS 17
 
 #define SYSTEM_VERSION_EQUAL_TO(v)         ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
 #define SYSTEM_VERSION_GREATER_THAN(v)       ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)

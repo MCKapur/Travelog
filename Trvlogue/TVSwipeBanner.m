@@ -32,7 +32,7 @@
                 
                 UILabel *tidbitLabel = [[UILabel alloc] initWithFrame:CGRectMake(320 * i, 0, 320, 21)];
                 tidbitLabel.backgroundColor = [UIColor clearColor];
-                tidbitLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15.0];
+                tidbitLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:14.0];
                 tidbitLabel.textColor = [UIColor whiteColor];
                 tidbitLabel.textAlignment = NSTextAlignmentCenter;
                 [tidbitLabel setText:[NSString stringWithFormat:@"%@ %@", [TVMileTidbits formatTidbit:[self.tidbits[i][@"value"] doubleValue]], self.tidbits[i][@"name"]]];
@@ -97,15 +97,15 @@
     }
     else {
         
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor whiteColor];
         
         [self.tidbits addObject:_tidbit];
-        
+
         self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * self.tidbits.count, self.scrollView.frame.size.height);
         
-        UILabel *tidbitLabel = [[UILabel alloc] initWithFrame:CGRectMake((320 * (self.tidbits.count - 1)) + 8, 0, 305, 50)];
+        UILabel *tidbitLabel = [[UILabel alloc] initWithFrame:CGRectMake((320 * (self.tidbits.count - 1)) + 8, 4, 305, 50)];
         tidbitLabel.backgroundColor = [UIColor clearColor];
-        tidbitLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15.0];
+        tidbitLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:14.0];
         tidbitLabel.textColor = [UIColor blackColor];
         tidbitLabel.textAlignment = NSTextAlignmentLeft;
         tidbitLabel.userInteractionEnabled = YES;

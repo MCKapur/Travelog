@@ -8,12 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TVTranslationsViewController : UIViewController
+@interface TVTranslationsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *translationsTableView;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *languagesSegmentedControl;
 
 @property (nonatomic, strong) NSMutableArray *translations;
 
 - (id)initWithTranslations:(NSMutableArray *)_translations;
+
+- (IBAction)languagesSegmentedControlChanged:(UISegmentedControl *)sender;
 
 @end

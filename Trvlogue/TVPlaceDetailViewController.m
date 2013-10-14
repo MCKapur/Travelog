@@ -33,7 +33,7 @@
     
     if (self.segmentedControl.selectedSegmentIndex == 0) {
         
-        retVal = info.count + 1;
+        retVal = info.count;
     }
     else {
         
@@ -74,15 +74,8 @@
         cell.textLabel.text = nil;
         cell.detailTextLabel.text = nil;
         
-        if (self.info.count != indexPath.row) {
-            
-            cell.textLabel.text = [self.info[indexPath.row][@"ID"] lowercaseString];
-            cell.detailTextLabel.text = self.info[indexPath.row][@"Object"];
-        }
-        else {
-            
-            cell.textLabel.text = @"save to offline places";
-        }
+        cell.textLabel.text = [self.info[indexPath.row][@"ID"] lowercaseString];
+        cell.detailTextLabel.text = self.info[indexPath.row][@"Object"];
     }
     else {
 
@@ -129,7 +122,7 @@
 
 - (void)clickedAuthorButtonWithName:(NSString *)authorName andURL:(NSString *)authorURL {
     
-    TVWebViewController *webViewController = [[TVWebViewController alloc] initWithLink:authorURL andTitle:authorName];
+    TVWebViewController *webViewController = [[TVWebViewController alloc] initWithLink:authorURL andTitle:authorName andMakeReadable:NO];
     
     [self.navigationController pushViewController:webViewController animated:YES];
 }
@@ -142,7 +135,7 @@
         
         if ([info[indexPath.row][@"ID"] isEqualToString:@"Website"]) {
             
-            TVWebViewController *webViewController = [[TVWebViewController alloc] initWithLink:info[indexPath.row][@"Object"] andTitle:self.place.name];
+            TVWebViewController *webViewController = [[TVWebViewController alloc] initWithLink:info[indexPath.row][@"Object"] andTitle:self.place.name andMakeReadable:NO];
             
             [self.navigationController pushViewController:webViewController animated:YES];
         }
@@ -226,11 +219,13 @@
     }
 }
 
-- (id)initWithPlace:(TVGooglePlace *)_place {
+- (id)initWithPlace:(TVGooglePlace *)_place andDelegate:(id<TVPlaceDetailViewControllerDelegate>)delegate {
     
     if (self = [self init]) {
         
         self.place = _place;
+        self.delegate = delegate;
+        NSLog(@"%@", self.delegate);
     }
     
     return self;
@@ -270,6 +265,14 @@
         
         [self.segmentedControl removeSegmentAtIndex:1 animated:NO];
     }
+    
+    UIBarButtonItem *submitFlight = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(savePlace)];
+    self.navigationItem.rightBarButtonItem = submitFlight;
+    
+    self.navigationItem.title = self.place.name;
+    
+    [self centerMap];
+    [self drawAnnotations];
 }
 
 + (UIImage *)starImageForIndex:(int)index andRating:(float)rating {
@@ -340,13 +343,15 @@
 
 - (void)viewDidLoad
 {
-    self.navigationItem.title = self.place.name;
-    
-    [self centerMap];
-    [self drawAnnotations];
-    
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+}
+
+- (void)savePlace {
+    
+    [self.delegate savedPlace:self.place];
+    
+    [TVNotificationSignifier signifyNotification:@"Saved place" forDuration:3];
 }
 
 - (void)didReceiveMemoryWarning

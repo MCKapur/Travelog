@@ -36,9 +36,9 @@
     UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(share)];
     [self.navigationItem setRightBarButtonItem:rightBarButtonItem];
     
-    self.navigationItem.title = self.title;
+    self.navigationItem.title = link;
     
-    [wv loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:link]]];
+    [wv loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", !shouldBeReadable ? link : [NSString stringWithFormat:@"http://www.readability.com/m?url=%@", link]]]]];
     [wv setSuppressesIncrementalRendering:YES];
     [wv setDelegate:self];
 }
@@ -67,12 +67,13 @@
     // Create UIWebView as large as the screen
 }                        
 
-- (id)initWithLink:(NSString *)_link andTitle: (NSString *)specifiedTitle {
+- (id)initWithLink:(NSString *)_link andTitle: (NSString *)specifiedTitle andMakeReadable:(BOOL)makeReadable {
     
     self = [super init];
     
     if (self) {
         
+        shouldBeReadable = makeReadable;
         link = _link;
         title = specifiedTitle;
     }

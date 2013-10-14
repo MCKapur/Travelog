@@ -120,15 +120,49 @@
         
     if ([textToSearch stringByReplacingOccurrencesOfString:@" " withString:@""].length) {
 
-        [autocompletionSuggestionsRetriever findLocationAutocompletionSuggestionsBasedOnInput:[textToSearch stringByReplacingOccurrencesOfString:@" " withString:@""] withCompletionHandler:^(NSError *error, BOOL success, NSDictionary *location) {
+        BOOL usingOrigin = NO;
+        
+        TVFlight *matchingFlight = nil;
+        
+        for (TVFlight *flight in [[[TVDatabase currentAccount] person] flights]) {
             
-            if (!error && success) {
+            if ([flight.originCity rangeOfString:[textToSearch stringByReplacingOccurrencesOfString:@" " withString:@""]].location != NSNotFound) {
                 
-                autocompletionSuggestion = location;
+                matchingFlight = flight;
+                
+                usingOrigin = YES;
             }
-            else {
+            else if ([flight.destinationCity rangeOfString:[textToSearch stringByReplacingOccurrencesOfString:@" " withString:@""]].location != NSNotFound) {
+                
+                matchingFlight = flight;
             }
-        }];
+        }
+        
+        if (matchingFlight) {
+            
+            NSMutableDictionary *filteredPrediction = [[NSMutableDictionary alloc] init];
+            
+            filteredPrediction[@"city_name"] = usingOrigin ? matchingFlight.originCity : matchingFlight.destinationCity;
+            
+            filteredPrediction[@"short_city_name"] = usingOrigin ? [matchingFlight.originCity componentsSeparatedByString:@","][0] : [matchingFlight.destinationCity componentsSeparatedByString:@","][0];
+            
+            filteredPrediction[@"country"] = usingOrigin ? matchingFlight.originCountry : matchingFlight.destinationCountry;
+
+            autocompletionSuggestion = filteredPrediction;
+        }
+        else {
+            
+            [autocompletionSuggestionsRetriever findLocationAutocompletionSuggestionsBasedOnInput:[textToSearch stringByReplacingOccurrencesOfString:@" " withString:@""] withCompletionHandler:^(NSError *error, BOOL success, NSDictionary *location) {
+                
+                if (!error && success) {
+                    
+                    autocompletionSuggestion = location;
+                }
+                else {
+                    
+                }
+            }];
+        }
     }
 }
 
@@ -184,6 +218,9 @@
     self.originTextField.autocapitalizationType = UITextAutocapitalizationTypeWords;
     self.destinationTextField.autocapitalizationType = UITextAutocapitalizationTypeWords;
     
+    self.originTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.destinationTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+
     self.originTextField.autocompleteDataSource = self;
     self.destinationTextField.autocompleteDataSource = self;
 
@@ -204,8 +241,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-#pragma mark Flight Param Handling and Validation
 
 #define key objectForKey:
 
@@ -264,58 +299,56 @@
     return [flightParameters[@"destinationLongitude"] doubleValue];
 }
 
-- (BOOL)formValidated {
-    
-    BOOL retVal;
-    
-    #define trim stringByReplacingOccurrencesOfString:@" " withString:@""
-    
-    NSString *origin = [[self originCity] trim];
-    NSString *destination = [[self destinationCity] trim];
-    double miles = [self miles];
-    NSDate *date = [self date];
-    CLLocationCoordinate2D originCoordinate = CLLocationCoordinate2DMake([self originLatitude], [self originLongitude]);
-    CLLocationCoordinate2D destinationCoordinate = CLLocationCoordinate2DMake([self destinationLatitude], [self destinationLongitude]);
-    
-    if (origin.length && destination.length && miles && date && CLLocationCoordinate2DIsValid(originCoordinate) && CLLocationCoordinate2DIsValid(destinationCoordinate)) {
-        
-        retVal = YES;
-    }
-    else {
-        
-        retVal = NO;
-    }
-    
-    return retVal;
-}
-
 #pragma mark Subset Mile Handling
 
-- (void)retrieveLocationsWithResponseCallback:(void (^)(NSMutableArray *locations))callback {
+- (void)retrieveLocationsWithResponseCallback:(void (^)(NSMutableDictionary *locations))callback {
     
     NSString *origin = [self.originTextField.text copy];
     NSString *destination = [self.destinationTextField.text copy];
     
-    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    TVGoogleGeocoder *geocoder = [[TVGoogleGeocoder alloc] init];
     
-    NSMutableArray *locations = [[NSMutableArray alloc] init];
-        
-    [geocoder geocodeAddressString:origin completionHandler:^(NSArray *placemarks, NSError *error) {
-        
-        if (!error) {
+    NSMutableDictionary *locations = [[NSMutableDictionary alloc] init];
+    
+    [geocoder geocodeCityWithName:origin withCompletionHandler:^(NSError *error, BOOL success, NSDictionary *result) {
+
+        if (!error && success) {
             
-            [locations addObject:placemarks[0]];
-            
-            [geocoder geocodeAddressString:destination completionHandler:^(NSArray *placemarks, NSError *error) {
+            if (locations.count) {
                 
-                [locations addObject:placemarks[0]];
-                
+                locations[@"origin"] = result;
+
                 callback(locations);
-            }];
+            }
+            else {
+                
+                locations[@"origin"] = result;
+            }
         }
         else {
             
-            callback(locations);
+            [self handleError:error andType:@"record flight"];
+        }
+    }];
+    
+    [geocoder geocodeCityWithName:destination withCompletionHandler:^(NSError *error, BOOL success, NSDictionary *result) {
+
+        if (!error && success) {
+            
+            if (locations.count) {
+                
+                locations[@"destination"] = result;
+                
+                callback(locations);
+            }
+            else {
+                
+                locations[@"destination"] = result;
+            }
+        }
+        else {
+            
+            [self handleError:error andType:@"record flight"];
         }
     }];
 }
@@ -326,53 +359,54 @@
     
     __block double calculatedMiles = 0.0;
     
-    __block NSMutableArray *retrievedLocations = [[NSMutableArray alloc] init];
+    __block NSMutableDictionary *retrievedLocations = [[NSMutableDictionary alloc] init];
     
-    [self retrieveLocationsWithResponseCallback:^(NSMutableArray *locations) {
-        
+    [self retrieveLocationsWithResponseCallback:^(NSMutableDictionary *locations) {
+
         retrievedLocations = locations;
         
         if ([retrievedLocations count] == 2) {
             
-            CLPlacemark *originLocation = retrievedLocations[0];
-            CLPlacemark *destinationLocation = retrievedLocations[1];
+            NSDictionary *originLocation = retrievedLocations[@"origin"];
+            NSDictionary *destinationLocation = retrievedLocations[@"destination"];
             
-            NSString *originCountry = originLocation.country;
-            NSString *destinationCountry = destinationLocation.country;
+            NSString *originCountry = originLocation[@"country"];
+            NSString *destinationCountry = destinationLocation[@"country"];
             
-            if ([originCountry isEqualToString:@"The Netherlands"]) {
+            if ([originCountry isEqualToString:@"The Netherlands"] || [originCountry isEqualToString:@"Holland"]) {
                 
                 originCountry = @"Netherlands";
             }
             
-            if ([destinationCountry isEqualToString:@"The Netherlands"]) {
+            if ([destinationCountry isEqualToString:@"The Netherlands"] || [destinationCountry isEqualToString:@"Holland"]) {
                 
                 destinationCountry = @"Netherlands";
             }
             
             flightParameters[@"date"] = date;
 
-            flightParameters[@"originCity"] = !originLocation.locality ? originLocation.administrativeArea : originLocation.locality;
-            flightParameters[@"destinationCity"] = !destinationLocation.locality ? destinationLocation.administrativeArea : destinationLocation.locality;
+            flightParameters[@"originCity"] = originLocation[@"city"];
+            flightParameters[@"destinationCity"] = destinationLocation[@"city"];
             
             flightParameters[@"originCountry"] = originCountry;
             flightParameters[@"destinationCountry"] = destinationCountry;
             
-            flightParameters[@"originLatitude"] = @(originLocation.location.coordinate.latitude);
-            flightParameters[@"originLongitude"] = @(originLocation.location.coordinate.longitude);
+            CLLocation *originCLLocation = [[CLLocation alloc] initWithLatitude:[originLocation[@"coordinate_latitude"] doubleValue] longitude:[originLocation[@"coordinate_longitude"] doubleValue]];
+            CLLocation *destinationCLLocation = [[CLLocation alloc] initWithLatitude:[destinationLocation[@"coordinate_latitude"] doubleValue] longitude:[destinationLocation[@"coordinate_longitude"] doubleValue]];
+
+            flightParameters[@"originLatitude"] = @(originCLLocation.coordinate.latitude);
+            flightParameters[@"originLongitude"] = @(originCLLocation.coordinate.longitude);
             
-            flightParameters[@"destinationLatitude"] = @(destinationLocation.location.coordinate.latitude);
-            flightParameters[@"destinationLongitude"] = @(destinationLocation.location.coordinate.longitude);
+            flightParameters[@"destinationLatitude"] = @(destinationCLLocation.coordinate.latitude);
+            flightParameters[@"destinationLongitude"] = @(destinationCLLocation.coordinate.longitude);
             
-            calculatedMiles = [self convertToMiles:[originLocation.location distanceFromLocation:destinationLocation.location]];
+            calculatedMiles = [self convertToMiles:[originCLLocation distanceFromLocation:destinationCLLocation]];
             
             [self calculatedMiles:calculatedMiles];
         }
         else {
             
-            NSError *error = [NSError errorWithDomain:@"Could not geocode locations" code:200 userInfo:@{NSLocalizedDescriptionKey:@"Could not geocode locations"}];
-            
-            [self handleError:error];
+            [self handleError:nil andType:@"record flight"];
         }
     }];
 }
@@ -393,23 +427,13 @@
 
 #pragma mark Creating The Flight and Uploading It
 
-- (void)formValidation {
-    
-    if ([self formValidated]) {
-        
-        [self createTrvlogueFlight];
-    }
-    else {
-    }
-}
-
 - (void)calculatedMiles:(double)miles {
     
     if (miles) {
         
         flightParameters[@"miles"] = @(miles);
         
-        [self formValidation];
+        [self createTrvlogueFlight];
     }
     else {
         
@@ -419,15 +443,71 @@
     }
 }
 
+- (NSArray *)incorrectFields {
+    
+    NSMutableArray *retVal = [[NSMutableArray alloc] init];
+    
+    [retVal addObjectsFromArray:[self checkIfValuesAreFilled]];
+    
+    if (retVal.count) {
+        
+        for (int i = 0; i <= retVal.count - 1; i++) {
+            
+            if ([[retVal objectAtIndex:i] intValue] == 0) {
+                
+                [retVal removeObjectAtIndex:i];
+            }
+        }
+    }
+    
+    return retVal;
+}
+
+- (NSMutableArray *)checkIfValuesAreFilled {
+    
+    NSMutableArray *arrayOfValuesNotFilled = [[NSMutableArray alloc] init];
+    
+    for (int i = 1; i <= 2; i++) {
+        
+        for (UIView *view in self.view.subviews) {
+            
+            if ([view isKindOfClass:[UITextField class]] && view.tag == i) {
+                
+                if (![((UITextField *)view).text stringByReplacingOccurrencesOfString:@" " withString:@""].length) {
+                    
+                    [arrayOfValuesNotFilled addObject:@(view.tag)];
+                }
+            }
+        }
+    }
+    
+    return arrayOfValuesNotFilled;
+}
+
 - (void)submitFlight {
     
-    [self calculateMiles];
-    
-    [TVLoadingSignifier signifyLoading:@"Recording your flight" duration:-1];
-    
-    self.originTextField.text = [NSString string];
-    self.destinationTextField.text = [NSString string];
-    self.datePicker.date = [NSDate date];
+    if (![self incorrectFields].count) {
+        
+        [self calculateMiles];
+        
+        [TVLoadingSignifier signifyLoading:@"Recording your flight" duration:-1];
+        
+        self.originTextField.text = [NSString string];
+        self.destinationTextField.text = [NSString string];
+        self.datePicker.date = [NSDate date];
+    }
+
+    for (int i = 1; i <= 2; i++) {
+        
+        if ([[self incorrectFields] containsObject:@(i)]) {
+            
+            [[self.view viewWithTag:i+200] setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:204.0f/255.0f alpha:1.0f]];
+        }
+        else {
+            
+            [[self.view viewWithTag:i+200] setBackgroundColor:[UIColor whiteColor]];
+        }
+    }
 }
 
 - (void)createTrvlogueFlight {
@@ -438,26 +518,26 @@
 }
 
 - (void)insertTrvlogueFlight:(TVFlight *)trvlogueFlight {
-    
+
     TVAccount *updatedAccount = [TVDatabase currentAccount];
     [[updatedAccount person] addFlight:trvlogueFlight];
+
+    [TVNotificationSignifier signifyNotification:@"Flight has been recorded" forDuration:3];
 
     [self updateAccount:updatedAccount];
     
     [trvlogueFlight instantiateTravelData];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:NSNotificationRecordedNewFlight object:nil userInfo:nil];
 }
 
 - (void)updateAccount:(TVAccount *)updatedAccount {
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"RecordedFlight" object:nil];
     
     [TVDatabase updateMyAccount:updatedAccount withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
         
         if (success && !error) {
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                
-                [TVNotificationSignifier signifyNotification:@"Flight has been recorded" forDuration:3];
                 
                 [self.navigationController popViewControllerAnimated:YES];
             });

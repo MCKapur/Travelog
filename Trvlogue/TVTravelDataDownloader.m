@@ -19,7 +19,7 @@
 - (void)updateDownloadedData:(NSMutableDictionary *)_downloadedData {
     
     self.downloadedData = _downloadedData;
-}
+} 
 
 #pragma mark Error Handling
 
@@ -112,23 +112,20 @@
         [self downloadTimezone];
         [self downloadFacts];
         [self downloadWeather];
-        [self downloadPlaces];
     });
-}
-
-#pragma mark Places
-
-- (void)downloadPlaces {
 }
 
 #pragma mark People
 
 - (void)downloadPeople {
 
-    self.downloadedData[@"people"] = [[NSMutableArray alloc] init];
-
-    [TVDatabase downloadConnectionsInTheSameCity:self.FlightID withCompletionHandler:^(NSMutableArray *objects, NSError *error, NSString *callCode) {
+    if (!self.downloadedData[@"people"]) {
         
+        self.downloadedData[@"people"] = [[NSMutableArray alloc] init];
+    }
+    
+    [TVDatabase downloadConnectionsInTheSameCity:self.FlightID withCompletionHandler:^(NSMutableArray *objects, NSError *error, NSString *callCode) {
+
         if (!error) {
 
             if (![self.downloadedData[@"people"] containsPerson:objects[0]]) {
@@ -157,16 +154,13 @@
 
 - (void)downloadTimezone {
     
-    NSString *URLFormattedDestinationCity = [self.flight.destinationCity stringByReplacingOccurrencesOfString:@" " withString:@"+"];
-    NSString *URLFormattedOriginCity = [self.flight.originCity stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+    NSString *destinationTimezoneURLString = @"https://maps.googleapis.com/maps/api/timezone/json";
+    NSString *originTimezoneURLString = @"https://maps.googleapis.com/maps/api/timezone/json";
     
-    NSString *destinationTimezoneURLString = @"http://www.worldweatheronline.com/feed/tz.ashx";
-    NSString *originTimezoneURLString = @"http://www.worldweatheronline.com/feed/tz.ashx";
+    destinationTimezoneURLString = [destinationTimezoneURLString stringByAppendingFormat:@"?location=%f,%f&timestamp=%f&sensor=true", self.flight.destinationCoordinate.latitude, self.flight.destinationCoordinate.longitude, [[NSDate date] timeIntervalSince1970]];
     
-    destinationTimezoneURLString = [destinationTimezoneURLString stringByAppendingFormat:@"?key=%@&q=%@&format=json", WORLD_WEATHER_API_KEY, URLFormattedDestinationCity];
-    
-    originTimezoneURLString = [originTimezoneURLString stringByAppendingFormat:@"?key=%@&q=%@&format=json", WORLD_WEATHER_API_KEY, URLFormattedOriginCity];
-    
+    originTimezoneURLString = [originTimezoneURLString stringByAppendingFormat:@"?location=%f,%f&timestamp=%f&sensor=true", self.flight.originCoordinate.latitude, self.flight.originCoordinate.longitude, [[NSDate date] timeIntervalSince1970]];
+
     NSURL *destinationTimezoneRequestURL = [NSURL URLWithString:destinationTimezoneURLString];
     NSURLRequest *destinationTimezoneRequest = [NSURLRequest requestWithURL:destinationTimezoneRequestURL];
     
@@ -184,28 +178,23 @@
                 
                 destinationTimezone = [self deserialize:responseData2];
                 originTimezone = [self deserialize:responseData];
-                
-                if ([originTimezone[@"data"][@"time_zone"] lastObject][@"utcOffset"]) {
+
+                if ([destinationTimezone[@"status"] isEqualToString:@"OK"] && [originTimezone[@"status"] isEqualToString:@"OK"]) {
                     
-                    NSString *utcOffsetString = [NSString stringWithFormat:@"%+.1f", [[destinationTimezone[@"data"][@"time_zone"] lastObject][@"utcOffset"] doubleValue]];
+                    NSMutableDictionary *timezone = [[NSMutableDictionary alloc] init];
                     
-                    if ([originTimezone[@"data"][@"time_zone"]  lastObject][@"utcOffset"]) {
-                        
-                        NSNumber *offsetFromCurrentTZ = @([[destinationTimezone[@"data"][@"time_zone"] lastObject][@"utcOffset"] floatValue]-[[originTimezone[@"data"][@"time_zone"] lastObject][@"utcOffset"] floatValue]);
-                        
-                        NSString *currentOffsetString = [NSString stringWithFormat:@"%+.1f", [offsetFromCurrentTZ doubleValue]];
-                        
-                        NSMutableDictionary *timezone = [[NSMutableDictionary alloc] init];
-                        
-                        timezone[@"utfOffset"] = utcOffsetString;
-                        timezone[@"currentOffsetString"] = currentOffsetString;
-                        
-                        self.downloadedData[@"timezone"] = timezone;
-                        
-                        [TVDatabase refreshTravelDataPacketWithID:self.FlightID andTravelDataObject:self];
-                        
-                        [self.delegate travelDataUpdated:(TravelDataTypes *)kTravelDataTimezone];
-                    }
+                    NSString *originUTCOffset = [NSString stringWithFormat:@"%+.1f", ([originTimezone[@"rawOffset"] doubleValue] / 60.0f / 60.0f)];
+                    
+                    NSString *destinationUTCOffset = [NSString stringWithFormat:@"%+.1f", ([destinationTimezone[@"rawOffset"] doubleValue] / 60.0f / 60.0f)];
+                    
+                    timezone[@"originUTCOffset"] = originUTCOffset;
+                    timezone[@"destinationUTCOffset"] = destinationUTCOffset;
+
+                    self.downloadedData[@"timezone"] = timezone;
+                    
+                    [TVDatabase refreshTravelDataPacketWithID:self.FlightID andTravelDataObject:self];
+                    
+                    [self.delegate travelDataUpdated:(TravelDataTypes *)kTravelDataTimezone];
                 }
             }
         }];
@@ -501,6 +490,11 @@
         plugTypes = [plugTypes stringByReplacingOccurrencesOfString:@"\n" withString:@""];
         plugTypes = [plugTypes stringByReplacingOccurrencesOfString:@"\t" withString:@""];
         
+        NSString *editedPlugTypes = [plugTypes stringByReplacingOccurrencesOfString:@" " withString:@""];
+        editedPlugTypes = [editedPlugTypes stringByReplacingOccurrencesOfString:@"+" withString:@""];
+
+        NSMutableArray *_plugTypes = [[editedPlugTypes componentsSeparatedByString:@","] mutableCopy];
+        
         NSString *voltage = plug[@"Voltage"];
         voltage = [voltage stringByReplacingOccurrencesOfString:@"\n" withString:@""];
         voltage = [voltage stringByReplacingOccurrencesOfString:@"\t" withString:@""];
@@ -542,14 +536,14 @@
                     
                     NSArray *plugImageArray = [self analyzingTextAndRetrievingImageSetsWithChars:chars andComments:comments];
                     NSArray *images = [self crackDownOnImagesArray:plugImageArray];
-                    
+
                     NSNumber *number = @(images.count);
                     
                     (plugs)[@"numberOfPlugs"] = number;
                     
                     plugTypes = [plugTypes stringByReplacingOccurrencesOfString:@"+" withString:@" "];
-                    
-                    (plugs)[@"plugs"] = plugTypes;
+
+                    (plugs)[@"plugs"] = _plugTypes;
                     
                     (plugs)[@"images"] = images;
                 }
@@ -656,7 +650,7 @@
         
         [arr addObject:bigD];
     }
-    
+
     if (newImageLocated) {
         
         [arr addObject:newImageLocated];
@@ -763,7 +757,7 @@
             
             newImageLocated = @{@"IEC+60906-1":@"IEC+60906-1.jpg"};
         }
-        
+
         NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"ImagesList" ofType:@"plist"];
         
         NSArray *imageStringArray = [[NSArray alloc] initWithContentsOfFile:plistPath];
@@ -789,7 +783,6 @@
             if ([charr isEqualToString:letter]) {
                 
                 [obviousImageArray addObject:imageString];
-                
                 
                 d[@"possibleImageStringsObvious"] = obviousImageArray;
                 
@@ -896,9 +889,7 @@
                             [languages addObject:[NSMutableDictionary dictionaryWithObject:languageName forKey:@"name"]];
                         }
                         
-                        self.downloadedData[@"languages"] = languages;
-                        
-                        [self downloadTranslations];
+                        [self downloadTranslations:languages];
                     }
                 }
             }
@@ -906,9 +897,7 @@
     }];
 }
 
-- (void)downloadTranslations {
-    
-    NSMutableArray *languages = [self.downloadedData[@"languages"] mutableCopy];
+- (void)downloadTranslations:(NSMutableArray *)languages {
     
     NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"PreTranslation" ofType:@"plist"];
     
@@ -918,9 +907,7 @@
         
         for (int i = 0; i <= [[languages mutableCopy] count] - 1; i++) {
             
-            NSMutableDictionary *language = languages[i];
-            
-            NSString *name = language[@"name"];
+            NSString *name = languages[i][@"name"];
             name = [name stringByReplacingOccurrencesOfString:@" language" withString:@""];
             name = [name stringByReplacingOccurrencesOfString:@" Language" withString:@""];
             
@@ -946,7 +933,7 @@
                         }
                         
                         NSMutableArray *translations = [[NSMutableArray alloc] init];
-                        
+
                         int phraseNumber = 0;
                         
                         for (__strong NSString *phrase in [allPhrases mutableCopy]) {
@@ -954,7 +941,7 @@
                             phraseNumber++;
                             
                             phrase = [phrase stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
-                            
+
                             NSString *URLFormattedString = [NSString stringWithFormat:@"https://www.googleapis.com/language/translate/v2?key=%@&q=%@&source=en&target=%@&format=text&prettyprint=true", GOOGLE_API_KEY, phrase, code];
                             
                             NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:URLFormattedString]];
@@ -976,18 +963,21 @@
                                     }
                                 }
                                 
-                                if (phraseNumber == allPhrases.count && i == languages.count - 1) {
-                                    
+                                if (phraseNumber == allPhrases.count) {
+
                                     if (translations.count) {
                                         
                                         (languages[i])[@"translations"] = translations;
                                     }
                                     
-                                    self.downloadedData[@"languages"] = languages;
-                                                                        
-                                    [TVDatabase refreshTravelDataPacketWithID:self.FlightID andTravelDataObject:self];
-                                    
-                                    [self.delegate travelDataUpdated:(TravelDataTypes *)kTravelDataLanguagesSpoken];
+                                    if (i == languages.count - 1) {
+                                        
+                                        self.downloadedData[@"languages"] = languages;
+                                        
+                                        [TVDatabase refreshTravelDataPacketWithID:self.FlightID andTravelDataObject:self];
+                                        
+                                        [self.delegate travelDataUpdated:(TravelDataTypes *)kTravelDataLanguagesSpoken];
+                                    }
                                 }
                             }];
                         }
@@ -1084,62 +1074,48 @@
 
 - (void)downloadWeather {
 
-    __block NSMutableArray *filteredWeather = [[NSMutableArray alloc] init];
+    ForecastKit *forecast = [[ForecastKit alloc] initWithAPIKey:@"dbc75f3f415f3b026dbf19b4a4a6c52c"];
 
-    NSString *urlFormattedDestination = [self.flight.destinationCity stringByReplacingOccurrencesOfString:@" " withString:@"+"];
-    
-    NSString *weatherRequestString = @"http://free.worldweatheronline.com/feed/weather.ashx";
-    
-    weatherRequestString = [weatherRequestString stringByAppendingFormat:@"?key=%@&q=%@&num_of_days=%i&format=json", WORLD_WEATHER_API_KEY, urlFormattedDestination, 5];
+    [forecast getDailyForcastForLatitude:self.flight.destinationCoordinate.latitude longitude:self.flight.destinationCoordinate.longitude success:^(NSMutableArray *responseArray) {
 
-    NSURL *weatherRequestURL = [NSURL URLWithString:weatherRequestString];
-    NSURLRequest *weatherRequest = [NSURLRequest requestWithURL:weatherRequestURL];
-    
-    __block NSMutableDictionary *weatherForecast = [[NSMutableDictionary alloc] init];
-    
-    [NSURLConnection sendAsynchronousRequest:weatherRequest queue:self.operationQueue completionHandler:^(NSURLResponse *urlResponse, NSData *responseData, NSError *responseError) {
+        NSMutableArray *filteredWeather = [[NSMutableArray alloc] init];
         
-        if ((responseError == nil && [responseError code] == noErr)) {
+        for (int i = 0; i <= responseArray.count - 1; i++) {
             
-            if (responseData != nil) {
-                
-                NSError *error = nil;
-
-                weatherForecast = [self deserialize:responseData];
-                
-                if (!error && !weatherForecast[@"data"][@"error"] && weatherForecast[@"data"][@"weather"]) {
-                    
-                    for (int i = 0; i <= [[weatherForecast[@"data"][@"weather"] mutableCopy] count] - 1; i++) {
-
-                        NSMutableDictionary *day = [weatherForecast[@"data"][@"weather"][i] mutableCopy];
-
-                        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[day[@"weatherIconUrl"] lastObject][@"value"]]]];
-                        
-                        if (image) {
-                            
-                            NSString *pngPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/WeatherIcon_%@_%i.png", self.FlightID, i]];
-                            [UIImagePNGRepresentation(image) writeToFile:pngPath atomically:YES];
-                            
-                            day[@"imageFilePath"] = pngPath;
-                        }
-
-                        [filteredWeather addObject:day];
-                    }
-                }
-            }
+            NSMutableDictionary *day = [responseArray mutableCopy][i];
+            
+            NSMutableDictionary *filteredDay = [[NSMutableDictionary alloc] init];
+            
+            filteredDay[@"description"] = day[@"summary"];
+            
+            filteredDay[@"minF"] = day[@"temperatureMin"];
+            filteredDay[@"maxF"] = day[@"temperatureMax"];
+            
+            filteredDay[@"minC"] = [NSString stringWithFormat:@"%f", [filteredDay[@"minF"] floatValue] / 33.8];
+            filteredDay[@"maxC"] = [NSString stringWithFormat:@"%f", [filteredDay[@"maxF"] floatValue] / 33.8];
+            
+            filteredDay[@"date"] = [NSDate dateWithTimeIntervalSince1970:[day[@"time"] intValue]];
+            
+            filteredDay[@"icon"] = day[@"icon"];
+            
+            [filteredWeather addObject:filteredDay];
         }
-        else {
-        }
+
+        [self sendWeather:filteredWeather];
         
-        if ([filteredWeather count]) {
-
-            self.downloadedData[@"weather"] = filteredWeather;
-                        
-            [TVDatabase refreshTravelDataPacketWithID:self.FlightID andTravelDataObject:self];
-            
-            [self.delegate travelDataUpdated:(TravelDataTypes *)kTravelDataWeather];
-        }
+    } failure:^(NSError *error) {
+        
+        NSLog(@"%@", error);
     }];
+}
+
+- (void)sendWeather:(NSMutableArray *)weather {
+    
+    self.downloadedData[@"weather"] = weather;
+    
+    [TVDatabase refreshTravelDataPacketWithID:self.FlightID andTravelDataObject:self];
+
+    [self.delegate travelDataUpdated:(TravelDataTypes *)kTravelDataWeather];
 }
 
 #pragma mark Operational Methods

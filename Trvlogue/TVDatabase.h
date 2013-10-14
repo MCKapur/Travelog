@@ -9,8 +9,6 @@
 extern NSString *const WRONG_LOGIN;
 extern NSString *const EMAIL_TAKEN;
 
-#define WORLD_WEATHER_API_KEY @"8f1faddf20134841120710"
-
 #define DAY_MONTH_YEAR @"dd - MM - yyyy"
 #define DAY_MONTH @"dd/MM"
 #define YEAR_MONTH_DAY @"yyyy-MM-dd"
@@ -21,8 +19,6 @@ extern NSString *const EMAIL_TAKEN;
 
 #define VERIFIED_EMAIL_TEST @"me@rohankapur.com"
 #define VERIFIED_EMAIL @"support@trvlogue.com"
-
-// Operation tags - used for error handling too! :) :) :) :)
 
 #define LOGGING_IN @"log in"
 #define CREATING_ACCOUNT @"create your account"
@@ -42,6 +38,28 @@ extern NSString *const EMAIL_TAKEN;
 #define REQUEST_FORGOT_PASSWORD @"request a new password"
 #define SEND_MESSAGE @"send the message"
 #define DOWNLOAD_MESSAGE @"download messages"
+
+#define NSNotificationRecordedNewFlight @"RecordedNewFlight"
+#define NSNotificationDownloadedFlights @"DownloadedFlights"
+#define NSNotificationTravelDataPacketUpdated @"TravelDataPacketUpdated"
+#define NSNotificationWroteProfilePicture @"WroteProfilePicture"
+#define NSNotificationDownloadedMessages @"DownloadedMessages"
+#define NSNotificationSentMessage @"SentMessage"
+#define NSNotificationNewMessageIncoming @"NewMessageIncoming"
+#define NSNotificationDownloadedConnections @"DownloadedConnections"
+#define NSNotificationReceivedConnectionRequest @"ReceivedConnectionRequest"
+#define NSNotificationReloadPeople @"ReloadPeople"
+#define NSNotificationUpdateNotifications @"UpdateNotifications"
+
+typedef enum {
+    
+    kAccountDownloadedGeneralAttributes = 0,
+    kAccountDownloadedFlights,
+    kAccountDownloadedProfilePicture,
+    kAccountDownloadedConnections,
+    kAccountDownloadedMessages
+    
+} AccountDownloadTypes;
 
 typedef enum {
     
@@ -84,6 +102,8 @@ typedef enum {
 #import "NSString+Soundex.h"
 
 #import "AmazonClientManager.h"
+
+#import "TVGooglePlace.h"
 
 @interface NSMutableArray (ContainsPerson)
 
@@ -180,6 +200,8 @@ typedef enum {
 
 @interface TVDatabase : NSObject
 
++ (NSMutableArray *)attributesWithAccount:(TVAccount *)accountObj;
+
 + (void)setCurrentAccount:(TVAccount *)account;
 
 + (TVMessageHistory *)messageHistoryFromID:(NSString *)ID;
@@ -221,6 +243,9 @@ typedef enum {
 + (TVAccount *)cachedPersonWithId:(NSString *)userId;
 + (void)refreshCachedPeople;
 
++ (void)savePlace:(TVGooglePlace *)place withCity:(NSString *)city;
++ (NSMutableArray *)getSavedPlacesWithCity:(NSString *)city;
+
 + (void)removeTravelDataPacketWithID:(NSString *)_FlightID;
 + (void)addTravelDataPacketWithID:(NSString *)_FlightID andTravelDataObject:(TVTravelDataDownloader *)travelData;
 + (void)refreshTravelDataPacketWithID:(NSString *)_FlightID andTravelDataObject:(TVTravelDataDownloader *)travelData;
@@ -245,8 +270,9 @@ typedef enum {
 + (TVAccount *)currentAccount;
 
 + (void)downloadUsersFromUserIds:(NSArray *)userIds withCompletionHandler:(void (^)(NSMutableArray *users, NSError *error, NSString *callCode))callback;
-+ (void)getAccountFromUser:(PFUser *)object isPerformingCacheRefresh:(BOOL)isPerformingCacheRefresh withCompletionHandler:(void (^)(TVAccount *account, BOOL downloadedFlights, BOOL downloadedProfilePicture, BOOL downloadedConnections, BOOL downloadedMessages))callback;
++ (void)getAccountFromUser:(PFUser *)object isPerformingCacheRefresh:(BOOL)isPerformingCacheRefresh withCompletionHandler:(void (^)(TVAccount *account,NSMutableArray *downloadedTypes))callback;
 + (void)refreshAccountWithCompletionHandler:(void (^)(BOOL completed))callback;
++ (void)refreshFlights;
 
 + (void)uploadAccount:(TVAccount *)trvlogueAccount withProfilePicture:(UIImage *)profilePicture andCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;
 + (void)updateMyAccount:(TVAccount *)accountObj withCompletionHandler:(void (^)(BOOL succeeded, NSError *error, NSString *callCode))callback;

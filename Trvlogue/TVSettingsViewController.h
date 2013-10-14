@@ -12,24 +12,25 @@
 
 #import "TVCreateAccountViewController.h"
 
-@interface TVSettingsViewController : UIViewController <UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
+@interface TVSettingsViewController : UIViewController <UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
 {
-    TVDatabase *databaseOperator;
+    __weak IBOutlet UITextField *firstNameTextField;
+    __weak IBOutlet UITextField *lastNameTextField;
+    __weak IBOutlet UITextField *originCityTextField;
+    __weak IBOutlet UITextField *jobTextField;
     
-    __weak IBOutlet UITextField *nameTextField;
-    __weak IBOutlet UITextField *emailTextField;
-    __weak IBOutlet UITextField *passwordTextField;
-    __weak IBOutlet UIImageView *profilePicture;
-    __weak IBOutlet UISwitch *pushNotificationEnabled;
-    
-    BOOL customOrNot;
+    __weak IBOutlet UIImageView *profileImageView;
 }
 
-- (IBAction)openCameraOptions;
-- (IBAction)deleteAccount;
+@property (weak, nonatomic) IBOutlet UILabel *linkedInStatus;
 
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+
+- (IBAction)exportFlights;
+- (IBAction)support;
 - (IBAction)logout;
+- (IBAction)connectWithLinkedIn;
 
-- (IBAction)followers;
+- (IBAction)saveData;
 
 @end

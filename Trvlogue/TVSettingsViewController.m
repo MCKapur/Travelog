@@ -18,56 +18,39 @@
 
 @implementation TVSettingsViewController
 
-#pragma mark Followers
-
-- (IBAction)followers {
+- (void)handleError:(NSError *)error andType:(NSString *)type {
     
-    TVFindPeopleViewController *findPeopleViewController = [[TVFindPeopleViewController alloc] init];
-    
-    [self.navigationController pushViewController:findPeopleViewController animated:YES];
+    [TVErrorHandler handleError:[NSError errorWithDomain:[NSString stringWithFormat:@"Could not %@", type] code:200 userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"Could not %@", type]}]];
 }
 
-#pragma mark Deleting
 
-- (IBAction)deleteAccount {
-    
-    __weak MBAlertView *alert = [MBAlertView alertWithBody:@"Are you sure?\n\nYour followers will miss you! Make sure to export your flights before you leave! Deactivation will take up to 24 hours" cancelTitle:nil cancelBlock:nil];
-    
-    [alert addButtonWithText:@"No!" type:MBAlertViewItemTypePositive block:^{
-        
-        [alert dismiss];
-    }];
-    
-    [alert addButtonWithText:@"Deactivate" type:MBAlertViewItemTypeDestructive block:^{
-        
-        // Report
-        [alert dismiss];
-    }];
-    
-    [alert addToDisplayQueue];
-}
-
-#pragma mark (SUBMARK) UIAlertView
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    if (buttonIndex == 1) {
-        
-        [TVLoadingSignifier signifyLoading:@"Sending deactivation request" duration:-1];
-        
-        NSMutableDictionary *emailOptions = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Request to delete his/her account. email:%@",[[TVDatabase currentAccount] email]], @"data", @"Trvlogue Account Deletion Request", @"subject", VERIFIED_EMAIL_TEST, @"toAddress", nil];
-        
-        [self sendEmailOnDatabase:emailOptions];
-    }
-}
-
-#pragma mark UITextField
+#pragma mark UITextField Methods
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     
-    [textField resignFirstResponder];
+    [self dismissKeyboard:textField];
     
     return YES;
+}
+
+- (void)dismissKeyboard:(UITextField *)tf {
+    
+    [tf resignFirstResponder];
+    
+    if (tf.tag != 4) {
+        
+        int i = tf.tag;
+        
+        UITextField *nextTf = (UITextField *)[self.view viewWithTag:i + 1];
+        
+        [nextTf becomeFirstResponder];
+        
+        [self.scrollView setContentOffset:CGPointMake(0, nextTf.center.y - 120) animated:YES];
+    }
+    else {
+        
+        [self.scrollView setContentOffset:CGPointMake(0, -60) animated:YES];
+    }
 }
 
 #pragma mark Camera Methods
@@ -116,9 +99,7 @@
     
     [picker dismissViewControllerAnimated:YES completion:nil];
     
-    profilePicture.image = info[@"UIImagePickerControllerEditedImage"];
-    
-    customOrNot = YES;
+    profileImageView.image = info[@"UIImagePickerControllerEditedImage"];
 }
 
 - (void)openPhotoLibrary {
@@ -127,150 +108,33 @@
     [picker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
     [picker setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
     [picker setAllowsEditing:YES];
-    
     [picker setDelegate:self];
     
     [self presentViewController:picker animated:YES completion:nil];
 }
 
-- (void)downloadedAccountsFromEmails:(NSMutableArray *)accounts {
+#pragma mark Validation
+
+- (NSMutableArray *)missingFields {
     
-    [TVLoadingSignifier hideLoadingSignifier];
+    return [self checkIfValuesAreFilled];
+}
+
+- (NSArray *)incorrectFields {
     
-    if (accounts.count) {
+    NSMutableArray *retVal = [[NSMutableArray alloc] init];
+    
+    [retVal addObjectsFromArray:[self missingFields]];
+    
+    if (retVal.count) {
         
-        //        FriendPickerViewController *friendPickerVC = [[FriendPickerViewController alloc] initWithAccount:arrayOfFriends andCurrentAccountDictionary:[DatabaseOperations currentAccount] andDelegate:self andIsCreatingAnAccount:NO];
-        //
-        //        [self.navigationController pushViewController:friendPickerVC animated:YES];
-    }
-    else {
-        
-        [TVErrorHandler handleError:[NSError errorWithDomain:@"No friends found" code:200 userInfo:@{NSLocalizedDescriptionKey:@"No friends found"}]];
-    }
-}
-
-- (void)handleError:(NSError *)error andType:(NSString *)type {
-    
-    [TVErrorHandler handleError:[NSError errorWithDomain:[NSString stringWithFormat:@"Could not %@", type] code:200 userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"Could not %@", type]}]];
-}
-
-#pragma mark Logout
-
-- (IBAction)logout {
-    
-    [TVDatabase logout];
-    
-    TVLoginViewController *lvc = [[TVLoginViewController alloc] init];
-    [self.navigationController pushViewController:lvc animated:YES];
-}
-
-#pragma mark Account Data
-
-- (void)sendEmailOnDatabase: (NSMutableDictionary *)emailOptions {
-    
-    [TVDatabase sendEmail:emailOptions withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
-        
-        if (success && !error) {
+        for (int i = 0; i <= retVal.count - 1; i++) {
             
-            [TVNotificationSignifier signifyNotification:@"We'll miss you, stay cool :)" forDuration:10];
-            
-            [TVDatabase logout];
-            
-            TVLoginViewController *lvc = [[TVLoginViewController alloc] init];
-            
-            [self.navigationController pushViewController:lvc animated:YES];
-        }
-        else {
-            
-            [self handleError:error andType:callCode];
-        }
-    }];
-}
-
-- (void)updateAccount {
-    
-    [TVLoadingSignifier signifyLoading:@"Saving your account" duration:-1];
-    
-    TVAccount *updatedTrvlogueAccount = [TVDatabase currentAccount];
-    
-    [TVDatabase writeProfilePictureToDisk:[profilePicture.image makeThumbnailOfSize:CGSizeMake(800, 800)] withUserId:[[TVDatabase currentAccount] userId]]; //still need to reupload profilepicture ONLY if its changed
-    [TVDatabase uploadProfilePicture:profilePicture.image withObjectId:[[TVDatabase currentAccount] userId]];
-    
-    [updatedTrvlogueAccount setEmail:[emailTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""]];
-    [updatedTrvlogueAccount.person setEmail:[emailTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""]];
-    [updatedTrvlogueAccount.person setName:nameTextField.text];
-    
-    [self updateMyAccount:updatedTrvlogueAccount];
-}
-
-- (void)updateMyAccount: (TVAccount *)account {
-    
-    [TVDatabase updateMyAccount:account withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
-        
-        if (!error && success) {
-            
-            [TVNotificationSignifier signifyNotification:@"Changes have been made" forDuration:3];
-        }
-        else {
-            
-            [self handleError:error andType:callCode];
-            
-            if ([[error userInfo][@"code"] intValue] == [EMAIL_TAKEN intValue]) {
+            if ([[retVal objectAtIndex:i] intValue] == 0) {
                 
-                __weak MBAlertView *alert = [MBAlertView alertWithBody:@"The email specified is already associated with an account" cancelTitle:nil cancelBlock:nil];
-                
-                [alert addButtonWithText:@"Okay" type:MBAlertViewItemTypeDefault block:^{
-                    
-                    [alert dismiss];
-                }];
-                
-                [alert addButtonWithText:@"Report" type:MBAlertViewItemTypeDestructive block:^{
-                    
-                    // Report
-                    [alert dismiss];
-                }];
-                
-                alert.size = CGSizeMake(280, 180);
-                
-                [alert addToDisplayQueue];
+                [retVal removeObjectAtIndex:i];
             }
         }
-    }];
-}
-
-- (void)saveData {
-    
-    if (![self checkForErrors]) {
-        
-        [self updateAccount];
-    }
-}
-
-#pragma mark Form Validation
-
-- (BOOL)hasChangedData {
-    
-    BOOL retVal = YES;
-    
-    if ([[emailTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:[TVDatabase currentAccount].email] && [[nameTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:[TVDatabase currentAccount].person.name] && [profilePicture.image isEqual:[TVDatabase locateProfilePictureOnDiskWithUserId:[[TVDatabase currentAccount] userId]]]) {
-        
-        retVal = NO;
-    }
-    
-    return retVal;
-}
-
-- (int)missingFields {
-    
-    int retVal = 0;
-    
-    NSArray *array = [self checkIfValuesAreFilled];
-    
-    if (array.count) {
-        
-        retVal = 1;
-        
-        [TVErrorHandler handleError:[NSError errorWithDomain:@"Please fill in all fields" code:200 userInfo:@{NSLocalizedDescriptionKey:@"Please fill in all fields"}]];
     }
     
     return retVal;
@@ -280,15 +144,15 @@
     
     NSMutableArray *arrayOfValuesNotFilled = [[NSMutableArray alloc] init];
     
-    for (int i = 0; i <= 2; i++) {
+    for (int i = 1; i <= 4; i++) {
         
-        for (UIView *view in self.view.subviews) {
+        for (UIView *view in self.scrollView.subviews) {
             
             if ([view isKindOfClass:[UITextField class]] && view.tag == i) {
                 
                 if (![((UITextField *)view).text stringByReplacingOccurrencesOfString:@" " withString:@""].length) {
-                    
-                    [arrayOfValuesNotFilled addObject:view];
+
+                    [arrayOfValuesNotFilled addObject:@(view.tag)];
                 }
             }
         }
@@ -297,59 +161,245 @@
     return arrayOfValuesNotFilled;
 }
 
-- (BOOL)checkForErrors {
-    
-    BOOL retVal = NO;
-    
-    int errorsMade = 0;
-    
-    errorsMade += [self checkEmailIsValid];
-    errorsMade += [self missingFields];
-    
-    if (errorsMade) {
-        
-        retVal = YES;
-    }
-    
-    return retVal;
-}
+#pragma mark Handling Data
 
-- (int)checkEmailIsValid {
+- (IBAction)saveData {
     
-    int retVal = 0;
-    
-    if (![self validateEmailWithString:[emailTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""]]) {
-        
-        retVal = 1;
+    if ([profileImageView.image isEqual:[TVDatabase locateProfilePictureOnDiskWithUserId:[[TVDatabase currentAccount] userId]]] && [firstNameTextField.text isEqualToString:[[[[TVDatabase currentAccount] person] name] componentsSeparatedByString:@" "][0]] && [lastNameTextField.text isEqualToString:[[[[[TVDatabase currentAccount] person] name] componentsSeparatedByString:@" "] lastObject]] && [originCityTextField.text isEqualToString:[[[TVDatabase currentAccount] person] originCity]] && [jobTextField.text isEqualToString:[[[TVDatabase currentAccount] person] position]]) {
     }
     else {
         
+        if (![self incorrectFields].count) {
+            
+            [self updateAccount];
+        }
+        
+        for (int i = 1; i <= 4; i++) {
+            
+            if ([[self incorrectFields] containsObject:@(i)]) {
+                
+                [[self.view viewWithTag:i+200] setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:204.0f/255.0f alpha:1.0f]];
+            }
+            else {
+                
+                [[self.view viewWithTag:i+200] setBackgroundColor:[UIColor whiteColor]];
+            }
+        }
+    }
+}
+
+- (void)updateAccount {
+    
+    [TVLoadingSignifier signifyLoading:@"Updating your account" duration:-1];
+    
+    TVAccount *account = [TVDatabase currentAccount];
+    
+    [[account person] setPosition:jobTextField.text];
+    [[account person] setName:[NSString stringWithFormat:@"%@ %@", firstNameTextField.text, lastNameTextField.text]];
+    
+    if ([[originCityTextField text] isEqualToString:account.person.originCity]) {
+        
+        [TVDatabase updateMyAccount:account withCompletionHandler:^(BOOL succeeded, NSError *error, NSString *callCode) {
+            
+            [TVLoadingSignifier hideLoadingSignifier];
+        }];
+        
+        [TVDatabase updateProfilePicture:[profileImageView.image makeThumbnailOfSize:CGSizeMake(700, 700)] withObjectId:account.userId withCompletionHandler:^(BOOL succeeded, NSError *error, NSString *callCode) {
+        }];
+    }
+    else {
+        
+        [self geocode:[originCityTextField text] withCompletionHandler:^(NSDictionary *result, NSError *error) {
+            
+            if (result && !error) {
+                
+                [[account person] setOriginCity:result[@"city"]];
+                
+                [TVDatabase updateMyAccount:account withCompletionHandler:^(BOOL succeeded, NSError *error, NSString *callCode) {
+                    
+                    [TVLoadingSignifier hideLoadingSignifier];
+                }];
+                
+                [TVDatabase updateProfilePicture:[profileImageView.image makeThumbnailOfSize:CGSizeMake(700, 700)] withObjectId:account.userId withCompletionHandler:^(BOOL succeeded, NSError *error, NSString *callCode) {
+                }];
+            }
+            else {
+                
+                [TVErrorHandler handleError:[NSError errorWithDomain:@"Please input a valid city" code:200 userInfo:@{NSLocalizedDescriptionKey:@"Please input a valid city"}]];
+            }
+        }];
+    }
+}
+
+- (void)geocode:(NSString *)location withCompletionHandler:(void (^)(NSDictionary *result, NSError *error))callback {
+    
+    TVGoogleGeocoder *geocoder = [[TVGoogleGeocoder alloc] init];
+    
+    [geocoder geocodeCityWithName:location withCompletionHandler:^(NSError *error, BOOL success, NSDictionary *result) {
+        
+        if (!error && success) {
+            
+            callback(result, error);
+        }
+        else {
+            
+            callback(nil, error);
+        }
+    }];
+}
+
+- (void)loadInData {
+    
+    if ([[TVDatabase currentAccount] isUsingLinkedIn]) {
+        
+        self.linkedInStatus.text = @"LinkedIn connected";
+    } 
+    else {
+        
+        self.linkedInStatus.text = @"Connect with LinkedIn";
     }
     
-    return retVal;
+    firstNameTextField.text = [[[[TVDatabase currentAccount] person] name] componentsSeparatedByString:@" "][0];
+    lastNameTextField.text = [[[[[TVDatabase currentAccount] person] name] componentsSeparatedByString:@" "] lastObject];
+    
+    originCityTextField.text = [[[TVDatabase currentAccount] person] originCity];
+    jobTextField.text = [[[TVDatabase currentAccount] person] position];
+        
+    profileImageView.image = [TVDatabase locateProfilePictureOnDiskWithUserId:[[TVDatabase currentAccount] userId]];
 }
 
-- (BOOL)validateEmailWithString:(NSString *)email
-{
-    NSString *emailRegEx =
-    @"(?:[a-z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-z0-9!#$%\\&'*+/=?\\^_`{|}"
-    @"~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\"
-    @"x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-"
-    @"z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5"
-    @"]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-"
-    @"9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21"
-    @"-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
+- (IBAction)logout {
     
-    NSPredicate *regExPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegEx];
+    [TVDatabase logout];
     
-    return [regExPredicate evaluateWithObject:email];
+    [((TVAppDelegate *)[UIApplication sharedApplication].delegate) didLogOut];
 }
 
-- (void)loadInAccountData {
+- (IBAction)connectWithLinkedIn {
     
-    [nameTextField setText:[[TVDatabase currentAccount].person name]];
-    [emailTextField setText:[[TVDatabase currentAccount] email]];
-    [profilePicture setImage:[TVDatabase locateProfilePictureOnDiskWithUserId:[[TVDatabase currentAccount] userId]]];
+    [TVLoadingSignifier signifyLoading:@"Requesting LinkedIn access" duration:-1];
+    
+    [LinkedInAuthorizer authorizeWithCompletionHandler:^(BOOL succeeded, BOOL cancelled, NSError *error, NSString *accessToken) {
+        
+        if (!error && succeeded) {
+            
+            [TVLoadingSignifier signifyLoading:@"Downloading account data" duration:-1];
+            
+            [LinkedInDataRetriever downloadProfileWithAccessToken:accessToken andCompletionHandler:^(NSDictionary *profile, BOOL success, NSError *error) {
+                
+                if (!error && succeeded && profile.count) {
+                    
+                    [TVLoadingSignifier hideLoadingSignifier];
+                    
+                    TVAccount *newAccount = [TVDatabase currentAccount];
+                    
+                    [newAccount setIsUsingLinkedIn:YES];
+                    [newAccount setLinkedInAccessKey:accessToken];
+                    [newAccount setLinkedInId:profile[@"id"]];
+                    
+                    [TVLoadingSignifier signifyLoading:@"Connecting LinkedIn account with Trvlogue" duration:-1];
+
+                    [TVDatabase updateMyAccount:newAccount withCompletionHandler:^(BOOL succeeded, NSError *error, NSString *callCode) {
+
+                        [TVLoadingSignifier hideLoadingSignifier];
+
+                        if (!succeeded) {
+
+                            [self handleError:error andType:GET_LINKEDIN];
+                        }
+                        else {
+                            
+                            [TVNotificationSignifier signifyNotification:@"LinkedIn account successfully connected" forDuration:4];
+                            
+                            self.linkedInStatus.text = @"LinkedIn connected";
+                        }
+                    }];
+                }
+                else {
+                    
+                    [TVLoadingSignifier hideLoadingSignifier];
+
+                    if (!cancelled && [error code] != 102) {
+                        
+                        [self handleError:error andType:GET_LINKEDIN];
+                    }
+                }
+            }];
+        }
+        else {
+            
+            [TVLoadingSignifier hideLoadingSignifier];
+
+            if (!cancelled && [error code] != 102) {
+                
+                [self handleError:error andType:GET_LINKEDIN];
+            }
+        }
+    }];
+}
+
+- (IBAction)exportFlights {
+    
+    NSMutableString *csv = [NSMutableString stringWithString:@"Name,Date,Miles"];
+    
+    for (int i = 0; i <= [[[[TVDatabase currentAccount] person] flights] count] - 1; i++ ) {
+        
+        TVFlight *flight = [[[TVDatabase currentAccount] person] flights][i];
+        
+        [csv appendFormat:@"\n\"%@\",%@,\"%g\"", flight.originCity, flight.destinationCity, flight.miles];
+    }
+    
+    NSString *fileName = [NSString stringWithFormat:@"%@_Flights", [[[TVDatabase currentAccount] person] name]];
+    
+    NSArray *arrayPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+    NSString *docDir = [arrayPaths objectAtIndex:0];
+    NSString *path = [docDir stringByAppendingString:[NSString stringWithFormat:@"/%@", fileName]];
+    
+    [csv writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:NULL];
+    NSData *csvData = [NSData dataWithContentsOfFile:path];
+    
+    if ([MFMailComposeViewController canSendMail]) {
+        
+        if ([[[TVDatabase currentAccount] person] flights].count) {
+            
+            MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] init];
+            [composeViewController setSubject:@"My Flights"];
+            [composeViewController addAttachmentData:csvData mimeType:@"text/csv" fileName:fileName];
+            
+            composeViewController.mailComposeDelegate = self;
+            
+            [self presentViewController:composeViewController animated:YES completion:nil];
+        }
+
+    }
+    else {
+            
+        [TVErrorHandler handleError:[NSError errorWithDomain:@"Ensure you have added a mail account in Settings" code:200 userInfo:@{NSLocalizedDescriptionKey: @"Ensure you have added a mail account in Settings"}]];
+    }
+}
+
+- (IBAction)support {
+    
+    MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
+    [mailComposeViewController setMailComposeDelegate:self];
+    
+    [mailComposeViewController setSubject:[NSString stringWithFormat:@"Trvlogue Support from %@ - v%@", [[[TVDatabase currentAccount] person] email], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]]];
+    [mailComposeViewController setToRecipients:[NSArray arrayWithObject:@"support@trvlogue.com"]];
+    [mailComposeViewController setMessageBody:@"Hi, what do you need help with?:" isHTML:NO];
+    
+    if ([MFMailComposeViewController canSendMail]) {
+        
+        [self presentViewController:mailComposeViewController animated:YES completion:nil];
+    }
+    else {
+        
+        [TVErrorHandler handleError:[NSError errorWithDomain:@"Ensure you have added a mail account in Settings" code:200 userInfo:@{NSLocalizedDescriptionKey: @"Ensure you have added a mail account in Settings"}]];
+    }
+}
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    
+    [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -365,19 +415,79 @@
     
     if (self = [super init]) {
         
-        self.navigationItem.title = @"Settings";
         self.tabBarItem.title = @"Settings";
         self.tabBarItem.image = [UIImage imageNamed:@"settings.png"];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadInData) name:NSNotificationWroteProfilePicture object:nil];
     }
     
     return self;
 }
 
-- (void)viewDidLoad
+- (void)viewWillAppear:(BOOL)animated
 {
-//    [self loadInAccountData];
+    firstNameTextField.delegate = self;
+    lastNameTextField.delegate = self;
+    originCityTextField.delegate = self;
+    jobTextField.delegate = self;
     
-    [super viewDidLoad];
+    [self loadInData];
+    
+    UIBarButtonItem *save = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveData)];
+    self.navigationItem.rightBarButtonItem = save;
+    
+    CGRect screenRect = [[UIScreen mainScreen] applicationFrame];
+
+    if (screenRect.size.height == 548) {
+
+        self.scrollView.scrollEnabled = NO;
+    }
+    else {
+
+        self.scrollView.contentSize = CGSizeMake(320, self.view.frame.size.height + 110);
+    }
+    
+    self.scrollView.center = CGPointMake(self.scrollView.center.x, self.view.frame.size.height - 274);
+    
+    [self.navigationController setNavigationBarHidden:NO];
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(saveData)]];
+    
+    self.navigationItem.title = @"Settings";
+
+    for (UIView *view in self.scrollView.subviews) {
+        
+        if ([view isKindOfClass:[UIImageView class]] && view.tag != 200) {
+            
+            view.layer.masksToBounds = YES;
+            view.clipsToBounds = YES;
+            view.layer.cornerRadius = 7.0f;
+        }
+        else if ([view isKindOfClass:[UITextField class]]) {
+            
+            view.layer.cornerRadius = 7.0f;
+        }
+        else if ([view isKindOfClass:[UITextView class]]) {
+            
+            view.layer.cornerRadius = 7.0f;
+        }
+        else if ([view isKindOfClass:[UIButton class]]) {
+            
+            view.layer.cornerRadius = 7.0f;
+        }
+    }
+    
+    firstNameTextField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+    lastNameTextField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+    originCityTextField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+    jobTextField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+    
+    firstNameTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+    lastNameTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+    originCityTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+    jobTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+
+    [super viewWillAppear:animated];
+
     // Do any additional setup after loading the view from its nib.
 }
 

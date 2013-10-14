@@ -13,6 +13,6 @@
 @interface TVAnnotation : NSObject <MKAnnotation>
 
 @property (nonatomic) CLLocationCoordinate2D coordinate;
-@property (nonatomic, strong) NSString *title;
+@property (nonatomic, copy) NSString *title;
 
 @end

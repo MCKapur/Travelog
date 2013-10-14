@@ -2,12 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>640F4959-3559-46FB-A9FF-7D5E942E282D</string>
+	<string>74307A21-A753-4A61-8B9A-7CD74245B0F2</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Trvlogue</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>00BB0C76-E453-445C-B124-AE0D50E27653</key>
+		<string>https://github.com/brandonemrich/ForecastKit.git</string>
 		<key>2C63E8D9-42DE-49C5-AEA4-0473ACB70E58</key>
 		<string>https://bitbucket.org/MCKapur/trvlogue.git/</string>
 	</dict>
@@ -15,6 +19,8 @@
 	<string>Trvlogue.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
+		<key>00BB0C76-E453-445C-B124-AE0D50E27653</key>
+		<string>../../Trvlogue/ForecastKit</string>
 		<key>2C63E8D9-42DE-49C5-AEA4-0473ACB70E58</key>
 		<string>../..</string>
 	</dict>
@@ -26,6 +32,14 @@
 	<string>2C63E8D9-42DE-49C5-AEA4-0473ACB70E58</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>00BB0C76-E453-445C-B124-AE0D50E27653</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ForecastKit</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>

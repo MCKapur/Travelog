@@ -55,10 +55,13 @@
 }
 
 - (void)loginCorrectCredentials {
+
+    [TVDatabase getAccountFromUser:[PFUser currentUser] isPerformingCacheRefresh:NO withCompletionHandler:^(TVAccount *account, NSMutableArray *downloadedTypes) {
         
-    TVViewController *viewController = [[TVViewController alloc] init];
-    viewController.shouldRefresh = YES;
-    [self.navigationController pushViewController:viewController animated:YES];
+        [TVDatabase updateMyCache:account];
+    }];
+    
+    [((TVAppDelegate *)[UIApplication sharedApplication].delegate) didLogIn];
 
     [TVLoadingSignifier hideLoadingSignifier];
 }
@@ -114,11 +117,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
     if (self) {
-        
-        int random = arc4random() % NUMBER_OF_GIFS;
-        random++;
-        
-        [((TVAppDelegate *)[UIApplication sharedApplication].delegate) setRandomNumber:random];
     }
     
     return self;
@@ -164,46 +162,6 @@
     [self.navigationController pushViewController:registerAccountVC animated:YES];
 }
 
-//- (void)registerWithLinkedIn {
-//    
-//    [TVLoadingSignifier signifyLoading:@"Getting LinkedIn Info" duration:-1];
-//    
-//    [LinkedInAuthorizer authorizeWithCompletionHandler:^(BOOL succeeded, BOOL cancelled, NSError *error, NSString *accessToken) {
-//        
-//        if (!error && succeeded) {
-//            
-//            [LinkedInDataRetriever downloadProfileWithAccessToken:accessToken andCompletionHandler:^(NSDictionary *profile, BOOL success, NSError *error) {
-//                
-//                if (!error && succeeded && profile.count) {
-//                    
-//                    [TVLoadingSignifier hideLoadingSignifier];
-//                    
-//                    TVCreateAccountViewController *registerAccountVC = [[TVCreateAccountViewController alloc] initWithPresetData:profile withAccessToken:accessToken andLinkedInId:profile[@"id"]];
-//                    [self.navigationController pushViewController:registerAccountVC animated:YES];
-//                }
-//                else {
-//                    
-//                    if (!cancelled && [error code] != 102) {
-//                        
-//                        [TVLoadingSignifier hideLoadingSignifier];
-//                        
-//                        [self handleError:error andType:GET_LINKEDIN];
-//                    }
-//                }
-//            }];
-//        }
-//        else {
-//            
-//            if (!cancelled && [error code] != 102) {
-//                
-//                [TVLoadingSignifier hideLoadingSignifier];
-//                
-//                [self handleError:error andType:GET_LINKEDIN];
-//            }
-//        }
-//    }];
-//}
-
 - (IBAction)loginAccount {
 
     [self commenceLoadingSignifiers];
@@ -220,7 +178,7 @@
             if (!error && success) {
                 
                 if (correctCredentials) {
-                    
+
                     [self loginCorrectCredentials];
                 }
                 else {

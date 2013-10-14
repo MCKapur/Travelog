@@ -12,7 +12,7 @@
 
 @class TVLoginViewController;
 
-@class TVViewController;
+@class TVFlightsViewController;
 
 @interface TVAppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -22,8 +22,11 @@
 
 @property (nonatomic, strong) UIColor *swipeColor;
 
-@property (strong, nonatomic) TVLoginViewController *loginViewController;
+- (void)updateNotifications;
+- (void)hideNotifications;
+- (void)showNotifications;
 
-@property (strong, nonatomic) TVViewController *trvlogueViewController;
+- (void)didLogIn;
+- (void)didLogOut;
 
 @end

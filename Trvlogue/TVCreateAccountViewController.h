@@ -16,7 +16,7 @@
 #import <AddressBook/AddressBook.h>
 #import <CoreLocation/CoreLocation.h>
 
-#import "TVViewController.h"
+#import "TVFlightsViewController.h"
 
 #import "MBAlertView.h"
 
@@ -30,8 +30,8 @@
 
 @implementation UIImage (Thumbnail)
 
-- (UIImage *)makeThumbnailOfSize:(CGSize)size;
-{
+- (UIImage *)makeThumbnailOfSize:(CGSize)size {
+    
     UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
 
     [self drawInRect:CGRectMake(0, 0, size.width, size.height)];
@@ -62,6 +62,8 @@
 }
 
 - (IBAction)openCameraOptions;
+
+- (NSArray *)incorrectFields;
 
 @property (nonatomic, strong) NSMutableDictionary *accountDict;
 

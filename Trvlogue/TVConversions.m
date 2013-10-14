@@ -23,9 +23,9 @@
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     
-    [dateFormatter setDateFormat: format];
+    [dateFormatter setDateFormat:format];
     
-    return [dateFormatter dateFromString: dateString];
+    return [dateFormatter dateFromString:dateString];
 }
 
 @end

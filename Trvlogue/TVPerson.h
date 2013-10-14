@@ -44,6 +44,9 @@
         
         [self removeObjectAtIndex:[self indexOfNotification:notification]];
     }
+    else {
+        NSLog(@"Cannot find %@", notification.ID);
+    }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateNotifications" object:nil userInfo:nil];
 }
@@ -57,7 +60,7 @@
         for (int i = 0; i <= self.count - 1; i++) {
             
             TVNotification *_notification = self[i];
-
+            NSLog(@"%@", _notification.ID);
             if ([notification.ID isEqualToString:_notification.ID]) {
                 
                 retVal = i;

@@ -117,6 +117,10 @@
         self.tabBarItem.title = @"Messages";
         self.navigationItem.title = @"Messages";
         self.tabBarItem.image = [UIImage imageNamed:@"messages.png"];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:NSNotificationDownloadedMessages object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:NSNotificationNewMessageIncoming object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:NSNotificationWroteProfilePicture object:nil];
     }
     
     return self;
@@ -131,9 +135,6 @@
 
 - (void)viewDidLoad
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:@"RefreshedAccount" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:@"IncomingMessage" object:nil];
-    
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 }

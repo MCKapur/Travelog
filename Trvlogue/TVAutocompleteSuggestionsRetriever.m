@@ -70,7 +70,7 @@
 
 + (NSString *)APIRequest:(NSString *)input {
     
-    return [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%@&types=(regions)&sensor=false&key=%@", [input stringByReplacingOccurrencesOfString:@" " withString:@"%20"], GOOGLE_API_KEY];
+    return [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%@&types=(regions)&sensor=true&key=%@", [input stringByReplacingOccurrencesOfString:@" " withString:@"%20"], GOOGLE_API_KEY];
 }
 
 - (NSURLRequest *)getURLRequest:(NSString *)request {

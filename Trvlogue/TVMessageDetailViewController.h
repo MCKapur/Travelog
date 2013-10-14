@@ -8,11 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-#import "JSMessagesTableViewController/JSMessagesViewController.h"
+#import "AMBubbleTableViewController.h"
 
 #import "TVDatabase.h"
 
-@interface TVMessageDetailViewController : JSMessagesViewController <JSMessagesViewDataSource, JSMessagesViewDelegate>
+@interface TVMessageDetailViewController : AMBubbleTableViewController
+{
+    UIImage *myProfilePic;
+    UIImage *hisProfilePic;
+}
 
 @property (nonatomic, strong) NSString *messageHistoryID;
 

@@ -20,11 +20,14 @@
     
     int retVal = NSNotFound;
     
-    for (int i = 0; i <= self.count - 1; i++) {
+    if (self.count) {
         
-        if ([((TVFlight *)self[i]).ID isEqualToString:flight.ID]) {
+        for (int i = 0; i <= self.count - 1; i++) {
             
-            retVal = i;
+            if ([((TVFlight *)self[i]).ID isEqualToString:flight.ID]) {
+                
+                retVal = i;
+            }
         }
     }
     
@@ -99,6 +102,8 @@
     }
     
     self.miles = _miles;
+    
+    [TVDatabase removeTravelDataPacketWithID:_flight.ID];
 }
 
 - (NSMutableArray *)mileTidbits {

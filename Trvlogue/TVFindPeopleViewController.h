@@ -48,4 +48,6 @@ typedef enum {
 
 - (IBAction)changedSegment:(UISegmentedControl *)sender;
 
+- (void)findPeople;
+
 @end

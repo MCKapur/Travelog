@@ -17,6 +17,8 @@
 
 #import "TVPlacesQuerySuggestionsRetriever.h"
 
+#import "ForecastKit.h"
+
 typedef enum {
     
     kTravelDataWeather = 0,

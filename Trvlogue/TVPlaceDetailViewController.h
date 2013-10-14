@@ -16,6 +16,12 @@
 
 #import "NSString+HTML.h"
 
+@protocol TVPlaceDetailViewControllerDelegate <NSObject>
+
+- (void)savedPlace:(TVGooglePlace *)place;
+
+@end
+
 @interface TVPlaceDetailViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, TVReviewCellDelegate>
 
 @property (nonatomic, strong) TVGooglePlace *place;
@@ -29,7 +35,9 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *name;
 
-- (id)initWithPlace:(TVGooglePlace *)_place;
+@property (weak, nonatomic) id<TVPlaceDetailViewControllerDelegate> delegate;
+
+- (id)initWithPlace:(TVGooglePlace *)_place andDelegate:(id<TVPlaceDetailViewControllerDelegate>)delegate;
 
 - (IBAction)changedSegment:(UISegmentedControl *)sender;
 

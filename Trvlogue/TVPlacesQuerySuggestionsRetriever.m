@@ -99,12 +99,12 @@
 
 + (NSString *)SearchAPIRequest:(NSString *)input {
     
-    return [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/textsearch/json?&sensor=false&query=%@&key=%@", [input stringByReplacingOccurrencesOfString:@" " withString:@"%20"], GOOGLE_API_KEY];
+    return [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/textsearch/json?&sensor=true&query=%@&key=%@", [input stringByReplacingOccurrencesOfString:@" " withString:@"%20"], GOOGLE_API_KEY];
 }
 
 + (NSString *)GetDetailsAPIRequest:(NSString *)reference {
     
-    return [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/details/json?reference=%@&key=%@&sensor=false", reference, GOOGLE_API_KEY];
+    return [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/details/json?reference=%@&key=%@&sensor=true", reference, GOOGLE_API_KEY];
 }
 
 - (NSURLRequest *)getURLRequest:(NSString *)request {

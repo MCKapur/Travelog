@@ -30,6 +30,10 @@
 
 #import "TVPlaceDetailViewController.h"
 
+#import "MWPhotoBrowser.h"
+
+#import "TVTranslationsViewController.h"
+
 typedef enum {
     
     kSegmentedControlPeople = 0,
@@ -41,17 +45,16 @@ typedef enum {
     
 } SegmentedControlSelected;
 
-@interface TVFlightDetailViewController : UIViewController <MKMapViewDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIGridViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
+@interface TVFlightDetailViewController : UIViewController <MKMapViewDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIGridViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, TVPlaceDetailViewControllerDelegate, MWPhotoBrowserDelegate>
 {
     __weak IBOutlet UIScrollView *infoScrollView;
     __weak IBOutlet UISegmentedControl *infoSegControl;
     
-    NSMutableArray *places;
+    NSMutableArray *searchedPlaces;
         
     NSMutableDictionary *info;
         
     NSMutableArray *slideNames;
-    int slideCount;
     
     int gridNumber;
     NSMutableDictionary *gridConvert;
@@ -59,6 +62,14 @@ typedef enum {
     TVPlacesQuerySuggestionsRetriever *placeFinder;
     
     TVPlaceDetailViewController *placeDetailViewController;
+    
+    BOOL placesIsSearching;
+    
+    UIPageControl *flexiblePageControl;
+    
+    BOOL shouldReloadTravelInfoBanner;
+    
+    TVTranslationsViewController *translationsViewController;
 }
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;

@@ -84,14 +84,14 @@
 
 - (void)showAuthorizationView:(LIALinkedInAuthorizationViewController *)authorizationViewController {
 
-    UIViewController *viewController = [(UINavigationController *)[[UIApplication sharedApplication].delegate window].rootViewController visibleViewController];
+    UIViewController *viewController = ((UINavigationController *)[((UITabBarController *)[[UIApplication sharedApplication].delegate window].rootViewController) selectedViewController]).visibleViewController;
     viewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [viewController presentViewController:authorizationViewController animated:YES completion:nil];
 }
 
 - (void)hideAuthenticateView {
  
-    UIViewController *viewController = [(UINavigationController *)[[UIApplication sharedApplication].delegate window].rootViewController visibleViewController];
+    UIViewController *viewController = ((UINavigationController *)[((UITabBarController *)[[UIApplication sharedApplication].delegate window].rootViewController) selectedViewController]).visibleViewController;
     [viewController dismissViewControllerAnimated:YES completion:nil];
 }
 

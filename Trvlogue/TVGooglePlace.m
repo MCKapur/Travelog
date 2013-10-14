@@ -53,7 +53,7 @@
         self.reference = [aDecoder decodeObjectForKey:@"reference"];
         self.name = [aDecoder decodeObjectForKey:@"name"];
         self.address = [aDecoder decodeObjectForKey:@"address"];
-        self.coordinate = CLLocationCoordinate2DMake([aDecoder decodeDoubleForKey:@"coordiante_latitude"], [aDecoder decodeDoubleForKey:@"coordinate_longitude"]);
+        self.coordinate = CLLocationCoordinate2DMake([aDecoder decodeDoubleForKey:@"coordinate_latitude"], [aDecoder decodeDoubleForKey:@"coordinate_longitude"]);
         self.phoneNumber = [aDecoder decodeObjectForKey:@"phoneNumber"];
         self.website = [aDecoder decodeObjectForKey:@"website"];
         self.photos = [aDecoder decodeObjectForKey:@"photos"];

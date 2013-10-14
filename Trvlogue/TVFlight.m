@@ -150,9 +150,7 @@
 
 - (void)travelDataUpdated:(TravelDataTypes *)dataType {
     
-//    NSLog(@"%@", [TVDatabase travelDataPacketWithID:self.ID]);
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:[NSString stringWithFormat:@"TravelDataUpdated_%@", self.ID] object:nil userInfo:@{@"dataType":@((int)dataType)}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:[NSString stringWithFormat:@"%@_%@", NSNotificationTravelDataPacketUpdated, self.ID] object:nil userInfo:@{@"dataType":@((int)dataType)}];
 }
 
 @end

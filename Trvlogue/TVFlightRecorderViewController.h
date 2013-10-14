@@ -17,6 +17,8 @@
 #import "HTAutocompleteTextField.h"
 #import "HTAutocompleteManager.h"
 
+#import "TVGoogleGeocoder.h"
+
 @interface TVFlightRecorderViewController : UIViewController <UITextFieldDelegate,UINavigationControllerDelegate, HTAutocompleteDataSource>
 {        
     BOOL usingOriginTextField;

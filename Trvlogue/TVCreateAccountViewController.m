@@ -93,7 +93,7 @@
 #pragma mark Account Handling
 
 - (void)registerAction {
-    
+
     if (![self incorrectFields].count) {
         
         [self createAccount];
@@ -103,17 +103,17 @@
         
         if ([[self incorrectFields] containsObject:@(i)]) {
             
-            [[self.view viewWithTag:i] setTintColor:[UIColor yellowColor]];
+            [[self.view viewWithTag:i+200] setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:204.0f/255.0f alpha:1.0f]];
         }
         else {
             
-            [[self.view viewWithTag:i] setTintColor:[UIColor whiteColor]];
+            [[self.view viewWithTag:i+200] setBackgroundColor:[UIColor whiteColor]];
         }
     }
 }
 
 - (void)createAccount {
-
+    
     [TVLoadingSignifier signifyLoading:@"Creating your account" duration:-1];
     
     NSNumber *milesNumber = @0.0;
@@ -129,57 +129,78 @@
         
         NSArray *array = [[NSUserDefaults standardUserDefaults] objectForKey:@"location"];
         
-        int countOfFlights = [array count];
-        
-        for (int i = 0; i <= countOfFlights - 1; i++) {
+        if (array.count) {
             
-            CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-            
-            [geocoder geocodeAddressString:[array[i] componentsSeparatedByString:@" to "][0] completionHandler:^(NSArray *placemarks, NSError *error) {
+            for (int i = 0; i <= [array count] - 1; i++) {
                 
-                if (!error) {
+                TVGoogleGeocoder *geocoder = [[TVGoogleGeocoder alloc] init];
+                
+                [geocoder geocodeCityWithName:[array[i] componentsSeparatedByString:@" to "][0] withCompletionHandler:^(NSError *error, BOOL success, NSDictionary *result) {
                     
-                    CLLocationCoordinate2D originCoordinate = [[((CLPlacemark *)placemarks[0]) location] coordinate];
-                    
-                    if (CLLocationCoordinate2DIsValid(originCoordinate)) {
+                    if (!error && success) {
                         
-                        [geocoder geocodeAddressString:[array[i] componentsSeparatedByString:@" to"][1] completionHandler:^(NSArray *placemarks, NSError *error) {
+                        CLLocationCoordinate2D originCoordinate = CLLocationCoordinate2DMake([result[@"coordinate_latitude"] doubleValue], [result[@"coordinate_longitude"] doubleValue]);
+                        
+                        if (CLLocationCoordinate2DIsValid(originCoordinate)) {
                             
-                            if (!error) {
+                            [geocoder geocodeCityWithName:[array[i] componentsSeparatedByString:@" to"][1] withCompletionHandler:^(NSError *error, BOOL success, NSDictionary *result) {
                                 
-                                CLLocationCoordinate2D destinationCoordinate = [[((CLPlacemark *)placemarks[0]) location] coordinate];
-                                
-                                if (CLLocationCoordinate2DIsValid(destinationCoordinate)) {
+                                if (!error && success) {
                                     
-                                    NSString *originCity = [[array[i] componentsSeparatedByString:@" to "][0] componentsSeparatedByString:@","][0];
+                                    CLLocationCoordinate2D destinationCoordinate = CLLocationCoordinate2DMake([result[@"coordinate_latitude"] doubleValue], [result[@"coordinate_longitude"] doubleValue]);
                                     
-                                    NSString *destinationCity = [[array[0] componentsSeparatedByString:@" to "][1] componentsSeparatedByString:@","][0];
-                                    
-                                    NSArray *originString = [[array[0] componentsSeparatedByString:@" to "][0]componentsSeparatedByString:@","];
-                                    
-                                    NSString *originCountry = originString[originString.count - 1];
-                                    
-                                    NSArray *destinationString = [[array[0] componentsSeparatedByString:@" to "][1]componentsSeparatedByString:@","];
-                                    
-                                    NSString *destinationCountry = destinationString[destinationString.count - 1];
-                                    
-                                    [flightsArray addObject:[[TVFlight alloc] initWithParameters:[NSDictionary dictionaryWithObjects:@[originCity, destinationCity, originCountry, destinationCountry, [TVConversions convertStringToDate:[[NSUserDefaults standardUserDefaults] objectForKey:@"date"][i] withFormat:DAY_MONTH_YEAR], [[NSUserDefaults standardUserDefaults] objectForKey:@"miles"][i], @"", @(originCoordinate.latitude), @(originCoordinate.longitude), @(destinationCoordinate.latitude), @(destinationCoordinate.longitude)] forKeys:@[@"originCity", @"destinationCity", @"originCountry", @"destinationCountry", @"date", @"miles", @"question", @"originLatitude", @"originLongitude", @"destinationLatitude", @"destinationLongitude"]]]];
+                                    if (CLLocationCoordinate2DIsValid(destinationCoordinate)) {
+                                        
+                                        NSString *originCity = [[array[i] componentsSeparatedByString:@" to "][0] componentsSeparatedByString:@","][0];
+                                        
+                                        NSString *destinationCity = [[array[0] componentsSeparatedByString:@" to "][1] componentsSeparatedByString:@","][0];
+                                        
+                                        NSArray *originString = [[array[0] componentsSeparatedByString:@" to "][0]componentsSeparatedByString:@","];
+                                        
+                                        NSString *originCountry = originString[originString.count - 1];
+                                        
+                                        NSArray *destinationString = [[array[0] componentsSeparatedByString:@" to "][1]componentsSeparatedByString:@","];
+                                        
+                                        NSString *destinationCountry = destinationString[destinationString.count - 1];
+                                        
+                                        [flightsArray addObject:[[TVFlight alloc] initWithParameters:[NSDictionary dictionaryWithObjects:@[originCity, destinationCity, originCountry, destinationCountry, [TVConversions convertStringToDate:[[NSUserDefaults standardUserDefaults] objectForKey:@"date"][i] withFormat:DAY_MONTH_YEAR], [[NSUserDefaults standardUserDefaults] objectForKey:@"miles"][i], @"", @(originCoordinate.latitude), @(originCoordinate.longitude), @(destinationCoordinate.latitude), @(destinationCoordinate.longitude)] forKeys:@[@"originCity", @"destinationCity", @"originCountry", @"destinationCountry", @"date", @"miles", @"question", @"originLatitude", @"originLongitude", @"destinationLatitude", @"destinationLongitude"]]]];
+                                    }
                                 }
-                            }
-                        }];
+                                
+                                if (i == [array count] - 1) {
+                                    
+                                    self.accountDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%@ %@", firstNameTextField.text, lastNameTextField.text], @"name", emailTextField.text, @"email", followingArray, @"connections", milesNumber, @"miles", flightsArray, @"flights", [[NSMutableDictionary alloc] init], @"knownDestinationPreferences", [[NSMutableArray alloc] init], @"notifications", jobTextField.text, @"position", @(NO), @"isUsingLinkedIn", nil, @"linkedInAccessKey", nil, @"linkedInId", nil];
+                                    
+                                    [self geocodeOriginCity];
+                                }
+                            }];
+                        }
                     }
-                }
-            }];
+                }];
+            }
         }
-    }
+        else {
+            
+            self.accountDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%@ %@", firstNameTextField.text, lastNameTextField.text], @"name", emailTextField.text, @"email", followingArray, @"connections", milesNumber, @"miles", flightsArray, @"flights", [[NSMutableDictionary alloc] init], @"knownDestinationPreferences", [[NSMutableArray alloc] init], @"notifications", jobTextField.text, @"position", @(NO), @"isUsingLinkedIn", nil, @"linkedInAccessKey", nil, @"linkedInId", nil];
+            
+            [self geocodeOriginCity];
+        }
     
-    [self geocode:[originCityTextField text] withCompletionHandler:^(CLPlacemark *placemark, NSError *error) {
-
-        NSString *location = !placemark.locality ? placemark.administrativeArea : placemark.locality;
+    } else {
         
-        if ([location length] && !error) {
-                        
-            self.accountDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%@ %@", firstNameTextField.text, lastNameTextField.text], @"name", emailTextField.text, @"email", followingArray, @"connections", milesNumber, @"miles", flightsArray, @"flights", [[NSMutableDictionary alloc] init], @"knownDestinationPreferences", location, @"originCity", [[NSMutableArray alloc] init], @"notifications", jobTextField.text, @"position", @(NO), @"isUsingLinkedIn", nil, @"linkedInAccessKey", nil, @"linkedInId", nil];
+        self.accountDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%@ %@", firstNameTextField.text, lastNameTextField.text], @"name", emailTextField.text, @"email", followingArray, @"connections", milesNumber, @"miles", flightsArray, @"flights", [[NSMutableDictionary alloc] init], @"knownDestinationPreferences", [[NSMutableArray alloc] init], @"notifications", jobTextField.text, @"position", @(NO), @"isUsingLinkedIn", nil, @"linkedInAccessKey", nil, @"linkedInId", nil];
+        
+        [self geocodeOriginCity];
+    }
+}
+
+- (void)geocodeOriginCity {
+    
+    [self geocode:[originCityTextField text] withCompletionHandler:^(NSDictionary *result, NSError *error) {
+        
+        if (result && !error) {
+            
+            self.accountDict[@"originCity"] = result[@"city"];
             
             account = [[TVAccount alloc] initWithProfile:self.accountDict];
             
@@ -189,20 +210,20 @@
         }
         else {
             
-            [TVErrorHandler handleError:[NSError errorWithDomain:@"Please input a valid city" code:200 userInfo:@{NSLocalizedDescriptionKey:@"Please input a valid city"}]];
+            [TVErrorHandler handleError:[NSError errorWithDomain:@"Could not create account" code:200 userInfo:@{NSLocalizedDescriptionKey:@"Could not create account"}]];
         }
     }];
 }
 
-- (void)geocode:(NSString *)location withCompletionHandler:(void (^)(CLPlacemark *placemark, NSError *error))callback {
+- (void)geocode:(NSString *)location withCompletionHandler:(void (^)(NSDictionary *result, NSError *error))callback {
     
-    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    TVGoogleGeocoder *geocoder = [[TVGoogleGeocoder alloc] init];
 
-    [geocoder geocodeAddressString:location completionHandler:^(NSArray *placemarks, NSError *error) {
+    [geocoder geocodeCityWithName:location withCompletionHandler:^(NSError *error, BOOL success, NSDictionary *result) {
         
-        if (!error && placemarks.count) {
+        if (!error && success) {
             
-            callback(placemarks[0], error);
+            callback(result, error);
         }
         else {
             
@@ -213,14 +234,14 @@
 
 - (void)registerAccount {
     
-    [self createdAccount];
-
     dispatch_queue_t downloadQueue = dispatch_queue_create("Upload account", NULL);
     dispatch_async(downloadQueue, ^{
         
         [TVDatabase uploadAccount:account withProfilePicture:[profileImageView.image makeThumbnailOfSize:CGSizeMake(700, 700)] andCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
 
             if (success && !error) {
+                
+                [self createdAccount];
                 
 //                dispatch_queue_t downloadQueue = dispatch_queue_create("Send email", NULL);
 //                
@@ -272,9 +293,7 @@
 
 - (void)createdAccount {
     
-    TVViewController *trvlogueViewController = [[TVViewController alloc] init];
-    trvlogueViewController.shouldRefresh = NO;
-    [self.navigationController pushViewController:trvlogueViewController animated:YES];
+    [((TVAppDelegate *)[UIApplication sharedApplication].delegate) didLogIn];
 }
 
 - (void)handleError:(NSError *)error andType:(NSString *)type {
@@ -282,7 +301,7 @@
     [TVErrorHandler handleError:[NSError errorWithDomain:[NSString stringWithFormat:@"Could not %@", type] code:200 userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"Could not %@", type]}]];
 }
 
-#pragma mark Checker Methods
+#pragma mark Validation
 
 - (NSMutableArray *)missingFields {
     
@@ -297,13 +316,20 @@
     [retVal addObjectsFromArray:[self missingFields]];
     [retVal addObject:@([self checkIfPasswordsAreIdentical])];
     
-    for (int i = 0; i <= retVal.count - 1; i++) {
+    NSMutableIndexSet *indexSet = [[NSMutableIndexSet alloc] init];
+    
+    if (retVal.count) {
         
-        if ([[retVal objectAtIndex:i] intValue] == 0) {
+        for (int i = 0; i <= retVal.count - 1; i++) {
             
-            [retVal removeObjectAtIndex:i];
+            if ([retVal[i] intValue] == 0) {
+                
+                [indexSet addIndex:i];
+            }
         }
     }
+    
+    [retVal removeObjectsAtIndexes:indexSet];
     
     return retVal;
 }
@@ -359,7 +385,7 @@
     return arrayOfValuesNotFilled;
 }
 
-#pragma mark UITextField Goodies
+#pragma mark UITextField Methods
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     
@@ -380,14 +406,15 @@
         
         [nextTf becomeFirstResponder];
         
-        [self.scrollView scrollRectToVisible:CGRectMake(0, 380/(8-i), self.scrollView.frame.size.width, self.scrollView.frame.size.width) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, nextTf.center.y - 120) animated:YES];
     }
     else {
         
+        [self.scrollView setContentOffset:CGPointMake(0, -60) animated:YES];
     }
 }
 
-#define FUNKY AND DIRTY AND NATIVE BRAHHH
+#define FUNKY AND DIRTY AND NATIVE
 
 - (id)init {
     
@@ -427,7 +454,7 @@
 {
     CGRect screenRect = [[UIScreen mainScreen] applicationFrame];
     
-    if (screenRect.size.height == 568) {
+    if (screenRect.size.height == 548) {
         
         self.scrollView.contentSize = CGSizeMake(320, self.view.frame.size.height + 94);
     }
@@ -435,6 +462,8 @@
         
         self.scrollView.contentSize = CGSizeMake(320, self.view.frame.size.height + 134);
     }
+    
+    self.scrollView.center = CGPointMake(self.scrollView.center.x, self.view.frame.size.height - 274);
     
     [self.navigationController setNavigationBarHidden:NO];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(registerAction)]];
@@ -465,8 +494,17 @@
         }
     }
     
+    firstNameTextField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+    lastNameTextField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+    originCityTextField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+    jobTextField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+    
+    firstNameTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+    lastNameTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+    originCityTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+    jobTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+
     [super viewDidLoad];
-    //     Do any additional setup after loading the view from its nib.
 }
 
 - (void)didReceiveMemoryWarning
