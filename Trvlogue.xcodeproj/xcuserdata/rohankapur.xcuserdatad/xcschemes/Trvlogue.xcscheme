@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "46C28EF916EDD6F800399BDE"
-               BuildableName = "Trvlogue.app"
+               BuildableName = "Travelog.app"
                BlueprintName = "Trvlogue"
                ReferencedContainer = "container:Trvlogue.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "46C28EF916EDD6F800399BDE"
-            BuildableName = "Trvlogue.app"
+            BuildableName = "Travelog.app"
             BlueprintName = "Trvlogue"
             ReferencedContainer = "container:Trvlogue.xcodeproj">
          </BuildableReference>
@@ -52,7 +52,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "46C28EF916EDD6F800399BDE"
-            BuildableName = "Trvlogue.app"
+            BuildableName = "Travelog.app"
             BlueprintName = "Trvlogue"
             ReferencedContainer = "container:Trvlogue.xcodeproj">
          </BuildableReference>
@@ -75,7 +75,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "46C28EF916EDD6F800399BDE"
-            BuildableName = "Trvlogue.app"
+            BuildableName = "Travelog.app"
             BlueprintName = "Trvlogue"
             ReferencedContainer = "container:Trvlogue.xcodeproj">
          </BuildableReference>

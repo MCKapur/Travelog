@@ -84,6 +84,11 @@
         
         [TVDatabase downloadFlightsWithObjectIds:[NSArray arrayWithObject:[[TVDatabase currentAccount] userId]] withCompletionHandler:^(NSError *error, NSMutableArray *flights) {
             
+            TVAccount *account = [TVDatabase currentAccount];
+            [[account person] setFlights:flights];
+            
+            [TVDatabase updateMyCache:account];
+            
             [self updateFlights];
             [self updateMilesLabel];
             

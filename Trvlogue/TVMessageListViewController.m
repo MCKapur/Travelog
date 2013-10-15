@@ -8,12 +8,59 @@
 
 #import "TVMessageListViewController.h"
 
+#import "TVDatabase.h"
+
 @interface TVMessageListViewController ()
 
 @end
 
 @implementation TVMessageListViewController
 @synthesize messageListTableView;
+
+#pragma mark Download
+
+- (void)refreshMessages:(UIRefreshControl *)refreshControl {
+    
+    [refreshControl beginRefreshing];
+
+    [TVDatabase downloadMessageHistoriesWithUserId:[[TVDatabase currentAccount] userId] withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode, NSMutableArray *messageHistories) {
+        
+        [refreshControl endRefreshing];
+        
+        if (success && !error) {
+            
+            TVAccount *account = [TVDatabase currentAccount];
+            
+            [account.person setMessageHistories:messageHistories];
+            
+            [account.person.notifications clearNotificationOfType:kNotificationTypeUnreadMessages];
+            
+            NSMutableArray *IDs = [[NSMutableArray alloc] init];
+            
+            for (TVMessageHistory *messageHistory in messageHistories) {
+                
+                [IDs addObject:[[TVDatabase currentAccount] userId] ? messageHistory.receiverId : messageHistory.senderId];
+                
+                if (![[messageHistory.sortedMessages lastObject] receiverRead] && ![[[TVDatabase currentAccount] userId] isEqualToString:[((TVMessage *)[messageHistory.sortedMessages lastObject]) senderId]]) {
+                    
+                    TVNotification *notification = [[TVNotification alloc] initWithType:(NotificationType *)kNotificationTypeUnreadMessages withUserId:messageHistory.senderId];
+                    
+                    [account.person.notifications addNotification:notification];
+                }
+            }
+            
+            [TVDatabase updateMyCache:account];
+            
+            [self reload];
+            
+            [TVDatabase downloadUsersFromUserIds:IDs withCompletionHandler:^(NSMutableArray *users, NSError *error, NSString *callCode) {
+            }];
+        }
+        else {
+            
+        }
+    }];
+}
 
 #pragma mark UITableView Methods
 
@@ -135,6 +182,10 @@
 
 - (void)viewDidLoad
 {
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(refreshMessages:) forControlEvents:UIControlEventValueChanged];
+    [self.messageListTableView addSubview:refreshControl];
+
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 }

@@ -1452,25 +1452,8 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
             }
         }
         
-        TVAccount *account = [[TVAccount alloc] init];
+        TVAccount *account = [TVDatabase getGeneralFromUser:object];
         
-        if ([object.objectId isEqualToString:[[TVDatabase currentAccount] userId]]) {
-            
-                account = ![TVDatabase currentAccount] ? [[TVAccount alloc] init] : [TVDatabase currentAccount];
-        }
-
-        [account setUserId:[object objectId]];
-        [account setEmail:object[@"email"]];
-        [account setIsUsingLinkedIn:[object[@"isUsingLinkedIn"] boolValue]];
-        [account setLinkedInAccessKey:object[@"linkedInAccessKey"]];
-        [account setLinkedInId:object[@"linkedInId"]];
-        [account.person setEmail:object[@"email"]];
-        [account.person setKnownDestinationPreferences:[[NSMutableDictionary alloc] init]];
-        [account.person setName:object[@"name"]];
-        [account.person setPosition:object[@"position"]];
-        [account.person setMiles:[object[@"miles"] doubleValue]];
-        [account.person setOriginCity:object[@"originCity"]];
-                
         [TVDatabase cachePerson:account];
         
         [downloadedTypes addObject:@(kAccountDownloadedGeneralAttributes)];
@@ -1493,25 +1476,28 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         
         [TVDatabase findConnectionsFromId:[object objectId] withCompletionHandler:^(NSMutableArray *objects, NSError *error, NSString *callCode) {
             
-            [account.person.notifications clearNotificationOfType:kNotificationTypeConnectionRequest];
-            
-            for (TVConnection *connection in objects) {
+            if (!error) {
                 
-                if (connection.status == kConnectRequestPending && [connection.receiverId isEqualToString:[[TVDatabase currentAccount] userId]]) {
+                [account.person.notifications clearNotificationOfType:kNotificationTypeConnectionRequest];
+                
+                for (TVConnection *connection in objects) {
                     
-                    TVNotification *connectNotification = [[TVNotification alloc] initWithType:kNotificationTypeConnectionRequest withUserId:connection.senderId];
-                    
-                    [account.person.notifications addNotification:connectNotification];
+                    if (connection.status == kConnectRequestPending && [connection.receiverId isEqualToString:[[TVDatabase currentAccount] userId]]) {
+                        
+                        TVNotification *connectNotification = [[TVNotification alloc] initWithType:kNotificationTypeConnectionRequest withUserId:connection.senderId];
+                        
+                        [account.person.notifications addNotification:connectNotification];
+                    }
                 }
+                
+                [downloadedTypes addObject:@(kAccountDownloadedConnections)];
+                
+                [account.person setConnections:objects];
+                
+                [TVDatabase cachePerson:account];
+                
+                callback(account, downloadedTypes);
             }
-            
-            [downloadedTypes addObject:@(kAccountDownloadedConnections)];
-            
-            [account.person setConnections:objects];
-            
-            [TVDatabase cachePerson:account];
-            
-            callback(account, downloadedTypes);
         }];
         
         [TVDatabase downloadMessageHistoriesWithUserId:[object objectId] withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode, NSMutableArray *messageHistories) {
@@ -1566,6 +1552,30 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
             callback(account, downloadedTypes);
         }];
     });
+}
+
++ (TVAccount *)getGeneralFromUser:(PFUser *)object {
+    
+    TVAccount *account = [[TVAccount alloc] init];
+    
+    if ([object.objectId isEqualToString:[[TVDatabase currentAccount] userId]]) {
+        
+        account = ![TVDatabase currentAccount] ? [[TVAccount alloc] init] : [TVDatabase currentAccount];
+    }
+    
+    [account setUserId:[object objectId]];
+    [account setEmail:object[@"email"]];
+    [account setIsUsingLinkedIn:[object[@"isUsingLinkedIn"] boolValue]];
+    [account setLinkedInAccessKey:object[@"linkedInAccessKey"]];
+    [account setLinkedInId:object[@"linkedInId"]];
+    [account.person setEmail:object[@"email"]];
+    [account.person setKnownDestinationPreferences:[[NSMutableDictionary alloc] init]];
+    [account.person setName:object[@"name"]];
+    [account.person setPosition:object[@"position"]];
+    [account.person setMiles:[object[@"miles"] doubleValue]];
+    [account.person setOriginCity:object[@"originCity"]];
+    
+    return account;
 }
 
 + (void)downloadUsersFromUserIds:(NSArray *)userIds withCompletionHandler:(void (^)(NSMutableArray *users, NSError *error, NSString *callCode))callback {

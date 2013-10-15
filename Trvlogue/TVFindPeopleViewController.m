@@ -589,6 +589,10 @@
             subview.alpha = 0.0;
     }
     
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(refreshConnections:) forControlEvents:UIControlEventValueChanged];
+    [self.table addSubview:refreshControl];
+    
     [super viewDidLoad];
 }
 
@@ -598,6 +602,40 @@
     
     [self.table reloadData];
     [self.table setNeedsDisplay];
+}
+
+- (void)refreshConnections:(UIRefreshControl *)refreshControl {
+    
+    [refreshControl beginRefreshing];
+    
+    [TVDatabase findConnectionsFromId:[[TVDatabase currentAccount] userId] withCompletionHandler:^(NSMutableArray *objects, NSError *error, NSString *callCode) {
+        
+        [refreshControl endRefreshing];
+        
+        if (!error) {
+            
+            TVAccount *account = [TVDatabase currentAccount];
+            
+            [account.person.notifications clearNotificationOfType:kNotificationTypeConnectionRequest];
+            
+            for (TVConnection *connection in objects) {
+                
+                if (connection.status == kConnectRequestPending && [connection.receiverId isEqualToString:[[TVDatabase currentAccount] userId]]) {
+                    
+                    TVNotification *connectNotification = [[TVNotification alloc] initWithType:kNotificationTypeConnectionRequest withUserId:connection.senderId];
+                    
+                    [account.person.notifications addNotification:connectNotification];
+                }
+            }
+            
+            [account.person setConnections:objects];
+            
+            [TVDatabase updateMyCache:account];
+            
+            [self.table reloadData];
+            [self.table setNeedsDisplay];
+        }
+    }];
 }
 
 @end

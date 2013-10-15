@@ -599,7 +599,7 @@
 		46BB55ED16F1B36A0076BCEB /* TVFlightCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVFlightCell.h; sourceTree = "<group>"; };
 		46BB55EE16F1B36A0076BCEB /* TVFlightCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVFlightCell.m; sourceTree = "<group>"; };
 		46BB55F016F1B3850076BCEB /* TVFlightCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TVFlightCell.xib; sourceTree = "<group>"; };
-		46C28EFA16EDD6F800399BDE /* Trvlogue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Trvlogue.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		46C28EFA16EDD6F800399BDE /* Travelog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Travelog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46C28F0716EDD6F900399BDE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		46C28F0916EDD6F900399BDE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		46C28F0C16EDD6F900399BDE /* TVAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TVAppDelegate.h; sourceTree = "<group>"; };
@@ -1315,7 +1315,7 @@
 		46C28EFB16EDD6F800399BDE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				46C28EFA16EDD6F800399BDE /* Trvlogue.app */,
+				46C28EFA16EDD6F800399BDE /* Travelog.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1766,7 +1766,7 @@
 			);
 			name = Trvlogue;
 			productName = Trvlogue;
-			productReference = 46C28EFA16EDD6F800399BDE /* Trvlogue.app */;
+			productReference = 46C28EFA16EDD6F800399BDE /* Travelog.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -2260,7 +2260,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = /Users/rohankapur/Code/iOS/trvlogue/Trvlogue/TestFlightSDK;
 				OTHER_CFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Travelog;
 				PROVISIONING_PROFILE = "E4DED18F-B88F-4E00-A8F1-43D166ED0BAA";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E4DED18F-B88F-4E00-A8F1-43D166ED0BAA";
 				WRAPPER_EXTENSION = app;
@@ -2287,7 +2287,7 @@
 				INFOPLIST_FILE = "Trvlogue/Trvlogue-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = /Users/rohankapur/Code/iOS/trvlogue/Trvlogue/TestFlightSDK;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Travelog;
 				PROVISIONING_PROFILE = "A113ABF9-B9E0-4A61-9CAD-41A0EC7E2FD6";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A113ABF9-B9E0-4A61-9CAD-41A0EC7E2FD6";
 				WRAPPER_EXTENSION = app;

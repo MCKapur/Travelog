@@ -492,20 +492,34 @@
         
         [TVLoadingSignifier signifyLoading:@"Recording your flight" duration:-1];
         
+        for (int i = 1; i <= 2; i++) {
+            
+            if ([[self incorrectFields] containsObject:@(i)]) {
+                
+                [[self.view viewWithTag:i+200] setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:204.0f/255.0f alpha:1.0f]];
+            }
+            else {
+                
+                [[self.view viewWithTag:i+200] setBackgroundColor:[UIColor whiteColor]];
+            }
+        }
+
         self.originTextField.text = [NSString string];
         self.destinationTextField.text = [NSString string];
         self.datePicker.date = [NSDate date];
     }
-
-    for (int i = 1; i <= 2; i++) {
+    else {
         
-        if ([[self incorrectFields] containsObject:@(i)]) {
+        for (int i = 1; i <= 2; i++) {
             
-            [[self.view viewWithTag:i+200] setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:204.0f/255.0f alpha:1.0f]];
-        }
-        else {
-            
-            [[self.view viewWithTag:i+200] setBackgroundColor:[UIColor whiteColor]];
+            if ([[self incorrectFields] containsObject:@(i)]) {
+                
+                [[self.view viewWithTag:i+200] setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:204.0f/255.0f alpha:1.0f]];
+            }
+            else {
+                
+                [[self.view viewWithTag:i+200] setBackgroundColor:[UIColor whiteColor]];
+            }
         }
     }
 }

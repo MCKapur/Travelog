@@ -271,6 +271,7 @@ typedef enum {
 
 + (void)downloadUsersFromUserIds:(NSArray *)userIds withCompletionHandler:(void (^)(NSMutableArray *users, NSError *error, NSString *callCode))callback;
 + (void)getAccountFromUser:(PFUser *)object isPerformingCacheRefresh:(BOOL)isPerformingCacheRefresh withCompletionHandler:(void (^)(TVAccount *account,NSMutableArray *downloadedTypes))callback;
++ (TVAccount *)getGeneralFromUser:(PFUser *)object;
 + (void)refreshAccountWithCompletionHandler:(void (^)(BOOL completed))callback;
 + (void)refreshFlights;
 

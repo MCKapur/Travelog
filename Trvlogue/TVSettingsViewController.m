@@ -23,7 +23,6 @@
     [TVErrorHandler handleError:[NSError errorWithDomain:[NSString stringWithFormat:@"Could not %@", type] code:200 userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"Could not %@", type]}]];
 }
 
-
 #pragma mark UITextField Methods
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -422,6 +421,33 @@
     }
     
     return self;
+}
+
+- (void)refreshGeneralDetails:(UIRefreshControl *)refreshControl {
+    
+    [refreshControl beginRefreshing];
+    
+    [[PFUser currentUser] refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        
+        [refreshControl endRefreshing];
+        
+        if (!error) {
+            
+            TVAccount *account = [TVDatabase getGeneralFromUser:(PFUser *)object];
+            [TVDatabase updateMyCache:account];
+            
+            [self loadInData];
+        }
+    }];
+}
+
+- (void)viewDidLoad {
+    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(refreshGeneralDetails:) forControlEvents:UIControlEventValueChanged];
+    [self.scrollView addSubview:refreshControl];
+    
+    [super viewDidLoad];
 }
 
 - (void)viewWillAppear:(BOOL)animated
