@@ -1,0 +1,28 @@
+<!doctype>
+
+<html>
+
+	<head>
+
+		<title>Welcome To Travelog!</title>
+
+	</head>
+	
+	<body style="max-width:600px;min-width:280px;margin:0px auto 10px auto;color:#303030;background-color:#ecf0f1;padding:0px 20px">
+
+		<br>
+
+		<img style="border-radius:100px" height="100" width="100" src="https://fbcdn-sphotos-e-a.akamaihd.net/hphotos-ak-prn2/s720x720/1381519_555358174535217_2129273580_n.png">
+
+		<h1 style="font-family:HelveticaNeue-Bold;">Welcome to Travelog!</h1>
+
+		<p style="font-family:HelveticaNeue;font-size:17px;">Hey name_here, thanks for creating an account on Travelog! Start recording flights, connecting with people, and sharing your miles!</p>
+
+		<p style="font-family:HelveticaNeue;font-size:17px;">If you did not initiate this request, and want to revert your account, please <a href="mailto:support@travelogapp.com">email us</a> right away.
+
+		<br>
+        <br>
+
+	</body>
+
+</html>
