@@ -13,7 +13,7 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
  
-    [aCoder encodeInt:(int)self.type forKey:@"type"];
+    [aCoder encodeInteger:(NSInteger)self.type forKey:@"type"];
     [aCoder encodeObject:self.ID forKey:@"ID"];
 }
 
@@ -23,7 +23,7 @@
     
     if (self) {
         
-        self.type = (NotificationType *)[aDecoder decodeIntForKey:@"type"];
+        self.type = (NotificationType *)[aDecoder decodeIntegerForKey:@"type"];
         self.ID = [aDecoder decodeObjectForKey:@"ID"];
     }
     
@@ -52,7 +52,7 @@
 
 - (NSString *)description {
     
-    return [NSString stringWithFormat:@"Type: %i", (int)self.type];
+    return [NSString stringWithFormat:@"Type: %i\n%@", (NSInteger)self.type, self.ID];
 }
 
 @end

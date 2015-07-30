@@ -12,17 +12,17 @@
 
 @interface NSArray (Indexing)
 
-- (int)indexOfFlight:(TVFlight *)flight;
+- (NSInteger)indexOfFlight:(TVFlight *)flight;
 
 @end
 
 @implementation NSArray (Indexing)
 
-- (int)indexOfFlight:(TVFlight *)flight {
+- (NSInteger)indexOfFlight:(TVFlight *)flight {
     
-    int retVal = NSNotFound;
+    NSInteger retVal = NSNotFound;
     
-    for (int i = 0; i <= self.count - 1; i++) {
+    for (NSInteger i = 0; i <= self.count - 1; i++) {
         
         if ([((TVFlight *)self[i]).ID isEqualToString:flight.ID]) {
             
@@ -45,6 +45,19 @@ NSString *const EMAIL_TAKEN = @"202";
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
 }
 
+#pragma mark LinkedIn
+
++ (void)setLocalLinkedInRequestToken:(NSString *)linkedInRequestToken {
+    
+    [[EGOCache globalCache] setString:linkedInRequestToken forKey:@"linkedInRequestToken"];
+}
+
++ (NSString *)localLinkedInRequestToken {
+    
+    return [[EGOCache globalCache] stringForKey:@"linkedInRequestToken"];
+}
+
+
 #pragma mark Messaging Service
 
 + (TVMessageHistory *)messageHistoryFromID:(NSString *)ID {
@@ -64,11 +77,11 @@ NSString *const EMAIL_TAKEN = @"202";
 
 + (void)deleteMessageHistoryFromID:(NSString *)ID {
     
-    int indexToReplace = NSNotFound;
+    NSInteger indexToReplace = NSNotFound;
     
     if ([[[TVDatabase currentAccount] person] messageHistories].count) {
         
-        for (int i = 0; i <= [[[TVDatabase currentAccount] person] messageHistories].count - 1; i++) {
+        for (NSInteger i = 0; i <= [[[TVDatabase currentAccount] person] messageHistories].count - 1; i++) {
             
             TVMessageHistory *messageHistory = [[[TVDatabase currentAccount] person] messageHistories][i];
             
@@ -119,7 +132,7 @@ NSString *const EMAIL_TAKEN = @"202";
 
         NSMutableArray *messageHistoriesCopy = [(TVMessageHistory *)account.person.messageHistories mutableCopy];
         
-        for (int i = 0; i <= [messageHistoriesCopy count] - 1; i++) {
+        for (NSInteger i = 0; i <= [messageHistoriesCopy count] - 1; i++) {
             
             if ([((TVMessageHistory *)account.person.messageHistories[i]).ID isEqualToString:messageHistoryID]) {
                 
@@ -150,7 +163,7 @@ NSString *const EMAIL_TAKEN = @"202";
                 
                 [messageObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     
-                    [TVDatabase pushNotificationToObjectId:message.receiverId withData:@{@"type": @(kPushNotificationReceivedMessage), @"alert": [NSString stringWithFormat:@"%@: \"%@\"", [[[TVDatabase currentAccount] person] name], message.body], @"messageHistoryID": messageHistory.ID, @"messageBody": message.body, @"userId": message.senderId, @"sound": @"default", @"badge": @"Increment"}];
+                    [TVDatabase pushNotificationToObjectId:message.receiverId withData:[@{@"type": @(kPushNotificationReceivedMessage), @"alert": [NSString stringWithFormat:@"%@ sent you a message", [[[TVDatabase currentAccount] person] name]], @"messageHistoryID": messageHistory.ID, @"userId": message.senderId, @"sound": @"default", @"badge": @"Increment"} mutableCopy]];
                 }];
             }
             else {
@@ -182,7 +195,7 @@ NSString *const EMAIL_TAKEN = @"202";
     [query whereKey:@"senderId" equalTo:messageHistory.senderId];
     [query whereKey:@"receiverId" equalTo:messageHistory.receiverId];
     
-    [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+    [query countObjectsInBackgroundWithBlock:^(NSInteger number, NSError *error) {
         
         if (!error) {
             
@@ -199,7 +212,7 @@ NSString *const EMAIL_TAKEN = @"202";
                     
                     callback(succeeded, error, SEND_MESSAGE);
                     
-                    [TVDatabase pushNotificationToObjectId:[messageHistory.receiverId isEqualToString:[[TVDatabase currentAccount] userId]] ? messageHistory.senderId : messageHistory.receiverId withData:@{@"type": @(kPushNotificationReceivedMessage), @"alert": [NSString stringWithFormat:@"%@: \"%@\"", [[[TVDatabase currentAccount] person] name], message.body], @"messageHistoryID": messageHistory.ID, @"messageBody": message.body, @"userId": message.senderId, @"badge": @"Increment", @"sound": @"default"}];
+                    [TVDatabase pushNotificationToObjectId:[messageHistory.receiverId isEqualToString:[[TVDatabase currentAccount] userId]] ? messageHistory.senderId : messageHistory.receiverId withData:[@{@"type": @(kPushNotificationReceivedMessage), @"alert": [NSString stringWithFormat:@"%@ sent you a message", [[[TVDatabase currentAccount] person] name]], @"messageHistoryID": messageHistory.ID, @"userId": message.senderId, @"badge": @"Increment", @"sound": @"default"} mutableCopy]];
                 }];
             }
             else {
@@ -225,25 +238,28 @@ NSString *const EMAIL_TAKEN = @"202";
     
     NSMutableArray *messageHistories = [(TVMessageHistory *)account.person.messageHistories mutableCopy];
     
-    for (int i = 0; i <= [messageHistories count] - 1; i++) {
+    for (NSInteger i = 0; i <= [messageHistories count] - 1; i++) {
         
         if ([((TVMessageHistory *)account.person.messageHistories[i]).ID isEqualToString:messageHistory.ID]) {
             
             NSMutableArray *messages = [((TVMessageHistory *)account.person.messageHistories[i]).messages mutableCopy];
             
-            for (int j = 0; j <= messages.count - 1; j++) {
+            for (NSInteger j = 0; j <= messages.count - 1; j++) {
 
                 if (([[(TVMessage *)((TVMessageHistory *)account.person.messageHistories[i]).messages[j] receiverId] isEqualToString:[[TVDatabase currentAccount] userId]])) {
                     
                     [((TVMessage *)((TVMessageHistory *)account.person.messageHistories[i]).messages[j]) setReceiverRead:YES];
                     
-                    [account.person.notifications removeNotification:[[TVNotification alloc] initWithType:(NotificationType *)kNotificationTypeUnreadMessages withUserId:((TVMessage *)((TVMessageHistory *)account.person.messageHistories[i]).messages[j]).senderId]];
+                    [account.person.notifications removeNotification:[[TVNotification alloc] initWithType:(NotificationType *)kNotificationTypeUnreadMessages withUserId:[[[TVDatabase currentAccount] userId] isEqualToString:((TVMessage *)((TVMessageHistory *)account.person.messageHistories[i]).messages[j]).senderId] ? ((TVMessage *)((TVMessageHistory *)account.person.messageHistories[i]).messages[j]).receiverId : ((TVMessage *)((TVMessageHistory *)account.person.messageHistories[i]).messages[j]).senderId]];
                 }
             }
         }
     }
     
-    [((TVAppDelegate *)[UIApplication sharedApplication].delegate) updateNotifications];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:NSNotificationUpdateNotifications object:nil];
+    });
     
     [TVDatabase updateMyCache:account];
 
@@ -251,7 +267,7 @@ NSString *const EMAIL_TAKEN = @"202";
         
         if (objects.count && !error) {
             
-            for (int i = 0; i <= [messageHistories count] - 1; i++) {
+            for (NSInteger i = 0; i <= [messageHistories count] - 1; i++) {
                 
                 if ([((TVMessageHistory *)account.person.messageHistories[i]).ID isEqualToString:messageHistory.ID]) {
                     
@@ -292,7 +308,7 @@ NSString *const EMAIL_TAKEN = @"202";
             [messageHistories addObject:messageHistory];
         }
         
-        callback(objects.count ? YES : NO, error, DOWNLOAD_MESSAGE, messageHistories);
+        callback(objects ? YES : NO, error, DOWNLOAD_MESSAGE, messageHistories);
     }];
 }
 
@@ -304,12 +320,14 @@ NSString *const EMAIL_TAKEN = @"202";
     
     PFQuery *queryScenario2 = [PFQuery queryWithClassName:@"Messages"];
     [queryScenario2 whereKey:@"senderId" equalTo:userIds[1]];
-    [queryScenario1 whereKey:@"receiverId" equalTo:userIds[0]];
+    [queryScenario2 whereKey:@"receiverId" equalTo:userIds[0]];
     
     PFQuery *query = [PFQuery orQueryWithSubqueries:@[queryScenario1, queryScenario2]];
+
+    [query setCachePolicy:kPFCachePolicyNetworkOnly];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        
+
         NSMutableArray *messageHistories = [[NSMutableArray alloc] init];
         
         for (PFObject *messageObject in objects) {
@@ -319,13 +337,13 @@ NSString *const EMAIL_TAKEN = @"202";
             [messageHistories addObject:messageHistory];
         }
         
-        callback(objects.count ? YES : NO, error, DOWNLOAD_MESSAGE, messageHistories);
+        callback(objects ? YES : NO, error, DOWNLOAD_MESSAGE, messageHistories);
     }];
 }
 
 #pragma mark Push Notifications
 
-+ (void)pushNotificationToObjectId:(NSString *)objectId withData:(NSDictionary *)data {
++ (void)pushNotificationToObjectId:(NSString *)objectId withData:(NSMutableDictionary *)data {
     
     PFQuery *query = [PFInstallation query];
     [query whereKey:@"userId" equalTo:objectId];
@@ -333,25 +351,23 @@ NSString *const EMAIL_TAKEN = @"202";
     PFPush *push = [PFPush push];
     [push setQuery:query];
     [push setData:data];
-
+    
     [push sendPushInBackground];
 }
 
 + (void)receivedLocalNotification:(NSDictionary *)userInfo {
-
+    
     TVAccount *newAccount = [TVDatabase currentAccount];
     
     if ([userInfo[@"type"] intValue] == kPushNotificationWantsToConnect) {
         
-        [PFPush handlePush:userInfo];
-        
         TVConnection *connection = [[TVConnection alloc] initWithSenderId:userInfo[@"userId"] receiverId:[[TVDatabase currentAccount] userId] andStatus:kConnectRequestPending];
         
-        int indexToReplace = NSNotFound;
+        NSInteger indexToReplace = NSNotFound;
         
         if ([[[TVDatabase currentAccount] person] connections].count) {
             
-            for (int i = 0; i <= [[[[TVDatabase currentAccount] person] connections] count] - 1; i++) {
+            for (NSInteger i = 0; i <= [[[[TVDatabase currentAccount] person] connections] count] - 1; i++) {
                 
                 TVConnection *_connection = [[[TVDatabase currentAccount] person] connections][i];
                 
@@ -374,11 +390,11 @@ NSString *const EMAIL_TAKEN = @"202";
         TVNotification *notification = [[TVNotification alloc] initWithType:kNotificationTypeConnectionRequest withUserId:connection.senderId];
         
         [newAccount.person.notifications addNotification:notification];
-        
-        [((TVAppDelegate *)[UIApplication sharedApplication].delegate) updateNotifications];
-        
+                
         dispatch_async(dispatch_get_main_queue(), ^{
            
+            [[NSNotificationCenter defaultCenter] postNotificationName:NSNotificationUpdateNotifications object:nil];
+
             [[NSNotificationCenter defaultCenter] postNotificationName:NSNotificationReceivedConnectionRequest object:nil];
         });
     }
@@ -386,11 +402,11 @@ NSString *const EMAIL_TAKEN = @"202";
         
         TVConnection *connection = [[TVConnection alloc] initWithSenderId:[[TVDatabase currentAccount] userId] receiverId:userInfo[@"userId"] andStatus:(ConnectRequestStatus *)kConnectRequestAccepted];
 
-        int indexToReplace = NSNotFound;
+        NSInteger indexToReplace = NSNotFound;
         
         if ([[[[TVDatabase currentAccount] person] connections] count]) {
             
-            for (int i = 0; i <= [[[[TVDatabase currentAccount] person] connections] count] - 1; i++) {
+            for (NSInteger i = 0; i <= [[[[TVDatabase currentAccount] person] connections] count] - 1; i++) {
                 
                 TVConnection *_connection = [[[TVDatabase currentAccount] person] connections][i];
                 
@@ -413,54 +429,35 @@ NSString *const EMAIL_TAKEN = @"202";
         [PFPush handlePush:userInfo];
     }
     else if ([userInfo[@"type"] intValue] == kPushNotificationReceivedMessage) {
-        
+
         TVMessageHistory *messageHistory = [TVDatabase messageHistoryFromID:userInfo[@"messageHistoryID"]];
-        
-        TVMessage *message = [[TVMessage alloc] initWithBody:userInfo[@"message"] publishDate:[NSDate date] senderId:userInfo[@"userId"] andReceiverId:[[TVDatabase currentAccount] userId]];
-        
-        int indexToReplace = NSNotFound;
-        
-        if ([[[[TVDatabase currentAccount] person] messageHistories] count]) {
-            
-            for (int i = 0; i <= [[[[TVDatabase currentAccount] person] messageHistories] count] - 1; i++) {
+        if (!messageHistory) messageHistory = [[TVMessageHistory alloc] initWithSenderId:[userInfo[@"messageHistoryID"] componentsSeparatedByString:@"->"][0] andReceiverId:[userInfo[@"messageHistoryID"] componentsSeparatedByString:@"->"][1] andMessages:[@[] mutableCopy]];
+
+        [TVDatabase downloadMessageHistoryBetweenRecipients:[@[messageHistory.senderId, messageHistory.receiverId] mutableCopy] withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode, NSMutableArray *messageHistories) {
+                        
+            if (success && !error) {
                 
-                TVMessageHistory *_messageHistory = [[[TVDatabase currentAccount] person] messageHistories][i];
-                
-                if ([messageHistory.ID isEqualToString:_messageHistory.ID]) {
-                    
-                    indexToReplace = i;
+                if (((UITabBarController *)((TVAppDelegate *)[UIApplication sharedApplication].delegate).window.rootViewController).selectedIndex != 1) {
+
+                    [PFPush handlePush:userInfo];
                 }
-            }
-            
-            if (indexToReplace != NSNotFound) {
+
+                TVNotification *notification = [[TVNotification alloc] initWithType:(NotificationType *)kNotificationTypeUnreadMessages withUserId:[messageHistory.senderId isEqualToString:[[TVDatabase currentAccount] userId]] ? messageHistory.receiverId : messageHistory.senderId];
                 
-                [[((TVMessageHistory *)newAccount.person.messageHistories[indexToReplace]) messages] addObject:message];
+                [newAccount.person.notifications addNotification:notification];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:NSNotificationUpdateNotifications object:nil];
+
+                    [[NSNotificationCenter defaultCenter] postNotificationName:NSNotificationNewMessageIncoming object:nil userInfo:nil];
+                });
             }
             else {
                 
-                [newAccount.person.messageHistories addObject:messageHistory];
+                [TVErrorHandler handleError:[NSError errorWithDomain:callCode code:200 userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"Could not %@", callCode]}]];
             }
-        }
-        
-        if (![((UITabBarController *)((TVAppDelegate *)[UIApplication sharedApplication].delegate).window.rootViewController).selectedViewController isKindOfClass:[TVMessageDetailViewController class]]) {
-            
-            TVNotification *notification = [[TVNotification alloc] initWithType:(NotificationType *)kNotificationTypeUnreadMessages withUserId:message.senderId];
-            
-            [newAccount.person.notifications addNotification:notification];
-            
-            [((TVAppDelegate *)[UIApplication sharedApplication].delegate) updateNotifications];
-
-            [PFPush handlePush:userInfo];
-        }
-        else {
-            
-            [((UITabBarController *)((TVAppDelegate *)[UIApplication sharedApplication].delegate).window.rootViewController) setSelectedIndex:1];
-        }
-    
-        dispatch_async(dispatch_get_main_queue(), ^{
-
-            [[NSNotificationCenter defaultCenter] postNotificationName:NSNotificationNewMessageIncoming object:nil userInfo:nil];
-        });
+        }];
     }
     
     [TVDatabase refreshAccountWithCompletionHandler:^(BOOL completed) {
@@ -475,7 +472,7 @@ NSString *const EMAIL_TAKEN = @"202";
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     currentInstallation[@"userId"] = ![[TVDatabase currentAccount] userId] ? @"" : [[TVDatabase currentAccount] userId];
         
-    [currentInstallation setDeviceToken:![[NSUserDefaults standardUserDefaults] objectForKey:@"deviceToken"] ? @"" : [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceToken"]];
+    [currentInstallation setDeviceToken:![[EGOCache globalCache] stringForKey:@"deviceToken"] ? @"" : [[EGOCache globalCache] stringForKey:@"deviceToken"]];
     [currentInstallation saveInBackground];
 }
 
@@ -491,11 +488,11 @@ NSString *const EMAIL_TAKEN = @"202";
 
 NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-+ (NSString *)generateRandomKeyWithLength:(int)len {
++ (NSString *)generateRandomKeyWithLength:(NSInteger)len {
     
     NSMutableString *randomString = [NSMutableString stringWithCapacity:len];
     
-    for (int i = 0; i <= len; i++) {
+    for (NSInteger i = 0; i <= len; i++) {
         
         [randomString appendFormat:@"%c", [letters characterAtIndex:arc4random() % [letters length]]];
     }
@@ -522,68 +519,80 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 
 + (void)savePlace:(TVGooglePlace *)place withCity:(NSString *)city {
 
-    NSMutableArray *places = [TVDatabase getSavedPlacesWithCity:city];
-
-    NSInteger index = NSNotFound;
-    
-    if (places.count) {
-
-        for (int i = 0; i <= places.count - 1; i++) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        NSMutableArray *places = [TVDatabase getSavedPlacesWithCity:city];
+        
+        NSInteger index = NSNotFound;
+        
+        if (places.count) {
             
-            TVGooglePlace *googlePlace = places[i];
-            
-            if ([googlePlace.ID isEqualToString:place.ID]) {
+            for (NSInteger i = 0; i <= places.count - 1; i++) {
                 
-                index = i;
+                TVGooglePlace *googlePlace = places[i];
+                
+                if ([googlePlace.ID isEqualToString:place.ID]) {
+                    
+                    index = i;
+                }
             }
         }
-    }
-    
-    if (index != NSNotFound)
-        [places removeObjectAtIndex:index];
-
-    [places insertObject:place atIndex:0];
-
-    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:places] forKey:[NSString stringWithFormat:@"Places->%@", city]];
+        
+        if (index != NSNotFound)
+            [places removeObjectAtIndex:index];
+        
+        [places insertObject:place atIndex:0];
+        
+        [[EGOCache globalCache] setObject:places forKey:[NSString stringWithFormat:@"Places->%@", city]];
+    });
 }
 
 + (NSMutableArray *)getSavedPlacesWithCity:(NSString *)city {
-    
-    return [[NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"Places->%@", city]]] count] ? [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"Places->%@", city]]] : [[NSMutableArray alloc] init];
+
+    return [(NSMutableArray *)[[EGOCache globalCache] objectForKey:[NSString stringWithFormat:@"Places->%@", city]] count] ? (NSMutableArray *)[[EGOCache globalCache] objectForKey:[NSString stringWithFormat:@"Places->%@", city]] : [[NSMutableArray alloc] init];
 }
 
 + (void)removeTravelDataPacketWithID:(NSString *)_FlightID {
     
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:[NSString stringWithFormat:@"TravelDataPacket_%@", _FlightID]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+
+        [[EGOCache globalCache] removeCacheForKey:[NSString stringWithFormat:@"TravelDataPacket_%@", _FlightID]];
+    });
 }
 
 + (void)addTravelDataPacketWithID:(NSString *)_FlightID andTravelDataObject:(TVTravelDataDownloader *)travelData {
     
-    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:[travelData downloadedData]] forKey:[NSString stringWithFormat:@"TravelDataPacket_%@", _FlightID]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+
+        [[EGOCache globalCache] setObject:[travelData downloadedData] forKey:[NSString stringWithFormat:@"TravelDataPacket_%@", _FlightID]];
+    });
     
 //    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 + (void)refreshTravelDataPacketWithID:(NSString *)_FlightID andTravelDataObject:(TVTravelDataDownloader *)travelData {
     
-    [TVDatabase addTravelDataPacketWithID:_FlightID andTravelDataObject:travelData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [TVDatabase addTravelDataPacketWithID:_FlightID andTravelDataObject:travelData];
+    });
 }
 
 + (NSMutableDictionary *)travelDataPacketWithID:(NSString *)_FlightID {
     
-    return [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"TravelDataPacket_%@", _FlightID]]];
+    return (NSMutableDictionary *)[[EGOCache globalCache] objectForKey:[NSString stringWithFormat:@"TravelDataPacket_%@", _FlightID]];
 }
 
 #pragma mark Account Management
 
 + (TVAccount *)nativeAccount {
     
-    return [TVDatabase unarchiveAccount:[[NSUserDefaults standardUserDefaults] objectForKey:@"nativeAccount"]];
+    return (TVAccount *)[[EGOCache globalCache] objectForKey:@"nativeAccount"];
 }
 
 + (void)setNativeAccount:(TVAccount *)account {
     
-    [[NSUserDefaults standardUserDefaults] setObject:[TVDatabase archiveAccount:account] forKey:@"nativeAccount"];
+    [[EGOCache globalCache] setObject:account forKey:@"nativeAccount"];
     
 //    [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -609,12 +618,12 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
+        [TVDatabase setLocalLinkedInRequestToken:nil];
+        
         [TVDatabase updateMyCache:nil];
 
-        [TVDatabase setCanUpdate:NO];
-
-        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"shownAlert"];
-        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"deviceToken"];
+        [[EGOCache globalCache] setObject:nil forKey:@"shownAlert"];
+        [[EGOCache globalCache] setObject:nil forKey:@"deviceToken"];
         
         [TVDatabase updatePushNotificationsSetup];
 
@@ -630,7 +639,6 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 + (void)setCurrentAccount:(TVAccount *)account {
     
     [((TVAppDelegate *) [UIApplication sharedApplication].delegate) setLoggedInAccount:account];
-    
     [TVDatabase setNativeAccount:account];
     
 //    [[NSUserDefaults standardUserDefaults] synchronize];
@@ -640,78 +648,13 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     
     if ([[[[TVDatabase currentAccount] person] flights] count]) {
         
-        for (int i = [[[[TVDatabase currentAccount] person] flights] count] - 1; i >= 0; i--) {
+        for (NSInteger i = [[[[TVDatabase currentAccount] person] flights] count] - 1; i >= 0; i--) {
             
             TVFlight *flight = [[[TVDatabase currentAccount] person] flights][i];
             
             [flight instantiateTravelData];
         }
     }
-}
-
-+ (void)refreshAccountWithCompletionHandler:(void (^)(BOOL completed))callback {
-
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-
-        [TVDatabase refreshCachedAccounts];
-        [TVDatabase refreshFlights];
-
-        [[PFUser currentUser] refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-            
-            if (!error) {
-                
-                [TVDatabase getAccountFromUser:(PFUser *)object isPerformingCacheRefresh:YES withCompletionHandler:^(TVAccount *account, NSMutableArray *downloadedTypes) {
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        
-                        [TVDatabase updateMyCache:account];
-                        
-                        [TVDatabase updatePushNotificationsSetup];
-                        
-                        if ([[downloadedTypes lastObject] isEqual:@(kAccountDownloadedFlights)]) {
-                            
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                            
-                                [[NSNotificationCenter defaultCenter] postNotificationName:NSNotificationDownloadedFlights object:nil];
-                            });
-                        }
-                        else if ([[downloadedTypes lastObject] isEqual:@(kAccountDownloadedMessages)]) {
-                            
-                            dispatch_async(dispatch_get_main_queue(), ^{
-
-                                [[NSNotificationCenter defaultCenter] postNotificationName:NSNotificationDownloadedMessages object:nil];
-                            });
-                        }
-                        else if ([[downloadedTypes lastObject] isEqual:@(kAccountDownloadedProfilePicture)]) {
-
-                        }
-                        else if ([[downloadedTypes lastObject] isEqual:@(kAccountDownloadedConnections)]) {
-                            
-                            dispatch_async(dispatch_get_main_queue(), ^{
-
-                                [[NSNotificationCenter defaultCenter] postNotificationName:NSNotificationDownloadedConnections  object:nil];
-                            });
-                        }
-                        
-                        if ([downloadedTypes count] == 5) {
-                            
-                            [TVDatabase refreshFlights];
-                            
-                            callback(YES);
-                        }
-                        else {
-                            
-                            callback(NO);
-                        }
-                    });
-                }];
-            }
-            else {
-                
-                callback(YES);
-            }
-        }];
-    });
 }
 
 #pragma mark Connect
@@ -721,14 +664,28 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     NSMutableArray *connections = [[NSMutableArray alloc] init];
     
     for (TVConnection *connection in [[TVDatabase currentAccount].person connections]) {
-        
+
         if (connection.status == (ConnectRequestStatus *)kConnectRequestPending) {
             
             if ([connection.receiverId isEqualToString:[[TVDatabase currentAccount] userId]]) {
                 
                 if (![connections containsObject:connection.senderId]) {
+
+                    [connections addObject:!connection.senderId ? @"" : connection.senderId];
+                }
+            }
+        }
+    }
+    
+    for (TVConnection *connection in [[TVDatabase currentAccount].person connections]) {
+        
+        if (connection.status == (ConnectRequestStatus *)kConnectRequestPending) {
+            
+            if ([connection.senderId isEqualToString:[[TVDatabase currentAccount] userId]]) {
+                
+                if (![connections containsObject:connection.receiverId]) {
                     
-                    [connections addObject:connection.senderId];
+                    [connections addObject:connection.receiverId];
                 }
             }
         }
@@ -775,7 +732,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
             
             if (![connections containsObject:connection.senderId]) {
                 
-                [connections addObject:connection.senderId];
+                [connections addObject:!connection.senderId ? @"" : connection.senderId];
             }
         }
         else {
@@ -792,16 +749,18 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 
 + (void)findConnectionIDsInTheSameCity:(NSString *)FlightID withCompletionHandler:(void (^)(NSMutableArray *confirmedSameCity, NSMutableArray *possibleSameCity, NSError *error, NSString *callCode))callback {
     
+    NSInteger dateDoesntExist = [[NSDate distantFuture] timeIntervalSinceReferenceDate];
+    
     TVFlight *myFlight = [TVDatabase flightFromID:FlightID];
     
-    int self_dayFliesTo = [[myFlight date] timeIntervalSinceReferenceDate];
-    int self_dayFliesFrom;
+    NSInteger self_dayFliesTo = [[myFlight date] timeIntervalSinceReferenceDate];
+    NSInteger self_dayFliesFrom;
     
-    int indexOfMyFlight = [[[[[TVDatabase currentAccount] person] flights] sortedByDate] indexOfFlight:[TVDatabase flightFromID:FlightID]];
+    NSInteger indexOfMyFlight = [[[[[TVDatabase currentAccount] person] flights] sortedByDate] indexOfFlight:[TVDatabase flightFromID:FlightID]];
     
     if (!indexOfMyFlight) {
         
-        self_dayFliesFrom = (int)[[NSDate distantFuture] timeIntervalSinceReferenceDate];
+        self_dayFliesFrom = dateDoesntExist;
     }
     else {
         
@@ -816,7 +775,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     [query setCachePolicy:kPFCachePolicyNetworkOnly];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *theirFlights, NSError *error) {
-        
+
         NSMutableArray *possibleSameCity = [[NSMutableArray alloc] init];
         NSMutableArray *confirmedSameCity = [[NSMutableArray alloc] init];
         
@@ -825,73 +784,51 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
             for (PFObject *flightObject in theirFlights) {
                 
                 NSMutableArray *theirFlights = [NSKeyedUnarchiver unarchiveObjectWithData:flightObject[@"flights"]];
-                
-                int possibility = 0;
-                
+
+                NSInteger possibility = 0;
+
                 if (theirFlights.count) {
                     
-                    for (int i = 0; i <= [theirFlights sortedByDate].count - 1; i++) {
+                    for (NSInteger i = 0; i <= [theirFlights sortedByDate].count - 1; i++) {
                         
                         TVFlight *theirFlight = [theirFlights sortedByDate][i];
-                        
+
                         if ([[[theirFlight destinationCity] lowercaseString] isEqualToString:[[myFlight destinationCity] lowercaseString]] || ([[[theirFlight originCity] lowercaseString] isEqualToString:[[myFlight destinationCity] lowercaseString]] && !i)) {
-                            
-                            int their_dayFliesTo = [[theirFlight date] timeIntervalSinceReferenceDate];
-                            int their_dayFliesFrom;
-                            
+
+                            NSInteger their_dayFliesTo = [[theirFlight date] timeIntervalSinceReferenceDate];
+                            NSInteger their_dayFliesFrom;
+
                             if (!i) {
                                 
-                                their_dayFliesFrom = (int)[[NSDate distantFuture] timeIntervalSinceReferenceDate];
+                                their_dayFliesFrom = dateDoesntExist;
+                                
                             }
                             else {
                                 
-                                their_dayFliesFrom = [[[theirFlights sortedByDate][i + 1] date] timeIntervalSinceReferenceDate];
+                                their_dayFliesFrom = [[[theirFlights sortedByDate][i - 1] date] timeIntervalSinceReferenceDate];
                             }
                             
-                            NSMutableArray *self_dayVectors = [[NSMutableArray alloc] init];
-                            NSMutableArray *their_dayVectors = [[NSMutableArray alloc] init];
+                            if (i == [theirFlights sortedByDate].count - 1) {
                             
-                            if (self_dayFliesFrom == [[NSDate distantFuture] timeIntervalSinceReferenceDate]) {
-                                
-                                for (int i = self_dayFliesTo; i <= self_dayFliesFrom; i++) {
-                                    
-                                    [self_dayVectors addObject:[NSNumber numberWithInt:i]];
-                                }
+                                if (their_dayFliesTo >= self_dayFliesTo) possibility = 1;
                             }
-                            else {
-                                
-                                [self_dayVectors addObject:[NSNumber numberWithInt:self_dayFliesTo]];
-                                [self_dayVectors addObject:[NSNumber numberWithInt:self_dayFliesFrom]];
-                                
-                            }
-                            
-                            if (their_dayFliesFrom == [[NSDate distantFuture] timeIntervalSinceReferenceDate]) {
-                                
-                                for (int i = their_dayFliesTo; i <= their_dayFliesFrom; i++) {
-                                    
-                                    [their_dayVectors addObject:[NSNumber numberWithInt:i]];
-                                }
-                            }
-                            else {
-                                
-                                [their_dayVectors addObject:[NSNumber numberWithInt:their_dayFliesTo]];
-                                [their_dayVectors addObject:[NSNumber numberWithInt:their_dayFliesFrom]];
-                            }
-                            
-                            for (NSNumber *dayVector in self_dayVectors) {
-                                
-                                if ([their_dayVectors containsObject:dayVector]) {
-                                    
-                                    possibility = 2;
-                                }
-                            }
-                            
-                            for (NSNumber *dayVector in their_dayVectors) {
-                                
-                                if ([self_dayVectors containsObject:dayVector]) {
-                                    
-                                    possibility = 2;
-                                }
+
+                            if (
+                                (
+                                 (their_dayFliesTo <= self_dayFliesTo && their_dayFliesFrom >= self_dayFliesFrom)
+                                 ||
+                                 (their_dayFliesTo <= self_dayFliesTo && their_dayFliesFrom >= self_dayFliesTo && their_dayFliesFrom <= self_dayFliesFrom)
+                                 || (their_dayFliesTo >= self_dayFliesTo && their_dayFliesTo <= self_dayFliesFrom && their_dayFliesFrom >= self_dayFliesTo && their_dayFliesFrom <= self_dayFliesFrom)
+                                 || ((their_dayFliesTo >= self_dayFliesTo && their_dayFliesTo <= self_dayFliesFrom) && their_dayFliesFrom >= self_dayFliesFrom) /* SEP */
+                                || ( /* SEP */
+                                    (self_dayFliesTo <= their_dayFliesTo && self_dayFliesFrom >= their_dayFliesFrom)
+                                || (self_dayFliesTo <= their_dayFliesTo && self_dayFliesFrom >= their_dayFliesTo && self_dayFliesFrom <= their_dayFliesFrom)
+                                || (self_dayFliesTo >= their_dayFliesTo && self_dayFliesTo <= their_dayFliesFrom && self_dayFliesFrom >= their_dayFliesTo && self_dayFliesFrom <= their_dayFliesFrom)
+                                || ((self_dayFliesTo >= their_dayFliesTo && self_dayFliesTo <= their_dayFliesFrom) && self_dayFliesFrom >= their_dayFliesFrom))
+                                )
+                            ) {
+                                NSLog(@"possible");
+                                possibility = 2;
                             }
                         }
                     }
@@ -1093,24 +1030,32 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     [connectACL setPublicWriteAccess:YES];
     connection.ACL = connectACL;
     
+    TVAccount *newAccount = [TVDatabase currentAccount];
+    
+    TVConnection *cachedConnection = [[TVConnection alloc] initWithSenderId:[[TVDatabase currentAccount] userId] receiverId:userId andStatus:kConnectRequestPending];
+    
+    [[newAccount.person connections] addObject:cachedConnection];
+    
+    [TVDatabase updateMyCache:newAccount];
+
     [connection saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         
         if (!error && succeeded) {
             
-            TVAccount *newAccount = [TVDatabase currentAccount];
-            
-            TVConnection *connection = [[TVConnection alloc] initWithSenderId:[[TVDatabase currentAccount] userId] receiverId:userId andStatus:kConnectRequestPending];
-            
-            [[newAccount.person connections] addObject:connection];
-            
-            [TVDatabase updateMyCache:newAccount];
-            
-            [TVDatabase pushNotificationToObjectId:userId withData:@{@"badge": @"Increment", @"alert": [NSString stringWithFormat:@"%@ wants to connect with you", [[TVDatabase currentAccount].person name]], @"sound": @"default", @"type": @(kPushNotificationWantsToConnect), @"userId": connection.senderId}];
+            [TVDatabase pushNotificationToObjectId:userId withData:[@{@"badge": @"Increment", @"alert": [NSString stringWithFormat:@"%@ wants to connect with you", [[TVDatabase currentAccount].person name]], @"sound": @"default", @"type": @(kPushNotificationWantsToConnect), @"userId": cachedConnection.senderId} mutableCopy]];
             
             callback(CONNECTING_PEOPLE, YES);
         }
         else {
             
+            TVAccount *newAccount = [TVDatabase currentAccount];
+            
+            TVConnection *connection = [[TVConnection alloc] initWithSenderId:[[TVDatabase currentAccount] userId] receiverId:userId andStatus:kConnectRequestPending];
+            
+            [[newAccount.person connections] removeObject:connection];
+            
+            [TVDatabase updateMyCache:newAccount];
+
             callback(CONNECTING_PEOPLE, NO);
         }
     }];
@@ -1130,9 +1075,30 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     
     [masterQuery setCachePolicy:kPFCachePolicyNetworkOnly];
     
+    TVAccount *newAccount = [TVDatabase currentAccount];
+    
+    TVConnection *cachedConnection;
+
+    if (newAccount.person.connections.count) {
+        
+        for (NSInteger i = 0; i <= newAccount.person.connections.count - 1; i++) {
+            
+            TVConnection *connection = newAccount.person.connections[i];
+            
+            if ([connection.senderId isEqualToString:userId] || [connection.receiverId isEqualToString:userId]) {
+                
+                cachedConnection = connection;
+            }
+        }
+        
+        [[newAccount.person connections] removeObject:cachedConnection];
+        
+        [TVDatabase updateMyCache:newAccount];
+    }
+
     [masterQuery findObjectsInBackgroundWithBlock:^(NSArray *activities, NSError *error) {
         
-        if (!error && activities.count) {
+        if (!error && activities) {
             
             for (PFObject *activity in activities) {
                 
@@ -1140,25 +1106,12 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                     
                     if (!error && succeeded) {
                         
-                        TVAccount *newAccount = [TVDatabase currentAccount];
-                        
-                        NSMutableIndexSet *set = [[NSMutableIndexSet alloc] init];
-                        
-                        for (int i = 0; i <= newAccount.person.connections.count - 1; i++) {
-                            
-                            TVConnection *connection = newAccount.person.connections[i];
-                            
-                            if ([connection.senderId isEqualToString:userId] || [connection.receiverId isEqualToString:userId]) {
-                                
-                                [set addIndex:i];
-                            }
-                            
-                            [[newAccount.person connections] removeObject:connection];
-
-                            [TVDatabase updateMyCache:newAccount];
-                        }
                     }
                     else {
+                        
+                        [[newAccount.person connections] addObject:cachedConnection];
+                        
+                        [TVDatabase updateMyCache:newAccount];
                     }
                     
                     callback(nil, DISCONNECTING_PEOPLE, succeeded);
@@ -1166,6 +1119,10 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
             }
         }
         else {
+            
+            [[newAccount.person connections] addObject:cachedConnection];
+            
+            [TVDatabase updateMyCache:newAccount];
             
             callback(error, DISCONNECTING_PEOPLE, NO);
         }
@@ -1176,11 +1133,11 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     
     TVAccount *account = [TVDatabase currentAccount];
     
-    int index = NSNotFound;
+    NSInteger index = NSNotFound;
     
     if (account.person.connections.count) {
         
-        for (int i = 0; i <= account.person.connections.count - 1; i++) {
+        for (NSInteger i = 0; i <= account.person.connections.count - 1; i++) {
             
             TVConnection *enumConnection = account.person.connections[i];
             
@@ -1198,11 +1155,14 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         [[account person] connections][index] = connection;
     }
     
-    TVNotification *notification = [[TVNotification alloc] initWithType:kNotificationTypeConnectionRequest withUserId:connection.senderId];
+    TVNotification *notification = [[TVNotification alloc] initWithType:kNotificationTypeConnectionRequest withUserId:[[[TVDatabase currentAccount] userId] isEqualToString:connection.senderId] ? connection.receiverId : connection.senderId];
     [account.person.notifications removeNotification:notification];
     
-    [((TVAppDelegate *)[UIApplication sharedApplication].delegate) updateNotifications];
-
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:NSNotificationUpdateNotifications object:nil];
+    });
+    
     [TVDatabase updateMyCache:account];
     
     PFQuery *connectionQuery = [PFQuery queryWithClassName:@"Connections"];
@@ -1223,7 +1183,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                     
                     if (succeeded && !error) {
                         
-                        [TVDatabase pushNotificationToObjectId:connection.senderId withData:@{@"alert": [NSString stringWithFormat:@"%@ accepted your connection request", [[TVDatabase currentAccount].person name]], @"type": @(kPushNotificationAcceptedConnection), @"userId": connection.receiverId, @"sound": @"default", @"badge": @"Increment"}];
+                        [TVDatabase pushNotificationToObjectId:connection.senderId withData:[@{@"alert": [NSString stringWithFormat:@"%@ accepted your connection request", [[TVDatabase currentAccount].person name]], @"type": @(kPushNotificationAcceptedConnection), @"userId": connection.receiverId, @"sound": @"default", @"badge": @"Increment"} mutableCopy]];
                     }
                     else {
                         
@@ -1244,11 +1204,11 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     
     TVAccount *account = [TVDatabase currentAccount];
     
-    int index = NSNotFound;
+    NSInteger index = NSNotFound;
     
     if (account.person.connections.count) {
         
-        for (int i = 0; i <= account.person.connections.count - 1; i++) {
+        for (NSInteger i = 0; i <= account.person.connections.count - 1; i++) {
             
             TVConnection *enumConnection = account.person.connections[i];
             
@@ -1264,11 +1224,14 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         [[[account person] connections] removeObjectAtIndex:index];
     }
     
-    TVNotification *notification = [[TVNotification alloc] initWithType:kNotificationTypeConnectionRequest withUserId:connection.senderId];
+    TVNotification *notification = [[TVNotification alloc] initWithType:kNotificationTypeConnectionRequest withUserId:[[[TVDatabase currentAccount] userId] isEqualToString:connection.senderId] ? connection.receiverId : connection.senderId];
     [account.person.notifications removeNotification:notification];
     
-    [((TVAppDelegate *)[UIApplication sharedApplication].delegate) updateNotifications];
-
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:NSNotificationUpdateNotifications object:nil];
+    });
+    
     [TVDatabase updateMyCache:account];
     
     [TVDatabase disconnectWithUserId:connection.senderId withCompletionHandler:^(NSError *error, NSString *callCode, BOOL success) {
@@ -1348,6 +1311,8 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 
 + (void)updateProfilePicture:(UIImage *)profilePicture withObjectId:(NSString *)objectId withCompletionHandler:(void (^)(BOOL succeeded, NSError *error, NSString *callCode))callback {
     
+    [TVDatabase writeProfilePictureToDisk:profilePicture withUserId:objectId];
+    
     PFQuery *query = [PFQuery queryWithClassName:@"ProfilePictures"];
     [query whereKey:@"photoId" equalTo:objectId];
     
@@ -1356,7 +1321,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         
-        success = !objects.count ? NO : YES;
+        success = !objects ? NO : YES;
         callbackError = error;
         
         if (!error) {
@@ -1387,13 +1352,8 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 
 + (void)writeProfilePictureToDisk:(UIImage *)image withUserId:(NSString *)userId {
     
-    NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/ProfilePicture_%@.jpg", userId]];
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, (float)0), ^{
-    
-        [UIImageJPEGRepresentation(image, 1.0) writeToFile:path atomically:NO];
-    });
-    
+    [[EGOCache globalCache] setImage:image forKey:[NSString stringWithFormat:@"ProfilePicture_%@.jpg", userId] withTimeoutInterval:259200];
+
     dispatch_async(dispatch_get_main_queue(), ^{
     
         [[NSNotificationCenter defaultCenter] postNotificationName:NSNotificationWroteProfilePicture object:nil userInfo:nil];
@@ -1406,8 +1366,8 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 }
 
 + (UIImage *)locateProfilePictureOnDiskWithUserId:(NSString *)userId {
-    
-    UIImage *profilePicture = [UIImage imageWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/ProfilePicture_%@.jpg", userId]]];
+     
+    UIImage *profilePicture = [[EGOCache globalCache] imageForKey:[NSString stringWithFormat:@"ProfilePicture_%@.jpg", userId]];
 
     if (!profilePicture) {
         
@@ -1426,7 +1386,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         
-        if (!error && objects.count) {
+        if (!error && objects) {
 
             callback(nil, [objects mutableCopy]);
         }
@@ -1438,7 +1398,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 }
 
 + (void)uploadFlights:(NSArray *)flights withObjectId:(NSString *)objectId {
-    
+
     PFObject *flightsObject = [PFObject objectWithClassName:@"Flights"];
     
     flightsObject[@"flights"] = [NSKeyedArchiver archivedDataWithRootObject:flights];
@@ -1498,7 +1458,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         [downloadedTypes addObject:@(kAccountDownloadedGeneralAttributes)];
         
         callback(account, downloadedTypes);
-
+        
         [TVDatabase downloadFlightsWithObjectIds:@[[object objectId]] withCompletionHandler:^(NSError *error, NSMutableArray *flights) {
             
             if (!error && flights) {
@@ -1557,7 +1517,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                     
                     if (![[messageHistory.sortedMessages lastObject] receiverRead] && ![[[TVDatabase currentAccount] userId] isEqualToString:[((TVMessage *)[messageHistory.sortedMessages lastObject]) senderId]]) {
                         
-                        TVNotification *notification = [[TVNotification alloc] initWithType:(NotificationType *)kNotificationTypeUnreadMessages withUserId:messageHistory.senderId];
+                        TVNotification *notification = [[TVNotification alloc] initWithType:(NotificationType *)kNotificationTypeUnreadMessages withUserId:[[[TVDatabase currentAccount] userId] isEqualToString:messageHistory.receiverId] ? messageHistory.senderId : messageHistory.receiverId];
                         
                         [account.person.notifications addNotification:notification];
                     }
@@ -1648,7 +1608,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     
     [objectIdQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         
-        if (!error && objects.count) {
+        if (!error && objects) {
             
             callback([objects mutableCopy], error, DOWNLOADING_ACCOUNTS_FROM_IDS);
         }
@@ -1658,16 +1618,6 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     }];
 }
 
-+ (NSMutableArray *)nativeCachedAccounts {
-    
-    return ![[NSUserDefaults standardUserDefaults] objectForKey:@"cachedAccounts"] ? [[NSMutableArray alloc] init] : [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"cachedAccounts"]];
-}
-
-+ (void)setNativeCachedAccounts:(NSMutableArray *)cachedAccounts {
-    
-    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:cachedAccounts] forKey:@"cachedAccounts"];
-}
-
 + (NSMutableArray *)cachedAccounts {
     
     return [((TVAppDelegate *)[UIApplication sharedApplication].delegate) cachedAccounts];
@@ -1675,34 +1625,44 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 
 + (void)cacheAccount:(TVAccount *)account {
 
-    NSMutableArray *cachedAccounts = [[TVDatabase cachedAccounts] mutableCopy];
-
-    if ([TVDatabase indexOfCachedAccountWithUserId:account.userId] != NSNotFound) {
+    dispatch_async(dispatch_get_main_queue(), ^{
         
-        cachedAccounts[[TVDatabase indexOfCachedAccountWithUserId:account.userId]] = account;
-    }
-    else {
+        NSMutableArray *cachedAccounts = [[TVDatabase cachedAccounts] mutableCopy];
         
-        [cachedAccounts addObject:account];
-    }
-    
-    [((TVAppDelegate *)[UIApplication sharedApplication].delegate) setCachedAccounts:cachedAccounts];
-    [TVDatabase setNativeCachedAccounts:cachedAccounts];
+        if ([TVDatabase cachedAccounts]) {
+            
+            if ([TVDatabase indexOfCachedAccountWithUserId:account.userId] != NSNotFound) {
+                
+                cachedAccounts[[TVDatabase indexOfCachedAccountWithUserId:account.userId]] = account;
+            }
+            else {
+                
+                [cachedAccounts addObject:account];
+            }
+        }
+        
+        [((TVAppDelegate *)[UIApplication sharedApplication].delegate) setCachedAccounts:cachedAccounts];
+    });
 }
 
-+ (int)indexOfCachedAccountWithUserId:(NSString *)userId {
++ (NSInteger)indexOfCachedAccountWithUserId:(NSString *)userId {
 
-    int index = NSNotFound;
+    NSInteger index = NSNotFound;
 
-    if ([TVDatabase cachedAccounts].count) {
+    if ([TVDatabase cachedAccounts]) {
         
-        for (int i = 0; i <= [TVDatabase cachedAccounts].count - 1; i++) {
+        NSMutableArray *cachedAccounts = [TVDatabase cachedAccounts];
+
+        if ([TVDatabase cachedAccounts].count) {
             
-            TVAccount *_account = [TVDatabase cachedAccounts][i];
-
-            if ([_account.userId isEqualToString:userId]) {
-
-                index = i;
+            for (NSInteger i = 0; i <= cachedAccounts.count - 1; i++) {
+                
+                TVAccount *_account = [TVDatabase cachedAccounts][i];
+                
+                if ([_account.userId isEqualToString:userId]) {
+                    
+                    index = i;
+                }
             }
         }
     }
@@ -1710,19 +1670,24 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     return index;
 }
 
-+ (int)indexOfCachedAccountWithName:(NSString *)name {
++ (NSInteger)indexOfCachedAccountWithName:(NSString *)name {
     
-    int index = NSNotFound;
+    NSInteger index = NSNotFound;
     
-    if ([TVDatabase cachedAccounts].count) {
+    if ([TVDatabase cachedAccounts]) {
         
-        for (int i = 0; i <= [TVDatabase cachedAccounts].count - 1; i++) {
+        NSMutableArray *cachedAccounts = [TVDatabase cachedAccounts];
+
+        if ([TVDatabase cachedAccounts].count) {
             
-            TVAccount *_account = [TVDatabase cachedAccounts][i];
-
-            if ([_account.person.name rangeOfString:name options:NSCaseInsensitiveSearch].location != NSNotFound || [_account.person.name soundsLikeString:name]) {
-
-                index = i;
+            for (NSInteger i = 0; i <= cachedAccounts.count - 1; i++) {
+                
+                TVAccount *_account = [TVDatabase cachedAccounts][i];
+                
+                if ([_account.person.name rangeOfString:name options:NSCaseInsensitiveSearch].location != NSNotFound || [_account.person.name soundsLikeString:name]) {
+                    
+                    index = i;
+                }
             }
         }
     }
@@ -1730,21 +1695,24 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     return index;
 }
 
-+ (int)indexOfCachedAccountWithEmail:(NSString *)email {
++ (NSInteger)indexOfCachedAccountWithEmail:(NSString *)email {
 
-    int index = NSNotFound;
+    NSInteger index = NSNotFound;
     
     NSMutableArray *cachedAccounts = [TVDatabase cachedAccounts];
     
-    if (cachedAccounts.count) {
+    if (cachedAccounts) {
         
-        for (int i = 0; i <= cachedAccounts.count - 1; i++) {
+        if (cachedAccounts.count) {
             
-            TVAccount *_account = [TVDatabase cachedAccounts][i];
-            
-            if ([[_account.person.email lowercaseString] isEqualToString:[email lowercaseString]]) {
-
-                index = i;
+            for (NSInteger i = 0; i <= cachedAccounts.count - 1; i++) {
+                
+                TVAccount *_account = [TVDatabase cachedAccounts][i];
+                
+                if ([[_account.person.email lowercaseString] isEqualToString:[email lowercaseString]]) {
+                    
+                    index = i;
+                }
             }
         }
     }
@@ -1752,19 +1720,24 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     return index;
 }
 
-+ (int)indexOfCachedAccountWithLinkedIn:(NSString *)linkedInId {
++ (NSInteger)indexOfCachedAccountWithLinkedIn:(NSString *)linkedInId {
     
-    int index = NSNotFound;
+    NSInteger index = NSNotFound;
     
-    if ([TVDatabase cachedAccounts].count) {
+    if ([TVDatabase cachedAccounts]) {
         
-        for (int i = 0; i <= [TVDatabase cachedAccounts].count - 1; i++) {
+        NSMutableArray *cachedAccounts = [TVDatabase cachedAccounts];
+
+        if ([TVDatabase cachedAccounts].count) {
             
-            TVAccount *_account = [TVDatabase cachedAccounts][i];
-            
-            if ([_account isUsingLinkedIn] && [_account.linkedInId isEqualToString:linkedInId]) {
+            for (NSInteger i = 0; i <= cachedAccounts.count - 1; i++) {
                 
-                index = i;
+                TVAccount *_account = [TVDatabase cachedAccounts][i];
+                
+                if ([_account isUsingLinkedIn] && [_account.linkedInId isEqualToString:linkedInId]) {
+                    
+                    index = i;
+                }
             }
         }
     }
@@ -1776,7 +1749,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     
     TVAccount *retVal = nil;
 
-    if ([TVDatabase indexOfCachedAccountWithUserId:userId] != NSNotFound) {
+    if ([TVDatabase indexOfCachedAccountWithUserId:userId] != NSNotFound && [TVDatabase cachedAccounts]) {
         
         retVal = [TVDatabase cachedAccounts][[TVDatabase indexOfCachedAccountWithUserId:userId]];
     }
@@ -1788,7 +1761,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     
     TVAccount *retVal = nil;
     
-    if ([TVDatabase indexOfCachedAccountWithName:name] != NSNotFound) {
+    if ([TVDatabase indexOfCachedAccountWithName:name] != NSNotFound && [TVDatabase cachedAccounts]) {
         
         retVal = [TVDatabase cachedAccounts][[TVDatabase indexOfCachedAccountWithName:name]];
     }
@@ -1800,7 +1773,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     
     TVAccount *retVal = nil;
     
-    if ([TVDatabase indexOfCachedAccountWithEmail:email] != NSNotFound) {
+    if ([TVDatabase indexOfCachedAccountWithEmail:email] != NSNotFound && [TVDatabase cachedAccounts]) {
         
         retVal = [TVDatabase cachedAccounts][[TVDatabase indexOfCachedAccountWithEmail:email]];
     }
@@ -1812,7 +1785,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     
     TVAccount *retVal = nil;
     
-    if ([TVDatabase indexOfCachedAccountWithLinkedIn:linkedInId] != NSNotFound) {
+    if ([TVDatabase indexOfCachedAccountWithLinkedIn:linkedInId] != NSNotFound && [TVDatabase cachedAccounts]) {
         
         retVal = [TVDatabase cachedAccounts][[TVDatabase indexOfCachedAccountWithLinkedIn:linkedInId]];
     }
@@ -1824,32 +1797,33 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     
     NSMutableArray *reference = [TVDatabase cachedAccounts];
 
-    if (reference.count) {
+    if (reference) {
 
-        for (int i = 0; i <= reference.count - 1; i++) {
+        if (reference.count) {
             
-            TVAccount *account = reference[i];
-
-            [TVDatabase downloadUsersFromUserIds:@[account.userId] withCompletionHandler:^(NSMutableArray *users, NSError *error, NSString *callCode) {
+            for (NSInteger i = 0; i <= reference.count - 1; i++) {
                 
-                if (users.count && !error) {
+                TVAccount *account = reference[i];
+                
+                [TVDatabase downloadUsersFromUserIds:@[account.userId] withCompletionHandler:^(NSMutableArray *users, NSError *error, NSString *callCode) {
                     
-                    if (users[0]) {
+                    if (users.count && !error) {
                         
-                        [TVDatabase getAccountFromUser:users[0] isPerformingCacheRefresh:YES withCompletionHandler:^(TVAccount *account, NSMutableArray *downloadedTypes) {
-                        }];
+                        if (users[0]) {
+                            
+                            [TVDatabase getAccountFromUser:users[0] isPerformingCacheRefresh:YES withCompletionHandler:^(TVAccount *account, NSMutableArray *downloadedTypes) {
+                            }];
+                        }
                     }
-                }
-                else {
-                    
-                }
-            }];
+                    else {
+                        
+                    }
+                }];
+            }
         }
     }
-    
-//    [[NSUserDefaults standardUserDefaults] setObject:reference forKey:@"cachedAccounts"];
 }
-
+ 
 #pragma mark Email
 
 + (NSDictionary *)emailParameters:(NSMutableDictionary *)dictionary {
@@ -1873,28 +1847,58 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     return @{@"message":message, @"destination":destination};
 }
 
-+ (void)sendEmail:(NSMutableDictionary *)dictionary withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback {
++ (void)sendEmail:(NSMutableDictionary *)dictionary withAttachementData:(NSDictionary *)data withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback {
 
-    NSDictionary *paramDict = [TVDatabase emailParameters:dictionary];
-
-    SESSendEmailRequest *ser = [[SESSendEmailRequest alloc] init];
-    
-    ser.source = VERIFIED_EMAIL;
-    ser.destination = paramDict[@"destination"];
-    ser.message = paramDict[@"message"];
-    
-    ser.requestTag = SENDING_REQUEST_EMAIL;
-    
-    SESSendEmailResponse *response = [[AmazonClientManager ses] sendEmail:ser];
-
-    BOOL success = NO;
-    
-    if (!response.error) {
+    if (data) {
         
-        success = YES;
+        NSString *rawMessageString = [NSString stringWithFormat:@"MIME-Version: 1.0\nContent-Transfer-Encoding: 7bit\nContent-Type: multipart/mixed; boundary=\"__MY_BOUNDARY__\"\nSubject: %@\nTo: %@\n\nThis is a multi-part message in MIME format.\n\n--__MY_BOUNDARY__\nMIME-Version: 1.0\nContent-Transfer-Encoding: 7bit\nContent-Type: text/plain; charset=\"UTF-8\"\n\%@\n\n--__MY_BOUNDARY__\nMIME-Version: 1.0\nContent-Disposition: attachment; filename=\"%@\"\nContent-Transfer-Encoding: base64\nContent-Type: %@; name=\"%@\"\n\n%@--__MY_BOUNDARY__", dictionary[@"subject"], dictionary[@"toAddress"], dictionary[@"data"], data[@"filename"], data[@"fileType"], data[@"filename"], [data[@"data"] base64EncodedString]];
+
+        SESRawMessage *rawMessage = [[SESRawMessage alloc] init];
+        rawMessage.data = [rawMessageString dataUsingEncoding:NSUTF8StringEncoding];
+        
+        SESSendRawEmailRequest *ser = [[SESSendRawEmailRequest alloc] init];
+        
+        ser.source = VERIFIED_EMAIL_TEST;
+        [ser addDestination:dictionary[@"toAddress"]];
+        
+        ser.rawMessage = rawMessage;
+        
+        ser.requestTag = SENDING_REQUEST_EMAIL;
+        
+        SESSendRawEmailResponse *response = [[AmazonClientManager ses] sendRawEmail:ser];
+        
+        BOOL success = NO;
+        
+        if (!response.error) {
+            
+            success = YES;
+        }
+
+        callback(success, response.error, ser.requestTag);
     }
-    
-    callback(success, response.error, ser.requestTag);
+    else {
+        
+        NSDictionary *paramDict = [TVDatabase emailParameters:dictionary];
+        
+        SESSendEmailRequest *ser = [[SESSendEmailRequest alloc] init];
+        
+        ser.source = VERIFIED_EMAIL;
+        ser.destination = paramDict[@"destination"];
+        ser.message = paramDict[@"message"];
+        
+        ser.requestTag = SENDING_REQUEST_EMAIL;
+        
+        SESSendEmailResponse *response = [[AmazonClientManager ses] sendEmail:ser];
+        
+        BOOL success = NO;
+        
+        if (!response.error) {
+            
+            success = YES;
+        }
+        
+        callback(success, response.error, ser.requestTag);
+    }
 }
 
 #pragma mark Logging in
@@ -1902,7 +1906,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 + (void)loginToAccountWithEmail:(NSString *)email andPassword:(NSString *)password withCompletionHandler:(void (^)(BOOL success, BOOL correctCredentials, NSError *error, NSString *callCode))callback {
     
     [PFUser logInWithUsernameInBackground:email password:password block:^(PFUser *user, NSError *error) {
-
+        NSLog(@"%@ %@", error, user);
         __block BOOL success = NO;
         __block BOOL correctCredentials = NO;
         
@@ -1912,8 +1916,6 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
              UIRemoteNotificationTypeBadge |
              UIRemoteNotificationTypeAlert |
              UIRemoteNotificationTypeSound];
-            
-            [TVDatabase setCanUpdate:YES];
             
             success = YES;
             
@@ -1993,21 +1995,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 
 + (void)updateMyCache:(TVAccount *)accountObj {
 
-    if ([TVDatabase canUpdate]) {
-        
-        [TVDatabase setCurrentAccount:accountObj];
-    }
-}
-
-+ (BOOL)canUpdate {
- 
-    return [[NSUserDefaults standardUserDefaults] boolForKey:@"canUpdate"];
-}
-
-+ (void)setCanUpdate:(BOOL)canUpdate {
-    
-    [[NSUserDefaults standardUserDefaults] setBool:canUpdate forKey:@"canUpdate"];
-//    [[NSUserDefaults standardUserDefaults] synchronize];
+    [TVDatabase setCurrentAccount:accountObj];
 }
 
 + (void)updateMyAccount:(TVAccount *)accountObj immediatelyCache:(BOOL)immediatelyCache withCompletionHandler:(void (^)(BOOL succeeded, NSError *error, NSString *callCode))callback {
@@ -2056,9 +2044,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         
         if (!error && succeeded) {
-            
-            [TVDatabase setCanUpdate:YES];
-            
+                        
             travelogAccount.userId = user.objectId;
             [TVDatabase updateMyCache:travelogAccount];
 
@@ -2081,6 +2067,71 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         
         callback(succeeded, error, CREATING_ACCOUNT);
     }];
+}
+
++ (void)refreshAccountWithCompletionHandler:(void (^)(BOOL completed))callback {
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        [TVDatabase refreshCachedAccounts];
+        [TVDatabase refreshFlights];
+        
+        [[PFUser currentUser] refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            
+            if (!error) {
+                
+                [TVDatabase getAccountFromUser:(PFUser *)object isPerformingCacheRefresh:YES withCompletionHandler:^(TVAccount *account, NSMutableArray *downloadedTypes) {
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        [TVDatabase updateMyCache:account];
+                        
+                        [TVDatabase updatePushNotificationsSetup];
+                        
+                        if ([[downloadedTypes lastObject] isEqual:@(kAccountDownloadedFlights)]) {
+                            
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                
+                                [[NSNotificationCenter defaultCenter] postNotificationName:NSNotificationDownloadedFlights object:nil];
+                            });
+                        }
+                        else if ([[downloadedTypes lastObject] isEqual:@(kAccountDownloadedMessages)]) {
+                            
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                
+                                [[NSNotificationCenter defaultCenter] postNotificationName:NSNotificationDownloadedMessages object:nil];
+                            });
+                        }
+                        else if ([[downloadedTypes lastObject] isEqual:@(kAccountDownloadedProfilePicture)]) {
+                            
+                        }
+                        else if ([[downloadedTypes lastObject] isEqual:@(kAccountDownloadedConnections)]) {
+                            
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                
+                                [[NSNotificationCenter defaultCenter] postNotificationName:NSNotificationDownloadedConnections  object:nil];
+                            });
+                        }
+                        
+                        if ([downloadedTypes count] == 5) {
+                            
+                            [TVDatabase refreshFlights];
+                            
+                            callback(YES);
+                        }
+                        else {
+                            
+                            callback(NO);
+                        }
+                    });
+                }];
+            }
+            else {
+                
+                callback(YES);
+            }
+        }];
+    });
 }
 
 @end

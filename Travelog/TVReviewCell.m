@@ -47,4 +47,25 @@
     }
 }
 
+- (void)setReviewBodyText:(NSString *)body {
+    
+    self.reviewBodyTextView.scrollEnabled = NO;
+    self.reviewBodyTextView.text = body;
+    self.reviewBodyTextView.frame = CGRectMake(self.reviewBodyTextView.frame.origin.x, self.reviewBodyTextView.frame.origin.y, self.reviewBodyTextView.frame.size.width, [self textViewHeightForText:body andWidth:self.reviewBodyTextView.frame.size.width]);
+    
+}
+
+- (CGFloat)textViewHeightForText:(NSString *)text andWidth:(CGFloat)width {
+    
+    UIFont *font = [UIFont fontWithName:@"HelveticaNeue" size:14.0];
+    NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:font
+                                                                forKey:NSFontAttributeName];
+    NSAttributedString *attr = [[NSAttributedString alloc] initWithString:text attributes:attrsDictionary];
+    
+    UITextView *calculationView = [[UITextView alloc] init];
+    [calculationView setAttributedText:attr];
+    
+    return [calculationView sizeThatFits:CGSizeMake(width, FLT_MAX)].height;
+}
+
 @end

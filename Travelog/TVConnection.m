@@ -16,7 +16,7 @@
     [aCoder encodeObject:self.senderId forKey:@"senderId"];
     [aCoder encodeObject:self.receiverId forKey:@"receiverId"];
     
-    [aCoder encodeInt:(int)self.status forKey:@"status"];
+    [aCoder encodeInteger:(NSInteger)self.status forKey:@"status"];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -26,7 +26,7 @@
         self.senderId = [aDecoder decodeObjectForKey:@"senderId"];
         self.receiverId = [aDecoder decodeObjectForKey:@"receiverId"];
         
-        self.status = (ConnectRequestStatus *)[aDecoder decodeIntForKey:@"status"];
+        self.status = (ConnectRequestStatus *)[aDecoder decodeIntegerForKey:@"status"];
     }
     
     return self;
@@ -35,6 +35,7 @@
 - (id)init {
     
     if (self = [super init]) {
+        
     }
     
     return self;
@@ -55,7 +56,7 @@
 
 - (NSString *)description {
     
-    return [NSString stringWithFormat:@"I %@ and the status is %@", [[[TVDatabase currentAccount] userId] isEqualToString:self.senderId] ? [NSString stringWithFormat:@"sent to %@", self.receiverId] : [NSString stringWithFormat:@"received from %@", self.senderId], (int)self.status == kConnectRequestPending ? @"pending" : @"accepted"];
+    return [NSString stringWithFormat:@"I %@ and the status is %@", [[[TVDatabase currentAccount] userId] isEqualToString:self.senderId] ? [NSString stringWithFormat:@"sent to %@", self.receiverId] : [NSString stringWithFormat:@"received from %@", self.senderId], (NSInteger)self.status == kConnectRequestPending ? @"pending" : @"accepted"];
 }
 
 @end

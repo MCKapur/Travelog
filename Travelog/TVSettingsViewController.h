@@ -12,6 +12,10 @@
 
 #import "TVCreateAccountViewController.h"
 
+#import "TVDatabase.h"
+
+#import "CHCSVParser.h"
+
 @interface TVSettingsViewController : UIViewController <UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
 {
     __weak IBOutlet UITextField *firstNameTextField;
@@ -26,10 +30,13 @@
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
+- (IBAction)touchedDown:(id)sender;
+- (IBAction)released:(id)sender;
+
 - (IBAction)exportFlights;
 - (IBAction)support;
 - (IBAction)logout;
-- (IBAction)connectWithLinkedIn:(UIButton *)sender;
+- (IBAction)connectWithLinkedIn;
 
 - (IBAction)saveData;
 

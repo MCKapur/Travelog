@@ -19,52 +19,134 @@
 
 - (void)didSendText:(NSString *)text {
     
-    TVMessage *message = [[TVMessage alloc] initWithBody:text publishDate:[NSDate date] senderId:[[TVDatabase currentAccount] userId] andReceiverId:[[TVDatabase messageHistoryFromID:self.messageHistoryID].receiverId isEqualToString:[[TVDatabase currentAccount] userId]] ? [TVDatabase messageHistoryFromID:self.messageHistoryID].senderId : [TVDatabase messageHistoryFromID:self.messageHistoryID].receiverId];
+    BOOL isConnection = NO;
     
-    [TVDatabase sendMessage:message toHistoryWithID:self.messageHistoryID withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
+    for (TVConnection *connection in [[[TVDatabase currentAccount] person] connections]) {
         
-        dispatch_async(dispatch_get_main_queue(), ^{
+        if ([connection.senderId isEqualToString:[[TVDatabase currentAccount] userId] ? [TVDatabase messageHistoryFromID:self.messageHistoryID].receiverId : [TVDatabase messageHistoryFromID:self.messageHistoryID].senderId] || [connection.receiverId isEqualToString:[[TVDatabase currentAccount] userId] ? [TVDatabase messageHistoryFromID:self.messageHistoryID].receiverId : [TVDatabase messageHistoryFromID:self.messageHistoryID].senderId]) {
+            
+            isConnection = YES;
+        }
+    }
 
-            [[NSNotificationCenter defaultCenter] postNotificationName:NSNotificationSentMessage object:nil userInfo:nil];
-        });
-    }];
+    if (isConnection) {
+        
+        TVMessage *message = [[TVMessage alloc] initWithBody:text publishDate:[NSDate date] senderId:[[TVDatabase currentAccount] userId] andReceiverId:[[TVDatabase messageHistoryFromID:self.messageHistoryID].receiverId isEqualToString:[[TVDatabase currentAccount] userId]] ? [TVDatabase messageHistoryFromID:self.messageHistoryID].senderId : [TVDatabase messageHistoryFromID:self.messageHistoryID].receiverId];
+        
+        [TVDatabase sendMessage:message toHistoryWithID:self.messageHistoryID withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:NSNotificationSentMessage object:nil userInfo:nil];
+            });
+        }];
+        
+        [self finishSend];
+        [self scrollToBottomAnimated:YES];
+        [self reload];
+        
+        [JSMessageSoundEffect playMessageSentSound];
+    }
+    else {
+        
+        MBFlatAlertView *alertView = [MBFlatAlertView alertWithTitle:@"Error - Cannot Message" detailText:@"You can't message this person, as you are no longer connections with them" cancelTitle:@"Dismiss" cancelBlock:nil];
+        [alertView show];
+    }
 }
 
-- (AMBubbleCellType)cellTypeForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (JSBubbleMessageType)messageTypeForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return [((TVMessage *)[TVDatabase messageHistoryFromID:self.messageHistoryID].sortedMessages[indexPath.row]).senderId isEqualToString:[[TVDatabase currentAccount] userId]] ? AMBubbleCellSent : AMBubbleCellReceived;
+    return [((TVMessage *)[TVDatabase messageHistoryFromID:self.messageHistoryID].sortedMessages[indexPath.row]).senderId isEqualToString:[[TVDatabase currentAccount] userId]] ? JSBubbleMessageTypeOutgoing : JSBubbleMessageTypeIncoming;
+}
+
+- (UIImageView *)bubbleImageViewWithType:(JSBubbleMessageType)type
+                       forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [((TVMessage *)[TVDatabase messageHistoryFromID:self.messageHistoryID].sortedMessages[indexPath.row]).senderId isEqualToString:[[TVDatabase currentAccount] userId]] ? [JSBubbleImageViewFactory bubbleImageViewForType:type color:[UIColor js_bubbleBlueColor]] : [JSBubbleImageViewFactory bubbleImageViewForType:type color:[UIColor js_bubbleLightGrayColor]];
+}
+
+- (JSMessagesViewTimestampPolicy)timestampPolicy
+{
+    return JSMessagesViewTimestampPolicyCustom;
+}
+
+- (JSMessagesViewAvatarPolicy)avatarPolicy
+{
+    return JSMessagesViewAvatarPolicyAll;
+}
+
+- (JSMessagesViewSubtitlePolicy)subtitlePolicy
+{
+    return JSMessagesViewSubtitlePolicyAll;
+}
+
+- (JSMessageInputViewStyle)inputViewStyle
+{
+    return JSMessageInputViewStyleFlat;
 }
 
 #pragma mark Messages View Data Source
 
-- (NSString *)usernameForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (BOOL)hasTimestampForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return [TVDatabase cachedAccountWithId:((TVMessage *)[TVDatabase messageHistoryFromID:self.messageHistoryID].sortedMessages[indexPath.row]).senderId].person.name;
-}
-
-- (UIColor *)usernameColorForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSInteger timePeriod = 0;
     
-    UIColor *retVal = nil;
-    
-    if ([((TVMessage *)[TVDatabase messageHistoryFromID:self.messageHistoryID].sortedMessages[indexPath.row]).senderId isEqualToString:[[TVDatabase currentAccount] userId]]) {
+    if (indexPath.row <= 0) {
         
-        retVal = [UIColor blueColor];
+        timePeriod = 18000;
     }
     else {
         
-        retVal = [UIColor orangeColor];
+        timePeriod = [((TVMessage *)[TVDatabase messageHistoryFromID:self.messageHistoryID].sortedMessages[indexPath.row]).publishDate timeIntervalSinceDate:((TVMessage *)[TVDatabase messageHistoryFromID:self.messageHistoryID].sortedMessages[indexPath.row - 1]).publishDate];
     }
     
-    return retVal;
+    return timePeriod >= 18000 ? YES : NO;
 }
 
-- (NSInteger)numberOfRows {
+- (BOOL)shouldPreventScrollToBottomWhileUserScrolling
+{
+    return NO;
+}
+
+- (void)configureCell:(JSBubbleMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath
+{
+    if([cell messageType] == JSBubbleMessageTypeOutgoing) {
+        
+        cell.bubbleView.textView.textColor = [UIColor whiteColor];
+        
+        if([cell.bubbleView.textView respondsToSelector:@selector(linkTextAttributes)]) {
+            
+            NSMutableDictionary *attrs = [cell.bubbleView.textView.linkTextAttributes mutableCopy];
+            [attrs setValue:[UIColor blueColor] forKey:NSForegroundColorAttributeName];
+            
+            cell.bubbleView.textView.linkTextAttributes = attrs;
+        }
+    }
     
+    if (cell.timestampLabel) {
+        
+        cell.timestampLabel.textColor = [UIColor lightGrayColor];
+        cell.timestampLabel.shadowOffset = CGSizeZero;
+    }
+    
+    if (cell.subtitleLabel) {
+        
+        cell.subtitleLabel.textColor = [UIColor lightGrayColor];
+    }
+}
+
+- (NSString *)subtitleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [TVDatabase cachedAccountWithId:((TVMessage *)[TVDatabase messageHistoryFromID:self.messageHistoryID].sortedMessages[indexPath.row]).senderId].person.name;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return [TVDatabase messageHistoryFromID:self.messageHistoryID].sortedMessages.count;
 }
 
 - (NSString *)textForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+
     return ((TVMessage *)[TVDatabase messageHistoryFromID:self.messageHistoryID].sortedMessages[indexPath.row]).body;
 }
 
@@ -73,7 +155,7 @@
     return ((TVMessage *)[TVDatabase messageHistoryFromID:self.messageHistoryID].sortedMessages[indexPath.row]).publishDate;
 }
 
-- (UIImage *)avatarForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UIImage *retVal = nil;
     
@@ -86,12 +168,21 @@
         retVal = hisProfilePic;
     }
 
-    return retVal;
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:retVal];
+    imageView.layer.cornerRadius = 27.0f;
+    imageView.layer.masksToBounds = YES;
+    
+    [imageView setFrame:CGRectMake(imageView.frame.origin.x, imageView.frame.origin.y, 30, 30)];
+
+    return imageView;
 }
 
 - (void)incomingMessage
 {
     [self reload];
+    [self scrollToBottomAnimated:YES];
+    
+    [JSMessageSoundEffect playMessageReceivedAlert];
 }
 
 #pragma mark Initialization
@@ -139,16 +230,13 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     
-    [((TVAppDelegate *)[UIApplication sharedApplication].delegate) hideNotifications];
-    
     self.tabBarController.tabBar.hidden = YES;
-//    self.navigationController.navigationBarHidden = YES;
 
     NSMutableArray *messages = [[NSMutableArray alloc] init];
     
     if ([[TVDatabase messageHistoryFromID:self.messageHistoryID] messages].count) {
         
-        for (int i = [[TVDatabase messageHistoryFromID:self.messageHistoryID] messages].count; i--;) {
+        for (NSInteger i = [[TVDatabase messageHistoryFromID:self.messageHistoryID] messages].count; i--;) {
             
             TVMessage *message = [[TVDatabase messageHistoryFromID:self.messageHistoryID] messages][i];
             
@@ -173,42 +261,54 @@
         }
     }
     
+    NSString *userId = [[[TVDatabase currentAccount] userId] isEqualToString:[TVDatabase messageHistoryFromID:self.messageHistoryID].senderId] ? [TVDatabase messageHistoryFromID:self.messageHistoryID].receiverId : [TVDatabase messageHistoryFromID:self.messageHistoryID].senderId;
+    
+    myProfilePic = [TVDatabase locateProfilePictureOnDiskWithUserId:[[TVDatabase currentAccount] userId]];
+    hisProfilePic = [TVDatabase locateProfilePictureOnDiskWithUserId:userId];
+    
+    [self setBackgroundColor:[UIColor colorWithRed:64.0f/255.0f green:66.0f/255.0f blue:65.0f/255.0f alpha:1.0f]];
+    
+    [[JSBubbleView appearance] setFont:[UIFont systemFontOfSize:16.0f]];
+    
+    self.messageInputView.textView.placeHolder = @"New Message";
+    
+    self.navigationItem.title = [[TVDatabase messageHistoryFromID:self.messageHistoryID].receiverId isEqualToString:[[TVDatabase currentAccount] userId]] ? [TVDatabase cachedAccountWithId:[TVDatabase messageHistoryFromID:self.messageHistoryID].senderId].person.name : [TVDatabase cachedAccountWithId:[TVDatabase messageHistoryFromID:self.messageHistoryID].receiverId].person.name;
+
+    BOOL isConnection = NO;
+    
+    for (TVConnection *connection in [[[TVDatabase currentAccount] person] connections]) {
+        
+        if ([connection.senderId isEqualToString:[[TVDatabase currentAccount] userId] ? [TVDatabase messageHistoryFromID:self.messageHistoryID].receiverId : [TVDatabase messageHistoryFromID:self.messageHistoryID].senderId] || [connection.receiverId isEqualToString:[[TVDatabase currentAccount] userId] ? [TVDatabase messageHistoryFromID:self.messageHistoryID].receiverId : [TVDatabase messageHistoryFromID:self.messageHistoryID].senderId]) {
+            
+            isConnection = YES;
+        }
+    }
+    
+    if (!isConnection) self.navigationItem.title = @"No Longer Connection";
+
+    BOOL hasConnection = NO;
+    
+    for (TVConnection *connection in [[[TVDatabase currentAccount] person] connections]) {
+
+        if ([connection.senderId isEqualToString:userId] || [connection.receiverId isEqualToString:userId]) {
+            
+            hasConnection = YES;
+        }
+    }
+    
     [super viewWillAppear:animated];
 }
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-
-    NSString *userId = nil;
-    
-    for (TVMessage *message in [TVDatabase messageHistoryFromID:self.messageHistoryID].messages) {
-        
-        if ([message.senderId isEqualToString:[[TVDatabase currentAccount] userId]]) {
-            
-            userId = message.receiverId;
-        }
-        else {
-            
-            userId = message.senderId;
-        }
-    }
-    
-    myProfilePic = [TVDatabase locateProfilePictureOnDiskWithUserId:[[TVDatabase currentAccount] userId]];
-    hisProfilePic = [TVDatabase locateProfilePictureOnDiskWithUserId:userId];
-
     [self setDelegate:self];
     [self setDataSource:self];
     
-    [self setTableStyle:AMBubbleTableStyleFlat];
-
-    self.navigationItem.title = [[TVDatabase messageHistoryFromID:self.messageHistoryID].receiverId isEqualToString:[[TVDatabase currentAccount] userId]] ? [TVDatabase cachedAccountWithId:[TVDatabase messageHistoryFromID:self.messageHistoryID].senderId].person.name : [TVDatabase cachedAccountWithId:[TVDatabase messageHistoryFromID:self.messageHistoryID].receiverId].person.name;
+    [super viewDidLoad];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     
-    [((TVAppDelegate *)[UIApplication sharedApplication].delegate) showNotifications];
-
     self.tabBarController.tabBar.hidden = NO;
 //    self.navigationController.navigationBarHidden = NO;
     

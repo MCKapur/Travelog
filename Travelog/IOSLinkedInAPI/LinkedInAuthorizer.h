@@ -14,6 +14,7 @@
 
 @interface LinkedInAuthorizer : NSObject
 
-+ (void)authorizeWithCompletionHandler:(void (^)(BOOL succeeded, BOOL cancelled, NSError *error, NSString *accessToken))callback;
++ (void)getAuthorizationToken:(void (^)(BOOL succeeded, BOOL cancelled, NSError *error, NSString *authorizationToken))callback;
++ (void)requestAccessTokenFromAuthorizationCode:(NSString *)authorizationCode withCompletionHandler:(void (^)(BOOL succeeded, NSError *error, NSString *accessToken))callback;
 
 @end

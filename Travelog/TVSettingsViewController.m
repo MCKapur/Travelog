@@ -51,7 +51,7 @@
     
     if (tf.tag != 4) {
         
-        int i = tf.tag;
+        NSInteger i = tf.tag;
         
         UITextField *nextTf = (UITextField *)[self.view viewWithTag:i + 1];
         
@@ -108,10 +108,12 @@
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    
+
     [picker dismissViewControllerAnimated:YES completion:nil];
     
     profileImageView.image = info[@"UIImagePickerControllerEditedImage"];
+    
+    [self saveData];
 }
 
 - (void)openPhotoLibrary {
@@ -140,7 +142,7 @@
     
     if (retVal.count) {
         
-        for (int i = 0; i <= retVal.count - 1; i++) {
+        for (NSInteger i = 0; i <= retVal.count - 1; i++) {
             
             if ([[retVal objectAtIndex:i] intValue] == 0) {
                 
@@ -156,7 +158,7 @@
     
     NSMutableArray *arrayOfValuesNotFilled = [[NSMutableArray alloc] init];
     
-    for (int i = 1; i <= 4; i++) {
+    for (NSInteger i = 1; i <= 4; i++) {
         
         for (UIView *view in self.scrollView.subviews) {
             
@@ -177,25 +179,20 @@
 
 - (IBAction)saveData {
     
-    if ([profileImageView.image isEqual:[TVDatabase locateProfilePictureOnDiskWithUserId:[[TVDatabase currentAccount] userId]]] && [firstNameTextField.text isEqualToString:[[[[TVDatabase currentAccount] person] name] componentsSeparatedByString:@" "][0]] && [lastNameTextField.text isEqualToString:[[[[[TVDatabase currentAccount] person] name] componentsSeparatedByString:@" "] lastObject]] && [originCityTextField.text isEqualToString:[[[TVDatabase currentAccount] person] originCity]] && [jobTextField.text isEqualToString:[[[TVDatabase currentAccount] person] position]]) {
+    if (![self incorrectFields].count) {
+        
+        [self updateAccount];
     }
-    else {
+    
+    for (NSInteger i = 1; i <= 4; i++) {
         
-        if (![self incorrectFields].count) {
+        if ([[self incorrectFields] containsObject:@(i)]) {
             
-            [self updateAccount];
+            [[self.view viewWithTag:i+200] setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:204.0f/255.0f alpha:1.0f]];
         }
-        
-        for (int i = 1; i <= 4; i++) {
+        else {
             
-            if ([[self incorrectFields] containsObject:@(i)]) {
-                
-                [[self.view viewWithTag:i+200] setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:204.0f/255.0f alpha:1.0f]];
-            }
-            else {
-                
-                [[self.view viewWithTag:i+200] setBackgroundColor:[UIColor whiteColor]];
-            }
+            [[self.view viewWithTag:i+200] setBackgroundColor:[UIColor whiteColor]];
         }
     }
 }
@@ -214,9 +211,13 @@
         [TVDatabase updateMyAccount:account immediatelyCache:YES withCompletionHandler:^(BOOL succeeded, NSError *error, NSString *callCode) {
             
             [TVLoadingSignifier hideLoadingSignifier];
+            
+            [self loadInData];
         }];
         
         [TVDatabase updateProfilePicture:[profileImageView.image makeThumbnailOfSize:CGSizeMake(700, 700)] withObjectId:account.userId withCompletionHandler:^(BOOL succeeded, NSError *error, NSString *callCode) {
+            
+            [self loadInData];
         }];
     }
     else {
@@ -229,10 +230,14 @@
                 
                 [TVDatabase updateMyAccount:account immediatelyCache:YES withCompletionHandler:^(BOOL succeeded, NSError *error, NSString *callCode) {
                     
+                    [self loadInData];
+
                     [TVLoadingSignifier hideLoadingSignifier];
                 }];
                 
                 [TVDatabase updateProfilePicture:[profileImageView.image makeThumbnailOfSize:CGSizeMake(700, 700)] withObjectId:account.userId withCompletionHandler:^(BOOL succeeded, NSError *error, NSString *callCode) {
+                    
+                    [self loadInData];
                 }];
             }
             else {
@@ -241,6 +246,8 @@
             }
         }];
     }
+    
+    [self loadInData];
 }
 
 - (void)geocode:(NSString *)location withCompletionHandler:(void (^)(NSDictionary *result, NSError *error))callback {
@@ -287,51 +294,55 @@
     [((TVAppDelegate *)[UIApplication sharedApplication].delegate) didLogOut];
 }
 
-- (IBAction)connectWithLinkedIn:(UIButton *)sender {
+- (IBAction)connectWithLinkedIn {
     
     if (![[TVDatabase currentAccount] isUsingLinkedIn]) {
         
-        [LinkedInAuthorizer authorizeWithCompletionHandler:^(BOOL succeeded, BOOL cancelled, NSError *error, NSString *accessToken) {
-            NSLog(@"Callback");
+        [LinkedInAuthorizer getAuthorizationToken:^(BOOL succeeded, BOOL cancelled, NSError *error, NSString *authorizationToken) {
+            
             if (!error && succeeded) {
                 
                 [TVLoadingSignifier signifyLoading:@"Downloading account data" duration:-1];
                 
-                [LinkedInDataRetriever downloadProfileWithAccessToken:accessToken andCompletionHandler:^(NSDictionary *profile, BOOL success, NSError *error) {
+                [LinkedInAuthorizer requestAccessTokenFromAuthorizationCode:authorizationToken withCompletionHandler:^(BOOL succeeded, NSError *error, NSString *accessToken) {
                     
-                    if (!error && succeeded && profile.count) {
+                    if (succeeded && !error) {
                         
-                        TVAccount *newAccount = [TVDatabase currentAccount];
-                        
-                        [newAccount setIsUsingLinkedIn:YES];
-                        [newAccount setLinkedInAccessKey:accessToken];
-                        [newAccount setLinkedInId:profile[@"id"]];
-                        
-                        [TVLoadingSignifier signifyLoading:@"Connecting LinkedIn account" duration:-1];
-                        
-                        [TVDatabase updateMyAccount:newAccount immediatelyCache:YES withCompletionHandler:^(BOOL succeeded, NSError *error, NSString *callCode) {
+                        [LinkedInDataRetriever downloadProfileWithAccessToken:accessToken andCompletionHandler:^(NSDictionary *profile, BOOL success, NSError *error) {
                             
-                            if (!succeeded) {
+                            if (!error && succeeded && profile.count) {
                                 
-                                [self handleError:error andType:GET_LINKEDIN];
+                                TVAccount *newAccount = [TVDatabase currentAccount];
+                                
+                                [newAccount setIsUsingLinkedIn:YES];
+                                [newAccount setLinkedInAccessKey:authorizationToken];
+                                [newAccount setLinkedInId:profile[@"id"]];
+                                
+                                [TVDatabase setLocalLinkedInRequestToken:accessToken];
+                                
+                                [TVLoadingSignifier signifyLoading:@"Connecting LinkedIn account" duration:-1];
+                                
+                                [TVDatabase updateMyAccount:newAccount immediatelyCache:YES withCompletionHandler:^(BOOL succeeded, NSError *error, NSString *callCode) {
+                                    
+                                    if (!succeeded) {
+                                        
+                                        [self handleError:error andType:GET_LINKEDIN];
+                                    }
+                                    else {
+                                        
+                                        [TVNotificationSignifier signifyNotification:@"Successfully connected LinkedIn account" forDuration:4];
+                                        
+                                        self.linkedInStatus.text = @"Disconnect LinkedIn";
+                                    }
+                                }];
                             }
                             else {
                                 
-                                [TVNotificationSignifier signifyNotification:@"Successfully connected LinkedIn account" forDuration:4];
-                                
-                                self.linkedInStatus.text = @"Disconnect LinkedIn";
+                                // [self handleError:error andType:GET_LINKEDIN];
                             }
                         }];
                     }
-                    else {
-
-//                        [self handleError:error andType:GET_LINKEDIN];
-                    }
                 }];
-            }
-            else {
-                NSLog(@"Really be Really?");
-                [self handleError:error andType:GET_LINKEDIN];
             }
         }];
     }
@@ -343,6 +354,8 @@
         [newAccount setLinkedInAccessKey:nil];
         [newAccount setLinkedInId:nil];
         
+        [TVDatabase setLocalLinkedInRequestToken:nil];
+
         [TVLoadingSignifier signifyLoading:@"Disconnecting LinkedIn account" duration:-1];
         
         [TVDatabase updateMyAccount:newAccount immediatelyCache:YES withCompletionHandler:^(BOOL succeeded, NSError *error, NSString *callCode) {
@@ -362,62 +375,58 @@
 }
 
 - (IBAction)exportFlights {
+
+    [TVLoadingSignifier signifyLoading:@"Exporting flights" duration:-1];
     
-    NSMutableString *csv = [NSMutableString stringWithString:@"Name,Date,Miles"];
-    
-    for (int i = 0; i <= [[[[TVDatabase currentAccount] person] flights] count] - 1; i++ ) {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, NULL), ^{
         
-        TVFlight *flight = [[[TVDatabase currentAccount] person] flights][i];
-        
-        [csv appendFormat:@"\n\"%@\",%@,\"%g\"", flight.originCity, flight.destinationCity, flight.miles];
-    }
-    
-    NSString *fileName = [NSString stringWithFormat:@"%@_Flights", [[[TVDatabase currentAccount] person] name]];
-    
-    NSArray *arrayPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
-    NSString *docDir = [arrayPaths objectAtIndex:0];
-    NSString *path = [docDir stringByAppendingString:[NSString stringWithFormat:@"/%@", fileName]];
-    
-    [csv writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:NULL];
-    NSData *csvData = [NSData dataWithContentsOfFile:path];
-    
-    if ([MFMailComposeViewController canSendMail]) {
+        NSMutableString *csv = [NSMutableString stringWithString:@"Origin,Destination,Date,Miles"];
         
         if ([[[TVDatabase currentAccount] person] flights].count) {
             
-            MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] init];
-            [composeViewController setSubject:@"My Flights"];
-            [composeViewController addAttachmentData:csvData mimeType:@"text/csv" fileName:fileName];
+            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+            [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+            [formatter setMaximumFractionDigits:2];
             
-            composeViewController.mailComposeDelegate = self;
-            
-            [self presentViewController:composeViewController animated:YES completion:nil];
-        }
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"dd-MM-yyyy"];
 
-    }
-    else {
+            for (NSInteger i = 0; i <= [[[[TVDatabase currentAccount] person] flights] count] - 1; i++ ) {
+                
+                TVFlight *flight = [[[TVDatabase currentAccount] person] flights][i];
+                
+                [csv appendFormat:@"\r%@,%@,%@,%@", flight.originCity, flight.destinationCity, [dateFormatter stringFromDate:flight.date], [formatter stringFromNumber:@(flight.miles)]];
+            }
+        }
+    
+        NSString *fileName = [NSString stringWithFormat:@"%@_Flights", [[[TVDatabase currentAccount] person] name]];
+        
+        NSArray *arrayPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+        NSString *docDir = [arrayPaths objectAtIndex:0];
+        NSString *path = [docDir stringByAppendingString:[NSString stringWithFormat:@"/%@", fileName]];
+        
+        [csv writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:NULL];
+        NSData *csvData = [NSData dataWithContentsOfFile:path];
+        
+        [TVLoadingSignifier signifyLoading:@"Sending flights" duration:-1];
+        
+        [TVDatabase sendEmail:[@{@"subject": @"Your Exported Flights", @"data": @"As per request, your exported flights in CSV format are attached below.", @"toAddress": [[[TVDatabase currentAccount] person] email]} mutableCopy] withAttachementData:@{@"fileType": @"text/csv", @"filename": @"flights.csv", @"data": csvData} withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
             
-        [TVErrorHandler handleError:[NSError errorWithDomain:@"Ensure you have added a mail account in Settings" code:200 userInfo:@{NSLocalizedDescriptionKey: @"Ensure you have added a mail account in Settings"}]];
-    }
+            if (!error && success) {
+                
+                [TVNotificationSignifier signifyNotification:[NSString stringWithFormat:@"Sent to %@", [[[TVDatabase currentAccount] person] email]] forDuration:3];
+            }
+            else {
+                
+                [TVErrorHandler handleError:[NSError errorWithDomain:callCode code:200 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Could not %@", callCode]}]];
+            }
+        }];
+    });
 }
 
 - (IBAction)support {
     
-    MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
-    [mailComposeViewController setMailComposeDelegate:self];
-    
-    [mailComposeViewController setSubject:[NSString stringWithFormat:@"Travelog Support from %@ - v%@", [[[TVDatabase currentAccount] person] email], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]]];
-    [mailComposeViewController setToRecipients:[NSArray arrayWithObject:@"support@travelogapp.com"]];
-    [mailComposeViewController setMessageBody:@"Hi, what do you need help with?:" isHTML:NO];
-    
-    if ([MFMailComposeViewController canSendMail]) {
-        
-        [self presentViewController:mailComposeViewController animated:YES completion:nil];
-    }
-    else {
-        
-        [TVErrorHandler handleError:[NSError errorWithDomain:@"Ensure you have added a mail account in Settings" code:200 userInfo:@{NSLocalizedDescriptionKey: @"Ensure you have added a mail account in Settings"}]];
-    }
+    [[Helpshift sharedInstance] showConversation:self withOptions:nil];
 }
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
@@ -482,6 +491,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectWithLinkedIn) name:NSNotificationAutomateConnectWithLinkedIn object:nil];
+    
     firstNameTextField.delegate = self;
     lastNameTextField.delegate = self;
     originCityTextField.delegate = self;
@@ -500,10 +511,9 @@
     }
     else {
 
-        self.scrollView.contentSize = CGSizeMake(320, self.view.frame.size.height + 110);
+        self.scrollView.center = CGPointMake(self.scrollView.center.x, self.view.frame.size.height - 195);
+        self.scrollView.contentSize = CGSizeMake(320, self.view.frame.size.height + 30);
     }
-    
-    self.scrollView.center = CGPointMake(self.scrollView.center.x, self.view.frame.size.height - 274);
     
     [self.navigationController setNavigationBarHidden:NO];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(saveData)]];
@@ -521,14 +531,25 @@
         else if ([view isKindOfClass:[UITextField class]]) {
             
             view.layer.cornerRadius = 7.0f;
+            
+            if (view.tag == 3 || view.tag == 4) {
+                
+                ((UITextField *)view).autocorrectionType = UITextAutocorrectionTypeYes;
+            }
         }
         else if ([view isKindOfClass:[UITextView class]]) {
             
             view.layer.cornerRadius = 7.0f;
+            view.layer.masksToBounds = YES;
+            view.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+            view.layer.borderWidth = 0.5f;
         }
         else if ([view isKindOfClass:[UIButton class]]) {
             
             view.layer.cornerRadius = 7.0f;
+            
+            view.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+            view.layer.borderWidth = 0.5f;
         }
     }
     
@@ -545,6 +566,16 @@
     [super viewWillAppear:animated];
 
     // Do any additional setup after loading the view from its nib.
+}
+
+- (IBAction)touchedDown:(id)sender {
+    
+    [(UIButton *)sender setAlpha:0.5f];
+}
+
+- (IBAction)released:(id)sender {
+    
+    [(UIButton *)sender setAlpha:1.0f];
 }
 
 - (void)didReceiveMemoryWarning

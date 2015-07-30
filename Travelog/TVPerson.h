@@ -38,8 +38,8 @@
 
 @interface NSMutableArray (Notifications)
 
-- (int)indexOfNotification:(TVNotification *)_notification;
-- (void)clearNotificationOfType:(int)notificationType;
+- (NSInteger)indexOfNotification:(TVNotification *)_notification;
+- (void)clearNotificationOfType:(NSInteger)notificationType;
 
 - (void)addNotification:(TVNotification *)notification;
 - (void)removeNotification:(TVNotification *)notification;
@@ -65,19 +65,20 @@
         [self removeObjectAtIndex:[self indexOfNotification:notification]];
     }
     else {
-        NSLog(@"Cannot find %@", notification.ID);
+        
+        NSLog(@"Cannot find %@. %@", notification.ID, self);
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateNotifications" object:nil userInfo:nil];
 }
 
-- (int)indexOfNotification:(TVNotification *)notification {
+- (NSInteger)indexOfNotification:(TVNotification *)notification {
     
-    int retVal = NSNotFound;
+    NSInteger retVal = NSNotFound;
     
     if (self.count) {
         
-        for (int i = 0; i <= self.count - 1; i++) {
+        for (NSInteger i = 0; i <= self.count - 1; i++) {
             
             TVNotification *_notification = self[i];
 
@@ -91,13 +92,13 @@
     return retVal;
 }
 
-- (void)clearNotificationOfType:(int)notificationType {
+- (void)clearNotificationOfType:(NSInteger)notificationType {
 
     NSMutableIndexSet *indexSet = [[NSMutableIndexSet alloc] init];
     
     for (TVNotification *notification in self) {
 
-        if ((int)notification.type == notificationType) {
+        if ((NSInteger)notification.type == notificationType) {
             
             [indexSet addIndex:[self indexOfNotification:notification]];
         }
@@ -117,7 +118,7 @@
 
 @property (nonatomic, strong) NSString *position;
 
-@property (nonatomic) double miles;
+@property (nonatomic) CGFloat miles;
 
 @property (nonatomic, strong) NSString *originCity;
 

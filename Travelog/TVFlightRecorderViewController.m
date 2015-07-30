@@ -174,9 +174,16 @@
         
     for (UIView *view in self.view.subviews) {
         
-        if ([view isKindOfClass:[UITextField class]] || [view isKindOfClass:[UITextView class]]) {
+        if ([view isKindOfClass:[UITextField class]]) {
+        
+            view.layer.cornerRadius = 7.0f;
+        }
+        else if ([view isKindOfClass:[UITextView class]]) {
             
             view.layer.cornerRadius = 7.0f;
+            
+            view.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+            view.layer.borderWidth = 0.5f;
         }
         else if ([view isKindOfClass:[UIDatePicker class]]) {
             
@@ -440,7 +447,7 @@
     
     if (retVal.count) {
         
-        for (int i = 0; i <= retVal.count - 1; i++) {
+        for (NSInteger i = 0; i <= retVal.count - 1; i++) {
             
             if ([[retVal objectAtIndex:i] intValue] == 0) {
                 
@@ -456,7 +463,7 @@
     
     NSMutableArray *arrayOfValuesNotFilled = [[NSMutableArray alloc] init];
     
-    for (int i = 1; i <= 2; i++) {
+    for (NSInteger i = 1; i <= 2; i++) {
         
         for (UIView *view in self.view.subviews) {
             
@@ -481,7 +488,7 @@
         
         [TVLoadingSignifier signifyLoading:@"Recording your flight" duration:-1];
         
-        for (int i = 1; i <= 2; i++) {
+        for (NSInteger i = 1; i <= 2; i++) {
             
             if ([[self incorrectFields] containsObject:@(i)]) {
                 
@@ -498,7 +505,7 @@
     }
     else {
         
-        for (int i = 1; i <= 2; i++) {
+        for (NSInteger i = 1; i <= 2; i++) {
             
             if ([[self incorrectFields] containsObject:@(i)]) {
                 

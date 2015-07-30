@@ -1,0 +1,726 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="4bfdaf84-9134-40dc-86ae-d3801c8224f1" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/AWSRuntime" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/AWSRuntime" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/AWSSES" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/AWSSES" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/Crashlytics.framework/Crashlytics" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/Crashlytics.framework/Versions/A/Crashlytics" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/Current" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/Current" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/Crashlytics.framework/Versions/Current" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/EGOCache" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/ForecastKit" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSResources/HS-background-tile.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSResources/HS-background-tile@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSResources/HS-no-connection.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSResources/HS-no-connection@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSResources/HS-powered-by-logo.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSResources/HS-powered-by-logo@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSResources/HS-screenshot-error.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSResources/HS-screenshot-error@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSResources/HS-section-header.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSResources/HS-section-header@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSResources/HSChatBubbleBlue.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSResources/HSChatBubbleBlue@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSResources/HSChatBubbleWhite.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSResources/HSChatBubbleWhite@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSResources/HSConfirmBox.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSResources/HSConfirmBox@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSResources/HSTutorial.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSResources/HSTutorial@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSResources/HSTutorialiPad.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSResources/HSTutorialiPad@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Headers" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Headers" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/Crashlytics.framework/Headers" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Resources" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Resources" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/Crashlytics.framework/Resources" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/avatar/avatar-placeholder.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/avatar/avatar-placeholder@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/bb4bc52353a9eb6d4cf98c7616530e0a.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-classic/bubble-classic-blue.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-classic/bubble-classic-blue@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-classic/bubble-classic-gray.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-classic/bubble-classic-gray@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-classic/bubble-classic-green.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-classic/bubble-classic-green@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-classic/bubble-classic-selected.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-classic/bubble-classic-selected@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-classic-square/bubble-classic-square-blue.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-classic-square/bubble-classic-square-blue@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-classic-square/bubble-classic-square-gray.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-classic-square/bubble-classic-square-gray@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-classic-square/bubble-classic-square-selected.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-classic-square/bubble-classic-square-selected@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-classic/bubble-classic-typing.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-classic/bubble-classic-typing@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-flat/bubble-min-tailless.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-flat/bubble-min-tailless@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-flat/bubble-min.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-flat/bubble-min@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-flat/bubble-stroked-tailless.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-flat/bubble-stroked-tailless@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-flat/bubble-stroked.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-flat/bubble-stroked@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-flat/bubble-tailless.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-flat/bubble-tailless@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-flat/bubble.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/bubble-flat/bubble@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/input-bar-flat/button-photo.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/input-bar-flat/button-photo@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/input-bar-classic/input-bar-background.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/input-bar-classic/input-bar-background@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/input-bar-flat/input-bar-flat.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/input-bar-flat/input-bar-flat@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/input-bar-classic/input-field-cover.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/input-bar-classic/input-field-cover@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/libHelpshift.a" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Sounds/message-received.aiff" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Sounds/message-sent.aiff" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/slices/round_plus_monotone_add.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/Crashlytics.framework/run" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/input-bar-classic/send-button-pressed.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/input-bar-classic/send-button-pressed@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/input-bar-classic/send-button.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Resources/Images/input-bar-classic/send-button@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MTStatusBarOverlay/.gitattributes" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MTStatusBarOverlay/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/4.1.0-release.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AWSRuntime.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/AWSSES.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AWS_SBJson.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AWS_SBJsonParser.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AWS_SBJsonStreamParser.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AWS_SBJsonStreamParserAccumulator.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AWS_SBJsonStreamParserAdapter.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AWS_SBJsonStreamParserState.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AWS_SBJsonStreamWriter.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AWS_SBJsonStreamWriterAccumulator.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AWS_SBJsonStreamWriterState.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AWS_SBJsonTokeniser.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AWS_SBJsonUTF8Stream.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AWS_SBJsonWriter.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AmazonAbstractJsonWebServiceClient.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AmazonAbstractWebServiceClient.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AmazonAuthUtils.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AmazonClientException.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AmazonCredentials.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AmazonCredentialsProvider.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AmazonEndpoints.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AmazonErrorHandler.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AmazonJSON.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AmazonLogger.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AmazonMD5Util.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AmazonRequestDelegate.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AmazonSDKUtil.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/AmazonSESClient.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AmazonServiceException.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AmazonServiceRequest.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AmazonServiceRequestConfig.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AmazonServiceResponse.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AmazonSignatureException.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AmazonStaticCredentialsProvider.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AmazonURLRequest.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/AmazonWebServiceClient.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/Flat/AutolayoutHelpers/AutoLayoutHelpers.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/Flat/AutolayoutHelpers/AutoLayoutHelpers.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/Crashlytics.framework/Versions/A/Headers/Crashlytics.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/CustomIOS7AlertView.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/CustomIOS7AlertView.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/FXPageControl/FXPageControl.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/FXPageControl/FXPageControl.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/Helpshift.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSThemes/HelpshiftConfig.plist" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSThemes/HelpshiftConfigDark.plist" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSLocalization/de.lproj/HelpshiftLocalizable.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSLocalization/en.lproj/HelpshiftLocalizable.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSLocalization/es.lproj/HelpshiftLocalizable.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSLocalization/fr.lproj/HelpshiftLocalizable.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSLocalization/it.lproj/HelpshiftLocalizable.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSLocalization/ja.lproj/HelpshiftLocalizable.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSLocalization/ko.lproj/HelpshiftLocalizable.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSLocalization/pt.lproj/HelpshiftLocalizable.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSLocalization/ru.lproj/HelpshiftLocalizable.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/helpshift-ios-4.1.0/HSLocalization/zh-Hans.lproj/HelpshiftLocalizable.strings" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Resources/Info.plist" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Resources/Info.plist" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/Crashlytics.framework/Versions/A/Resources/Info.plist" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/Factories/JSAvatarImageFactory.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/Factories/JSAvatarImageFactory.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/Factories/JSBubbleImageViewFactory.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/Factories/JSBubbleImageViewFactory.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/JSBubbleMessageCell.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/JSBubbleMessageCell.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/JSBubbleView.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/JSBubbleView.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/JSDismissiveTextView.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/JSDismissiveTextView.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/JSMessageInputView.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/JSMessageInputView.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/JSMessageSoundEffect.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/JSMessageSoundEffect.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/JSMessageTextView.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/JSMessageTextView.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/JSMessagesViewController.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/JSMessagesViewController.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSQSystemSoundPlayer/Classes/JSQSystemSoundPlayer.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSQSystemSoundPlayer/Classes/JSQSystemSoundPlayer.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/MBAlertAbstract.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/MBAlertAbstract.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/Classic/MBAlertView.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/Classic/MBAlertView.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView.podspec" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/Classic/MBAlertViewButton.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/Classic/MBAlertViewButton.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/Classic/MBAlertViewItem.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/Classic/MBAlertViewItem.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/Protected/MBAlertViewSubclass.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/HUD/MBCheckMarkView.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/HUD/MBCheckMarkView.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/Flat/MBFlatAlertAbstract.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/Flat/MBFlatAlertAbstract.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/Flat/MBFlatAlertButton.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/Flat/MBFlatAlertButton.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/Flat/MBFlatAlertView.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/Flat/MBFlatAlertView.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/HUD/MBHUDView.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/HUD/MBHUDView.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/HUD/MBSpinningCircle.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/HUD/MBSpinningCircle.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/Categories/NSString+JSMessagesView.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/Categories/NSString+JSMessagesView.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/Categories/NSString+Trim.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/Categories/NSString+Trim.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSRuntime.framework/Versions/A/Headers/SBJson.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESBody.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESContent.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESDeleteIdentityRequest.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESDeleteIdentityResponse.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESDeleteVerifiedEmailAddressRequest.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESDeleteVerifiedEmailAddressResponse.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESDestination.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESGetIdentityDkimAttributesRequest.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESGetIdentityDkimAttributesResponse.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESGetIdentityNotificationAttributesRequest.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESGetIdentityNotificationAttributesResponse.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESGetIdentityVerificationAttributesRequest.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESGetIdentityVerificationAttributesResponse.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESGetSendQuotaRequest.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESGetSendQuotaResponse.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESGetSendStatisticsRequest.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESGetSendStatisticsResponse.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESIdentityDkimAttributes.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESIdentityNotificationAttributes.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESIdentityVerificationAttributes.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESListIdentitiesRequest.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESListIdentitiesResponse.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESListVerifiedEmailAddressesRequest.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESListVerifiedEmailAddressesResponse.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESMessage.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESMessageRejectedException.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESRawMessage.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESRequest.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESResponse.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESSendDataPoint.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESSendEmailRequest.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESSendEmailResponse.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESSendRawEmailRequest.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESSendRawEmailResponse.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESSetIdentityDkimEnabledRequest.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESSetIdentityDkimEnabledResponse.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESSetIdentityFeedbackForwardingEnabledRequest.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESSetIdentityFeedbackForwardingEnabledResponse.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESSetIdentityNotificationTopicRequest.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESSetIdentityNotificationTopicResponse.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESVerifyDomainDkimRequest.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESVerifyDomainDkimResponse.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESVerifyDomainIdentityRequest.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESVerifyDomainIdentityResponse.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESVerifyEmailAddressRequest.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESVerifyEmailAddressResponse.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESVerifyEmailIdentityRequest.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/AWSSES.framework/Versions/A/Headers/SESVerifyEmailIdentityResponse.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/TPKeyboardAvoiding/TPKeyboardAvoidingCollectionView.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/TPKeyboardAvoiding/TPKeyboardAvoidingCollectionView.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/TPKeyboardAvoiding/TPKeyboardAvoidingScrollView.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/TPKeyboardAvoiding/TPKeyboardAvoidingScrollView.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/TPKeyboardAvoiding/TPKeyboardAvoidingTableView.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/TPKeyboardAvoiding/TPKeyboardAvoidingTableView.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/newPasswordHTMLEmail.rtfd/TXT.rtf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/registeredEmailText.rtfd/TXT.rtf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/Categories/UIColor+JSMessagesView.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/Categories/UIColor+JSMessagesView.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/Categories/UIFont+Alert.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/Categories/UIFont+Alert.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/Categories/UIImage+JSMessagesView.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/JSMessagesViewController/Classes/Categories/UIImage+JSMessagesView.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/TPKeyboardAvoiding/UIScrollView+TPKeyboardAvoidingAdditions.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/TPKeyboardAvoiding/UIScrollView+TPKeyboardAvoidingAdditions.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/Categories/UIView+Alert.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/Categories/UIView+Alert.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/Flat/AutolayoutHelpers/UIView+Autolayout.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView/Flat/AutolayoutHelpers/UIView+Autolayout.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/slices/airplane.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/email.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/slices/messages.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/password.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/slices/people.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/slices/record.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Travelog/slices/settings.svg" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/AMBubbleAccessoryView.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/AMBubbleAccessoryView.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/AMBubbleFlatAccessoryView.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/AMBubbleFlatAccessoryView.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/AMBubbleGlobals.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/AMBubbleGlobals.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/AMBubbleTableCell.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/AMBubbleTableCell.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/AMBubbleTableViewController.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/AMBubbleTableViewController.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/bubbleFlatIncoming.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/bubbleFlatIncoming@2x.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/bubbleFlatOutgoing.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/bubbleFlatOutgoing@2x.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/bubbleSquareIncoming.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/bubbleSquareIncoming@2x.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/bubbleSquareOutgoing.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/bubbleSquareOutgoing@2x.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/buttonSend.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/buttonSend@2x.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/buttonSendFlat.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/buttonSendFlat@2x.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/buttonSendHighlighted.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/buttonSendHighlighted@2x.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/buttonSendHighlightedFlat.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/buttonSendHighlightedFlat@2x.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/imageBar.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/imageBar@2x.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/imageBarFlat.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/imageBarFlat@2x.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/imageInput.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/imageInput@2x.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/imageInputFlat.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/imageInputFlat@2x.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/messageBubbleBlue.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/messageBubbleBlue@2x.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/messageBubbleGray.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/messageBubbleGray@2x.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/messageBubbleGreen.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/messageBubbleGreen@2x.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/messageBubbleHighlighted.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/messageBubbleHighlighted@2x.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/messageBubbleTyping.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/AMBubbleTableViewController/Resources/messageBubbleTyping@2x.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MBAlertView/Categories/NSString+Trim.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MBAlertView/Categories/NSString+Trim.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MBAlertView/Categories/UIFont+Alert.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MBAlertView/Categories/UIFont+Alert.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MBAlertView/Categories/UIView+Animations.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MBAlertView/Categories/UIView+Animations.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MBAlertView/MBAlertView.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MBAlertView/MBHUDView.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MBAlertView/MBHUDView.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MBAlertView/Protected/MBAlertViewItem.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MBAlertView/Protected/MBAlertViewItem.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MBAlertView/Protected/MBAlertViewSubclass.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MBAlertView/Views/AlertViewUI.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MBAlertView/Views/MBAlertViewButton.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MBAlertView/Views/MBAlertViewButton.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MBAlertView/Views/MBCheckMarkView.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MBAlertView/Views/MBCheckMarkView.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MBAlertView/Views/MBSpinningCircle.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MBAlertView/Views/MBSpinningCircle.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MTStatusBarOverlay/LICENSE" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MTStatusBarOverlay/MTStatusBarOverlay.podspec" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MTStatusBarOverlay/MTStatusBarOverlay.xcodeproj/project.pbxproj" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MTStatusBarOverlay/MTStatusBarOverlay.xcodeproj/project.xcworkspace/xcuserdata/rohankapur.xcuserdatad/UserInterfaceState.xcuserstate" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MTStatusBarOverlay/MTStatusBarOverlay.xcodeproj/xcuserdata/rohankapur.xcuserdatad/xcschemes/xcschememanagement.plist" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MTStatusBarOverlay/MTStatusBarOverlay.xcodeproj/xcuserdata/upikapur.xcuserdatad/xcschemes/MTStatusBarOverlay.xcscheme" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MTStatusBarOverlay/MTStatusBarOverlay.xcodeproj/xcuserdata/upikapur.xcuserdatad/xcschemes/xcschememanagement.plist" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MTStatusBarOverlay/MTStatusBarOverlay.xcodeproj/xcuserdata/user.xcuserdatad/xcschemes/MTStatusBarOverlay.xcscheme" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MTStatusBarOverlay/MTStatusBarOverlay.xcodeproj/xcuserdata/user.xcuserdatad/xcschemes/xcschememanagement.plist" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MTStatusBarOverlay/MTStatusBarOverlay_Prefix.pch" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MTStatusBarOverlay/Readme.mdown" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MTStatusBarOverlay/TODO.mdown" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Classes/MWCaptionView.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Classes/MWCaptionView.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Classes/MWPhoto.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Classes/MWPhoto.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Classes/MWPhotoBrowser.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Classes/MWPhotoBrowser.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Classes/MWPhotoProtocol.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Classes/MWTapDetectingImageView.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Classes/MWTapDetectingImageView.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Classes/MWTapDetectingView.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Classes/MWTapDetectingView.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Classes/MWZoomingScrollView.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Classes/MWZoomingScrollView.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Libraries/MBProgressHUD/MBProgressHUD.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Libraries/MBProgressHUD/MBProgressHUD.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Libraries/MBProgressHUD/README.mdown" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Libraries/SDWebImage/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Libraries/SDWebImage/SDImageCache.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Libraries/SDWebImage/SDImageCache.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Libraries/SDWebImage/SDImageCacheDelegate.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Libraries/SDWebImage/SDWebImageCompat.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Libraries/SDWebImage/SDWebImageDecoder.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Libraries/SDWebImage/SDWebImageDecoder.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Libraries/SDWebImage/SDWebImageDownloader.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Libraries/SDWebImage/SDWebImageDownloader.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Libraries/SDWebImage/SDWebImageDownloaderDelegate.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Libraries/SDWebImage/SDWebImageManager.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Libraries/SDWebImage/SDWebImageManager.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Libraries/SDWebImage/SDWebImageManagerDelegate.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Libraries/SDWebImage/SDWebImagePrefetcher.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Libraries/SDWebImage/SDWebImagePrefetcher.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Libraries/SDWebImage/UIButton+WebCache.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Libraries/SDWebImage/UIButton+WebCache.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Libraries/SDWebImage/UIImageView+WebCache.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Libraries/SDWebImage/UIImageView+WebCache.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/MWPhotoBrowser-Prefix.pch" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/MWPhotoBrowser.bundle/images/Checkmark.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/MWPhotoBrowser.bundle/images/Checkmark@2x.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/MWPhotoBrowser.bundle/images/UIBarButtonItemArrowLeft.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/MWPhotoBrowser.bundle/images/UIBarButtonItemArrowLeft@2x.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/MWPhotoBrowser.bundle/images/UIBarButtonItemArrowRight.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/MWPhotoBrowser.bundle/images/UIBarButtonItemArrowRight@2x.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/MWPhotoBrowser.xcodeproj/project.pbxproj" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/MWPhotoBrowser.xcodeproj/xcuserdata/rohankapur.xcuserdatad/xcschemes/MWPhotoBrowser.xcscheme" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/MessagesTableViewController-master 2/JSMessagesDemo.xcodeproj/project.xcworkspace/contents.xcworkspacedata" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/TVNewsCell.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/TVNewsCell.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Travelog/TVNewsCell.xib" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/Travelog/MTStatusBarOverlay/MTStatusBarOverlay.xcodeproj/xcuserdata/rohankapur.xcuserdatad/xcschemes/MTStatusBarOverlay.xcscheme" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/AlertsDemo/AlertsDemo.xcodeproj/xcuserdata/rohankapur.xcuserdatad/xcschemes/AlertsDemo.xcscheme" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/Libraries/SDWebImage/LICENSE" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/LICENSE" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/Travelog/MWPhotoBrowser/MWPhotoBrowser.xcodeproj/xcuserdata/rohankapur.xcuserdatad/xcschemes/xcschememanagement.plist" afterPath="$PROJECT_DIR$/Travelog/MBAlertView/AlertsDemo/AlertsDemo.xcodeproj/xcuserdata/rohankapur.xcuserdatad/xcschemes/xcschememanagement.plist" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog.xcodeproj/project.xcworkspace/xcuserdata/rohankapur.xcuserdatad/UserInterfaceState.xcuserstate" afterPath="$PROJECT_DIR$/Travelog.xcodeproj/project.xcworkspace/xcuserdata/rohankapur.xcuserdatad/UserInterfaceState.xcuserstate" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/emptyStar.png" afterPath="$PROJECT_DIR$/Travelog/emptyStar.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/fullStar.png" afterPath="$PROJECT_DIR$/Travelog/fullStar.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/halfStar.png" afterPath="$PROJECT_DIR$/Travelog/halfStar.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog.xcodeproj/xcuserdata/rohankapur.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" afterPath="$PROJECT_DIR$/Travelog.xcodeproj/xcuserdata/rohankapur.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/IOSLinkedInAPI/LinkedInAuthorizer.h" afterPath="$PROJECT_DIR$/Travelog/IOSLinkedInAPI/LinkedInAuthorizer.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/IOSLinkedInAPI/LinkedInAuthorizer.m" afterPath="$PROJECT_DIR$/Travelog/IOSLinkedInAPI/LinkedInAuthorizer.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/MTStatusBarOverlay/MTStatusBarOverlay.h" afterPath="$PROJECT_DIR$/Travelog/MTStatusBarOverlay/MTStatusBarOverlay.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/MTStatusBarOverlay/MTStatusBarOverlay.m" afterPath="$PROJECT_DIR$/Travelog/MTStatusBarOverlay/MTStatusBarOverlay.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/News.xib" afterPath="$PROJECT_DIR$/Travelog/News.xib" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVAppDelegate.h" afterPath="$PROJECT_DIR$/Travelog/TVAppDelegate.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVAppDelegate.m" afterPath="$PROJECT_DIR$/Travelog/TVAppDelegate.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVConnection.m" afterPath="$PROJECT_DIR$/Travelog/TVConnection.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVConversions.h" afterPath="$PROJECT_DIR$/Travelog/TVConversions.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVCreateAccountViewController.h" afterPath="$PROJECT_DIR$/Travelog/TVCreateAccountViewController.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVCreateAccountViewController.m" afterPath="$PROJECT_DIR$/Travelog/TVCreateAccountViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVCreateAccountViewController.xib" afterPath="$PROJECT_DIR$/Travelog/TVCreateAccountViewController.xib" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVDatabase.h" afterPath="$PROJECT_DIR$/Travelog/TVDatabase.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVDatabase.m" afterPath="$PROJECT_DIR$/Travelog/TVDatabase.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVFindPeopleCell.m" afterPath="$PROJECT_DIR$/Travelog/TVFindPeopleCell.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVFindPeopleViewController.h" afterPath="$PROJECT_DIR$/Travelog/TVFindPeopleViewController.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVFindPeopleViewController.m" afterPath="$PROJECT_DIR$/Travelog/TVFindPeopleViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVFlight.h" afterPath="$PROJECT_DIR$/Travelog/TVFlight.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVFlight.m" afterPath="$PROJECT_DIR$/Travelog/TVFlight.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVFlightCell.m" afterPath="$PROJECT_DIR$/Travelog/TVFlightCell.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVFlightCell.xib" afterPath="$PROJECT_DIR$/Travelog/TVFlightCell.xib" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVFlightDetailViewController.h" afterPath="$PROJECT_DIR$/Travelog/TVFlightDetailViewController.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVFlightDetailViewController.m" afterPath="$PROJECT_DIR$/Travelog/TVFlightDetailViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVFlightRecorderViewController.m" afterPath="$PROJECT_DIR$/Travelog/TVFlightRecorderViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVFlightsViewController.h" afterPath="$PROJECT_DIR$/Travelog/TVFlightsViewController.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVFlightsViewController.m" afterPath="$PROJECT_DIR$/Travelog/TVFlightsViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVGooglePlace.h" afterPath="$PROJECT_DIR$/Travelog/TVGooglePlace.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVGooglePlace.m" afterPath="$PROJECT_DIR$/Travelog/TVGooglePlace.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVGooglePlacePhoto.m" afterPath="$PROJECT_DIR$/Travelog/TVGooglePlacePhoto.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVGooglePlaceReview.h" afterPath="$PROJECT_DIR$/Travelog/TVGooglePlaceReview.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVGooglePlaceReview.m" afterPath="$PROJECT_DIR$/Travelog/TVGooglePlaceReview.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVLoginViewController.h" afterPath="$PROJECT_DIR$/Travelog/TVLoginViewController.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVLoginViewController.m" afterPath="$PROJECT_DIR$/Travelog/TVLoginViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVLoginViewController.xib" afterPath="$PROJECT_DIR$/Travelog/TVLoginViewController.xib" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVMessageDetailViewController.h" afterPath="$PROJECT_DIR$/Travelog/TVMessageDetailViewController.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVMessageDetailViewController.m" afterPath="$PROJECT_DIR$/Travelog/TVMessageDetailViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVMessageDetailViewController.xib" afterPath="$PROJECT_DIR$/Travelog/TVMessageDetailViewController.xib" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVMessageListViewController.h" afterPath="$PROJECT_DIR$/Travelog/TVMessageListViewController.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVMessageListViewController.m" afterPath="$PROJECT_DIR$/Travelog/TVMessageListViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVMileTidbits.m" afterPath="$PROJECT_DIR$/Travelog/TVMileTidbits.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVNotification.m" afterPath="$PROJECT_DIR$/Travelog/TVNotification.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVPerson.h" afterPath="$PROJECT_DIR$/Travelog/TVPerson.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVPerson.m" afterPath="$PROJECT_DIR$/Travelog/TVPerson.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVPersonCell.xib" afterPath="$PROJECT_DIR$/Travelog/TVPersonCell.xib" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVPlaceDetailViewController.h" afterPath="$PROJECT_DIR$/Travelog/TVPlaceDetailViewController.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVPlaceDetailViewController.m" afterPath="$PROJECT_DIR$/Travelog/TVPlaceDetailViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVPlaceDetailViewController.xib" afterPath="$PROJECT_DIR$/Travelog/TVPlaceDetailViewController.xib" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVReviewCell.h" afterPath="$PROJECT_DIR$/Travelog/TVReviewCell.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVReviewCell.m" afterPath="$PROJECT_DIR$/Travelog/TVReviewCell.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVReviewCell.xib" afterPath="$PROJECT_DIR$/Travelog/TVReviewCell.xib" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVSettingsViewController.h" afterPath="$PROJECT_DIR$/Travelog/TVSettingsViewController.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVSettingsViewController.m" afterPath="$PROJECT_DIR$/Travelog/TVSettingsViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVSettingsViewController.xib" afterPath="$PROJECT_DIR$/Travelog/TVSettingsViewController.xib" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVSwipeBanner.m" afterPath="$PROJECT_DIR$/Travelog/TVSwipeBanner.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVTranslationsViewController.m" afterPath="$PROJECT_DIR$/Travelog/TVTranslationsViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVTravelDataDownloader.h" afterPath="$PROJECT_DIR$/Travelog/TVTravelDataDownloader.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVTravelDataDownloader.m" afterPath="$PROJECT_DIR$/Travelog/TVTravelDataDownloader.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/TVWebViewController.h" afterPath="$PROJECT_DIR$/Travelog/TVWebViewController.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/Travelog-Info.plist" afterPath="$PROJECT_DIR$/Travelog/Travelog-Info.plist" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog/Travelog-Prefix.pch" afterPath="$PROJECT_DIR$/Travelog/Travelog-Prefix.pch" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog.xcodeproj/project.pbxproj" afterPath="$PROJECT_DIR$/Travelog.xcodeproj/project.pbxproj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Travelog.xcodeproj/xcuserdata/rohankapur.xcuserdatad/xcschemes/xcschememanagement.plist" afterPath="$PROJECT_DIR$/Travelog.xcodeproj/xcuserdata/rohankapur.xcuserdatad/xcschemes/xcschememanagement.plist" />
+    </list>
+    <ignored path="travelog.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="iphoneos" />
+  <component name="FavoritesManager">
+    <favorites_list name="Travelog" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="TVFlightRecorderViewController.m" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Travelog/TVFlightRecorderViewController.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="15" column="0" selection-start="305" selection-end="305" vertical-scroll-proportion="0.2077052" vertical-offset="101" max-vertical-offset="8625">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="false" />
+    </FindUsagesManager>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitLogSettings">
+    <option name="myDateState">
+      <MyDateState />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="changedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/Travelog/TVFlightRecorderViewController.m" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="35" />
+    <option name="y" value="22" />
+    <option name="width" value="1260" />
+    <option name="height" value="760" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="Cidr.FilesView" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Travelog" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Travelog" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Travelog" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Travelog" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="View Controllers" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Travelog" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Travelog" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="View Controllers" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Flights" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Travelog" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="options.lastSelected" value="appearance" />
+    <property name="recentsLimit" value="5" />
+    <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+  </component>
+  <component name="RunManager" selected="Application.Travelog">
+    <configuration default="true" type="AppleRunConfiguration" factoryName="Application" PROJECT_NAME="Travelog" TARGET_NAME="Travelog" CONFIG_NAME="Debug" PASS_PARENT_ENVS="FALSE" RUN_TARGET_PROJECT_NAME="Travelog" RUN_TARGET_NAME="Travelog" MAKE_ACTIVE="TRUE" WAIT_FOR="FALSE">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="OCUnitRunConfiguration" factoryName="XCTest/Kiwi" PASS_PARENT_ENVS="FALSE" TEST_MODE="SUITE_TEST">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="OCGoogleTestRunConfigurationType" factoryName="Google Test" PROJECT_NAME="Travelog" TARGET_NAME="Travelog" CONFIG_NAME="Debug" PASS_PARENT_ENVS="FALSE" TEST_MODE="SUITE_TEST">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="Travelog" type="AppleRunConfiguration" factoryName="Application" SCHEME_NAME="Travelog" PROJECT_NAME="Travelog" TARGET_NAME="Travelog" CONFIG_NAME="Debug" WORKING_DIR="" PASS_PARENT_ENVS="FALSE" RUN_TARGET_PROJECT_NAME="Travelog" RUN_TARGET_NAME="Travelog" MAKE_ACTIVE="TRUE" WAIT_FOR="FALSE">
+      <envs />
+      <RunnerSettings RunnerId="AppRunner" />
+      <ConfigurationWrapper RunnerId="AppRunner" />
+      <method />
+    </configuration>
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="Application.Travelog" />
+    </list>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="sslv3">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <option name="IGNORE_EXTERNALS" value="false" />
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4bfdaf84-9134-40dc-86ae-d3801c8224f1" name="Default" comment="" />
+      <created>1393939154329</created>
+      <updated>1393939154329</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="35" y="22" width="1260" height="760" extended-state="1" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="myTodoPanelSettings">
+      <TodoPanelSettings />
+    </option>
+    <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="false" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Travelog/TVFlightRecorderViewController.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="0" selection-start="305" selection-end="305" vertical-scroll-proportion="0.2077052" vertical-offset="101" max-vertical-offset="8625">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
+

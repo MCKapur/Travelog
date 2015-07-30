@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Rohan Kapur. All rights reserved.
 //
 
-#define GOOGLE_API_KEY @"AIzaSyCMCS9TGb5Xr06cW611vnaZea_Rzcxxnqc"
+#define GOOGLE_API_KEY @""
 
 #import <Foundation/Foundation.h>
 
@@ -36,7 +36,7 @@ typedef enum {
 
 @protocol TravelDataDelegate <NSObject>
 
-- (void)travelDataUpdated: (TravelDataTypes *)dataType;
+- (void)travelDataUpdated:(TravelDataTypes *)dataType;
 
 @end
 
@@ -50,8 +50,6 @@ typedef enum {
     NSURLConnection *connection;
     NSMutableData *xmlData;
     TVRSSChannel *channel;
-    
-    /**     **/
     
     NSDictionary *newImageLocated;
 }

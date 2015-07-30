@@ -19,11 +19,12 @@
 #import "TVNotificationSignifier.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <SystemConfiguration/SystemConfiguration.h>
+#import "EGOCache.h"
 #endif
 
-#define LINKEDIN_API_KEY @"6zuvtkqp11r4"
-#define LINKEDIN_SECRET_KEY @"z7ZX0QF67mzF2x1j"
-#define LINKEDIN_UNIQUE_STATE @"smkfSDIOeoOOkoi43u4iusnjNSJNS"
+#define LINKEDIN_API_KEY @""
+#define LINKEDIN_SECRET_KEY @""
+#define LINKEDIN_UNIQUE_STATE @""
 
 #define _AFNETWORKING_PIN_SSL_CERTIFICATES_
 

@@ -10,11 +10,13 @@ extern NSString *const WRONG_LOGIN;
 extern NSString *const EMAIL_TAKEN;
 
 #define DAY_MONTH_YEAR @"dd - MM - yyyy"
+#define MONTH_DAY_YEAR @"MM - dd - yyyy"
 #define DAY_MONTH @"dd/MM"
-#define YEAR_MONTH_DAY @"yyyy-MM-dd"
+#define MONTH_DAY @"dd/MM"
 
 #define TRVLOGUE_NAVIGATION_BAR @"TrvlogueNavigationBar.png"
 
+#define APPLE_DEV @"noreplyappledev14@gmail.com"
 #define VERIFIED_EMAIL_TEST @"me@rohankapur.com"
 #define VERIFIED_EMAIL @"support@travelogapp.com"
 
@@ -49,6 +51,7 @@ extern NSString *const EMAIL_TAKEN;
 #define NSNotificationReceivedConnectionRequest @"ReceivedConnectionRequest"
 #define NSNotificationReloadPeople @"ReloadPeople"
 #define NSNotificationUpdateNotifications @"UpdateNotifications"
+#define NSNotificationAutomateConnectWithLinkedIn @"ConnectWithLinkedInAutomated"
 
 typedef enum {
     
@@ -109,10 +112,10 @@ typedef enum {
 @interface NSMutableArray (ContainsPerson)
 
 - (BOOL)containsUser:(PFUser *)user;
-- (int)indexOfUser:(PFUser *)user;
+- (NSInteger)indexOfUser:(PFUser *)user;
 
 - (BOOL)containsAccount:(TVAccount *)account;
-- (int)indexOfAccount:(TVAccount *)account;
+- (NSInteger)indexOfAccount:(TVAccount *)account;
 
 - (BOOL)containsPerson:(TVPerson *)_person;
 
@@ -147,13 +150,13 @@ typedef enum {
     return retVal;
 }
 
-- (int)indexOfAccount:(TVAccount *)account {
+- (NSInteger)indexOfAccount:(TVAccount *)account {
 
-    int retVal = NSNotFound;
+    NSInteger retVal = NSNotFound;
     
     if (self.count) {
         
-        for (int i = 0; i <= self.count - 1; i++) {
+        for (NSInteger i = 0; i <= self.count - 1; i++) {
 
             if ([((TVAccount *)self[i]).userId isEqualToString:account.userId]) {
                 
@@ -177,13 +180,13 @@ typedef enum {
     return retVal;
 }
 
-- (int)indexOfUser:(PFUser *)user {
+- (NSInteger)indexOfUser:(PFUser *)user {
     
-    int retVal = NSNotFound;
+    NSInteger retVal = NSNotFound;
     
     if (self.count) {
         
-        for (int i = 0; i <= self.count - 1; i++) {
+        for (NSInteger i = 0; i <= self.count - 1; i++) {
             
             if ([((PFUser *)self[i]).objectId isEqualToString:user.objectId]) {
                 
@@ -243,7 +246,6 @@ typedef enum {
 + (void)cacheAccount:(TVAccount *)account;
 + (TVAccount *)cachedAccountWithId:(NSString *)userId;
 + (void)refreshCachedAccounts;
-+ (NSMutableArray *)nativeCachedAccounts;
 
 + (void)savePlace:(TVGooglePlace *)place withCity:(NSString *)city;
 + (NSMutableArray *)getSavedPlacesWithCity:(NSString *)city;
@@ -255,17 +257,17 @@ typedef enum {
 
 + (TVFlight *)flightFromID:(NSString *)_FlightID;
 
-+ (NSString *)generateRandomKeyWithLength:(int)len;
++ (NSString *)generateRandomKeyWithLength:(NSInteger)len;
 
 + (void)logout;
 
-+ (void)sendEmail:(NSMutableDictionary *)dictionary withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;
++ (void)sendEmail:(NSMutableDictionary *)dictionary withAttachementData:(NSDictionary *)data withCompletionHandler:(void (^)(BOOL success, NSError *error, NSString *callCode))callback;
 
 + (void)trackAnalytics:(NSDictionary *)launchOptions;
 
 + (void)receivedLocalNotification:(NSDictionary *)userInfo;
 + (void)updatePushNotificationsSetup;
-+ (void)pushNotificationToObjectId:(NSString *)objectId withData:(NSDictionary *)data;
++ (void)pushNotificationToObjectId:(NSString *)objectId withData:(NSMutableDictionary *)data;
 + (void)removePushNotificationsSetup;
 
 + (TVAccount *)nativeAccount;
@@ -283,6 +285,9 @@ typedef enum {
 
 + (void)loginToAccountWithEmail:(NSString *)email andPassword:(NSString *)password withCompletionHandler:(void (^)(BOOL success, BOOL correctCredentials, NSError *error, NSString *callCode))callback;
 + (void)requestForNewPassword:(NSString *)email withCompletionHandler:(void (^)(BOOL succeeded, NSError *error, NSString *callCode))callback;
+
++ (void)setLocalLinkedInRequestToken:(NSString *)linkedInRequestToken;
++ (NSString *)localLinkedInRequestToken;
 
 + (NSData *)archiveAccount:(TVAccount *)accountObj;
 + (TVAccount *)unarchiveAccount:(NSData *)data;

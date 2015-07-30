@@ -10,7 +10,6 @@
 
 @interface TVMessageListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
-    
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *messageListTableView;

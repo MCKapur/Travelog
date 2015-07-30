@@ -17,7 +17,7 @@
     [aCoder encodeObject:self.authorName forKey:@"authorName"];
     [aCoder encodeObject:self.authorURL forKey:@"authorURL"];
     [aCoder encodeObject:self.body forKey:@"body"];
-    [aCoder encodeInt:self.time forKey:@"time"];
+    [aCoder encodeInteger:self.time forKey:@"time"];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -28,7 +28,7 @@
         self.authorName = [aDecoder decodeObjectForKey:@"authorName"];
         self.authorURL = [aDecoder decodeObjectForKey:@"authorURL"];
         self.body = [aDecoder decodeObjectForKey:@"body"];
-        self.time = [aDecoder decodeIntForKey:@"time"];
+        self.time = [aDecoder decodeIntegerForKey:@"time"];
     }
     
     return self;

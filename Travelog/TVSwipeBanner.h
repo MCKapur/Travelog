@@ -28,7 +28,7 @@ typedef enum {
 
 - (void)setTidbits:(NSMutableArray *)_tidbits andMode:(TVSwipeBannerMode *)mode;
 - (void)addTravelInfoTidbit:(NSDictionary *)tidbit;
-- (void)removeTravelInfoTidbits;
+- (void)removeTravelInfoTidbit:(NSString *)ID;
 
 - (void)scroll;
 

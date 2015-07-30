@@ -29,4 +29,6 @@
 
 - (void)setStars:(float)rating;
 
+- (void)setReviewBodyText:(NSString *)body;
+
 @end

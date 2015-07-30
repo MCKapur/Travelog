@@ -24,8 +24,8 @@
 
 typedef enum {
     
-    kFindPeopleFilterSuggestions = 0,
-    kFindPeopleFilterConnections,
+    kFindPeopleFilterConnections = 0,
+    kFindPeopleFilterSuggestions,
     kFindPeopleFilterPending
     
 } FindPeopleFilter;

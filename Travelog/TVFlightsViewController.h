@@ -24,6 +24,8 @@
 
 #import "TVMessageListViewController.h"
 
+#import "MBFlatAlertView.h"
+
 #import <MessageUI/MFMailComposeViewController.h>
 
 @class TVFindPeopleViewController;

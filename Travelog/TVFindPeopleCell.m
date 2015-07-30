@@ -28,6 +28,8 @@
         [self setSelectionStyle:UITableViewCellSelectionStyleNone];
 
         self.hasConnection = NO;
+        
+        [self.followButton setTitle:@"" forState:UIControlStateNormal];
     }
     
     return self;
@@ -37,6 +39,8 @@
 
 - (void)setAccount:(TVAccount *)_account {
     
+    [self.followButton setTitle:@"" forState:UIControlStateNormal];
+   
     [self.followButton addTarget:self action:@selector(didTapFollowButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 
     account = _account;
@@ -50,13 +54,18 @@
     self.avatarImageView.layer.masksToBounds = YES;
     
     // Set name
-    [nameLabel setText:person.name];
+    [self.nameLabel setText:person.name];
     
     // Set miles number label
     [self.jobLabel setText:person.position];
     
     // Set follow button
-    [followButton setFrame:CGRectMake(208.0f, 20.0f, 103.0f, 32.0f)];
+    [self.followButton setFrame:CGRectMake(208.0f, 20.0f, 103.0f, 32.0f)];
+
+    UIColor *textColor = self.followButton.titleLabel.textColor;
+    NSString *text = self.followButton.titleLabel.text;
+    NSString *accessibilityIdentifier = self.followButton.accessibilityIdentifier;
+    BOOL selected = self.followButton.selected;
 
     for (TVConnection *connection in [TVDatabase currentAccount].person.connections) {
         
@@ -65,44 +74,55 @@
             self.hasConnection = YES;
             
             if (connection.status == kConnectRequestPending) {
+
+                textColor = [UIColor brownColor];
+                text = @"Respond";
                 
-                self.followButton.titleLabel.textColor = [UIColor brownColor];
-                [self.followButton setTitle:@"Respond" forState:UIControlStateNormal]; // space added for centering
-                
-                [self.followButton setAccessibilityIdentifier:@"Respond"];
+                accessibilityIdentifier = @"Respond";
             }
             else if (connection.status == (ConnectRequestStatus *)kConnectRequestAccepted) {
 
-                self.followButton.titleLabel.textColor = [UIColor colorWithRed:58.0f/255.0f green:191.0f/255.0f blue:79.0f/255.0f alpha:1.0f];
-                [self.followButton setTitle:@"Connected" forState:UIControlStateNormal];
+                textColor = [UIColor colorWithRed:58.0f/255.0f green:191.0f/255.0f blue:79.0f/255.0f alpha:1.0f];
+                text = @"Connected";
                 
-                [self.followButton setAccessibilityIdentifier:@"Connect"];
+                accessibilityIdentifier = @"Connect";
             }
         }
         else if ([connection.receiverId isEqualToString:self.account.userId]) {
 
             if (connection.status == (ConnectRequestStatus *)kConnectRequestPending) {
-
+                
                 self.hasConnection = NO;
 
-                [self.followButton setSelected:YES];
+                selected = YES;
             }
             else if (connection.status == (ConnectRequestStatus *)kConnectRequestAccepted) {
                 
                 self.hasConnection = YES;
 
-                self.followButton.titleLabel.textColor = [UIColor colorWithRed:58.0f/255.0f green:191.0f/255.0f blue:79.0f/255.0f alpha:1.0f];
-                [self.followButton setTitle:@"Connected" forState:UIControlStateNormal];
+                textColor = [UIColor colorWithRed:58.0f/255.0f green:191.0f/255.0f blue:79.0f/255.0f alpha:1.0f];
+                text = @"Connected";
 
-                [self.followButton setAccessibilityIdentifier:@"Connect"];
+                accessibilityIdentifier = @"Connect";
             }
         }
     }
     
     if (!self.hasConnection) {
 
-        [self.followButton setTitle:@"Connect" forState:UIControlStateNormal]; // space added for centering
+        [self.followButton setSelected:selected];
+        text = @"Connect";
+        [self.followButton setTitle:text forState:UIControlStateNormal];
         [self.followButton setTitle:@"Sent" forState:UIControlStateSelected];
+        [self.followButton.titleLabel setTextColor:textColor];
+        [self.followButton setAccessibilityIdentifier:accessibilityIdentifier];
+    }
+    else {
+
+        [self.followButton setSelected:selected];
+        [self.followButton setTitle:text forState:UIControlStateNormal];
+        [self.followButton.titleLabel setTextColor:textColor];
+        [self.followButton setAccessibilityIdentifier:accessibilityIdentifier];
     }
 }
 

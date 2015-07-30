@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5023" systemVersion="13A598" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13A598" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -40,6 +40,11 @@
                             </state>
                             <connections>
                                 <action selector="logout" destination="-1" eventType="touchUpInside" id="9Yf-Zi-2Qk"/>
+                                <action selector="released:" destination="-1" eventType="touchDragExit" id="PLV-eg-Ayb"/>
+                                <action selector="released:" destination="-1" eventType="touchCancel" id="vhp-x8-t83"/>
+                                <action selector="released:" destination="-1" eventType="touchUpInside" id="zWj-PW-Q5z"/>
+                                <action selector="touchedDown:" destination="-1" eventType="touchDown" id="CJ6-Vm-DZA"/>
+                                <action selector="touchedDown:" destination="-1" eventType="touchDragEnter" id="hhE-ME-hfb"/>
                             </connections>
                         </button>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" tag="201" contentMode="scaleToFill" editable="NO" id="HTu-DT-6t5">
@@ -84,7 +89,7 @@
                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences" secureTextEntry="YES"/>
                         </textView>
-                        <textField opaque="NO" clipsSubviews="YES" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Job" minimumFontSize="17" id="xE0-nQ-7yR">
+                        <textField opaque="NO" clipsSubviews="YES" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Occupation" minimumFontSize="17" id="xE0-nQ-7yR">
                             <rect key="frame" x="23" y="169" width="274" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -142,14 +147,19 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
+                                <action selector="released:" destination="-1" eventType="touchCancel" id="W6a-BS-nhW"/>
+                                <action selector="released:" destination="-1" eventType="touchDragExit" id="Zkm-9k-Z0h"/>
+                                <action selector="released:" destination="-1" eventType="touchUpInside" id="uhf-z2-EOW"/>
                                 <action selector="support" destination="-1" eventType="touchUpInside" id="jR9-Ps-9i0"/>
+                                <action selector="touchedDown:" destination="-1" eventType="touchDown" id="WAl-07-krp"/>
+                                <action selector="touchedDown:" destination="-1" eventType="touchDragEnter" id="gcc-3L-33a"/>
                             </connections>
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Support" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nTn-8l-kJX">
                             <rect key="frame" x="116" y="331" width="90" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="19"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="889-gk-AhD">
@@ -166,13 +176,18 @@
                             </state>
                             <connections>
                                 <action selector="exportFlights" destination="-1" eventType="touchUpInside" id="vss-Od-Y87"/>
+                                <action selector="released:" destination="-1" eventType="touchCancel" id="E2M-Xx-WIn"/>
+                                <action selector="released:" destination="-1" eventType="touchDragExit" id="qbV-ON-lBh"/>
+                                <action selector="released:" destination="-1" eventType="touchUpInside" id="yhP-PR-D6w"/>
+                                <action selector="touchedDown:" destination="-1" eventType="touchDown" id="O6g-4R-8YP"/>
+                                <action selector="touchedDown:" destination="-1" eventType="touchDragEnter" id="PK1-xC-NRF"/>
                             </connections>
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Export Flights" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cNj-Sb-wjG">
                             <rect key="frame" x="98" y="279" width="126" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="19"/>
-                            <color key="textColor" red="0.22816721270000001" green="0.75007971939999996" blue="0.30987081090000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Lsf-Wc-AZ4">
@@ -188,14 +203,19 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="connectWithLinkedIn:" destination="-1" eventType="touchUpInside" id="wRR-Cy-1Xz"/>
+                                <action selector="connectWithLinkedIn" destination="-1" eventType="touchUpInside" id="fzs-fK-pbs"/>
+                                <action selector="released:" destination="-1" eventType="touchDragExit" id="Hc1-tL-yc3"/>
+                                <action selector="released:" destination="-1" eventType="touchCancel" id="Jhl-vP-UKJ"/>
+                                <action selector="released:" destination="-1" eventType="touchUpInside" id="ht5-r6-Afw"/>
+                                <action selector="touchedDown:" destination="-1" eventType="touchDragEnter" id="mZ8-SX-nuo"/>
+                                <action selector="touchedDown:" destination="-1" eventType="touchDown" id="un3-hw-C1k"/>
                             </connections>
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Connect LinkedIn" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="QJf-Yc-EuX">
                             <rect key="frame" x="56" y="227" width="207" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="19"/>
-                            <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Logout" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pke-c3-Bqu">

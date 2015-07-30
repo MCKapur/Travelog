@@ -20,7 +20,7 @@
 
 @property (nonatomic) CLLocationCoordinate2D originCoordinate;
 @property (nonatomic) CLLocationCoordinate2D destinationCoordinate;
-@property (nonatomic) double miles;
+@property (nonatomic) CGFloat miles;
 
 @property (nonatomic, strong) NSString *originCity;
 @property (nonatomic, strong) NSString *destinationCity;

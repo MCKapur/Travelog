@@ -14,6 +14,6 @@
 @property (nonatomic, strong) NSString *authorName;
 @property (nonatomic, strong) NSString *authorURL;
 @property (nonatomic, strong) NSString *body;
-@property (nonatomic) int time;
+@property (nonatomic) NSInteger time;
 
 @end

@@ -66,7 +66,7 @@
 
 - (NSString *)description {
     
-    return self.body;
+    return [NSString stringWithFormat:@"%@ sent %@", self.body, self.publishDate];
 }
 
 @end

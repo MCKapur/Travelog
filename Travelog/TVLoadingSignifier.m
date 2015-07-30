@@ -34,17 +34,10 @@
 
 + (void)hideLoadingSignifier {
     
-    if ([NSThread isMainThread]) {
-
-        [[MTStatusBarOverlay sharedInstance] hide];
-    }
-    else {
+    dispatch_async(dispatch_get_main_queue(), ^{
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-
-            [TVLoadingSignifier hideLoadingSignifier];
-        });
-    }
+        [[MTStatusBarOverlay sharedInstance] hide];
+    });
 }
 
 @end

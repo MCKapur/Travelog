@@ -63,6 +63,18 @@
     }
 }
 
+#pragma mark UIGestureRecognizerDelegate methods
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if ([touch.view.class isEqual:[UITableView class]]) {
+        
+        return NO;
+    }
+    
+    return YES;
+}
+
 #pragma mark Handling Events
 
 - (void)handleError:(NSError *)error andType:(NSString *)type {
@@ -97,7 +109,7 @@
             }];
         }
         else {
-            
+
             [TVDatabase findUsersWithName:searchBar.text withCompletionHandler:^(NSMutableArray *objects, NSError *error, NSString *callCode) {
 
                 [self downloadedUsers:objects];
@@ -111,8 +123,7 @@
         [searchBar resignFirstResponder];
     }
     
-    [self.table reloadData];
-    [self.table setNeedsDisplay];
+    [self reloadTableViews];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
@@ -125,11 +136,19 @@
     
     [searchBar resignFirstResponder];
     
-    [self.table reloadData];
-    [self.table setNeedsDisplay];
+    [self reloadTableViews];
 }
 
 #pragma mark Table View
+
+- (void)reloadTableViews {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self.table reloadData];
+        [self.table setNeedsDisplay];
+    });
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
@@ -153,7 +172,10 @@
     TVFindPeopleCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (!cell) {
-                
+        
+        cell.delegate = nil;
+        cell.account = nil;
+        
         NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"TVFindPeopleCell" owner:self options:nil];
         
         for (UIView *view in views) {
@@ -181,69 +203,82 @@
     if (![[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Cancel"]) {
         
         if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Accept"]) {
-                        
+            
+            TVConnection *connectionToAccept = nil;
+            
             for (TVConnection *connection in [[[TVDatabase currentAccount] person] connections]) {
 
                 if ([connection.senderId isEqualToString:[self.accounts[actionSheet.tag] userId]]) {
-
-                    ((TVFindPeopleCell *)[table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:actionSheet.tag inSection:0]]).followButton.userInteractionEnabled = NO;
                     
-                    [TVLoadingSignifier signifyLoading:@"Accepting connection" duration:-1];
-                    
-                    [TVDatabase acceptConnection:connection withCompletionHandler:^(NSError *error, NSString *callCode, BOOL success) {
-                        
-                        [TVLoadingSignifier hideLoadingSignifier];
-                        
-                        ((TVFindPeopleCell *)[table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:actionSheet.tag inSection:0]]).followButton.userInteractionEnabled = YES;
-
-                        if (!error && success) {
-                        }
-                        else {
-                            
-                            [self handleError:error andType:callCode];
-                        }
-
-                        [self.table reloadData];
-                        [self.table setNeedsDisplay];
-                    }];
+                    connectionToAccept = connection;
                 }
+            }
+            
+            if (connectionToAccept) {
+                
+                ((TVFindPeopleCell *)[table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:actionSheet.tag inSection:0]]).followButton.userInteractionEnabled = NO;
+                
+                [TVLoadingSignifier signifyLoading:@"Accepting connection" duration:-1];
+                
+                [TVDatabase acceptConnection:connectionToAccept withCompletionHandler:^(NSError *error, NSString *callCode, BOOL success) {
+                    
+                    [TVLoadingSignifier hideLoadingSignifier];
+                    
+                    ((TVFindPeopleCell *)[table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:actionSheet.tag inSection:0]]).followButton.userInteractionEnabled = YES;
+                    
+                    if (!error && success) {
+                    }
+                    else {
+                        
+                        [self handleError:error andType:callCode];
+                    }
+                    
+                    [self reloadTableViews];
+                }];
             }
         }
         else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Decline"]) {
-                        
+            
+            TVConnection *connectionToDisconnect = nil;
+            
             for (TVConnection *connection in [[[TVDatabase currentAccount] person] connections]) {
                 
                 if ([connection.senderId isEqualToString:[self.accounts[actionSheet.tag] userId]]) {
                     
-                    ((TVFindPeopleCell *)[table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:actionSheet.tag inSection:0]]).followButton.userInteractionEnabled = NO;
-                    
-                    [TVLoadingSignifier signifyLoading:@"Declining connection" duration:-1];
-                    
-                    [TVDatabase declineConnection:connection withCompletionHandler:^(NSError *error, NSString *callCode, BOOL success) {
-
-                        [TVLoadingSignifier hideLoadingSignifier];
-                        
-                        ((TVFindPeopleCell *)[table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:actionSheet.tag inSection:0]]).followButton.userInteractionEnabled = YES;
-
-                        if (!error && success) {
-                            
-                            [self.accounts removeObject:self.accounts[actionSheet.tag]];
-                        }
-                        else {
-                            
-                            [self handleError:error andType:callCode];
-                        }
-                        
-                        [self.table reloadData];
-                        [self.table setNeedsDisplay];
-                    }];
+                    connectionToDisconnect = connection;
                 }
             }
+            
+            ((TVFindPeopleCell *)[table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:actionSheet.tag inSection:0]]).followButton.userInteractionEnabled = NO;
+            
+            [TVLoadingSignifier signifyLoading:@"Declining connection" duration:-1];
+            
+            [TVDatabase declineConnection:connectionToDisconnect withCompletionHandler:^(NSError *error, NSString *callCode, BOOL success) {
+                
+                [TVLoadingSignifier hideLoadingSignifier];
+                
+                ((TVFindPeopleCell *)[table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:actionSheet.tag inSection:0]]).followButton.userInteractionEnabled = YES;
+                
+                if (!error && success) {
+                    
+                    [self.accounts removeObject:self.accounts[actionSheet.tag]];
+                }
+                else {
+                    
+                    [self handleError:error andType:callCode];
+                }
+                
+                [self reloadTableViews];
+            }];
         }
     }
 }
 
 - (void)cell:(TVFindPeopleCell *)cell didTapFollowButton:(TVAccount *)account {
+
+    NSInteger decision = 0;
+
+    BOOL shouldDisconnect = NO;
     
     if (cell.hasConnection) {
         
@@ -261,39 +296,22 @@
                     
                     if ([cell.followButton.accessibilityIdentifier isEqualToString:@"Connect"]) {
                         
-                        [TVLoadingSignifier signifyLoading:@"Disconnecting with user" duration:-1];
-
-                        [TVDatabase disconnectWithUserId:account.userId withCompletionHandler:^(NSError *error, NSString *callCode, BOOL success) {
-                            
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                
-                                [TVLoadingSignifier hideLoadingSignifier];
-
-                                [self refreshSegments];
-
-                                for (int i = 0; i <= self.accounts.count - 1; i++) {
-                                    
-                                    if ([self.accounts[i] isEqual:cell.account]) {
-
-                                        [self.table reloadData];
-                                        [self.table setNeedsDisplay];
-                                    }
-                                }
-                            });
-                        }];
+                        shouldDisconnect = YES;
                     }
                 }
             }
             else if ([connection.receiverId isEqualToString:account.userId]) {
-
+                
                 if (connection.status == (ConnectRequestStatus *)kConnectRequestAccepted) {
-
+                    
                     if ([cell.followButton.accessibilityIdentifier isEqualToString:@"Connect"]) {
-
+                        
                         cell.hasConnection = NO;
                         cell.followButton.selected = YES;
                         
                         [cell setAccessibilityIdentifier:nil];
+                        
+                        shouldDisconnect = YES;
                     }
                 }
             }
@@ -319,6 +337,8 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         
                         [self refreshSegments];
+                        
+                        [self reloadTableViews];
                         
                         [TVLoadingSignifier hideLoadingSignifier];
                         
@@ -355,6 +375,8 @@
 
                         [self refreshSegments];
 
+                        [self reloadTableViews];
+                        
                         [TVLoadingSignifier hideLoadingSignifier];
                     
                         cell.userInteractionEnabled = YES;
@@ -373,7 +395,29 @@
         }
     }
 
-    [self refreshSegments];
+    if (shouldDisconnect) {
+        
+        [TVLoadingSignifier signifyLoading:@"Disconnecting with user" duration:-1];
+        
+        [TVDatabase disconnectWithUserId:account.userId withCompletionHandler:^(NSError *error, NSString *callCode, BOOL success) {
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [TVLoadingSignifier hideLoadingSignifier];
+                
+                [self refreshSegments];
+                
+                [self reloadTableViews];
+            });
+        }];
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self reloadTableViews];
+        
+        [self refreshSegments];
+    });
 }
 
 #pragma mark Finding Friends
@@ -382,7 +426,7 @@
 
     if (objects.count) {
                 
-        for (int i = 0; i <= objects.count - 1; i++) {
+        for (NSInteger i = 0; i <= objects.count - 1; i++) {
             
             if (![((PFUser *)objects[i]).objectId isEqualToString:[[TVDatabase currentAccount] userId]]) {
 
@@ -394,7 +438,7 @@
 
                             if (self.searchedAccounts.count) {
                                                                     
-                                int index = [self.searchedAccounts indexOfAccount:account];
+                                NSInteger index = [self.searchedAccounts indexOfAccount:account];
                                 
                                 if (index != NSNotFound) {
                                     
@@ -414,7 +458,7 @@
 
                             if (self.accounts.count) {
                                 
-                                int index = [self.accounts indexOfAccount:account];
+                                NSInteger index = [self.accounts indexOfAccount:account];
                                 
                                 if (index != NSNotFound) {
                                     
@@ -431,8 +475,7 @@
                             }
                         }
                         
-                        [self.table reloadData];
-                        [self.table setNeedsDisplay];
+                        [self reloadTableViews];
                     });
                 }];
             }
@@ -451,15 +494,18 @@
                 [self downloadedUsers:objects];
             }];
         }
+        else {
+
+        }
 
         [TVDatabase downloadUsersFromUserIds:[TVDatabase allUserConnections] withCompletionHandler:^(NSMutableArray *users, NSError *error, NSString *callCode) {
 
             [self downloadedUsers:users];
         }];
         
-        if ([[TVDatabase currentAccount] isUsingLinkedIn]) {
+        if ([[TVDatabase currentAccount] isUsingLinkedIn] && [TVDatabase localLinkedInRequestToken]) {
             
-            [LinkedInDataRetriever downloadConnectionsWithAccessToken:[[TVDatabase currentAccount] linkedInAccessKey] andCompletionHandler:^(NSArray *connections, BOOL success, NSError *error) {
+            [LinkedInDataRetriever downloadConnectionsWithAccessToken:[TVDatabase localLinkedInRequestToken] andCompletionHandler:^(NSArray *connections, BOOL success, NSError *error) {
                 
                 if (!error && success && connections.count) {
                     
@@ -484,15 +530,40 @@
 
 #pragma mark Dirty, Funky, Native ^_^
 
+- (void)updateNotifications {
+    
+    NSInteger numberOfConnectRequestNotifications = 0;
+    
+    for (TVNotification *notification in [[[TVDatabase currentAccount] person] notifications]) {
+        
+        if (notification.type == (NotificationType *)kNotificationTypeConnectionRequest) {
+            
+            numberOfConnectRequestNotifications++;
+        }
+    }
+  
+    if (numberOfConnectRequestNotifications) {
+        
+        [self.tabBarItem setBadgeValue:[NSString stringWithFormat:@"%i", numberOfConnectRequestNotifications]];
+
+    }
+    else {
+        
+        [self.tabBarItem setBadgeValue:0];
+    }
+}
+
 - (id)init {
     
     self = [super init];
     
     if (self) {
         
-        self.tabBarItem.title = @"People";
+        self.tabBarItem.title = @"Connections";
         self.tabBarItem.image = [UIImage imageNamed:@"people.png"];
-        self.navigationItem.title = @"People";
+        self.navigationItem.title = @"Connections";
+        
+        [self updateNotifications];
 
         self.isSearching = NO;
         
@@ -505,6 +576,7 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
 
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateNotifications) name:NSNotificationUpdateNotifications object:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(findPeople) name:NSNotificationDownloadedConnections object:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(findPeople) name:NSNotificationReceivedConnectionRequest object:nil];
         });
@@ -514,10 +586,13 @@
 }
 
 - (void)refreshSegments {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
 
-    [self.segmentedControl setTitle:[[[NSString stringWithFormat:@"%i suggestions", [self.accounts filteredWith:kFindPeopleFilterSuggestions].count] stringByReplacingOccurrencesOfString:@"(0)" withString:@""] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]] forSegmentAtIndex:0];
-    [self.segmentedControl setTitle:[[[NSString stringWithFormat:@"%i connections", [TVDatabase confirmedUserConnections].count]  stringByReplacingOccurrencesOfString:@"(0)" withString:@""] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]] forSegmentAtIndex:1];
-    [self.segmentedControl setTitle:[[[NSString stringWithFormat:@"%i pending", [TVDatabase pendingUserConnections].count]  stringByReplacingOccurrencesOfString:@"(0)" withString:@""] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]] forSegmentAtIndex:2];
+        [self.segmentedControl setTitle:[[[NSString stringWithFormat:@"%i suggestions", [self.accounts filteredWith:kFindPeopleFilterSuggestions].count] stringByReplacingOccurrencesOfString:@"(0)" withString:@""] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]] forSegmentAtIndex:1];
+        [self.segmentedControl setTitle:[[[NSString stringWithFormat:@"%i connections", [TVDatabase confirmedUserConnections].count]  stringByReplacingOccurrencesOfString:@"(0)" withString:@""] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]] forSegmentAtIndex:0];
+        [self.segmentedControl setTitle:[[[NSString stringWithFormat:@"%i pending", [TVDatabase pendingUserConnections].count]  stringByReplacingOccurrencesOfString:@"(0)" withString:@""] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]] forSegmentAtIndex:2];
+    });
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -575,44 +650,20 @@
 
 - (IBAction)changedSegment:(UISegmentedControl *)sender {
     
-    self.filter = (FindPeopleFilter *)sender.selectedSegmentIndex;
-    
-    [self.table reloadData];
-    [self.table setNeedsDisplay];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        self.filter = (FindPeopleFilter *)sender.selectedSegmentIndex;
+        
+        [self reloadTableViews];
+    });
 }
 
 - (void)refreshConnections:(UIRefreshControl *)refreshControl {
     
     [refreshControl beginRefreshing];
+    [refreshControl endRefreshing];
     
-    [TVDatabase findConnectionsFromId:[[TVDatabase currentAccount] userId] withCompletionHandler:^(NSMutableArray *objects, NSError *error, NSString *callCode) {
-        
-        [refreshControl endRefreshing];
-        
-        if (!error) {
-            
-            TVAccount *account = [TVDatabase currentAccount];
-            
-            [account.person.notifications clearNotificationOfType:kNotificationTypeConnectionRequest];
-            
-            for (TVConnection *connection in objects) {
-                
-                if (connection.status == kConnectRequestPending && [connection.receiverId isEqualToString:[[TVDatabase currentAccount] userId]]) {
-                    
-                    TVNotification *connectNotification = [[TVNotification alloc] initWithType:kNotificationTypeConnectionRequest withUserId:connection.senderId];
-                    
-                    [account.person.notifications addNotification:connectNotification];
-                }
-            }
-            
-            [account.person setConnections:objects];
-            
-            [TVDatabase updateMyCache:account];
-            
-            [self.table reloadData];
-            [self.table setNeedsDisplay];
-        }
-    }];
+    [self findPeople];
 }
 
 @end

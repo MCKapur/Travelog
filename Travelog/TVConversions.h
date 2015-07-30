@@ -10,7 +10,7 @@
 
 @interface TVConversions : NSObject
 
-+ (NSDate *)convertStringToDate: (NSString *)dateString withFormat: (NSString *)format;
-+ (NSString *)convertDateToString: (NSDate *)date withFormat: (NSString *)format;
++ (NSDate *)convertStringToDate:(NSString *)dateString withFormat: (NSString *)format;
++ (NSString *)convertDateToString:(NSDate *)date withFormat: (NSString *)format;
 
 @end

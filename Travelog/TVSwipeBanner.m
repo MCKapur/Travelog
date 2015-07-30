@@ -63,14 +63,30 @@
     }
 }
 
-- (void)removeTravelInfoTidbits {
+- (void)removeTravelInfoTidbit:(NSString *)ID {
     
     for (UIView *view in self.scrollView.subviews) {
         
-        [view removeFromSuperview];
+        if ([view.accessibilityIdentifier isEqualToString:ID])
+            [view removeFromSuperview];
     }
     
-    [self.tidbits removeAllObjects];
+    NSInteger remove = -1;
+    
+    if (self.tidbits.count) {
+    
+        for (int i = 0; i <= self.tidbits.count - 1; i++) {
+        
+            NSDictionary *tidbit = self.tidbits[i];
+        
+            if ([tidbit[@"ID"] isEqualToString:ID])
+            remove = i;
+        }
+    }
+    
+    if (remove > -1) [self.tidbits removeObjectAtIndex:remove];
+    
+    [self setNeedsDisplay];
 }
 
 - (void)addTravelInfoTidbit:(NSDictionary *)_tidbit {
@@ -86,8 +102,8 @@
     }
     
     if (isDrawn) {
-        
-        for (UILabel *tidbitLabel in self.subviews) {
+
+        for (UILabel *tidbitLabel in self.scrollView.subviews) {
 
             if ([tidbitLabel.accessibilityIdentifier isEqualToString:_tidbit[@"ID"]]) {
                
@@ -97,7 +113,7 @@
     }
     else {
         
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor colorWithRed:237.0f/255.0f green:237.0f/255.0f blue:237.0f/255.0f alpha:1.0f];
         
         [self.tidbits addObject:_tidbit];
 
@@ -120,6 +136,8 @@
 
         [self.scrollView addSubview:tidbitLabel];
     }
+    
+    [self setNeedsLayout];
 }
 
 - (void)clickedTravelTidbit:(UITapGestureRecognizer *)gr {
@@ -133,13 +151,13 @@
         
         self.page++;
         
-        [self.scrollView scrollRectToVisible:CGRectMake(self.page * 320, 0, 320, 21) animated:YES];
+        [self.scrollView scrollRectToVisible:CGRectMake(self.page * 320, 0, 320, 21) animated:NO];
     }
     else {
         
         if (mode == kTVSwipeBannerModeMileTidbits) {
             
-            [self.scrollView scrollRectToVisible:CGRectMake(0, 0, 320, 21) animated:YES];
+            [self.scrollView scrollRectToVisible:CGRectMake(0, 0, 320, 21) animated:NO];
             
             self.page = 0;
         }

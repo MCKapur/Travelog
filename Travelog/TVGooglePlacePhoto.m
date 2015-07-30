@@ -13,18 +13,14 @@
 
 - (UIImage *)getPhoto {
     
-    NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@", self.appendingPath]];
-    
-    return [UIImage imageWithContentsOfFile:path];
+    return [[EGOCache globalCache] imageForKey:self.appendingPath];
 }
 
 - (void)writePhotoLocally:(UIImage *)photo atAppendingPath:(NSString *)path {
-
-    NSString *imgPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@", path]];
     
     self.appendingPath = path;
     
-    [UIImageJPEGRepresentation(photo, 1.0) writeToFile:imgPath atomically:NO];
+    [[EGOCache globalCache] setImage:photo forKey:self.appendingPath];
 }
 
 @end

@@ -16,8 +16,6 @@
 #import <CoreLocation/CoreLocation.h>
 #import "TVAnnotation.h"
 
-#import "TVNewsCell.h"
-
 #import "TVWebViewController.h"
 
 #import "UIGridView.h"
@@ -30,9 +28,9 @@
 
 #import "TVPlaceDetailViewController.h"
 
-#import "MWPhotoBrowser.h"
-
 #import "TVTranslationsViewController.h"
+
+#import "FXPageControl.h"
 
 typedef enum {
     
@@ -45,7 +43,7 @@ typedef enum {
     
 } SegmentedControlSelected;
 
-@interface TVFlightDetailViewController : UIViewController <MKMapViewDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIGridViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, TVPlaceDetailViewControllerDelegate, MWPhotoBrowserDelegate>
+@interface TVFlightDetailViewController : UIViewController <MKMapViewDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIGridViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, UIGestureRecognizerDelegate, TVPlaceDetailViewControllerDelegate>
 {
     __weak IBOutlet UIScrollView *infoScrollView;
     __weak IBOutlet UISegmentedControl *infoSegControl;
@@ -56,7 +54,7 @@ typedef enum {
         
     NSMutableArray *slideNames;
     
-    int gridNumber;
+    NSInteger gridNumber;
     NSMutableDictionary *gridConvert;
     
     TVPlacesQuerySuggestionsRetriever *placeFinder;
@@ -65,7 +63,7 @@ typedef enum {
     
     BOOL placesIsSearching;
     
-    UIPageControl *flexiblePageControl;
+    FXPageControl *pageControl;
     
     BOOL shouldReloadTravelInfoBanner;
     

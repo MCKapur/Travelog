@@ -10,19 +10,19 @@
 
 @interface NSArray (Indexing)
 
-- (int)indexOfFlight:(TVFlight *)flight;
+- (NSInteger)indexOfFlight:(TVFlight *)flight;
 
 @end
 
 @implementation NSArray (Indexing)
 
-- (int)indexOfFlight:(TVFlight *)flight {
+- (NSInteger)indexOfFlight:(TVFlight *)flight {
     
-    int retVal = NSNotFound;
+    NSInteger retVal = NSNotFound;
     
     if (self.count) {
         
-        for (int i = 0; i <= self.count - 1; i++) {
+        for (NSInteger i = 0; i <= self.count - 1; i++) {
             
             if ([((TVFlight *)self[i]).ID isEqualToString:flight.ID]) {
                 
@@ -46,7 +46,9 @@
     NSSortDescriptor *sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"publishDate" ascending:NO];
     
     NSMutableArray *_messageHistories = [self.messageHistories mutableCopy];
-    [_messageHistories sortUsingDescriptors:@[sortByDate]];
+    
+    if (_messageHistories && _messageHistories.count)
+        [_messageHistories sortUsingDescriptors:@[sortByDate]];
     
     return _messageHistories;
 }
@@ -71,7 +73,7 @@
     
     NSMutableIndexSet *indexesToRemove = [[NSMutableIndexSet alloc] init];
     
-    for (int i = 0; i <= self.flights.count - 1; i++) {
+    for (NSInteger i = 0; i <= self.flights.count - 1; i++) {
         
         TVFlight *flight = self.flights[i];
         

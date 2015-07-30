@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-#import "AMBubbleTableViewController.h"
+#import "JSMessagesViewController.h"
 
 #import "TVDatabase.h"
 
-@interface TVMessageDetailViewController : AMBubbleTableViewController
+#import "MBFlatAlertView.h"
+
+@interface TVMessageDetailViewController : JSMessagesViewController <JSMessagesViewDataSource, JSMessagesViewDelegate>
 {
     UIImage *myProfilePic;
     UIImage *hisProfilePic;

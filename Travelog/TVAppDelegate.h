@@ -12,6 +12,8 @@
 
 #import "TVAccount.h"
 
+#import "Helpshift.h"
+
 @class TVLoginViewController;
 
 @class TVFlightsViewController;
@@ -22,17 +24,13 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (nonatomic) int randomNumber;
+@property (nonatomic) NSInteger randomNumber;
 
 @property (nonatomic, strong) UIColor *swipeColor;
 
 @property (strong, nonatomic) NSMutableArray *emails;
 @property (strong, nonatomic) NSMutableArray *cachedAccounts;
 @property (strong, nonatomic) TVAccount *loggedInAccount;
-
-- (void)updateNotifications;
-- (void)hideNotifications;
-- (void)showNotifications;
 
 - (void)didLogIn;
 - (void)didLogOut;

@@ -16,13 +16,18 @@
 
 #import "NSString+HTML.h"
 
+#import "CustomIOS7AlertView.h"
+
 @protocol TVPlaceDetailViewControllerDelegate <NSObject>
 
 - (void)savedPlace:(TVGooglePlace *)place;
 
 @end
 
-@interface TVPlaceDetailViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, TVReviewCellDelegate>
+@interface TVPlaceDetailViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, TVReviewCellDelegate, UITextViewDelegate> {
+    
+    NSMutableDictionary *textViews;
+}
 
 @property (nonatomic, strong) TVGooglePlace *place;
 
@@ -41,6 +46,6 @@
 
 - (IBAction)changedSegment:(UISegmentedControl *)sender;
 
-+ (UIImage *)starImageForIndex:(int)index andRating:(float)rating;
++ (UIImage *)starImageForIndex:(NSInteger)index andRating:(float)rating;
 
 @end

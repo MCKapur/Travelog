@@ -58,11 +58,8 @@
     if (self) {
                 
         self.downloadedData = [[NSMutableDictionary alloc] init];
-                
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            
-            self.operationQueue = [[NSOperationQueue alloc] init];
-        });
+        
+        self.operationQueue = [[NSOperationQueue alloc] init];
     }
     
     return self;
@@ -119,67 +116,101 @@
 
 - (void)downloadPeople {
 
-    if (!self.downloadedData[@"people"]) {
-        
+    if (!self.downloadedData[@"people"])
         self.downloadedData[@"people"] = [[NSMutableArray alloc] init];
-    }
-    
-    NSMutableArray *connectionsIDs = [[NSMutableArray alloc] init];
     
     [TVDatabase findConnectionIDsInTheSameCity:self.FlightID withCompletionHandler:^(NSMutableArray *confirmedSameCity, NSMutableArray *possibleSameCity, NSError *error, NSString *callCode) {
-        
+
         if (!error) {
 
-            NSMutableArray *currentUsers = [[NSMutableArray alloc] init];
-            
-            for (TVAccount *account in self.downloadedData[@"people"]) {
+            if (!confirmedSameCity.count && !possibleSameCity.count) {
+
+                self.downloadedData[@"people"] = @[];
                 
-                [currentUsers addObject:account.userId];
+                [TVDatabase refreshTravelDataPacketWithID:self.FlightID andTravelDataObject:self];
+                [self.delegate travelDataUpdated:(TravelDataTypes *)kTravelDataPeople];
             }
-            
-            [TVDatabase downloadUsersFromUserIds:[confirmedSameCity arrayByAddingObjectsFromArray:possibleSameCity] withCompletionHandler:^(NSMutableArray *users, NSError *error, NSString *callCode) {
+            else {
+
+                NSMutableArray *currentUsers = [[NSMutableArray alloc] init];
                 
-                self.downloadedData[@"people"] = [[NSMutableArray alloc] init];
-                
-                if (!error) {
+                for (NSString *ID in [self.downloadedData[@"people"] mutableCopy]) {
                     
-                    for (PFUser *user in users) {
+                    [currentUsers addObject:ID];
+                }
+                
+                [TVDatabase downloadUsersFromUserIds:[confirmedSameCity arrayByAddingObjectsFromArray:possibleSameCity] withCompletionHandler:^(NSMutableArray *users, NSError *error, NSString *callCode) {
+                    
+                    self.downloadedData[@"people"] = [[NSMutableArray alloc] init];
+                    
+                    if (!error) {
                         
-                        [TVDatabase getAccountFromUser:user isPerformingCacheRefresh:NO withCompletionHandler:^(TVAccount *account, NSMutableArray *downloadedTypes) {
+                        for (PFUser *user in users) {
                             
-                            if (downloadedTypes.count == 1 && [downloadedTypes containsObject:@(kAccountDownloadedGeneralAttributes)]) {
+                            [TVDatabase getAccountFromUser:user isPerformingCacheRefresh:NO withCompletionHandler:^(TVAccount *account, NSMutableArray *downloadedTypes) {
                                 
-                                if ([possibleSameCity containsObject:account.userId]) {
+                                [TVDatabase cacheAccount:account];
+                                
+                                if (downloadedTypes.count == 1 && [downloadedTypes containsObject:@(kAccountDownloadedGeneralAttributes)]) {
                                     
-                                    if ([[account.person.originCity lowercaseString] isEqualToString:[self.flight.destinationCity lowercaseString]]) {
+                                    if ([possibleSameCity containsObject:account.userId]) {
                                         
-                                        [confirmedSameCity addObject:account.userId];
+                                        if ([[account.person.originCity lowercaseString] isEqualToString:[self.flight.destinationCity lowercaseString]]) {
+                                            
+                                            [confirmedSameCity addObject:account.userId];
+                                        }
+                                        else {
+                                            
+                                            [possibleSameCity removeObject:account.userId];
+                                        }
                                     }
-                                    else {
+                                    
+                                    if ([confirmedSameCity containsObject:account.userId] && ![self.downloadedData[@"people"] containsObject:account.userId]) {
                                         
-                                        [possibleSameCity removeObject:account.userId];
+                                        [self.downloadedData[@"people"] addObject:account.userId];
+                                        
+                                        [TVDatabase refreshTravelDataPacketWithID:self.FlightID andTravelDataObject:self];
+                                        
+                                        [self.delegate travelDataUpdated:(TravelDataTypes *)kTravelDataPeople];
+                                    }
+                                    
+                                    NSMutableIndexSet *indexSet = [[NSMutableIndexSet alloc] init];
+                                    
+                                    NSMutableArray *people = [self.downloadedData[@"people"] mutableCopy];
+                                    
+                                    if ([people count]) {
+                                        
+                                        for (int i = 0; i <=  people.count - 1; i++) {
+                                            
+                                            NSString *userID = people[i];
+                                            
+                                            if (![confirmedSameCity containsObject:userID]) {
+                                                
+                                                [indexSet addIndex:i];
+                                            }
+                                        }
+                                        
+                                        [self.downloadedData[@"people"] removeObjectsAtIndexes:indexSet];
                                     }
                                 }
-                            }
-                            else if ([downloadedTypes containsObject:@(kAccountDownloadedProfilePicture)]) {
-                                
-                                if ([confirmedSameCity containsObject:account.userId]) {
+                                else if ([downloadedTypes containsObject:@(kAccountDownloadedProfilePicture)]) {
                                     
-                                    [self.downloadedData[@"people"] addObject:account];
-                                    
-                                    [TVDatabase refreshTravelDataPacketWithID:self.FlightID andTravelDataObject:self];
-                                    
-                                    [self.delegate travelDataUpdated:(TravelDataTypes *)kTravelDataPeople];
+                                    if ([confirmedSameCity containsObject:account.userId] && [self.downloadedData[@"people"] containsObject:account.userId]) {
+                                        
+                                        [TVDatabase refreshTravelDataPacketWithID:self.FlightID andTravelDataObject:self];
+                                        
+                                        [self.delegate travelDataUpdated:(TravelDataTypes *)kTravelDataPeople];
+                                    }
                                 }
-                            }
-                        }];
+                            }];
+                        }
                     }
-                }
-                else {
-                    
-                    [TVErrorHandler handleError:error];
-                }
-            }];
+                    else {
+                        
+                        [TVErrorHandler handleError:error];
+                    }
+                }];
+            }
         }
         else {
             
@@ -191,7 +222,6 @@
 #pragma mark Facts
 
 - (void)downloadFacts {
-    
     
 }
 
@@ -219,36 +249,39 @@
         
         [NSURLConnection sendAsynchronousRequest:destinationTimezoneRequest queue:self.operationQueue completionHandler:^(NSURLResponse *responseURL2, NSData *responseData2, NSError *error2) {
 
-            if (!error && !error2) {
+            dispatch_async(dispatch_get_main_queue(), ^{
                 
-                destinationTimezone = [self deserialize:responseData2];
-                originTimezone = [self deserialize:responseData];
-
-                if ([destinationTimezone[@"status"] isEqualToString:@"OK"] && [originTimezone[@"status"] isEqualToString:@"OK"]) {
+                if (!error && !error2) {
                     
-                    NSMutableDictionary *timezone = [[NSMutableDictionary alloc] init];
+                    destinationTimezone = [self deserialize:responseData2];
+                    originTimezone = [self deserialize:responseData];
                     
-                    NSString *originUTCOffset = [NSString stringWithFormat:@"%+.1f", ([originTimezone[@"rawOffset"] doubleValue] / 60.0f / 60.0f)];
-                    
-                    NSString *destinationUTCOffset = [NSString stringWithFormat:@"%+.1f", ([destinationTimezone[@"rawOffset"] doubleValue] / 60.0f / 60.0f)];
-                    
-                    timezone[@"originUTCOffset"] = originUTCOffset;
-                    timezone[@"destinationUTCOffset"] = destinationUTCOffset;
-
-                    self.downloadedData[@"timezone"] = timezone;
-                    
-                    [TVDatabase refreshTravelDataPacketWithID:self.FlightID andTravelDataObject:self];
-                    
-                    [self.delegate travelDataUpdated:(TravelDataTypes *)kTravelDataTimezone];
+                    if ([destinationTimezone[@"status"] isEqualToString:@"OK"] && [originTimezone[@"status"] isEqualToString:@"OK"]) {
+                        
+                        NSMutableDictionary *timezone = [[NSMutableDictionary alloc] init];
+                        
+                        NSString *originUTCOffset = [NSString stringWithFormat:@"%+.1f", ([originTimezone[@"rawOffset"] doubleValue] / 60.0f / 60.0f)];
+                        
+                        NSString *destinationUTCOffset = [NSString stringWithFormat:@"%+.1f", ([destinationTimezone[@"rawOffset"] doubleValue] / 60.0f / 60.0f)];
+                        
+                        timezone[@"originUTCOffset"] = originUTCOffset;
+                        timezone[@"destinationUTCOffset"] = destinationUTCOffset;
+                        
+                        self.downloadedData[@"timezone"] = timezone;
+                        
+                        [TVDatabase refreshTravelDataPacketWithID:self.FlightID andTravelDataObject:self];
+                        
+                        [self.delegate travelDataUpdated:(TravelDataTypes *)kTravelDataTimezone];
+                    }
                 }
-            }
+            });
         }];
     }];
 }
 
 #pragma mark (SUBMARK) Currencies
 
-- (void)downloadCurrencies:(int)amountToConvert {
+- (void)downloadCurrencies:(NSInteger)amountToConvert {
     
     NSMutableDictionary *currency = [[NSMutableDictionary alloc] init];
     
@@ -263,75 +296,81 @@
 
     [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue completionHandler:^(NSURLResponse *urlResponse, NSData *responseData, NSError *error) {
 
-        if (!error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
             
-            NSDictionary *result = [self deserialize:responseData][@"result"];
-
-            if (result && ![result isEqual:[NSNull null]]) {
+            if (!error) {
                 
-                originCurrency = (result[@"currency_used"])[0];
+                NSDictionary *result = [self deserialize:responseData][@"result"];
                 
-                if (originCurrency) {
+                if (result && ![result isEqual:[NSNull null]]) {
                     
-                    NSString *URLFormattedCountry = [self.flight.destinationCountry stringByReplacingOccurrencesOfString:@" " withString:@"_"];
-                    URLFormattedCountry = [URLFormattedCountry lowercaseString];
+                    originCurrency = (result[@"currency_used"])[0];
                     
-                    NSString *requestString = [NSString stringWithFormat:@"https://www.googleapis.com/freebase/v1/mqlread?query=%%7B%%22type%%22:%%22/location/country%%22,%%22id%%22:%%22/en/%@%%22,%%22currency_used%%22:%%5B%%5D%%7D", URLFormattedCountry];
-                    
-                    NSString *requestURL = requestString;
-                    
-                    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:requestURL]];
-
-                    [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue completionHandler:^(NSURLResponse *urlResponse, NSData *responseData, NSError *error) {
+                    if (originCurrency) {
                         
-                        if (!error) {
+                        NSString *URLFormattedCountry = [self.flight.destinationCountry stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+                        URLFormattedCountry = [URLFormattedCountry lowercaseString];
+                        
+                        NSString *requestString = [NSString stringWithFormat:@"https://www.googleapis.com/freebase/v1/mqlread?query=%%7B%%22type%%22:%%22/location/country%%22,%%22id%%22:%%22/en/%@%%22,%%22currency_used%%22:%%5B%%5D%%7D", URLFormattedCountry];
+                        
+                        NSString *requestURL = requestString;
+                        
+                        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:requestURL]];
+                        
+                        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue completionHandler:^(NSURLResponse *urlResponse, NSData *responseData, NSError *error) {
                             
-                            NSDictionary *result = [self deserialize:responseData][@"result"];
-                            
-                            if (result && ![result isEqual:[NSNull null]]) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
                                 
-                                destinationCurrency = (result[@"currency_used"])[0];
-                                
-                                if (destinationCurrency) {
+                                if (!error) {
                                     
-                                    (currency)[@"destinationCurrency"] = destinationCurrency;
+                                    NSDictionary *result = [self deserialize:responseData][@"result"];
                                     
-                                    if (originCurrency) {
-
-                                        if (![originCurrency isEqualToString:destinationCurrency]) {
+                                    if (result && ![result isEqual:[NSNull null]]) {
+                                        
+                                        destinationCurrency = (result[@"currency_used"])[0];
+                                        
+                                        if (destinationCurrency) {
                                             
-                                            (currency)[@"originCurrency"] = originCurrency;
+                                            (currency)[@"destinationCurrency"] = destinationCurrency;
                                             
-                                            self.downloadedData[@"currency"] = currency;
-
-                                            if ([self hasDDUnit:originCurrency] && [self hasDDUnit:destinationCurrency]) {
+                                            if (originCurrency) {
                                                 
-                                                (currency)[@"o->d"] = @([self currencyConversionWithKey:@"o->d" withAmount:amountToConvert]);
-                                                (currency)[@"d->o"] = @([self currencyConversionWithKey:@"d->o" withAmount:amountToConvert]);
-
-                                                self.downloadedData[@"currency"] = currency;
-                                                                                                
-                                                [TVDatabase refreshTravelDataPacketWithID:self.FlightID andTravelDataObject:self];
-                                                
-                                                [self.delegate travelDataUpdated:(TravelDataTypes *)kTravelDataCurrency];
-                                            }
-                                            else if (![self hasDDUnit:originCurrency] && ![self hasDDUnit:destinationCurrency]) {
-                                                
-                                                self.downloadedData[@"currency"] = currency;
-                                                                                                
-                                                [TVDatabase refreshTravelDataPacketWithID:self.FlightID andTravelDataObject:self];
-                                                
-                                                [self.delegate travelDataUpdated:(TravelDataTypes *)kTravelDataCurrency];
+                                                if (![originCurrency isEqualToString:destinationCurrency]) {
+                                                    
+                                                    (currency)[@"originCurrency"] = originCurrency;
+                                                    
+                                                    self.downloadedData[@"currency"] = currency;
+                                                    
+                                                    if ([self hasDDUnit:originCurrency] && [self hasDDUnit:destinationCurrency]) {
+                                                        
+                                                        (currency)[@"o->d"] = @([self currencyConversionWithKey:@"o->d" withAmount:amountToConvert]);
+                                                        (currency)[@"d->o"] = @([self currencyConversionWithKey:@"d->o" withAmount:amountToConvert]);
+                                                        
+                                                        self.downloadedData[@"currency"] = currency;
+                                                        
+                                                        [TVDatabase refreshTravelDataPacketWithID:self.FlightID andTravelDataObject:self];
+                                                        
+                                                        [self.delegate travelDataUpdated:(TravelDataTypes *)kTravelDataCurrency];
+                                                    }
+                                                    else if (![self hasDDUnit:originCurrency] && ![self hasDDUnit:destinationCurrency]) {
+                                                        
+                                                        self.downloadedData[@"currency"] = currency;
+                                                        
+                                                        [TVDatabase refreshTravelDataPacketWithID:self.FlightID andTravelDataObject:self];
+                                                        
+                                                        [self.delegate travelDataUpdated:(TravelDataTypes *)kTravelDataCurrency];
+                                                    }
+                                                }
                                             }
                                         }
                                     }
                                 }
-                            }
-                        }
-                    }];
+                            });
+                        }];
+                    }
                 }
             }
-        }
+        });
     }];
 }
 
@@ -352,9 +391,9 @@
     return retVal;
 }
 
-- (int)DDUnitVersion:(NSString *)currencyName {
+- (NSInteger)DDUnitVersion:(NSString *)currencyName {
     
-    int retVal = -1;
+    NSInteger retVal = -1;
     
     for (NSString *DDUnitName in [self DDUnitNames]) {
         
@@ -434,7 +473,7 @@
     return currencyName;
 }
 
-- (double)currencyConversionWithKey:(NSString *)key withAmount:(int)amount {
+- (double)currencyConversionWithKey:(NSString *)key withAmount:(NSInteger)amount {
     
     NSMutableDictionary *currency = self.downloadedData[@"currency"];
     
@@ -722,7 +761,7 @@
         }
     }
     
-    for (int i = 0; i <= characters.length - 1; i++) {
+    for (NSInteger i = 0; i <= characters.length - 1; i++) {
         
         NSString *singleLetter = [NSString stringWithFormat:@"%c",[characters characterAtIndex:i]];
         
@@ -917,28 +956,31 @@
     
     [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue completionHandler:^(NSURLResponse *urlResponse, NSData *responseData, NSError *responseError) {
         
-        if ((responseError == nil && [responseError code] == noErr)) {
+        dispatch_async(dispatch_get_main_queue(), ^{
             
-            if (responseData) {
+            if ((responseError == nil && [responseError code] == noErr)) {
                 
-                NSDictionary *result = [self deserialize:responseData][@"result"];
-                
-                if (![result isEqual:[NSNull null]] && result) {
+                if (responseData) {
                     
-                    languagesTemporaryArray = [[self deserialize:responseData][@"result"][@"official_language"] mutableCopy];
+                    NSDictionary *result = [self deserialize:responseData][@"result"];
                     
-                    if (languagesTemporaryArray.count && ![languagesTemporaryArray containsObject:@"English Language"]) {
+                    if (![result isEqual:[NSNull null]] && result) {
                         
-                        for (NSString *languageName in languagesTemporaryArray) {
+                        languagesTemporaryArray = [[self deserialize:responseData][@"result"][@"official_language"] mutableCopy];
+                        
+                        if (languagesTemporaryArray.count && ![languagesTemporaryArray containsObject:@"English Language"]) {
                             
-                            [languages addObject:[NSMutableDictionary dictionaryWithObject:languageName forKey:@"name"]];
+                            for (NSString *languageName in languagesTemporaryArray) {
+                                
+                                [languages addObject:[NSMutableDictionary dictionaryWithObject:languageName forKey:@"name"]];
+                            }
+                            
+                            [self downloadTranslations:languages];
                         }
-                        
-                        [self downloadTranslations:languages];
                     }
                 }
             }
-        }
+        });
     }];
 }
 
@@ -950,7 +992,7 @@
     
     if ([languages count]) {
         
-        for (int i = 0; i <= [[languages mutableCopy] count] - 1; i++) {
+        for (NSInteger i = 0; i <= languages.count - 1; i++) {
             
             NSString *name = languages[i][@"name"];
             name = [name stringByReplacingOccurrencesOfString:@" language" withString:@""];
@@ -977,9 +1019,9 @@
                             [allPhrases addObjectsFromArray:phrases[key]];
                         }
                         
-                        NSMutableArray *translations = [[NSMutableArray alloc] init];
+                        __block __strong NSMutableArray *translations = [[NSMutableArray alloc] init];
 
-                        int phraseNumber = 0;
+                        NSInteger phraseNumber = 0;
                         
                         for (__strong NSString *phrase in [allPhrases mutableCopy]) {
                             
@@ -993,37 +1035,40 @@
                             
                             [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue completionHandler:^(NSURLResponse *urlResponse, NSData *responseData, NSError *responseError) {
                                 
-                                if (!responseError) {
+                                dispatch_async(dispatch_get_main_queue(), ^{
                                     
-                                    NSDictionary *json = [self deserialize:responseData];
-                                    
-                                    if (json) {
+                                    if (!responseError) {
                                         
-                                        NSString *translatedText = json[@"data"][@"translations"][0][@"translatedText"];
-                                        
-                                        if (translatedText.length) {
+                                        NSDictionary *json = [self deserialize:responseData];
 
-                                            [translations addObject:@{@"phrase":phrase, @"translation":translatedText}];
+                                        if (json) {
+                                            
+                                            NSString *translatedText = json[@"data"][@"translations"][0][@"translatedText"];
+                                            
+                                            if (translatedText.length) {
+                                                
+                                                [translations addObject:@{@"phrase":phrase, @"translation":translatedText}];
+                                            }
                                         }
                                     }
-                                }
-                                
-                                if (phraseNumber == allPhrases.count) {
-
-                                    if (translations.count) {
-                                        
-                                        (languages[i])[@"translations"] = translations;
-                                    }
                                     
-                                    if (i == languages.count - 1) {
+                                    if (phraseNumber == allPhrases.count) {
                                         
-                                        self.downloadedData[@"languages"] = languages;
+                                        if (translations.count) {
+                                            
+                                            (languages[i])[@"translations"] = translations;
+                                        }
                                         
-                                        [TVDatabase refreshTravelDataPacketWithID:self.FlightID andTravelDataObject:self];
-                                        
-                                        [self.delegate travelDataUpdated:(TravelDataTypes *)kTravelDataLanguagesSpoken];
+                                        if (i == languages.count - 1) {
+                                            
+                                            self.downloadedData[@"languages"] = languages;
+                                            
+                                            [TVDatabase refreshTravelDataPacketWithID:self.FlightID andTravelDataObject:self];
+                                            
+                                            [self.delegate travelDataUpdated:(TravelDataTypes *)kTravelDataLanguagesSpoken];
+                                        }
                                     }
-                                }
+                                });
                             }];
                         }
                         
@@ -1044,26 +1089,18 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        [self fetchEntries:[self.flight.destinationCity stringByReplacingOccurrencesOfString:@" " withString:@"+"]];
+        [self fetchEntries:[[NSString stringWithFormat:@"%@", self.flight.destinationCity] stringByReplacingOccurrencesOfString:@" " withString:@"+"]];
     });
 }
 
 - (void)fetchEntries:(NSString *)URLFormattedCity {
     
-    // Create a new data container for the stuff that comes back from the service
     xmlData = [[NSMutableData alloc] init];
     
-    NSString *linkFormatted = [NSString stringWithFormat:@"https://news.google.com/news/section?pz=1&cf=all&geo=%@&output=rss", URLFormattedCity];
-
-    // Construct a URL that will ask the service for what you want -
-    // note we can concatenate literal strings together on multiple
-    // lines in this way - this results in a single NSString instance
+    NSString *linkFormatted = [NSString stringWithFormat:@"https://news.google.com/news/section?q=%@&output=rss", URLFormattedCity];
     NSURL *url = [NSURL URLWithString:linkFormatted];
-    
-    // Put that URL into an NSURLRequest
     NSURLRequest *req = [NSURLRequest requestWithURL:url];
-        
-    // Create a connection that will exchange this request for data from the URL
+    
     connection = [[NSURLConnection alloc] initWithRequest:req delegate:self startImmediately:YES];
 }
 
@@ -1093,26 +1130,29 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)conn {
 
-    NSMutableArray *news = nil;
-    
-    NSXMLParser *parser = [[NSXMLParser alloc] initWithData:xmlData];
-    [parser setDelegate:self];
-    
-    [parser parse];
-    
-    xmlData = nil;
-    connection = nil;
-    
-    news = [channel items];
+    dispatch_async(dispatch_get_main_queue(), ^{
 
-    if ([news count]) {
+        NSMutableArray *news = nil;
         
-        self.downloadedData[@"news"] = news;
-                
-        [TVDatabase refreshTravelDataPacketWithID:self.FlightID andTravelDataObject:self];
+        NSXMLParser *parser = [[NSXMLParser alloc] initWithData:xmlData];
+        [parser setDelegate:self];
         
-        [self.delegate travelDataUpdated:(TravelDataTypes *)kTravelDataCurrentNews];
-    }
+        [parser parse];
+        
+        xmlData = nil;
+        connection = nil;
+        
+        news = [channel items];
+        
+        if ([news count]) {
+            
+            self.downloadedData[@"news"] = news;
+            
+            [TVDatabase refreshTravelDataPacketWithID:self.FlightID andTravelDataObject:self];
+            
+            [self.delegate travelDataUpdated:(TravelDataTypes *)kTravelDataCurrentNews];
+        }
+    });
 }
 
 #pragma mark Weather
@@ -1125,7 +1165,7 @@
 
         NSMutableArray *filteredWeather = [[NSMutableArray alloc] init];
         
-        for (int i = 0; i <= responseArray.count - 1; i++) {
+        for (NSInteger i = 0; i <= responseArray.count - 1; i++) {
             
             NSMutableDictionary *day = [responseArray mutableCopy][i];
             
@@ -1133,8 +1173,15 @@
             
             filteredDay[@"description"] = day[@"summary"];
             
-            filteredDay[@"minF"] = day[@"temperatureMin"];
-            filteredDay[@"maxF"] = day[@"temperatureMax"];
+            if (day[@"temperatureMin"]) {
+                
+                filteredDay[@"minF"] = day[@"temperatureMin"];
+            }
+            
+            if (day[@"temperatureMax"]) {
+                
+                filteredDay[@"maxF"] = day[@"temperatureMax"];
+            }
             
             filteredDay[@"minC"] = [NSString stringWithFormat:@"%f", [filteredDay[@"minF"] floatValue] / 33.8];
             filteredDay[@"maxC"] = [NSString stringWithFormat:@"%f", [filteredDay[@"maxF"] floatValue] / 33.8];

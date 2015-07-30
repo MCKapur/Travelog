@@ -10,8 +10,60 @@
 
 @implementation LinkedInAuthorizer
 
-+ (void)authorizeWithCompletionHandler:(void (^)(BOOL succeeded, BOOL cancelled, NSError *error, NSString *accessToken))callback {
++ (void)getAuthorizationToken:(void (^)(BOOL success, BOOL cancelled, NSError *error, NSString *callCode))callback {
     
+    NSArray *grantedAccess = @[@"r_fullprofile", @"r_network", @"r_emailaddress"];
+    
+    LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRedirectURL:@"http://www.travelogapp.com" clientId:LINKEDIN_API_KEY clientSecret:LINKEDIN_SECRET_KEY state:LINKEDIN_UNIQUE_STATE grantedAccess:grantedAccess];
+    
+    LIALinkedInHttpClient *client = [LIALinkedInHttpClient clientForApplication:application];
+    
+    __block NSString *authorizationCode;
+    __block BOOL success;
+    __block BOOL cancelled = NO;
+    __block NSError *error;
+    
+    [client getAuthorizationCode:^(NSString *_authorizationCode) {
+            
+        if (_authorizationCode.length) {
+            
+            error = nil;
+            authorizationCode = _authorizationCode;
+            success = YES;
+            cancelled = NO;
+        }
+        else {
+            
+            error = nil;
+            authorizationCode = nil;
+            success = NO;
+            cancelled = NO;
+        }
+        
+        callback(success, cancelled, error, authorizationCode);
+        
+    } cancel:^{
+        
+        error = nil;
+        authorizationCode = nil;
+        success = NO;
+        cancelled = YES;
+        
+        callback(success, cancelled, error, authorizationCode);
+
+    } failure:^(NSError *_error) {
+        
+        error = _error;
+        authorizationCode = nil;
+        success = NO;
+        cancelled = NO;
+        
+        callback(success, cancelled, error, authorizationCode);
+    }];
+}
+
++ (void)requestAccessTokenFromAuthorizationCode:(NSString *)authorizationCode withCompletionHandler:(void (^)(BOOL succeeded, NSError *error, NSString *accessToken))callback {
+
     NSArray *grantedAccess = @[@"r_fullprofile", @"r_network", @"r_emailaddress"];
     
     LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRedirectURL:@"http://www.travelogapp.com" clientId:LINKEDIN_API_KEY clientSecret:LINKEDIN_SECRET_KEY state:LINKEDIN_UNIQUE_STATE grantedAccess:grantedAccess];
@@ -20,59 +72,26 @@
     
     __block NSString *accessToken;
     __block BOOL success;
-    __block BOOL cancelled = NO;
     __block NSError *error;
     
-    [client getAuthorizationCode:^(NSString *authorizationCode) {
+    [client getAccessToken:authorizationCode success:^(NSDictionary *accessTokenResults) {
         
-        [client getAccessToken:authorizationCode success:^(NSDictionary *accessTokenData) {
+        if (accessTokenResults[@"access_token"]) {
             
-            accessToken = accessTokenData[@"access_token"];
-            
-            if (accessToken.length) {
-
-                error = nil;
-                accessToken = accessToken;
-                success = YES;
-                cancelled = NO;
-            }
-            else {
-                
-                error = nil;
-                accessToken = nil;
-                success = NO;
-                cancelled = NO;
-            }
-            
-            callback(success, cancelled, error, accessToken);
-            
-        } failure:^(NSError *_error) {
-
-            error = _error;
-            accessToken = nil;
-            success = NO;
-            cancelled = NO;
-            
-            callback(success, cancelled, error, accessToken);
-        }];
-
-    } cancel:^{
+            accessToken = accessTokenResults[@"access_token"];
+            success = accessToken.length ? YES : NO;
+            error = nil;
+        }
         
-        error = nil;
-        accessToken = nil;
-        success = NO;
-        cancelled = YES;
-        
-        callback(success, cancelled, error, accessToken);
+        callback(success, error, accessToken);
         
     } failure:^(NSError *_error) {
-
-        error = _error;
+        
         accessToken = nil;
         success = NO;
-        cancelled = NO;
+        error = _error;
         
-        callback(success, cancelled, error, accessToken);
+        callback(success, error, accessToken);
     }];
 }
 

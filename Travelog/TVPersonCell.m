@@ -18,7 +18,7 @@
 	
     if (self = [super init]) {
 		
-        self.frame = CGRectMake(0, 0, 80, 80);
+        self.frame = CGRectMake(0, 0, 60, 60);
 		
 		[[NSBundle mainBundle] loadNibNamed:@"TVPersonCell" owner:self options:nil];
 		

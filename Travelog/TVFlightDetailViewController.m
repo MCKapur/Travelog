@@ -22,7 +22,7 @@
     [TVErrorHandler handleError:[NSError errorWithDomain:[NSString stringWithFormat:@"Could not %@", type] code:200 userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"Could not %@", type]}]];
 }
 
-#pragma mark TravelData
+#pragma mark Travel Data
 
 - (NSMutableDictionary *)travelData {
 
@@ -36,10 +36,62 @@
 
     if ([notification.userInfo[@"ID"] isEqualToString:@"Plugs"]) {
         
-        MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
-        browser.displayActionButton = YES;
+        CustomIOS7AlertView *alertView = [[CustomIOS7AlertView alloc] init];
         
-        [self.navigationController pushViewController:browser animated:YES];
+        __block UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 240, 166)];
+        
+        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 240, 166)];
+        scrollView.tag = 200;
+        scrollView.pagingEnabled = YES;
+        scrollView.showsHorizontalScrollIndicator = NO;
+        scrollView.showsVerticalScrollIndicator = NO;
+        scrollView.scrollsToTop = NO;
+        scrollView.delegate = self;
+        scrollView.bounces = NO;
+        
+        NSInteger numberOfPlugs = [[self travelData][@"plugs"][@"numberOfPlugs"] intValue];
+        
+        scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * numberOfPlugs, 0);
+        
+        for (NSInteger i = 0; i <= numberOfPlugs - 1; i++) {
+            
+            NSString *letter = [[self travelData][@"plugs"][@"plugs"][i] substringToIndex:1];
+            NSMutableArray *images = [self travelData][@"plugs"][@"images"];
+
+            UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:images[i][letter]]];
+            
+            CGRect frame = scrollView.frame;
+            frame.origin.x = frame.size.width * i;
+            frame.origin.y = 0;
+            
+            imageView.frame = frame;
+            
+            [scrollView addSubview:imageView];
+        }
+        
+        [containerView addSubview:scrollView];
+        
+        UIPageControl *pageControl = [[UIPageControl alloc] init];
+        [pageControl setNumberOfPages:numberOfPlugs];
+        [pageControl setCurrentPageIndicatorTintColor:[UIColor darkGrayColor]];
+        [pageControl setPageIndicatorTintColor:[UIColor lightGrayColor]];
+        [pageControl setFrame:CGRectMake(-20, 155, 290, pageControl.frame.size.height)];
+        [containerView addSubview:pageControl];
+        [containerView bringSubviewToFront:pageControl];
+
+        [alertView setContainerView:containerView];
+
+        [alertView setButtonTitles:[NSMutableArray arrayWithObjects:@"Dismiss", nil]];
+        [alertView setOnButtonTouchUpInside:^(CustomIOS7AlertView *alertView, NSInteger buttonIndex) {
+            
+            containerView = nil;
+            
+            [alertView close];
+        }];
+
+        [alertView setUseMotionEffects:true];
+        
+        [alertView show];
     }
     else if ([notification.userInfo[@"ID"] isEqualToString:@"Languages"]) {
 
@@ -49,47 +101,34 @@
     }
 }
 
-#pragma mark - MWPhotoBrowserDelegate
-
-- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
-
-    return [[self travelData][@"plugs"][@"numberOfPlugs"] intValue];
-}
-
-- (MWPhoto *)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
-
-    NSString *letter = [[self travelData][@"plugs"][@"plugs"][index] substringToIndex:1];
-    NSMutableArray *images = [self travelData][@"plugs"][@"images"];
-    
-    return [MWPhoto photoWithImage:[UIImage imageNamed:images[index][letter]]];
-}
-
 #pragma mark TrvlogueFlight-TravelData Delegate
 
 - (void)travelDataUpdated:(NSNotification *)notification {
     
     TravelDataTypes *dataType = (TravelDataTypes *)[notification.userInfo[@"dataType"] intValue];
 
-    [self initializeInfoWithType:(int)dataType];
-    
-    if ((int)dataType == kTravelDataPeople) {
+    [self initializeInfoWithType:(NSInteger)dataType];
+
+    if ((NSInteger)dataType == kTravelDataPeople) {
         
         [self reloadPeople];
     }
-    else if ((int)dataType == kTravelDataCurrentNews) {
+    else if ((NSInteger)dataType == kTravelDataCurrentNews) {
 
         [self.newsTableView reloadData];
         [self.newsTableView setNeedsDisplay];
     }
-    else if ((int)dataType == kTravelDataWeather) {
+    else if ((NSInteger)dataType == kTravelDataWeather) {
 
         [self.weatherTableView reloadData];
         [self.weatherTableView setNeedsDisplay];
     }
-    else if ((int)dataType == kTravelDataLanguagesSpoken) {
+    else if ((NSInteger)dataType == kTravelDataLanguagesSpoken) {
         
         [translationsViewController setTranslations:[self travelData][@"languages"]];
     }
+    
+    [self pollForTravelInfoBanner];
 }
 
 #pragma mark UISearchBar Delegate Methods
@@ -152,14 +191,14 @@
 
 #pragma mark (SUBMARK) UIGridView
 
-- (CGFloat)gridView:(UIGridView *)grid widthForColumnAt:(int)columnIndex
+- (CGFloat)gridView:(UIGridView *)grid widthForColumnAt:(NSInteger)columnIndex
 {
-	return (float)320/3;
+	return (float)320/3.05;
 }
 
-- (CGFloat)gridView:(UIGridView *)grid heightForRowAt:(int)rowIndex
-{             
-	return 102.5;
+- (CGFloat)gridView:(UIGridView *)grid heightForRowAt:(NSInteger)rowIndex
+{
+	return (float)105;
 }
 
 - (NSInteger)numberOfColumnsOfGridView:(UIGridView *)grid
@@ -169,13 +208,13 @@
 
 - (NSInteger)numberOfCellsOfGridView:(UIGridView *)grid
 {
-    int retVal = [[self travelData][@"people"] count];
+    NSInteger retVal = [[self travelData][@"people"] count];
     
 	return retVal;
 }
 
-- (UIGridViewCell *)gridView:(UIGridView *)grid cellForRowAt:(int)rowIndex AndColumnAt:(int)columnIndex
-{
+- (UIGridViewCell *)gridView:(UIGridView *)grid cellForRowAt:(NSInteger)rowIndex AndColumnAt:(NSInteger)columnIndex {
+
     if (!rowIndex && !columnIndex) {
         
         gridNumber = 0;
@@ -190,10 +229,8 @@
         
         if (cell) {
             
-            TVAccount *account = [self travelData][@"people"][gridNumber];
-            
-            cell.profilePicture.image = [TVDatabase locateProfilePictureOnDiskWithUserId:account.userId];
-            cell.name.text = account.person.name;
+            cell.profilePicture.image = [TVDatabase locateProfilePictureOnDiskWithUserId:[TVDatabase cachedAccountWithId:[self travelData][@"people"][gridNumber]].userId];
+            cell.name.text = [TVDatabase cachedAccountWithId:[self travelData][@"people"][gridNumber]].person.name;
 
             gridConvert[[NSString stringWithFormat:@"(%i,%i)", rowIndex, columnIndex]] = @(gridNumber);
             gridNumber++;
@@ -203,23 +240,21 @@
 	return cell;
 }
 
-- (void)gridView:(UIGridView *)grid didSelectRowAt:(int)rowIndex AndColumnAt:(int)colIndex
+- (void)gridView:(UIGridView *)grid didSelectRowAt:(NSInteger)rowIndex AndColumnAt:(NSInteger)colIndex
 {
 	NSString *coordinate = [NSString stringWithFormat:@"(%i,%i)", rowIndex, colIndex];
     
-    int index = [gridConvert[coordinate] intValue];
-
-    TVAccount *account = [self travelData][@"people"][index];
+    NSInteger index = [gridConvert[coordinate] intValue];
     
     TVMessageDetailViewController *messageDetailViewController;
     
-    if ([TVDatabase messageHistoryIDFromRecipients:[[NSMutableArray alloc] initWithObjects:account.userId, [TVDatabase currentAccount].userId, nil]]) {
+    if ([TVDatabase messageHistoryIDFromRecipients:[[NSMutableArray alloc] initWithObjects:[self travelData][@"people"][index], [TVDatabase currentAccount].userId, nil]]) {
 
-        messageDetailViewController = [[TVMessageDetailViewController alloc] initWithMessageHistoryID:[TVDatabase messageHistoryIDFromRecipients:[[NSMutableArray alloc] initWithObjects:account.userId, [TVDatabase currentAccount].userId, nil]]];
+        messageDetailViewController = [[TVMessageDetailViewController alloc] initWithMessageHistoryID:[TVDatabase messageHistoryIDFromRecipients:[[NSMutableArray alloc] initWithObjects:[self travelData][@"people"][index], [TVDatabase currentAccount].userId, nil]]];
     }
     else {
         
-        TVMessageHistory *messageHistory = [[TVMessageHistory alloc] initWithSenderId:[[TVDatabase currentAccount] userId] andReceiverId:account.userId andMessages:[[NSMutableArray alloc] init]];
+        TVMessageHistory *messageHistory = [[TVMessageHistory alloc] initWithSenderId:[[TVDatabase currentAccount] userId] andReceiverId:[self travelData][@"people"][index] andMessages:[[NSMutableArray alloc] init]];
         
         TVAccount *newAccount = [TVDatabase currentAccount];
         [newAccount.person.messageHistories addObject:messageHistory];
@@ -236,11 +271,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    int retVal = 0;
+    NSInteger retVal = 0;
     
     if (tableView == self.newsTableView) {
 
-        self.newsTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        self.newsTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         
         retVal = [[self travelData][@"news"] count];
     }
@@ -289,21 +324,29 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CELL_ID];
     
     if ([CELL_ID isEqualToString:NEWS_CELL_ID]) {
-                                    
-        if (cell == nil) {
-                
-            NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"TVNewsCell" owner:self options:nil];
-                
-            for (UIView *view in views) {
-                    
-                if ([view isKindOfClass:[UITableViewCell class]])
-                {
-                    cell = (TVNewsCell *)view;
-                }
-            }
+
+        if (!cell) {
             
-            ((TVNewsCell *)cell).title.text = ((TVRSSItem *)[self travelData][@"news"][indexPath.row]).title;
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CELL_ID];
+            
+            cell.textLabel.text = nil;
+            cell.detailTextLabel.text = nil;
+            cell.imageView.image = nil;
+            
+            cell.textLabel.font = [UIFont fontWithName:@"System" size:12.0];
+            cell.textLabel.textColor = [UIColor darkGrayColor];
+            
+            cell.layer.cornerRadius = 7.0f;
+            cell.layer.masksToBounds = YES;
+            
+            cell.backgroundColor = [UIColor clearColor];
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+            
+            cell.textLabel.numberOfLines = 2;
         }
+
+        cell.textLabel.text = ((TVRSSItem *)[self travelData][@"news"][indexPath.row]).title;
     }
     else if ([CELL_ID isEqualToString:WEATHER_CELL_ID]) {
                         
@@ -330,7 +373,7 @@
 
             cell.textLabel.numberOfLines = 2;
                         
-            cell.detailTextLabel.accessibilityLabel = @"F";
+            cell.detailTextLabel.accessibilityIdentifier = @"F";
             
             cell.imageView.layer.masksToBounds = YES;
             cell.imageView.layer.cornerRadius = 5.0;
@@ -341,7 +384,7 @@
         NSDate *date = [self travelData][@"weather"][indexPath.row][@"date"];
         
         cell.textLabel.text = [NSString stringWithFormat:@"%@ will be %@", [dayFormatter stringFromDate:date], [[self travelData][@"weather"][indexPath.row][@"description"] lowercaseString]];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%i°F - %i°F", (int)([[self travelData][@"weather"][indexPath.row][@"minF"] doubleValue] + 0.5), (int)([[self travelData][@"weather"][indexPath.row][@"maxF"] doubleValue] + 0.5)];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%i°F - %i°F", (NSInteger)([[self travelData][@"weather"][indexPath.row][@"minF"] doubleValue] + 0.5), (NSInteger)([[self travelData][@"weather"][indexPath.row][@"maxF"] doubleValue] + 0.5)];
         
         cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", [self travelData][@"weather"][indexPath.row][@"icon"]]];
         
@@ -389,7 +432,7 @@
         
         if (place.priceLevel) {
             
-            for (int i = 1; i <= place.priceLevel; i++) {
+            for (NSInteger i = 1; i <= place.priceLevel; i++) {
                 
                 [detail appendString:@"$"];
             }
@@ -439,18 +482,18 @@
         [self.navigationController pushViewController:webViewController animated:YES];
     }
     else if ([CELL_ID isEqualToString:WEATHER_CELL_ID]) {
-    
-        if ([[tableView cellForRowAtIndexPath:indexPath].detailTextLabel.accessibilityLabel isEqualToString: @"F"]) {
+        
+        if ([[tableView cellForRowAtIndexPath:indexPath].detailTextLabel.accessibilityIdentifier isEqualToString:@"F"]) {
 
-            [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text = [NSString stringWithFormat:@"%i°C - %i°C", (int)([[self travelData][@"weather"][indexPath.row][@"minC"] doubleValue] + 0.5), (int)([[self travelData][@"weather"][indexPath.row][@"maxC"] doubleValue] + 0.5)];
+            [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text = [NSString stringWithFormat:@"%i°C - %i°C", (NSInteger)([[self travelData][@"weather"][indexPath.row][@"minC"] doubleValue] + 0.5), (NSInteger)([[self travelData][@"weather"][indexPath.row][@"maxC"] doubleValue] + 0.5)];
             
-            [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.accessibilityLabel = @"C";
+            [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.accessibilityIdentifier = @"C";
         }
         else {
 
-            [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text = [NSString stringWithFormat:@"%i°F - %i°F", (int)([[self travelData][@"weather"][indexPath.row][@"minF"] doubleValue] + 0.5), (int)([[self travelData][@"weather"][indexPath.row][@"maxF"] doubleValue] + 0.5)];
+            [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text = [NSString stringWithFormat:@"%i°F - %i°F", (NSInteger)([[self travelData][@"weather"][indexPath.row][@"minF"] doubleValue] + 0.5), (NSInteger)([[self travelData][@"weather"][indexPath.row][@"maxF"] doubleValue] + 0.5)];
             
-            [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.accessibilityLabel = @"F";
+            [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.accessibilityIdentifier = @"F";
         }
     }
     else {
@@ -486,34 +529,49 @@
 
     if (![sender isKindOfClass:[UITableView class]]) {
         
-        int page = floor((sender.contentOffset.x - sender.frame.size.width / 2) / sender.frame.size.width) + 1;
+        if (sender.tag == 200) {
+            
+            for (UIView *pageControl in [sender.superview subviews]) {
+                
+                if ([pageControl isKindOfClass:[UIPageControl class]]) {
+                    
+                    NSInteger page = floor((sender.contentOffset.x - sender.frame.size.width / 2) / sender.frame.size.width) + 1;
 
-        [flexiblePageControl setCurrentPage:page];
-        
-        if (!page) {
-            
-            self.navigationItem.title = @"Connections";
+                    [((UIPageControl *)pageControl) setCurrentPage:page];
+                }
+            }
         }
-        else if (page == 1) {
+        else {
             
-            self.navigationItem.title = @"News";
-        }
-        else if (page == 2) {
+            NSInteger page = floor((sender.contentOffset.x - sender.frame.size.width / 2) / sender.frame.size.width) + 1;
             
-            self.navigationItem.title = @"Weather";
-        }
-        else if (page == 3) {
+            [pageControl setCurrentPage:page];
             
-            self.navigationItem.title = @"Places";
+            if (!page) {
+                
+                self.navigationItem.title = @"Connections";
+            }
+            else if (page == 1) {
+                
+                self.navigationItem.title = @"News";
+            }
+            else if (page == 2) {
+                
+                self.navigationItem.title = @"Weather";
+            }
+            else if (page == 3) {
+                
+                self.navigationItem.title = @"Places";
+            }
         }
     }
 }
 
 #pragma mark Info Updates
 
-- (void)initializeInfoWithType:(int)dataType {
+- (void)initializeInfoWithType:(NSInteger)dataType {
 
-    if ([[self travelData][@"currency"] count] || dataType == kTravelDataCurrency) {
+    if (dataType == kTravelDataCurrency || dataType == 200) {
         
         NSMutableDictionary *currency = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"currency"], @"data", @"Currency", @"name", nil];
         
@@ -532,57 +590,60 @@
         
         info[@"currency"] = currency;
     }
-    
-    if ([[self travelData][@"languages"] count] || dataType == kTravelDataLanguagesSpoken) {
+
+    if (dataType == kTravelDataLanguagesSpoken || dataType == 200) {
         
         NSMutableDictionary *languages_ = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"languages"], @"data", @"Languages", @"name", nil];
         
         NSMutableString *detail = [[NSMutableString alloc] init];
-        
-        for (int i = 0; i <= [[self travelData][@"languages"] count] - 1; i++) {
-            
-            [detail appendFormat:@"%@", [self travelData][@"languages"][i][@"name"]];
-            
-            if (i != [[self travelData][@"languages"] count] - 1) {
-                
-                if (i == [[self travelData][@"languages"] count] - 2) {
-                    
-                    [detail appendString:@" and "];
-                }
-                else {
-                    
-                    [detail appendString:@", "];
-                }
-            }
-        }
 
-        languages_[@"detail"] = [[NSString stringWithFormat:@"People speak %@.", detail] mutableCopy];
-        
-        BOOL hasTranslations = NO;
-        
-        languages_[@"accessoryType"] = @(UITableViewCellAccessoryNone);
-        
-        for (NSMutableDictionary *dictionary in languages_[@"data"]) {
+        if ([((NSMutableArray *)[self travelData][@"languages"]) count]) {
             
-            if (dictionary[@"translations"]) {
+            for (NSInteger i = 0; i <= [[self travelData][@"languages"] count] - 1; i++) {
                 
-                hasTranslations = YES;
+                [detail appendFormat:@"%@", [self travelData][@"languages"][i][@"name"]];
                 
-                break;
+                if (i != [[self travelData][@"languages"] count] - 1) {
+                    
+                    if (i == [[self travelData][@"languages"] count] - 2) {
+                        
+                        [detail appendString:@" and "];
+                    }
+                    else {
+                        
+                        [detail appendString:@", "];
+                    }
+                }
             }
-        }
-        
-        if (hasTranslations) {
             
-            languages_[@"accessoryType"] = @(UITableViewCellAccessoryDisclosureIndicator);
+            languages_[@"detail"] = [[NSString stringWithFormat:@"People speak %@.", detail] mutableCopy];
             
-            [languages_[@"detail"] appendString:@" Tap for translations."];
+            BOOL hasTranslations = NO;
+            
+            languages_[@"accessoryType"] = @(UITableViewCellAccessoryNone);
+
+            for (NSMutableDictionary *dictionary in languages_[@"data"]) {
+                
+                if (dictionary[@"translations"]) {
+                    
+                    hasTranslations = YES;
+                    
+                    break;
+                }
+            }
+            
+            if (hasTranslations) {
+                
+                languages_[@"accessoryType"] = @(UITableViewCellAccessoryDisclosureIndicator);
+                
+                [languages_[@"detail"] appendString:@" Tap for translations."];
+            }
         }
         
         info[@"languages"] = languages_;
     }
     
-    if ([[self travelData][@"timezone"] count] || dataType == kTravelDataTimezone) {
+    if (dataType == kTravelDataTimezone || dataType == 200) {
         
         NSMutableDictionary *timezone = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"timezone"], @"data", @"Timezone", @"name", @(UITableViewCellAccessoryNone), @"accessoryType", nil];
         
@@ -621,21 +682,12 @@
         info[@"timezone"] = timezone;
     }
             
-    if ([[self travelData][@"plugs"] count] || dataType == kTravelDataPlug) {
+    if (dataType == kTravelDataPlug || dataType == 200) {
         
         NSMutableDictionary *plugs = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"plugs"], @"data", @"Plugs", @"name", @(UITableViewCellAccessoryDisclosureIndicator), @"accessoryType", nil];
 
         plugs[@"detail"] = [NSString stringWithFormat:@"Plug voltage is %@, frequency %@. Tap for image.", [self travelData][@"plugs"][@"voltage"], [self travelData][@"plugs"][@"frequency"]];
         info[@"plugs"] = plugs;
-    }
-    
-    if ([[self travelData][@"facts"] count] || dataType == kTravelDataFacts) {
-        
-        NSMutableDictionary *facts = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self travelData][@"facts"], @"data", @"Fun Facts", @"name", @(UITableViewCellAccessoryDisclosureIndicator), @"accessoryType", nil];
-        
-        facts[@"detail"] = [self travelData][@"facts"][0];
-        
-        info[@"facts"] = facts;
     }
 }
 
@@ -716,25 +768,13 @@
     return self;
 }
 
-- (id)initWithTrvlogueFlightID:(NSString *)_FlightID {
- 
-    self = [self init];
-    
-    if (self) {
-        
-        self.FlightID = _FlightID;
-        
-        [self initializeInfoWithType:200];
-    }
-    
-    return self;
-}
-
 - (void)setFlightID:(NSString *)_FlightID {
     
     if (![self.FlightID isEqualToString:_FlightID]) {
 
         FlightID = _FlightID;
+        
+        [self.travelInfoBanner.scrollView setContentOffset:CGPointMake(0, 0)];
         
         searchedPlaces = [[NSMutableArray alloc] init];
         
@@ -746,13 +786,11 @@
         
         searchedPlaces = [[NSMutableArray alloc] init];
         
-        shouldReloadTravelInfoBanner = YES;
-        
         translationsViewController = [[TVTranslationsViewController alloc] init];
+        
     }
     else {
         
-        shouldReloadTravelInfoBanner = NO;
     }
     
     [self initializeInfoWithType:200];
@@ -762,26 +800,40 @@
 
 - (void)pollForTravelInfoBanner {
 
-    [self.travelInfoBanner removeTravelInfoTidbits];
-    
-    if ([info[@"currency"] count]) {
+    if (info[@"currency"][@"data"][@"o->d"] && info[@"currency"][@"data"][@"d->o"] && info[@"currency"][@"data"][@"destinationCurrency"] && info[@"currency"][@"data"][@"originCurrency"]) {
         
         [self.travelInfoBanner addTravelInfoTidbit:[NSMutableDictionary dictionaryWithObjectsAndKeys:info[@"currency"][@"detail"], @"body", @"Currency", @"ID", nil]];
     }
+    else {
+        
+        [self.travelInfoBanner removeTravelInfoTidbit:@"Currency"];
+    }
     
-    if ([info[@"plugs"] count]) {
+    if ([info[@"plugs"][@"data"] count]) {
 
         [self.travelInfoBanner addTravelInfoTidbit:[NSMutableDictionary dictionaryWithObjectsAndKeys:info[@"plugs"][@"detail"], @"body", @"Plugs", @"ID", nil]];
     }
+    else {
+        
+        [self.travelInfoBanner removeTravelInfoTidbit:@"Plugs"];
+    }
     
-    if ([info[@"languages"] count]) {
+    if ([info[@"languages"][@"data"] count]) {
 
         [self.travelInfoBanner addTravelInfoTidbit:[NSMutableDictionary dictionaryWithObjectsAndKeys:info[@"languages"][@"detail"], @"body", @"Languages", @"ID", nil]];
     }
+    else {
+        
+        [self.travelInfoBanner removeTravelInfoTidbit:@"Languages"];
+    }
     
-    if ([info[@"timezone"] count]) {
+    if ([info[@"timezone"][@"data"] count]) {
         
         [self.travelInfoBanner addTravelInfoTidbit:[NSMutableDictionary dictionaryWithObjectsAndKeys:info[@"timezone"][@"detail"], @"body", @"Timezone", @"ID", nil]];
+    }
+    else {
+        
+        [self.travelInfoBanner removeTravelInfoTidbit:@"Timezone"];
     }
 }
 
@@ -796,10 +848,10 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(travelDataUpdated:) name:[NSString stringWithFormat:@"%@_%@", NSNotificationTravelDataPacketUpdated, self.FlightID] object:nil];
     });
     
+    [self pollForTravelInfoBanner];
+
     [self.newsTableView reloadData];
     [self.newsTableView setNeedsDisplay];
-    
-    [self reloadPeople];
     
     [self.weatherTableView reloadData];
     [self.weatherTableView setNeedsDisplay];
@@ -807,10 +859,20 @@
     [self.placesTableView reloadData];
     [self.placesTableView setNeedsDisplay];
     
-    if (shouldReloadTravelInfoBanner) {
-        
-        [self pollForTravelInfoBanner];
-    }
+    [self reloadPeople];
+    
+    pageControl = [[FXPageControl alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.bounds.size.height / 2 + 5, 320.0f, 18.0f)];
+    
+    [pageControl setBackgroundColor:[UIColor clearColor]];
+    
+    [pageControl setDotSize:5.0f];
+    [pageControl setDotSpacing:5.0f];
+    
+    [pageControl setNumberOfPages:NUMBER_OF_PAGES];
+    [pageControl setSelectedDotColor:[UIColor darkGrayColor]];
+    [pageControl setDotColor:[UIColor lightGrayColor]];
+    
+    [self.navigationController.navigationBar addSubview:pageControl];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -821,6 +883,9 @@
 
         [[NSNotificationCenter defaultCenter] removeObserver:self name:[NSString stringWithFormat:@"%@_%@", NSNotificationTravelDataPacketUpdated, self.FlightID] object:nil];
     });
+    
+    [pageControl removeFromSuperview];
+    pageControl = nil;
     
     [self.searchBar resignFirstResponder];
     
@@ -843,10 +908,7 @@
 
 - (void)UIBuffer {
 
-    for (UIView *view in infoScrollView.subviews) {
-        
-        [view removeFromSuperview];
-    }
+    [[infoScrollView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     [infoScrollView setFrame:CGRectMake(0, 0, 320, self.view.frame.size.height - 88)];
     
@@ -858,8 +920,8 @@
     infoScrollView.bounces = NO;
     
     infoScrollView.contentSize = CGSizeMake(infoScrollView.frame.size.width * NUMBER_OF_PAGES, 0);
-    
-    for (int i = 0; i <= NUMBER_OF_PAGES - 1; i++) {
+        
+    for (NSInteger i = 0; i <= NUMBER_OF_PAGES - 1; i++) {
         
         NSString *slideName = slideNames[i];
         
@@ -889,22 +951,23 @@
     
     self.peopleTableView.backgroundColor = [UIColor clearColor];
     
-    self.travelInfoBanner = [[TVSwipeBanner alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 96, self.view.frame.size.width, 52)];
+    self.travelInfoBanner = [[TVSwipeBanner alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 103, self.view.frame.size.width, 54)];
+    if ([[UIScreen mainScreen] bounds].size.height != 568)     self.travelInfoBanner = [[TVSwipeBanner alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 191, self.view.frame.size.width, 54)];
     [self.view addSubview:self.travelInfoBanner];
     [self.travelInfoBanner setTidbits:[[NSMutableArray alloc] init] andMode:(TVSwipeBannerMode *)kTVSwipeBannerTravelInfo];
-
-    flexiblePageControl = [[UIPageControl alloc] init];
-    [flexiblePageControl setNumberOfPages:NUMBER_OF_PAGES];
-    [flexiblePageControl setCurrentPageIndicatorTintColor:[UIColor darkGrayColor]];
-    [flexiblePageControl setPageIndicatorTintColor:[UIColor lightGrayColor]];
-    [flexiblePageControl setFrame:CGRectMake(self.view.center.x, self.view.frame.size.height - 93, flexiblePageControl.frame.size.width, flexiblePageControl.frame.size.height)];
-    [self.view addSubview:flexiblePageControl];
-    [self.view bringSubviewToFront:flexiblePageControl];
+    
+    if ([[UIScreen mainScreen] bounds].size.height != 568) {
+        
+        self.peopleTableView.frame = CGRectMake(9, 96, 303, 310);
+        self.newsTableView.frame = CGRectMake(self.newsTableView.frame.origin.x, 84, self.newsTableView.frame.size.width, self.newsTableView.frame.size.height - 80);
+        self.placesTableView.frame = CGRectMake(self.placesTableView.frame.origin.x, 90, self.placesTableView.frame.size.width, self.placesTableView.frame.size.height - 90);
+    }
+    else {
+        
+        self.peopleTableView.frame = CGRectMake(9, 10, 303, 400);
+    }
     
     self.navigationItem.title = @"Connections";
-    
-    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchedView)];
-    [self.view addGestureRecognizer:gestureRecognizer];
 }
 
 - (void)viewDidLoad
@@ -922,7 +985,7 @@
 
 - (void)touchedView {
     
-    for (UIView *view in infoScrollView.subviews){
+    for (UIView *view in infoScrollView.subviews) {
         
         if ([view isKindOfClass:[UITextField class]] && [view isFirstResponder]) {
             

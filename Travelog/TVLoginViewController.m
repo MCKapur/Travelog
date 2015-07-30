@@ -31,32 +31,36 @@
 #pragma mark Login
 
 - (void)loginIncorrectCredentials:(NSString *)callCode {
-    
-    __weak MBAlertView *alert = [MBAlertView alertWithBody:@"Forgot Your Pass?" cancelTitle:nil cancelBlock:nil];
-    
-    [alert addButtonWithText:@"No" type:MBAlertViewItemTypeDefault block:^{
+  
+    dispatch_async(dispatch_get_main_queue(), ^{
         
-        [alert dismiss];
-    }];
-    
-    [alert addButtonWithText:@"Yes" type:MBAlertViewItemTypePositive block:^{
+        MBFlatAlertView *alert = [MBFlatAlertView alertWithTitle:@"Forgot Your Password?" detailText:@"We'll email you a link to reset your password" cancelTitle:@"No" cancelBlock:nil];
         
-        // Report
-        [alert dismiss];
+        [alert addButtonWithTitle:@"Yes" type:MBFlatAlertButtonTypeBold action:^{
+            
+            [self forgotPass];
+        }];
         
-        [self forgotPass];
-    }];
-    
-    alert.size = CGSizeMake(280, 135);
-    
-    [alert addToDisplayQueue];
+        [alert addToDisplayQueue];
+    });
     
     [self handleError:[NSError errorWithDomain:@"Incorrect email or password" code:200 userInfo:@{NSLocalizedDescriptionKey:@"Incorrect email or password"}] andType:nil];
 }
 
 - (void)loginCorrectCredentials {
-
+    
     [TVDatabase getAccountFromUser:[PFUser currentUser] isPerformingCacheRefresh:NO withCompletionHandler:^(TVAccount *account, NSMutableArray *downloadedTypes) {
+        
+        if ([downloadedTypes isEqualToArray:@[@(kAccountDownloadedGeneralAttributes)]] && [account isUsingLinkedIn]) {
+            
+            [LinkedInAuthorizer requestAccessTokenFromAuthorizationCode:account.linkedInAccessKey withCompletionHandler:^(BOOL succeeded, NSError *error, NSString *accessToken) {
+                
+                if (succeeded && !error) {
+                    
+                    [TVDatabase setLocalLinkedInRequestToken:accessToken];
+                }
+            }];
+        }
         
         [TVDatabase updateMyCache:account];
     }];
@@ -119,7 +123,7 @@
     
     [[self trvlogueLabel] setFont:[UIFont fontWithName:@"Futura-Bold" size:30.0]];
     [[self trvlogueLabel] setTextColor:[UIColor darkTextColor]];
-    
+        
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchedView)];
     [self.view addGestureRecognizer:gestureRecognizer];
 }
@@ -201,7 +205,7 @@
                 }
             }
             else {
-                
+
                 [self handleError:error andType:callCode];
             }
         });

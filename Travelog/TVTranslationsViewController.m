@@ -21,7 +21,7 @@
     NSMutableArray *retVal = nil;
     
     for (NSDictionary *languageDictionary in self) {
-        
+
         if ([languageDictionary[@"name"] isEqualToString:language]) {
             
             retVal = [languageDictionary[@"translations"] mutableCopy];
@@ -57,7 +57,7 @@
 #pragma mark UITableView Methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
+    if (![self.translations translationsWithLanguage:[self.languagesSegmentedControl titleForSegmentAtIndex:self.languagesSegmentedControl.selectedSegmentIndex]]) return 0;
     return [self.translations translationsWithLanguage:[self.languagesSegmentedControl titleForSegmentAtIndex:self.languagesSegmentedControl.selectedSegmentIndex]].count;
 }
 
@@ -65,7 +65,7 @@
 
     NSString *CellIdentifier = [NSString stringWithFormat:@"CELL_%@", [self.translations translationsWithLanguage:[self.languagesSegmentedControl titleForSegmentAtIndex:self.languagesSegmentedControl.selectedSegmentIndex]][indexPath.row][@"translation"]];
     
-    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -142,7 +142,7 @@
     
     if (self.translations.count) {
 
-        for (int i = 0; i <= self.translations.count - 1; i++) {
+        for (NSInteger i = 0; i <= self.translations.count - 1; i++) {
 
             NSDictionary *languageDictionary = self.translations[i];
 

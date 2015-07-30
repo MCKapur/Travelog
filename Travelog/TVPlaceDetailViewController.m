@@ -29,7 +29,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    int retVal = 0;
+    NSInteger retVal = 0;
     
     if (self.segmentedControl.selectedSegmentIndex == 0) {
         
@@ -92,29 +92,30 @@
                     cell = (TVReviewCell *)view;
                 }
             }
-            
-            ((TVReviewCell *) cell).delegate = self;
-            ((TVReviewCell *) cell).authorName.text = [[place reviews][indexPath.row] authorName];
-            ((TVReviewCell *) cell).reviewBodyTextView.text = [[[place reviews][indexPath.row] body] stringByConvertingHTMLToPlainText];
-            ((TVReviewCell *) cell).authorURL = [[place reviews][indexPath.row] authorURL];
-        
-            int rating = 0;
-            
-            for (NSDictionary *aspect in [[place reviews][indexPath.row] aspects]) {
-                
-                rating += [aspect[@"rating"] intValue];
-            }
-            
-            rating /= [[[place reviews][indexPath.row] aspects] count];
-            
-            rating /= 3;
-            
-            rating *= 5;
-            
-            [((TVReviewCell *) cell) setStars:rating];
-            
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
+        
+        ((TVReviewCell *) cell).delegate = self;
+        ((TVReviewCell *) cell).authorName.text = [[place reviews][indexPath.row] authorName];
+        [((TVReviewCell *) cell) setReviewBodyText:[[[place reviews][indexPath.row] body] stringByConvertingHTMLToPlainText]];
+        ((TVReviewCell *) cell).authorURL = [[place reviews][indexPath.row] authorURL];
+        
+        NSInteger rating = 0;
+        
+        for (NSDictionary *aspect in [[place reviews][indexPath.row] aspects]) {
+            
+            rating += [aspect[@"rating"] intValue];
+        }
+        
+        rating /= [[[place reviews][indexPath.row] aspects] count];
+        
+        rating /= 3;
+        
+        rating *= 5;
+        
+        [((TVReviewCell *) cell) setStars:rating];
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
     }
     
     return cell;
@@ -168,11 +169,24 @@
         retVal = 67.0f;
     }
     else {
-        
-        retVal = 99.0f;
+
+        retVal = 37.0f + [self textViewHeightForText:[((TVGooglePlaceReview *)[self.place reviews][indexPath.row]) body] andWidth:310.0f];
     }
     
     return retVal;
+}
+
+- (CGFloat)textViewHeightForText:(NSString *)text andWidth:(CGFloat)width {
+    
+    UIFont *font = [UIFont fontWithName:@"HelveticaNeue" size:14.0];
+    NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:font
+                                                                forKey:NSFontAttributeName];
+    NSAttributedString *attr = [[NSAttributedString alloc] initWithString:text attributes:attrsDictionary];
+
+    UITextView *calculationView = [[UITextView alloc] init];
+    [calculationView setAttributedText:attr];
+
+    return [calculationView sizeThatFits:CGSizeMake(width, FLT_MAX)].height;
 }
 
 #pragma mark MKMapView Methods
@@ -225,7 +239,6 @@
         
         self.place = _place;
         self.delegate = delegate;
-        NSLog(@"%@", self.delegate);
     }
     
     return self;
@@ -247,7 +260,7 @@
     [self.tableView reloadData]; 
     [self.tableView setNeedsDisplay];
     
-    for (int i = 1; i <= 5; i++) {
+    for (NSInteger i = 1; i <= 5; i++) {
         
         if (place.rating) {
             
@@ -255,7 +268,7 @@
         }
         else {
             
-            [((UIImageView *)[self.view viewWithTag:i]) removeFromSuperview];
+            [((UIImageView *)[self.view viewWithTag:i]) setImage:[UIImage imageNamed:EMPTY_STAR]];
         }
     }
     
@@ -275,7 +288,7 @@
     [self drawAnnotations];
 }
 
-+ (UIImage *)starImageForIndex:(int)index andRating:(float)rating {
++ (UIImage *)starImageForIndex:(NSInteger)index andRating:(float)rating {
     
     UIImage *retVal = [UIImage imageNamed:EMPTY_STAR];
     
@@ -283,19 +296,23 @@
         
         if (rating) {
             
-            if (rating <= 0.6f >= 0.3f) {
+            if (rating <= 0.6f && rating >= 0.3f) {
                 
                 retVal = [UIImage imageNamed:HALF_STAR];
             }
-            else {
+            else if (rating > 0.6f) {
                 
                 retVal = [UIImage imageNamed:FULL_STAR];
+            }
+            else if (rating < 0.3f) {
+                
+                retVal = [UIImage imageNamed:EMPTY_STAR];
             }
         }
     }
     else if (index == 2) {
         
-        if (rating <= 1.6f >= 1.3f) {
+        if (rating <= 1.6f && rating >= 1.3f) {
             
             retVal = [UIImage imageNamed:HALF_STAR];
         }
@@ -303,10 +320,14 @@
             
             retVal = [UIImage imageNamed:FULL_STAR];
         }
+        else {
+            
+            retVal = [UIImage imageNamed:EMPTY_STAR];
+        }
     }
     else if (index == 3) {
         
-        if (rating <= 2.6f >= 2.3f) {
+        if (rating <= 2.6f && rating >= 2.3f) {
             
             retVal = [UIImage imageNamed:HALF_STAR];
         }
@@ -314,27 +335,39 @@
             
             retVal = [UIImage imageNamed:FULL_STAR];
         }
+        else {
+            
+            retVal = [UIImage imageNamed:EMPTY_STAR];
+        }
     }
     else if (index == 4) {
         
-        if (rating <= 3.6f >= 3.3f) {
-            
+        if (rating >= 3.3f && rating <= 3.7f) {
+
             retVal = [UIImage imageNamed:HALF_STAR];
         }
-        else if (rating > 3.6f) {
+        else if (rating > 3.7f) {
             
             retVal = [UIImage imageNamed:FULL_STAR];
+        }
+        else {
+            
+            retVal = [UIImage imageNamed:EMPTY_STAR];
         }
     }
     else if (index == 5) {
         
-        if (rating <= 4.6f >= 4.3f) {
+        if (rating <= 4.6f && rating >= 4.3f) {
             
             retVal = [UIImage imageNamed:HALF_STAR];
         }
         else if (rating > 4.6f) {
             
             retVal = [UIImage imageNamed:FULL_STAR];
+        }
+        else {
+            
+            retVal = [UIImage imageNamed:EMPTY_STAR];
         }
     }
     

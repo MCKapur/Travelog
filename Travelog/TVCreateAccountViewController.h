@@ -18,6 +18,8 @@
 
 #import "TVFlightsViewController.h"
 
+#import "TPKeyboardAvoidingScrollView.h"
+
 #import "MBAlertView.h"
 
 #import <QuartzCore/QuartzCore.h>
@@ -48,7 +50,6 @@
 @interface TVCreateAccountViewController : UIViewController <UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 {
     __weak IBOutlet UITextField *firstNameTextField;
-    __weak IBOutlet UITextField *lastNameTextField;
     __weak IBOutlet UITextField *originCityTextField;
     __weak IBOutlet UITextField *jobTextField;
     __weak IBOutlet UITextField *emailTextField;

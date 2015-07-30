@@ -19,7 +19,7 @@
 
 #import "TVGoogleGeocoder.h"
 
-@interface TVFlightRecorderViewController : UIViewController <UITextFieldDelegate,UINavigationControllerDelegate, HTAutocompleteDataSource>
+@interface TVFlightRecorderViewController : UIViewController <UITextFieldDelegate,UINavigationControllerDelegate, HTAutocompleteDataSource, UIScrollViewDelegate>
 {        
     BOOL usingOriginTextField;
     
@@ -35,5 +35,6 @@
 @property (strong, nonatomic) IBOutlet HTAutocompleteTextField *destinationTextField;
 
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
+@property (weak, nonatomic) IBOutlet UIDatePicker *returnDatePicker;
 
 @end

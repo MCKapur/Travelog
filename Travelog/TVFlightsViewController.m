@@ -70,6 +70,11 @@
 #pragma mark UITableView Methods
 
 - (void)updateFlights {
+
+    for (TVFlight *flight in [[[TVDatabase currentAccount] person] flights]) {
+        
+        [flight instantiateTravelData];
+    }
     
     [self.flightsTable reloadData];
     [self.flightsTable setNeedsDisplay];
@@ -141,7 +146,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    int retVal = 0;
+    NSInteger retVal = 0;
     
     if (tableView == self.flightsTable) {
         
@@ -153,7 +158,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    int retVal = 0;
+    NSInteger retVal = 0;
     
     if (tableView == self.flightsTable) {
         
@@ -173,7 +178,7 @@
     
     if (tableView == self.flightsTable) {
         
-        [detailView setFlightID:[((TVFlight *)[[[[[TVDatabase currentAccount] person] flights] mutableCopy] sortedByDate][indexPath.row]) ID]];
+        [detailView setFlightID:[((TVFlight *)[[[[TVDatabase currentAccount] person] flights] sortedByDate][indexPath.row]) ID]];
         
         [self.navigationController pushViewController:detailView animated:YES];
     }
@@ -258,12 +263,12 @@
 
 - (NSString *)generateShortcuttedDates:(NSDate *)date {
     
-    return [TVConversions convertDateToString:date withFormat:DAY_MONTH];
+    return [TVConversions convertDateToString:date withFormat:[[[NSLocale currentLocale] objectForKey: NSLocaleCountryCode] isEqualToString:@"US"] ? MONTH_DAY : DAY_MONTH];
 }
 
 - (NSString *)generateShortcuttedMiles:(double)miles {
     
-    NSString *toString = [NSString stringWithFormat:@"%i", (int)(miles + 0.5)];
+    NSString *toString = [NSString stringWithFormat:@"%i", (NSInteger)(miles + 0.5)];
     
     NSString *retVal;
     
@@ -300,7 +305,7 @@
             // e.g. 9999 = 9.9k
             // e.g. 2011 = 2.0k
             
-            int backToInt = toString.intValue;
+            NSInteger backToInt = toString.intValue;
             backToInt = 10 * floor((backToInt/10)+0.5);
             
             toString = [[NSString alloc] initWithFormat:@"%i", backToInt];
@@ -317,7 +322,7 @@
             // e.g. 10100 = 10.1k;
             // e.g. 10000 = 10k
             
-            int backToInt = toString.intValue;
+            NSInteger backToInt = toString.intValue;
             backToInt = 100 * floor((backToInt/100) + 0.5);
             
             toString = [[NSString alloc] initWithFormat:@"%i", backToInt];
@@ -388,7 +393,7 @@
 
 - (void)recordAFlight {
     
-    TVFlightRecorderViewController *flightRecorder = [[TVFlightRecorderViewController alloc] init];
+    TVFlightRecorderViewController *flightRecorder = [[TVFlightRecorderViewController alloc] init]; 
     [self.navigationController pushViewController:flightRecorder animated:YES];
 }
 
@@ -420,7 +425,7 @@
         self.navigationItem.title = @"Flights";
         self.tabBarItem.title = @"Flights";
         self.tabBarItem.image = [UIImage imageNamed:@"airplane.png"];
-        
+
         dispatch_async(dispatch_get_main_queue(), ^{
 
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshedFlights) name:NSNotificationRecordedNewFlight object:nil];
@@ -445,14 +450,24 @@
 }
 
 - (void)viewDidLoad {
-    
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"shownAlert"] && ![[TVDatabase currentAccount] isUsingLinkedIn]) {
+
+    if (![[EGOCache globalCache] stringForKey:@"shownAlert"] && ![[TVDatabase currentAccount] linkedInAccessKey]) {
         
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Add LinkedIn account?" message:@"Add your LinkedIn account in the Settings page, and effortlessly connect with people you know in the Find People page." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
+        MBFlatAlertView *alertView = [MBFlatAlertView alertWithTitle:@"Add LinkedIn Account?" detailText:@"Add your LinkedIn account in the Settings page, and effortlessly connect with people you know in the People page." cancelTitle:@"No" cancelBlock:^{
+            
+            [alertView dismiss];
+        }];
         
-        [alertView show];
+        [alertView addButtonWithTitle:@"Yes" type:MBFlatAlertButtonTypeBold action:^{
+            
+            [alertView dismiss];
+            
+            [((UITabBarController *)((TVAppDelegate *)[UIApplication sharedApplication].delegate).window.rootViewController) setSelectedIndex:4];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:NSNotificationAutomateConnectWithLinkedIn object:nil];
+        }];
         
-        [[NSUserDefaults standardUserDefaults] setObject:@"set" forKey:@"shownAlert"];
+        [[EGOCache globalCache] setString:@"set" forKey:@"shownAlert"];
     }
     
     [self UIBuffer];

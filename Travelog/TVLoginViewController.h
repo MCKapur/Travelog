@@ -13,7 +13,7 @@
 #import "GIFBackground.h"
 #import "TVTextFileLoader.h"
 
-#import "MBAlertView.h"
+#import "MBFlatAlertView.h"
 
 #import <QuartzCore/QuartzCore.h>
 

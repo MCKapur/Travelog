@@ -15,16 +15,12 @@
 
 - (void)writeIconLocally:(UIImage *)_icon {
     
-    NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/Place_%@_Icon.png", self.ID]];
-    
-    [UIImageJPEGRepresentation(_icon, 1.0) writeToFile:path atomically:NO];
+    [[EGOCache globalCache] setImage:_icon forKey:[NSString stringWithFormat:@"Place_%@_Icon.png", self.ID]];
 }
 
 - (UIImage *)getIcon {
     
-    NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/Place_%@_Icon.png", self.ID]];
-
-    return [UIImage imageWithContentsOfFile:path];
+   return [[EGOCache globalCache] imageForKey:[NSString stringWithFormat:@"Place_%@_Icon.png", self.ID]];
 }
 
 #pragma mark Initialization and NSCoding Methods
@@ -40,9 +36,9 @@
     [aCoder encodeObject:self.phoneNumber forKey:@"phoneNumber"];
     [aCoder encodeObject:self.website forKey:@"website"];
     [aCoder encodeObject:self.photos forKey:@"photos"];
-    [aCoder encodeInt:self.rating forKey:@"rating"];
+    [aCoder encodeInteger:self.rating forKey:@"rating"];
     [aCoder encodeObject:self.reviews forKey:@"reviews"];
-    [aCoder encodeInt:self.priceLevel forKey:@"priceLevel"];
+    [aCoder encodeInteger:self.priceLevel forKey:@"priceLevel"];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -57,9 +53,9 @@
         self.phoneNumber = [aDecoder decodeObjectForKey:@"phoneNumber"];
         self.website = [aDecoder decodeObjectForKey:@"website"];
         self.photos = [aDecoder decodeObjectForKey:@"photos"];
-        self.rating = [aDecoder decodeIntForKey:@"rating"];
+        self.rating = [aDecoder decodeIntegerForKey:@"rating"];
         self.reviews = [aDecoder decodeObjectForKey:@"reviews"];
-        self.priceLevel = [aDecoder decodeIntForKey:@"priceLevel"];
+        self.priceLevel = [aDecoder decodeIntegerForKey:@"priceLevel"];
     }
     
     return self;

@@ -81,6 +81,8 @@
         
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CELL_ID];
         
+        cell.imageView.image = nil;
+
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
         cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:15.0f];
@@ -119,7 +121,19 @@
     
     cell.textLabel.text = [[[TVDatabase cachedAccountWithId:[messageHistory.senderId isEqualToString:[[TVDatabase currentAccount] userId]] ? messageHistory.receiverId : messageHistory.senderId] person] name];
     
-//    cell.detailTextLabel.text = [[((TVMessage *)messageHistory.sortedMessages[messageHistory.sortedMessages.count - 1]) body] substringToIndex:[[((TVMessage *)messageHistory.sortedMessages[messageHistory.sortedMessages.count - 1]) body] length] >= 50 ? 50 : [[((TVMessage *)messageHistory.sortedMessages[messageHistory.sortedMessages.count - 1]) body] length]];
+    BOOL isConnection = NO;
+    
+    for (TVConnection *connection in [[[TVDatabase currentAccount] person] connections]) {
+        
+        if ([connection.senderId isEqualToString:[[TVDatabase currentAccount] userId] ? messageHistory.receiverId : messageHistory.senderId] || [connection.receiverId isEqualToString:[[TVDatabase currentAccount] userId] ? messageHistory.receiverId : messageHistory.senderId]) {
+            
+            isConnection = YES;
+        }
+    }
+    
+    if (!isConnection) cell.textLabel.text = @"No Longer Connection";
+    
+    cell.detailTextLabel.text = [[((TVMessage *)messageHistory.sortedMessages[messageHistory.sortedMessages.count - 1]) body] substringToIndex:[[((TVMessage *)messageHistory.sortedMessages[messageHistory.sortedMessages.count - 1]) body] length] >= 50 ? 50 : [[((TVMessage *)messageHistory.sortedMessages[messageHistory.sortedMessages.count - 1]) body] length]];
     
     return cell;
 }
@@ -157,6 +171,28 @@
     [super viewDidAppear:animated];
 }
 
+- (void)updateNotifications {
+    
+    NSInteger numberOfUnreadMessagesNotifications = 0;
+    
+    for (TVNotification *notification in [[[TVDatabase currentAccount] person] notifications]) {
+        
+        if (notification.type == (NotificationType *)kNotificationTypeUnreadMessages) {
+            
+            numberOfUnreadMessagesNotifications++;
+        }
+    }
+    
+    if (numberOfUnreadMessagesNotifications) {
+        
+        [self.tabBarItem setBadgeValue:[NSString stringWithFormat:@"%i", numberOfUnreadMessagesNotifications]];
+    }
+    else {
+        
+        [self.tabBarItem setBadgeValue:0];
+    }
+}
+
 - (id)init {
     
     if (self = [super init]) {
@@ -165,8 +201,11 @@
         self.navigationItem.title = @"Messages";
         self.tabBarItem.image = [UIImage imageNamed:@"messages.png"];
         
+        [self updateNotifications];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
 
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateNotifications) name:NSNotificationUpdateNotifications object:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:NSNotificationDownloadedMessages object:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:NSNotificationNewMessageIncoming object:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:NSNotificationWroteProfilePicture object:nil];

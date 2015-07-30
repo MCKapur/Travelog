@@ -48,6 +48,13 @@
     return self;
 }
 
+#pragma mark Description
+
+- (NSString *)description {
+    
+    return [NSString stringWithFormat:@"%@", self.messages];
+}
+
 #pragma mark Initialization
 
 - (id)init {

@@ -23,6 +23,6 @@
 
 - (IBAction)back;
 
-- (id)initWithLink:(NSString *)_link andTitle: (NSString *)_title andMakeReadable:(BOOL)makeReadable;
+- (id)initWithLink:(NSString *)_link andTitle:(NSString *)_title andMakeReadable:(BOOL)makeReadable;
 
 @end

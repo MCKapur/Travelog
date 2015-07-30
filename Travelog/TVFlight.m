@@ -12,17 +12,17 @@
 
 @interface NSArray (Indexing)
 
-- (int)indexOfFlight:(TVFlight *)flight;
+- (NSInteger)indexOfFlight:(TVFlight *)flight;
 
 @end
 
 @implementation NSArray (Indexing)
 
-- (int)indexOfFlight:(TVFlight *)flight {
+- (NSInteger)indexOfFlight:(TVFlight *)flight {
     
-    int retVal = NSNotFound;
+    NSInteger retVal = NSNotFound;
     
-    for (int i = 0; i <= self.count - 1; i++) {
+    for (NSInteger i = 0; i <= self.count - 1; i++) {
         
         if ([((TVFlight *)self[i]).ID isEqualToString:flight.ID]) {
             
@@ -40,7 +40,7 @@
 @synthesize date, miles, originCity, destinationCity, originCountry, destinationCountry, originCoordinate, destinationCoordinate, ID;
 
 - (void)instantiateTravelData {
-
+    
     Reachability *reach = [Reachability reachabilityWithHostname:@"google.com"];
 
     if ([reach isReachable] && ([reach isReachableViaWiFi] || [reach isReachableViaWWAN])) {
@@ -149,10 +149,10 @@
 #pragma mark TravelData Delegate
 
 - (void)travelDataUpdated:(TravelDataTypes *)dataType {
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
 
-        [[NSNotificationCenter defaultCenter] postNotificationName:[NSString stringWithFormat:@"%@_%@", NSNotificationTravelDataPacketUpdated, self.ID] object:nil userInfo:@{@"dataType":@((int)dataType)}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:[NSString stringWithFormat:@"%@_%@", NSNotificationTravelDataPacketUpdated, self.ID] object:nil userInfo:@{@"dataType":@((NSInteger)dataType)}];
     });
 }
 

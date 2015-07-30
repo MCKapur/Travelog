@@ -34,18 +34,18 @@
 
 - (IBAction)openCameraOptions {
     
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take A Pic", @"Choose A Pic", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take A Picture", @"Choose from Photo Library", nil];
     
     [actionSheet showInView:self.view];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     
-    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Take A Pic"]) {
+    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Take A Picture"]) {
         
         [self openCamera];
     }
-    else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Choose A Pic"]) {
+    else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Choose from Photo Library"]) {
         
         [self openPhotoLibrary];
     }
@@ -99,7 +99,7 @@
         [self createAccount];
     }
     
-    for (int i = 1; i <= 7; i++) {
+    for (NSInteger i = 1; i <= 5; i++) {
         
         if ([[self incorrectFields] containsObject:@(i)]) {
             
@@ -116,82 +116,9 @@
     
     [TVLoadingSignifier signifyLoading:@"Creating your account" duration:-1];
     
-    NSNumber *milesNumber = @0.0;
-    
-    if ([[NSUserDefaults standardUserDefaults] doubleForKey:@"Miles"]) {
+    self.accountDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:firstNameTextField.text, @"name", emailTextField.text, @"email", [[NSMutableArray alloc] init], @"connections", @0.0, @"miles", [[NSMutableArray alloc] init], @"flights", [[NSMutableDictionary alloc] init], @"knownDestinationPreferences", [[NSMutableArray alloc] init], @"notifications", jobTextField.text, @"position", @(NO), @"isUsingLinkedIn", nil, @"linkedInAccessKey", nil, @"linkedInId", nil];
         
-        milesNumber = @([[NSUserDefaults standardUserDefaults] doubleForKey:@"Miles"]);
-    }
-    
-    NSMutableArray *flightsArray = [[NSMutableArray alloc] init];
-    
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"location"]) {
-        
-        NSArray *array = [[NSUserDefaults standardUserDefaults] objectForKey:@"location"];
-        
-        if (array.count) {
-            
-            for (int i = 0; i <= [array count] - 1; i++) {
-                
-                TVGoogleGeocoder *geocoder = [[TVGoogleGeocoder alloc] init];
-                
-                [geocoder geocodeCityWithName:[array[i] componentsSeparatedByString:@" to "][0] withCompletionHandler:^(NSError *error, BOOL success, NSDictionary *result) {
-                    
-                    if (!error && success) {
-                        
-                        CLLocationCoordinate2D originCoordinate = CLLocationCoordinate2DMake([result[@"coordinate_latitude"] doubleValue], [result[@"coordinate_longitude"] doubleValue]);
-                        
-                        if (CLLocationCoordinate2DIsValid(originCoordinate)) {
-                            
-                            [geocoder geocodeCityWithName:[array[i] componentsSeparatedByString:@" to"][1] withCompletionHandler:^(NSError *error, BOOL success, NSDictionary *result) {
-                                
-                                if (!error && success) {
-                                    
-                                    CLLocationCoordinate2D destinationCoordinate = CLLocationCoordinate2DMake([result[@"coordinate_latitude"] doubleValue], [result[@"coordinate_longitude"] doubleValue]);
-                                    
-                                    if (CLLocationCoordinate2DIsValid(destinationCoordinate)) {
-                                        
-                                        NSString *originCity = [[array[i] componentsSeparatedByString:@" to "][0] componentsSeparatedByString:@","][0];
-                                        
-                                        NSString *destinationCity = [[array[0] componentsSeparatedByString:@" to "][1] componentsSeparatedByString:@","][0];
-                                        
-                                        NSArray *originString = [[array[0] componentsSeparatedByString:@" to "][0]componentsSeparatedByString:@","];
-                                        
-                                        NSString *originCountry = originString[originString.count - 1];
-                                        
-                                        NSArray *destinationString = [[array[0] componentsSeparatedByString:@" to "][1]componentsSeparatedByString:@","];
-                                        
-                                        NSString *destinationCountry = destinationString[destinationString.count - 1];
-                                        
-                                        [flightsArray addObject:[[TVFlight alloc] initWithParameters:[NSDictionary dictionaryWithObjects:@[originCity, destinationCity, originCountry, destinationCountry, [TVConversions convertStringToDate:[[NSUserDefaults standardUserDefaults] objectForKey:@"date"][i] withFormat:DAY_MONTH_YEAR], [[NSUserDefaults standardUserDefaults] objectForKey:@"miles"][i], @"", @(originCoordinate.latitude), @(originCoordinate.longitude), @(destinationCoordinate.latitude), @(destinationCoordinate.longitude)] forKeys:@[@"originCity", @"destinationCity", @"originCountry", @"destinationCountry", @"date", @"miles", @"question", @"originLatitude", @"originLongitude", @"destinationLatitude", @"destinationLongitude"]]]];
-                                    }
-                                }
-                                
-                                if (i == [array count] - 1) {
-                                    
-                                    self.accountDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%@ %@", firstNameTextField.text, lastNameTextField.text], @"name", emailTextField.text, @"email", followingArray, @"connections", milesNumber, @"miles", flightsArray, @"flights", [[NSMutableDictionary alloc] init], @"knownDestinationPreferences", [[NSMutableArray alloc] init], @"notifications", jobTextField.text, @"position", @(NO), @"isUsingLinkedIn", nil, @"linkedInAccessKey", nil, @"linkedInId", nil];
-                                    
-                                    [self geocodeOriginCity];
-                                }
-                            }];
-                        }
-                    }
-                }];
-            }
-        }
-        else {
-            
-            self.accountDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%@ %@", firstNameTextField.text, lastNameTextField.text], @"name", emailTextField.text, @"email", followingArray, @"connections", milesNumber, @"miles", flightsArray, @"flights", [[NSMutableDictionary alloc] init], @"knownDestinationPreferences", [[NSMutableArray alloc] init], @"notifications", jobTextField.text, @"position", @(NO), @"isUsingLinkedIn", nil, @"linkedInAccessKey", nil, @"linkedInId", nil];
-            
-            [self geocodeOriginCity];
-        }
-    
-    } else {
-        
-        self.accountDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%@ %@", firstNameTextField.text, lastNameTextField.text], @"name", emailTextField.text, @"email", followingArray, @"connections", milesNumber, @"miles", flightsArray, @"flights", [[NSMutableDictionary alloc] init], @"knownDestinationPreferences", [[NSMutableArray alloc] init], @"notifications", jobTextField.text, @"position", @(NO), @"isUsingLinkedIn", nil, @"linkedInAccessKey", nil, @"linkedInId", nil];
-        
-        [self geocodeOriginCity];
-    }
+    [self geocodeOriginCity];
 }
 
 - (void)geocodeOriginCity {
@@ -246,8 +173,8 @@
                 dispatch_queue_t downloadQueue = dispatch_queue_create("Send email", NULL);
                 
                 dispatch_async(downloadQueue, ^{
-                
-                    [TVDatabase sendEmail:[@{@"data":[[[TVTextFileLoader loadTextFile:@"email"] stringByReplacingOccurrencesOfString:@"name_here" withString:[account.person.name componentsSeparatedByString:@" "][0]] stringByReplacingOccurrencesOfString:@"email_here" withString:account.email], @"subject":@"Welcome To Travelog", @"toAddress":account.email} mutableCopy] withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
+                    
+                    [TVDatabase sendEmail:[@{@"data":[[[TVTextFileLoader loadTextFile:@"email"] stringByReplacingOccurrencesOfString:@"name_here" withString:[account.person.name componentsSeparatedByString:@" "][0]] stringByReplacingOccurrencesOfString:@"email_here" withString:account.email], @"subject":@"Welcome To Travelog", @"toAddress":account.email} mutableCopy] withAttachementData:nil withCompletionHandler:^(BOOL success, NSError *error, NSString *callCode) {
                         
                         if (success && !error) {
                         }
@@ -327,7 +254,7 @@
     
     if (retVal.count) {
         
-        for (int i = 0; i <= retVal.count - 1; i++) {
+        for (NSInteger i = 0; i <= retVal.count - 1; i++) {
             
             if ([retVal[i] intValue] == 0) {
                 
@@ -341,9 +268,9 @@
     return retVal;
 }
 
-- (int)checkEmailIsValid {
+- (NSInteger)checkEmailIsValid {
     
-    int retVal = 0;
+    NSInteger retVal = 0;
     
     if (![self validateEmailWithString:emailTextField.text]) {
         
@@ -365,7 +292,7 @@
     
     NSMutableArray *arrayOfValuesNotFilled = [[NSMutableArray alloc] init];
     
-    for (int i = 1; i <= 7; i++) {
+    for (NSInteger i = 1; i <= 5; i++) {
         
         for (UIView *view in self.scrollView.subviews) {
             
@@ -386,7 +313,7 @@
 
 - (void)touchedView {
     
-    for (UIView *view in self.view.subviews){
+    for (UIView *view in self.view.subviews) {
         
         if ([view isKindOfClass:[UITextField class]] && [view isFirstResponder]) {
             
@@ -406,19 +333,19 @@
     
     [tf resignFirstResponder];
     
-    if (tf.tag != 6) {
+    if (tf.tag != 5) {
         
-        int i = tf.tag;
+        NSInteger i = tf.tag;
         
         UITextField *nextTf = (UITextField *)[self.view viewWithTag:i + 1];
         
         [nextTf becomeFirstResponder];
         
-        [self.scrollView setContentOffset:CGPointMake(0, nextTf.center.y - 120) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, nextTf.center.y - 150) animated:YES];
     }
     else {
         
-        [self.scrollView setContentOffset:CGPointMake(0, -60) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
     }
 }
 
@@ -455,26 +382,22 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     
+    [self.navigationController setNavigationBarHidden:NO];
+
     [super viewWillAppear:YES];
 }
 
 - (void)viewDidLoad
 {
-    CGRect screenRect = [[UIScreen mainScreen] applicationFrame];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.navigationController.navigationBar.translucent = NO;
     
-    if (screenRect.size.height == 548) {
-        
-        self.scrollView.contentSize = CGSizeMake(320, self.view.frame.size.height + 94);
-    }
-    else {
-        
-        self.scrollView.contentSize = CGSizeMake(320, self.view.frame.size.height + 134);
+    if ([[UIScreen mainScreen] bounds].size.height != 568) {
+    
+        self.scrollView.frame = CGRectMake(self.scrollView.frame.origin.x, 150, self.scrollView.frame.size.width, self.scrollView.frame.size.height);
     }
     
-    self.scrollView.center = CGPointMake(self.scrollView.center.x, self.view.frame.size.height - 274);
-    
-    [self.navigationController setNavigationBarHidden:NO];
-    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(registerAction)]];
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Register" style:UIBarButtonItemStyleDone target:self action:@selector(registerAction)]];
     
     self.navigationItem.title = @"Register";
     
@@ -491,10 +414,19 @@
         else if ([view isKindOfClass:[UITextField class]]) {
             
             view.layer.cornerRadius = 7.0f;
+            
+            if (view.tag == 4 || view.tag == 5) {
+                
+                ((UITextField *)view).autocorrectionType = UITextAutocorrectionTypeYes;
+            }
         }
         else if ([view isKindOfClass:[UITextView class]]) {
             
             view.layer.cornerRadius = 7.0f;
+            view.layer.cornerRadius = 7.0f;
+            view.layer.masksToBounds = YES;
+            view.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+            view.layer.borderWidth = 0.5f;
         }
         else if ([view isKindOfClass:[UIButton class]]) {
             
@@ -503,16 +435,15 @@
     }
     
     firstNameTextField.autocapitalizationType = UITextAutocapitalizationTypeWords;
-    lastNameTextField.autocapitalizationType = UITextAutocapitalizationTypeWords;
     originCityTextField.autocapitalizationType = UITextAutocapitalizationTypeWords;
     jobTextField.autocapitalizationType = UITextAutocapitalizationTypeWords;
     
     firstNameTextField.autocorrectionType = UITextAutocorrectionTypeNo;
-    lastNameTextField.autocorrectionType = UITextAutocorrectionTypeNo;
     originCityTextField.autocorrectionType = UITextAutocorrectionTypeNo;
     jobTextField.autocorrectionType = UITextAutocorrectionTypeNo;
 
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchedView)];
+    gestureRecognizer.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:gestureRecognizer];
 
     [super viewDidLoad];

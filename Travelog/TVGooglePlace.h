@@ -29,7 +29,7 @@
 @property (nonatomic) double rating;
 @property (nonatomic, strong) NSMutableArray *reviews;
 
-@property (nonatomic) int priceLevel;
+@property (nonatomic) NSInteger priceLevel;
 
 - (UIImage *)getIcon;
 - (void)writeIconLocally:(UIImage *)icon;
