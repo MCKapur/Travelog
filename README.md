@@ -1,6 +1,6 @@
 # **NOTE**
 
-This is in no way code that I consider good. I wrote it a long time ago and it does not reflect my current abilities or coding conventions. Travelog was an app that I had pursued for a while, but it failed: https://medium.com/@mckapur/shipping-travelog-875914b05f8f
+This is in no way code that I consider good. I wrote it a long time ago and it does not reflect my current abilities or coding conventions. Travelog was an app that I had pursued for a while, but it failed - find out why: https://medium.com/@mckapur/shipping-travelog-875914b05f8f
 
 # Travelog
 
