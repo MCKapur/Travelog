@@ -13,8 +13,8 @@
  * permissions and limitations under the License.
  */
 
-#define ACCESS_KEY_ID                @"AKIAIYCWHUXQQVXGTGLA"
-#define SECRET_KEY                   @"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"
+#define ACCESS_KEY_ID                @""
+#define SECRET_KEY                   @"+n6CbdOEF0/tiA+t"
 
 #import <Foundation/Foundation.h>
 
